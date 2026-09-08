@@ -1,0 +1,20 @@
+{
+  "name": "calabarpass",
+  "version": "1.0.0",
+  "description": "CalabarPass - Carnival Calabar Tourism Escrow & AI Concierge",
+  "main": "server/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server/server.js",
+    "server": "node server/server.js",
+    "client:install": "cd client && npm.cmd install",
+    "client:build": "cd client && npm.cmd run build",
+    "build": "npm run client:install && npm run client:build",
+    "test:backend": "node test_backend.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  }
+}
