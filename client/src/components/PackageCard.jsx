@@ -10,7 +10,12 @@ export default function PackageCard({ pkg, onSelectPackage }) {
       <div className="relative h-56 w-full overflow-hidden bg-slate-950">
         <img
           src={pkg.image}
-          alt={pkg.name}
+          alt={pkg.name || pkg.title}
+          onError={(e) => {
+            if (pkg.imageUrl && e.target.src !== pkg.imageUrl) {
+              e.target.src = pkg.imageUrl;
+            }
+          }}
           className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
           loading="lazy"
         />
@@ -34,9 +39,13 @@ export default function PackageCard({ pkg, onSelectPackage }) {
 
         {/* Escrow Endorsement Badge */}
         <div className="absolute top-4 right-4">
-          <span className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-950/80 backdrop-blur-md text-emerald-300 border border-emerald-500/40">
+          <span className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold backdrop-blur-md border ${
+            pkg.badge === "Executive Verified" || pkg.escrowBadge === "Executive Verified"
+              ? "bg-amber-950/90 text-amber-300 border-amber-500/60 shadow-gold-glow"
+              : "bg-emerald-950/80 text-emerald-300 border-emerald-500/40"
+          }`}>
             <ShieldCheck className="w-3.5 h-3.5" />
-            <span>Escrow Protected</span>
+            <span>{pkg.badge || pkg.escrowBadge || "Escrow Protected"}</span>
           </span>
         </div>
 

@@ -133,6 +133,34 @@ export const PACKAGES = [
     scamRisk: "Unauthorized street touts peddling photocopied arena wristbands",
     escrowBadge: "Yakurr Council Endorsed",
     availableSlots: 50
+  },
+  {
+    id: "pkg-state-executive-vip",
+    name: "Executive Governor's Stand & Official Protocol Pass",
+    title: "Executive Governor's Stand & Official Protocol Pass",
+    priceNGN: 150000,
+    category: "VIP Experience",
+    tourType: "carnival",
+    season: "December Carnival Calabar",
+    vendor: "Cross River State Protocol & Tourism Commission",
+    vendorName: "Cross River State Protocol & Tourism Commission",
+    location: "U.J. Esuene Stadium Executive Stand, Calabar",
+    image: "/assets/executive_vip.jpg",
+    imageUrl: "https://cdn.thenationonlineng.net/wp-content/uploads/2024/12/29075713/Otu-commends.jpeg",
+    details: "Exclusive accreditation with access to the State Dignitaries Viewing Pavilion, full protocol escort, seated in proximity to state leadership, official state banquet invite, and commemorative medallion.",
+    description: "Exclusive accreditation with access to the State Dignitaries Viewing Pavilion, full protocol escort, seated in proximity to state leadership, official state banquet invite, and commemorative medallion.",
+    perks: [
+      "Exclusive access to the State Dignitaries Viewing Pavilion with Governor Bassey Otu & First Lady",
+      "Full Government Protocol & Security Perimeter Escort",
+      "Official State Governor's Carnival Banquet Invitation & Accreditation",
+      "Commemorative 2026 Gold Medallion & Executive Swag Box",
+      "VIP Elevated sightlines directly over the grand adjudication arena"
+    ],
+    streetSurgePrice: 280000,
+    scamRisk: "Counterfeit protocol passes sold by black-market political fixers",
+    escrowBadge: "Executive Verified",
+    badge: "Executive Verified",
+    availableSlots: 12
   }
 ];
 
