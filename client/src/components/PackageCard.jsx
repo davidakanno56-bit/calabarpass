@@ -16,11 +16,20 @@ export default function PackageCard({ pkg, onSelectPackage }) {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0b0f17] via-transparent to-black/40" />
 
-        {/* Category Badge */}
-        <div className="absolute top-4 left-4">
-          <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-black/70 backdrop-blur-md text-amber-400 border border-amber-500/30">
+        {/* Category & Season Badges */}
+        <div className="absolute top-4 left-4 flex flex-col gap-1.5 items-start">
+          <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-black/80 backdrop-blur-md text-amber-400 border border-amber-500/30">
             {pkg.category}
           </span>
+          {pkg.season && (
+            <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wide backdrop-blur-md border ${
+              pkg.tourType === "carnival" 
+                ? "bg-amber-950/90 text-amber-300 border-amber-500/40" 
+                : "bg-emerald-950/90 text-emerald-300 border-emerald-500/40"
+            }`}>
+              {pkg.tourType === "carnival" ? "🎉 " : "🌿 "}{pkg.season}
+            </span>
+          )}
         </div>
 
         {/* Escrow Endorsement Badge */}

@@ -7,6 +7,8 @@ export const PACKAGES = [
     name: "Seagull Band Master Pass & Full Costume Kit",
     priceNGN: 85000,
     category: "Carnival Band",
+    tourType: "carnival",
+    season: "December Carnival Calabar",
     vendor: "Official Band Secretariat",
     location: "Marian Road / Stadium Route, Calabar",
     image: "/assets/seagull_band.jpg",
@@ -27,6 +29,8 @@ export const PACKAGES = [
     name: "VIP Stadium Elevated Viewing Stand Pass",
     priceNGN: 35000,
     category: "VIP Experience",
+    tourType: "carnival",
+    season: "December Carnival Calabar",
     vendor: "Cross River Tourism Bureau Verified",
     location: "U.J. Esuene Stadium, Calabar",
     image: "/assets/vip_stadium.jpg",
@@ -47,6 +51,8 @@ export const PACKAGES = [
     name: "Obudu Mountain Resort Weekend Expedition",
     priceNGN: 120000,
     category: "Eco-Tourism",
+    tourType: "year_round",
+    season: "365-Day Highlands Escape",
     vendor: "Cross River Highlands Transit",
     location: "Obanliku Plateau (Departs Marina)",
     image: "/assets/obudu_mountain.jpg",
@@ -67,6 +73,8 @@ export const PACKAGES = [
     name: "Marina Resort & Calabar River Heritage Cruise",
     priceNGN: 15000,
     category: "Cultural Heritage",
+    tourType: "year_round",
+    season: "365-Day Riverfront & Heritage",
     vendor: "Marina Heritage Ventures",
     location: "Marina Resort Waterfront, Calabar",
     image: "/assets/marina_resort.jpg",
@@ -81,6 +89,50 @@ export const PACKAGES = [
     scamRisk: "Unlicensed boat skippers operating without life jackets",
     escrowBadge: "Waterfront Authority Certified",
     availableSlots: 60
+  },
+  {
+    id: "pkg-agbokim-waterfalls",
+    name: "Agbokim Waterfalls Eco-Adventure & Canopy Tour",
+    priceNGN: 25000,
+    category: "Eco-Tourism",
+    tourType: "year_round",
+    season: "Year-Round (Best: Rainy to Dry Season)",
+    vendor: "Ikom Ecotourism Guides Verified",
+    location: "Ikom LGA, Cross River",
+    image: "/assets/agbokim_waterfalls.jpg",
+    details: "Guided 7-stream waterfall hike, rainforest canopy photography pass, and verified local transport escort.",
+    perks: [
+      "Guided 7-stream cascading waterfall hike & pool tour",
+      "Rainforest canopy photography pass & suspension viewpoints",
+      "Verified local transport escort from Ikom transit hub",
+      "Eco-ranger safety orientation and life-jacket provision"
+    ],
+    streetSurgePrice: 42000,
+    scamRisk: "Unregistered roadside guides demanding cash tolls at informal checkpoints",
+    escrowBadge: "Ikom Ecotourism Verified",
+    availableSlots: 35
+  },
+  {
+    id: "pkg-leboku-festival",
+    name: "Leboku International New Yam Festival Cultural Access Pass",
+    priceNGN: 20000,
+    category: "Cultural Heritage",
+    tourType: "year_round",
+    season: "Annual August Showcase",
+    vendor: "Yakurr Traditional Heritage Council",
+    location: "Ugep, Cross River",
+    image: "/assets/leboku_festival.jpg",
+    details: "Official wrestling bout VIP seating, Mr./Miss Leboku pageant entry, and traditional hospitality tasting.",
+    perks: [
+      "Official Traditional Wrestling Arena VIP Grandstand Seating",
+      "Evening Mr. & Miss Leboku Cultural Pageant Priority Entry",
+      "Traditional Yakurr New Yam Feast & Fresh Palm Wine Tasting",
+      "Royal Palace Obol Lopon reception viewing escort"
+    ],
+    streetSurgePrice: 38000,
+    scamRisk: "Unauthorized street touts peddling photocopied arena wristbands",
+    escrowBadge: "Yakurr Council Endorsed",
+    availableSlots: 50
   }
 ];
 
