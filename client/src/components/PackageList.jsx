@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import PackageCard from "./PackageCard.jsx";
+import { PackageGridSkeleton } from "./SkeletonLoader.jsx";
 import { ShieldCheck, Sparkles, Calendar, Compass, Sun, Flame } from "lucide-react";
 
-export default function PackageList({ packages, onSelectPackage, onOpenConcierge }) {
+export default function PackageList({ packages = [], onSelectPackage, onOpenConcierge, isLoading = false }) {
   const [seasonFilter, setSeasonFilter] = useState("all"); // 'all' | 'carnival' | 'year_round'
   const [subCategory, setSubCategory] = useState("All");
 
@@ -149,15 +150,19 @@ export default function PackageList({ packages, onSelectPackage, onOpenConcierge
       )}
 
       {/* Package Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 mb-12">
-        {displayedPackages.map(pkg => (
-          <PackageCard
-            key={pkg.id}
-            pkg={pkg}
-            onSelectPackage={onSelectPackage}
-          />
-        ))}
-      </div>
+      {isLoading ? (
+        <PackageGridSkeleton count={6} />
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 mb-12">
+          {displayedPackages.map(pkg => (
+            <PackageCard
+              key={pkg.id}
+              pkg={pkg}
+              onSelectPackage={onSelectPackage}
+            />
+          ))}
+        </div>
+      )}
 
       {/* Escrow Mechanism Callout Banner */}
       <div className="glass-panel-gold p-6 sm:p-8 rounded-3xl relative overflow-hidden">

@@ -1,5 +1,7 @@
 // server/store.js
-// CalabarPass In-Memory Store & Escrow Transaction State Engine
+// CalabarPass In-Memory Store & 365-Day Escrow Transaction State Engine
+
+import { HOTELS, getHotelBaseRate } from "./hotels.js";
 
 export const PACKAGES = [
   {
@@ -22,7 +24,9 @@ export const PACKAGES = [
     streetSurgePrice: 135000,
     scamRisk: "Extreme counterfeit wristbands reported on Marian Road street corners",
     escrowBadge: "Official Secretariat Verified",
-    availableSlots: 28
+    openCapacity: true,
+    capacityLabel: "Open Daily / 365-Day Guarantee",
+    bookingMode: "365_day_open"
   },
   {
     id: "pkg-vip-stadium",
@@ -44,7 +48,9 @@ export const PACKAGES = [
     streetSurgePrice: 65000,
     scamRisk: "Unauthorized hawkers selling duplicate barcode entry badges",
     escrowBadge: "State Bureau Endorsed",
-    availableSlots: 45
+    openCapacity: true,
+    capacityLabel: "Open Daily / 365-Day Guarantee",
+    bookingMode: "365_day_open"
   },
   {
     id: "pkg-obudu-expedition",
@@ -66,7 +72,9 @@ export const PACKAGES = [
     streetSurgePrice: 190000,
     scamRisk: "Ghost tour operators demanding 100% upfront bank transfers with no vehicles",
     escrowBadge: "Highlands Operator Certified",
-    availableSlots: 14
+    openCapacity: true,
+    capacityLabel: "Open Daily / 365-Day Guarantee",
+    bookingMode: "365_day_open"
   },
   {
     id: "pkg-marina-cruise",
@@ -88,7 +96,9 @@ export const PACKAGES = [
     streetSurgePrice: 28000,
     scamRisk: "Unlicensed boat skippers operating without life jackets",
     escrowBadge: "Waterfront Authority Certified",
-    availableSlots: 60
+    openCapacity: true,
+    capacityLabel: "Open Daily / 365-Day Guarantee",
+    bookingMode: "365_day_open"
   },
   {
     id: "pkg-agbokim-waterfalls",
@@ -96,7 +106,7 @@ export const PACKAGES = [
     priceNGN: 25000,
     category: "Eco-Tourism",
     tourType: "year_round",
-    season: "Year-Round (Best: Rainy to Dry Season)",
+    season: "365-Day All-Weather Waterfall Tour",
     vendor: "Ikom Ecotourism Guides Verified",
     location: "Ikom LGA, Cross River",
     image: "/assets/agbokim_waterfalls.jpg",
@@ -110,7 +120,59 @@ export const PACKAGES = [
     streetSurgePrice: 42000,
     scamRisk: "Unregistered roadside guides demanding cash tolls at informal checkpoints",
     escrowBadge: "Ikom Ecotourism Verified",
-    availableSlots: 35
+    openCapacity: true,
+    capacityLabel: "Open Daily / 365-Day Guarantee",
+    bookingMode: "365_day_open"
+  },
+  {
+    id: "pkg-drill-ranch",
+    name: "Drill Monkey Ranch (Afi Mountain Sanctuary)",
+    priceNGN: 45000,
+    category: "Eco-Tourism",
+    tourType: "year_round",
+    season: "365-Day Rainforest Reserve",
+    vendor: "Pandrillus Wildlife Conservation Verified",
+    location: "Afi Mountain Reserve / Boki LGA, Cross River",
+    image: "https://images.unsplash.com/photo-1540573133985-87b6da6d54a9?auto=format&fit=crop&w=1200&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1540573133985-87b6da6d54a9?auto=format&fit=crop&w=1200&q=80",
+    details: "Endangered drill monkey sanctuary walk, canopy walkway trek over Afi rainforest, and Pandrillus conservation ranger briefing.",
+    perks: [
+      "Guided sanctuary trek with Pandrillus wildlife rangers",
+      "Afi Mountain rainforest canopy walkway expedition",
+      "Native wildlife conservation briefing & educational pass",
+      "Direct eco-fund contribution protecting Nigerian primates"
+    ],
+    streetSurgePrice: 75000,
+    scamRisk: "Illegal bushmeat poachers and bogus pseudo-conservation guides charging unauthorized fees",
+    escrowBadge: "Wildlife Trust Certified",
+    openCapacity: true,
+    capacityLabel: "Open Daily / 365-Day Guarantee",
+    bookingMode: "365_day_open"
+  },
+  {
+    id: "pkg-cross-river-safari",
+    name: "Cross River Safari National Park & Rainforest Expedition",
+    priceNGN: 55000,
+    category: "Eco-Tourism",
+    tourType: "year_round",
+    season: "365-Day Rainforest Safari",
+    vendor: "Cross River National Park Eco-Rangers",
+    location: "Akamkpa / Oban Hills Division, Cross River",
+    image: "https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=1200&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=1200&q=80",
+    details: "Certified eco-ranger guided safari through Oban Division primary rainforest, bird-watching canopy tower access, and native biodiversity tracking.",
+    perks: [
+      "Certified National Park Ranger Armed Escort & Guide",
+      "Oban Division Rainforest Trek & Botanical Canopy Tower Pass",
+      "Rare Primates & Forest Elephant Conservation Briefing",
+      "Park Entrance Permits & Ecotourism Escrow Protection"
+    ],
+    streetSurgePrice: 88000,
+    scamRisk: "Unregistered poachers and fake guides operating outside designated park borders without radios",
+    escrowBadge: "National Park Certified",
+    openCapacity: true,
+    capacityLabel: "Open Daily / 365-Day Guarantee",
+    bookingMode: "365_day_open"
   },
   {
     id: "pkg-leboku-festival",
@@ -118,7 +180,7 @@ export const PACKAGES = [
     priceNGN: 20000,
     category: "Cultural Heritage",
     tourType: "year_round",
-    season: "Annual August Showcase",
+    season: "Annual August Showcase & Cultural Center",
     vendor: "Yakurr Traditional Heritage Council",
     location: "Ugep, Cross River",
     image: "/assets/leboku_festival.jpg",
@@ -132,7 +194,9 @@ export const PACKAGES = [
     streetSurgePrice: 38000,
     scamRisk: "Unauthorized street touts peddling photocopied arena wristbands",
     escrowBadge: "Yakurr Council Endorsed",
-    availableSlots: 50
+    openCapacity: true,
+    capacityLabel: "Open Daily / 365-Day Guarantee",
+    bookingMode: "365_day_open"
   },
   {
     id: "pkg-state-executive-vip",
@@ -160,12 +224,14 @@ export const PACKAGES = [
     scamRisk: "Counterfeit protocol passes sold by black-market political fixers",
     escrowBadge: "Executive Verified",
     badge: "Executive Verified",
-    availableSlots: 12
+    openCapacity: true,
+    capacityLabel: "Open Daily / 365-Day Guarantee",
+    bookingMode: "365_day_open"
   }
 ];
 
-// Transaction States:
-// 'AWAITING_PAYMENT' -> 'ESCROW_LOCKED_ACTIVE' -> 'COMPLETED_DISBURSED'
+// Unified Transaction States:
+// 'AWAITING_PAYMENT' -> 'ESCROW_LOCKED_ACTIVE' ('Escrow Secured - Awaiting On-Site Verification') -> 'COMPLETED_DISBURSED'
 
 class EscrowStore {
   constructor() {
@@ -174,7 +240,7 @@ class EscrowStore {
   }
 
   seedInitialTransactions() {
-    // Demo seed transaction for on-site simulation / visual proof
+    const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
     const demoRef1 = "CP-DEMO-849201";
     this.transactions.set(demoRef1, {
       reference: demoRef1,
@@ -186,7 +252,9 @@ class EscrowStore {
       phone: "+234 803 219 4091",
       amountNGN: 85000,
       amountKobo: 8500000,
+      bookingDate: tomorrow,
       status: "ESCROW_LOCKED_ACTIVE",
+      statusLabel: "Escrow Secured - Awaiting On-Site Verification",
       checkInPin: "849201",
       createdAt: new Date(Date.now() - 3600000 * 4).toISOString(),
       lockedAt: new Date(Date.now() - 3600000 * 3.8).toISOString(),
@@ -206,7 +274,9 @@ class EscrowStore {
       phone: "+234 812 770 1822",
       amountNGN: 35000,
       amountKobo: 3500000,
+      bookingDate: "2026-12-27",
       status: "COMPLETED_DISBURSED",
+      statusLabel: "Completed & Disbursed to Vendor",
       checkInPin: "392810",
       createdAt: new Date(Date.now() - 3600000 * 24).toISOString(),
       lockedAt: new Date(Date.now() - 3600000 * 23.5).toISOString(),
@@ -220,23 +290,58 @@ class EscrowStore {
     return PACKAGES;
   }
 
-  getPackageById(id) {
-    return PACKAGES.find(p => p.id === id);
+  getHotels() {
+    return HOTELS;
   }
 
-  createTransaction({ reference, packageId, email, customerName, phone, amountKobo }) {
+  getHotelById(id) {
+    return HOTELS.find(h => h.id === id);
+  }
+
+  getPackageById(id) {
+    const pkg = PACKAGES.find(p => p.id === id);
+    if (pkg) return pkg;
+
+    const hotel = HOTELS.find(h => h.id === id);
+    if (hotel) {
+      return {
+        id: hotel.id,
+        name: `${hotel.name} - Executive Accommodation`,
+        priceNGN: getHotelBaseRate(hotel.priceRange),
+        category: hotel.category,
+        tourType: "accommodation",
+        season: "365-Day Escrow Reservation",
+        vendor: `${hotel.name} (Verified Escrow Accommodation)`,
+        location: hotel.area,
+        image: hotel.images[0],
+        imageUrl: hotel.images[0],
+        details: hotel.description,
+        perks: hotel.amenities,
+        openCapacity: true,
+        capacityLabel: "Open Daily / 365-Day Guarantee",
+        bookingMode: "365_day_open"
+      };
+    }
+    return null;
+  }
+
+  createTransaction({ reference, packageId, email, customerName, phone, amountKobo, bookingDate }) {
     const pkg = this.getPackageById(packageId) || {};
+    const defaultDate = new Date(Date.now() + 86400000).toISOString().split('T')[0];
+
     const transaction = {
       reference,
       packageId,
-      packageName: pkg.name || "Calabar Carnival Package",
-      vendor: pkg.vendor || "Verified Carnival Vendor",
-      customerName,
+      packageName: pkg.name || "Cross River Tourism Package",
+      vendor: pkg.vendor || "Verified Cross River Vendor",
+      customerName: customerName || "Guest Explorer",
       email,
-      phone,
+      phone: phone || "",
+      bookingDate: bookingDate || defaultDate,
       amountNGN: (amountKobo || 0) / 100,
       amountKobo,
       status: "AWAITING_PAYMENT",
+      statusLabel: "Awaiting Paystack Payment",
       checkInPin: null,
       createdAt: new Date().toISOString(),
       lockedAt: null,
@@ -273,6 +378,7 @@ class EscrowStore {
     const updated = {
       ...transaction,
       status: "ESCROW_LOCKED_ACTIVE",
+      statusLabel: "Escrow Secured - Awaiting On-Site Verification",
       checkInPin,
       lockedAt: new Date().toISOString(),
       paystackStatus: paystackDetails.status || "success",
@@ -305,8 +411,35 @@ class EscrowStore {
     const updated = {
       ...transaction,
       status: "COMPLETED_DISBURSED",
+      statusLabel: "Completed & Disbursed to Vendor",
       disbursedAt: new Date().toISOString(),
       vendorDisbursementNote: `Disbursed to ${transaction.vendor} on-site via physical PIN redemption.`
+    };
+
+    this.transactions.set(reference, updated);
+    return { success: true, transaction: updated };
+  }
+
+  disputeEscrow(reference, { reason, details } = {}) {
+    const transaction = this.transactions.get(reference);
+    if (!transaction) {
+      return { success: false, error: "Booking transaction not found" };
+    }
+
+    if (transaction.status === "COMPLETED_DISBURSED") {
+      return {
+        success: false,
+        error: "Cannot dispute booking: funds have already been disbursed to the vendor."
+      };
+    }
+
+    const updated = {
+      ...transaction,
+      status: "ESCROW_FROZEN_DISPUTE",
+      statusLabel: "Escrow Frozen - Under Review",
+      disputeReason: reason || "Tourist Reported On-Site Issue",
+      disputeDetails: details || "Dispute registered by guest upon arrival. Funds held safely in vault.",
+      disputedAt: new Date().toISOString()
     };
 
     this.transactions.set(reference, updated);
@@ -331,12 +464,14 @@ class EscrowStore {
 
     const activeCount = all.filter(t => t.status === "ESCROW_LOCKED_ACTIVE").length;
     const completedCount = all.filter(t => t.status === "COMPLETED_DISBURSED").length;
+    const disputedCount = all.filter(t => t.status === "ESCROW_FROZEN_DISPUTE").length;
 
     return {
       totalLockedNGN: totalLocked,
       totalDisbursedNGN: totalDisbursed,
       activeEscrowBookings: activeCount,
       completedDisbursedBookings: completedCount,
+      disputedEscrowBookings: disputedCount,
       totalTransactions: all.length
     };
   }

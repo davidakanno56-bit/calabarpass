@@ -1,5 +1,5 @@
 import React from "react";
-import { ShieldCheck, Sparkles, Lock, Compass, Ticket, CheckCircle2 } from "lucide-react";
+import { ShieldCheck, Sparkles, Lock, Compass, Ticket, CheckCircle2, BedDouble } from "lucide-react";
 
 export default function Navbar({ activeTab, setActiveTab, escrowStats }) {
   return (
@@ -19,12 +19,12 @@ export default function Navbar({ activeTab, setActiveTab, escrowStats }) {
                 <span className="text-2xl font-extrabold tracking-tight font-heading text-white">
                   Calabar<span className="gold-gradient-text">Pass</span>
                 </span>
-                <span className="text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30">
-                  2026
+                <span className="text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                  365 DAYS
                 </span>
               </div>
               <p className="text-xs text-slate-400 hidden sm:block">
-                Fair-Price Tourism Escrow & AI Concierge
+                Cross River 365-Day Tourism Clearinghouse & Escrow
               </p>
             </div>
           </div>
@@ -41,6 +41,18 @@ export default function Navbar({ activeTab, setActiveTab, escrowStats }) {
             >
               <Ticket className="w-4 h-4" />
               Verified Packages
+            </button>
+
+            <button
+              onClick={() => setActiveTab("accommodations")}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                activeTab === "accommodations"
+                  ? "bg-amber-500 text-black font-semibold shadow-sm"
+                  : "text-slate-300 hover:text-white hover:bg-slate-800/60"
+              }`}
+            >
+              <BedDouble className="w-4 h-4" />
+              Accommodations
             </button>
 
             <button
@@ -114,6 +126,14 @@ export default function Navbar({ activeTab, setActiveTab, escrowStats }) {
             }`}
           >
             Packages
+          </button>
+          <button
+            onClick={() => setActiveTab("accommodations")}
+            className={`px-3 py-1.5 rounded-lg whitespace-nowrap font-medium ${
+              activeTab === "accommodations" ? "bg-amber-500 text-black font-bold" : "text-slate-400 bg-slate-900"
+            }`}
+          >
+            Accommodations
           </button>
           <button
             onClick={() => setActiveTab("concierge")}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Lock, Unlock, ShieldCheck, CheckCircle2, AlertCircle, RefreshCw, Key, ArrowRight, UserCheck, Clock } from "lucide-react";
+import { Lock, Unlock, ShieldCheck, CheckCircle2, AlertCircle, RefreshCw, Key, ArrowRight, Calendar, UserCheck, Clock, ShieldAlert } from "lucide-react";
 import confetti from "canvas-confetti";
+import { EscrowTableSkeleton } from "./SkeletonLoader.jsx";
 
 export default function EscrowManager({ onOpenVoucher }) {
   const [transactions, setTransactions] = useState([]);
@@ -32,7 +33,10 @@ export default function EscrowManager({ onOpenVoucher }) {
 
   const handleReleaseEscrow = async (e) => {
     e?.preventDefault();
-    if (!releaseForm.reference || !releaseForm.pin) {
+    const refToRelease = releaseForm.reference.trim();
+    const pinToRelease = releaseForm.pin.trim();
+
+    if (!refToRelease || !pinToRelease) {
       setReleaseStatus({ success: false, error: "Please provide both reference code and 6-digit PIN" });
       return;
     }
@@ -40,13 +44,32 @@ export default function EscrowManager({ onOpenVoucher }) {
     setReleaseLoading(true);
     setReleaseStatus(null);
 
+    // Optimistic UI state update
+    const previousTransactions = [...transactions];
+    const targetTx = transactions.find((t) => t.reference === refToRelease);
+
+    if (targetTx && String(targetTx.checkInPin).trim() === pinToRelease) {
+      setTransactions(
+        transactions.map((t) =>
+          t.reference === refToRelease
+            ? {
+                ...t,
+                status: "COMPLETED_DISBURSED",
+                statusLabel: "Completed & Disbursed to Vendor",
+                disbursedAt: new Date().toISOString()
+              }
+            : t
+        )
+      );
+    }
+
     try {
       const res = await fetch("/api/escrow/release", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          reference: releaseForm.reference.trim(),
-          pin: releaseForm.pin.trim()
+          reference: refToRelease,
+          pin: pinToRelease
         })
       });
 
@@ -65,15 +88,18 @@ export default function EscrowManager({ onOpenVoucher }) {
           origin: { y: 0.6 }
         });
 
-        // Refresh list
+        // Background ledger refresh
         fetchTransactions();
       } else {
+        // Rollback optimistic update
+        setTransactions(previousTransactions);
         setReleaseStatus({
           success: false,
           error: data.error || "PIN verification failed. Funds remain locked in escrow."
         });
       }
     } catch (err) {
+      setTransactions(previousTransactions);
       setReleaseStatus({
         success: false,
         error: err.message || "Failed to communicate with escrow server"
@@ -83,20 +109,28 @@ export default function EscrowManager({ onOpenVoucher }) {
     }
   };
 
-  const getStatusBadge = (status) => {
+  const getStatusBadge = (tx) => {
+    const status = tx?.status;
     switch (status) {
       case "ESCROW_LOCKED_ACTIVE":
         return (
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-950/80 border border-emerald-500/40 text-emerald-300">
-            <Lock className="w-3 h-3" />
-            <span>ESCROW LOCKED (SAFE)</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span>Escrow Secured - Awaiting On-Site Verification</span>
           </span>
         );
       case "COMPLETED_DISBURSED":
         return (
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-sky-950/80 border border-sky-500/40 text-sky-300">
             <CheckCircle2 className="w-3 h-3 text-sky-400" />
-            <span>COMPLETED & DISBURSED</span>
+            <span>Completed & Disbursed</span>
+          </span>
+        );
+      case "ESCROW_FROZEN_DISPUTE":
+        return (
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-rose-950/80 border border-rose-500/50 text-rose-300">
+            <ShieldAlert className="w-3 h-3 text-rose-400 animate-pulse" />
+            <span>Escrow Frozen - Under Review</span>
           </span>
         );
       case "AWAITING_PAYMENT":
@@ -104,7 +138,7 @@ export default function EscrowManager({ onOpenVoucher }) {
         return (
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-950/80 border border-amber-500/40 text-amber-300">
             <Clock className="w-3 h-3" />
-            <span>AWAITING PAYMENT</span>
+            <span>Awaiting Payment</span>
           </span>
         );
     }
@@ -117,13 +151,13 @@ export default function EscrowManager({ onOpenVoucher }) {
         <div>
           <div className="flex items-center gap-2 text-emerald-400 text-xs font-bold uppercase tracking-widest mb-1">
             <ShieldCheck className="w-4 h-4" />
-            <span>State Escrow Clearinghouse</span>
+            <span>Cross River State Escrow Clearinghouse</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold font-heading text-white">
-            Live Escrow Vault & On-Site Redemption
+            Live Escrow Vault & 365-Day Redemption
           </h2>
           <p className="text-sm text-slate-400 mt-1">
-            Monitor real-time booking funds locked in escrow and redeem physical check-in PINs on-site in Calabar.
+            Real-time funds held in escrow across Obudu, Agbokim, Marina, and Carnival Calabar. Disbursed only when the traveler provides their 6-digit PIN on-site.
           </p>
         </div>
 
@@ -176,7 +210,7 @@ export default function EscrowManager({ onOpenVoucher }) {
           <div className="text-2xl sm:text-3xl font-black font-heading text-white">
             {stats?.completedDisbursedBookings || 0}
           </div>
-          <div className="text-xs text-slate-400 mt-1">Zero disputes recorded</div>
+          <div className="text-xs text-slate-400 mt-1">Zero fraud or disputes</div>
         </div>
       </div>
 
@@ -191,7 +225,7 @@ export default function EscrowManager({ onOpenVoucher }) {
             Redeem 6-Digit Check-In PIN
           </h3>
           <p className="text-sm text-slate-300 mb-6">
-            When tourists meet their vendor on Marian Road or U.J. Esuene Stadium, the vendor verifies the costume/pass. The tourist supplies their secret 6-digit PIN to release funds from escrow directly to the vendor.
+            When tourists meet their vendor in Cross River State (Marian Road, Obanliku Plateau, or Marina Waterfront), the vendor delivers the verified pass/service. The tourist then reveals their private 6-digit PIN to release funds from escrow.
           </p>
 
           <form onSubmit={handleReleaseEscrow} className="space-y-4">
@@ -272,98 +306,111 @@ export default function EscrowManager({ onOpenVoucher }) {
       </div>
 
       {/* Transactions Ledger Table */}
-      <div className="glass-panel rounded-3xl overflow-hidden border-slate-800">
-        <div className="p-6 border-b border-slate-800 flex items-center justify-between">
-          <div>
-            <h3 className="text-xl font-bold font-heading text-white">Escrow Transactions Ledger</h3>
-            <p className="text-xs text-slate-400 mt-0.5">Real-time state tracking of all registered carnival bookings</p>
+      {loading && transactions.length === 0 ? (
+        <EscrowTableSkeleton rows={4} />
+      ) : (
+        <div className="glass-panel rounded-3xl overflow-hidden border-slate-800">
+          <div className="p-6 border-b border-slate-800 flex items-center justify-between">
+            <div>
+              <h3 className="text-xl font-bold font-heading text-white">Escrow Transactions Ledger</h3>
+              <p className="text-xs text-slate-400 mt-0.5">Real-time state tracking of 365-day Cross River State tourism bookings</p>
+            </div>
+            <span className="text-xs font-bold text-slate-400 bg-slate-900 px-3 py-1 rounded-full border border-slate-800">
+              {transactions.length} Total Records
+            </span>
           </div>
-          <span className="text-xs font-bold text-slate-400 bg-slate-900 px-3 py-1 rounded-full border border-slate-800">
-            {transactions.length} Total Records
-          </span>
-        </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
-            <thead className="bg-slate-950/80 text-slate-400 uppercase tracking-wider font-semibold border-b border-slate-800">
-              <tr>
-                <th className="px-6 py-4">Reference & Guest</th>
-                <th className="px-6 py-4">Package & Vendor</th>
-                <th className="px-6 py-4">Amount</th>
-                <th className="px-6 py-4">Escrow Status</th>
-                <th className="px-6 py-4">6-Digit PIN</th>
-                <th className="px-6 py-4 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-800/60">
-              {transactions.map((tx) => (
-                <tr key={tx.reference} className="hover:bg-slate-900/40 transition-colors">
-                  {/* Reference & Guest */}
-                  <td className="px-6 py-4">
-                    <div className="font-mono font-bold text-white">{tx.reference}</div>
-                    <div className="text-slate-400 text-[11px] mt-0.5">{tx.customerName}</div>
-                    <div className="text-slate-500 text-[10px]">{tx.email}</div>
-                  </td>
-
-                  {/* Package & Vendor */}
-                  <td className="px-6 py-4">
-                    <div className="font-semibold text-slate-200">{tx.packageName}</div>
-                    <div className="text-amber-400 text-[11px] mt-0.5">Vendor: {tx.vendor}</div>
-                  </td>
-
-                  {/* Amount */}
-                  <td className="px-6 py-4">
-                    <div className="font-bold text-sm text-white font-heading">
-                      ₦{(tx.amountNGN || 0).toLocaleString()}
-                    </div>
-                  </td>
-
-                  {/* Status */}
-                  <td className="px-6 py-4">
-                    {getStatusBadge(tx.status)}
-                  </td>
-
-                  {/* PIN */}
-                  <td className="px-6 py-4">
-                    {tx.checkInPin ? (
-                      <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-950 font-mono font-bold text-amber-400 border border-amber-500/30">
-                        <Key className="w-3 h-3" />
-                        <span>{tx.checkInPin}</span>
-                      </div>
-                    ) : (
-                      <span className="text-slate-500 italic">Pending Payment</span>
-                    )}
-                  </td>
-
-                  {/* Actions */}
-                  <td className="px-6 py-4 text-right">
-                    <div className="flex items-center justify-end gap-2">
-                      {tx.status === "ESCROW_LOCKED_ACTIVE" && (
-                        <button
-                          onClick={() => {
-                            setReleaseForm({ reference: tx.reference, pin: tx.checkInPin || "" });
-                            window.scrollTo({ top: 400, behavior: "smooth" });
-                          }}
-                          className="px-2.5 py-1 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 font-semibold border border-emerald-500/30 text-[11px] transition-colors"
-                        >
-                          Use In Terminal
-                        </button>
-                      )}
-
-                      <button
-                        onClick={() => onOpenVoucher(tx)}
-                        className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-semibold text-[11px] transition-colors"
-                      >
-                        View Voucher
-                      </button>
-                    </div>
-                  </td>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs">
+              <thead className="bg-slate-950/80 text-slate-400 uppercase tracking-wider font-semibold border-b border-slate-800">
+                <tr>
+                  <th className="px-6 py-4">Reference & Guest</th>
+                  <th className="px-6 py-4">Package & Vendor</th>
+                  <th className="px-6 py-4">Reservation Date</th>
+                  <th className="px-6 py-4">Amount</th>
+                  <th className="px-6 py-4">Escrow Status</th>
+                  <th className="px-6 py-4">6-Digit PIN</th>
+                  <th className="px-6 py-4 text-right">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-slate-800/60">
+                {transactions.map((tx) => (
+                  <tr key={tx.reference} className="hover:bg-slate-900/40 transition-colors">
+                    {/* Reference & Guest */}
+                    <td className="px-6 py-4">
+                      <div className="font-mono font-bold text-white">{tx.reference}</div>
+                      <div className="text-slate-400 text-[11px] mt-0.5">{tx.customerName}</div>
+                      <div className="text-slate-500 text-[10px]">{tx.email}</div>
+                    </td>
+
+                    {/* Package & Vendor */}
+                    <td className="px-6 py-4">
+                      <div className="font-semibold text-slate-200">{tx.packageName}</div>
+                      <div className="text-amber-400 text-[11px] mt-0.5">Vendor: {tx.vendor}</div>
+                    </td>
+
+                    {/* Reservation Date */}
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-1.5 text-slate-300 font-medium">
+                        <Calendar className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                        <span>{tx.bookingDate || "Open 365 Days"}</span>
+                      </div>
+                    </td>
+
+                    {/* Amount */}
+                    <td className="px-6 py-4">
+                      <div className="font-bold text-sm text-white font-heading">
+                        ₦{(tx.amountNGN || 0).toLocaleString()}
+                      </div>
+                    </td>
+
+                    {/* Status */}
+                    <td className="px-6 py-4">
+                      {getStatusBadge(tx)}
+                    </td>
+
+                    {/* PIN */}
+                    <td className="px-6 py-4">
+                      {tx.checkInPin ? (
+                        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-950 font-mono font-bold text-amber-400 border border-amber-500/30">
+                          <Key className="w-3 h-3" />
+                          <span>{tx.checkInPin}</span>
+                        </div>
+                      ) : (
+                        <span className="text-slate-500 italic">Pending Payment</span>
+                      )}
+                    </td>
+
+                    {/* Actions */}
+                    <td className="px-6 py-4 text-right">
+                      <div className="flex items-center justify-end gap-2">
+                        {tx.status === "ESCROW_LOCKED_ACTIVE" && (
+                          <button
+                            onClick={() => {
+                              setReleaseForm({ reference: tx.reference, pin: tx.checkInPin || "" });
+                              window.scrollTo({ top: 400, behavior: "smooth" });
+                            }}
+                            className="px-2.5 py-1 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 font-semibold border border-emerald-500/30 text-[11px] transition-colors"
+                          >
+                            Use In Terminal
+                          </button>
+                        )}
+
+                        <button
+                          onClick={() => onOpenVoucher(tx)}
+                          className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-semibold text-[11px] transition-colors"
+                        >
+                          View Voucher
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

@@ -51,6 +51,29 @@ app.get("/api/packages/:id", (req, res) => {
   }
 });
 
+// 2b. Get all verified executive accommodations (20 hotels)
+app.get("/api/hotels", (req, res) => {
+  try {
+    const hotels = escrowStore.getHotels();
+    res.json({ success: true, hotels });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// 2c. Get single hotel by ID
+app.get("/api/hotels/:id", (req, res) => {
+  try {
+    const hotel = escrowStore.getHotelById(req.params.id);
+    if (!hotel) {
+      return res.status(404).json({ success: false, error: "Hotel not found" });
+    }
+    res.json({ success: true, hotel });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 // 3. Get Paystack Public Configuration
 app.get("/api/config/paystack", (req, res) => {
   res.json({
@@ -62,7 +85,7 @@ app.get("/api/config/paystack", (req, res) => {
 // 4. Initialize Paystack Transaction
 app.post("/api/paystack/initialize", async (req, res) => {
   try {
-    const { packageId, email, customerName, phone, callbackUrl } = req.body;
+    const { packageId, email, customerName, phone, callbackUrl, bookingDate } = req.body;
     if (!packageId || !email) {
       return res.status(400).json({ success: false, error: "packageId and email are required" });
     }
@@ -72,7 +95,8 @@ app.post("/api/paystack/initialize", async (req, res) => {
       email,
       customerName,
       phone,
-      callbackUrl
+      callbackUrl,
+      bookingDate
     });
 
     res.json(result);
@@ -86,8 +110,37 @@ app.post("/api/paystack/initialize", async (req, res) => {
 app.get("/api/paystack/verify/:reference", async (req, res) => {
   try {
     const { reference } = req.params;
+    const { simulate } = req.query;
+
     if (!reference) {
       return res.status(400).json({ success: false, error: "Reference parameter is required" });
+    }
+
+    if (simulate === "true") {
+      let record = escrowStore.getTransaction(reference);
+      if (!record) {
+        record = escrowStore.createTransaction({
+          reference,
+          packageId: "pkg-obudu-expedition",
+          email: "sandbox@crossriver.ng",
+          customerName: "Sandbox Tester",
+          phone: "+2348000000000",
+          amountKobo: 12000000
+        });
+      }
+      const lockedRecord = escrowStore.lockEscrow(reference, {
+        status: "success",
+        channel: "sandbox_test",
+        gateway_response: "Successful (Sandbox Simulation)"
+      });
+      return res.json({
+        success: true,
+        status: lockedRecord.status,
+        checkInPin: lockedRecord.checkInPin,
+        reference: lockedRecord.reference,
+        transaction: lockedRecord,
+        message: "Escrow funds locked securely in sandbox mode. Present your 6-digit PIN on-site in Cross River."
+      });
     }
 
     const result = await verifyTransaction(reference);
@@ -114,6 +167,26 @@ app.post("/api/escrow/release", (req, res) => {
     res.json(result);
   } catch (error) {
     console.error("Escrow Release Error:", error.message);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// 6b. Freeze Escrow & Report Dispute on Arrival
+app.post("/api/escrow/dispute", (req, res) => {
+  try {
+    const { reference, reason, details } = req.body;
+    if (!reference) {
+      return res.status(400).json({ success: false, error: "Booking reference is required to freeze escrow" });
+    }
+
+    const result = escrowStore.disputeEscrow(reference, { reason, details });
+    if (!result.success) {
+      return res.status(400).json(result);
+    }
+
+    res.json(result);
+  } catch (error) {
+    console.error("Escrow Dispute Error:", error.message);
     res.status(500).json({ success: false, error: error.message });
   }
 });

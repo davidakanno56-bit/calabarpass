@@ -14,7 +14,7 @@ const PAYSTACK_PUBLIC_KEY = process.env.PAYSTACK_PUBLIC_KEY || "pk_test_e911f3fc
  * Initialize a Paystack transaction
  * @param {Object} params - { packageId, email, customerName, phone, callbackUrl }
  */
-export async function initializeTransaction({ packageId, email, customerName, phone, callbackUrl }) {
+export async function initializeTransaction({ packageId, email, customerName, phone, callbackUrl, bookingDate }) {
   if (!email) {
     throw new Error("Customer email is required");
   }
@@ -26,6 +26,7 @@ export async function initializeTransaction({ packageId, email, customerName, ph
 
   const amountKobo = pkg.priceNGN * 100;
   const reference = `CP-${Date.now()}-${Math.floor(1000 + Math.random() * 9000)}`;
+  const reservationDate = bookingDate || new Date(Date.now() + 86400000).toISOString().split('T')[0];
 
   // Create local record in AWAITING_PAYMENT state
   escrowStore.createTransaction({
@@ -34,7 +35,8 @@ export async function initializeTransaction({ packageId, email, customerName, ph
     email,
     customerName: customerName || "Carnival Guest",
     phone: phone || "",
-    amountKobo
+    amountKobo,
+    bookingDate: reservationDate
   });
 
   const payload = {
@@ -48,7 +50,8 @@ export async function initializeTransaction({ packageId, email, customerName, ph
       customerName: customerName || "Carnival Guest",
       phone: phone || "",
       vendor: pkg.vendor,
-      escrowType: "CarnivalCalabar_FairPrice_Escrow"
+      bookingDate: reservationDate,
+      escrowType: "CrossRiverState_365Day_FairPrice_Escrow"
     }
   };
 
@@ -120,7 +123,8 @@ export async function verifyTransaction(reference) {
         email: paystackData.customer?.email || "guest@carnivalcalabar.ng",
         customerName: paystackData.metadata?.customerName || "Carnival Guest",
         phone: paystackData.metadata?.phone || "",
-        amountKobo: paystackData.amount
+        amountKobo: paystackData.amount,
+        bookingDate: paystackData.metadata?.bookingDate || new Date(Date.now() + 86400000).toISOString().split('T')[0]
       });
     }
 
