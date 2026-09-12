@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Lock, Unlock, ShieldCheck, CheckCircle2, AlertCircle, RefreshCw, Key, ArrowRight, Calendar, UserCheck, Clock, ShieldAlert } from "lucide-react";
 import confetti from "canvas-confetti";
 import { EscrowTableSkeleton } from "./SkeletonLoader.jsx";
+import { handleLocalEscrowFallback } from "../utils/api.js";
 
 export default function EscrowManager({ onOpenVoucher }) {
   const [transactions, setTransactions] = useState([]);
@@ -13,16 +14,25 @@ export default function EscrowManager({ onOpenVoucher }) {
 
   const fetchTransactions = async () => {
     setLoading(true);
+    const endpoint = "/api/escrow/transactions";
+    let data;
     try {
-      const res = await fetch("/api/escrow/transactions");
-      const data = await res.json();
-      if (data.success) {
+      const res = await fetch(endpoint);
+      const contentType = res.headers.get("content-type");
+      if (res.ok && contentType && contentType.includes("application/json")) {
+        data = await res.json();
+      } else {
+        console.warn("Backend API not reachable; operating in autonomous client mode");
+        data = handleLocalEscrowFallback(endpoint);
+      }
+    } catch (err) {
+      console.warn("Backend API not reachable; operating in autonomous client mode", err);
+      data = handleLocalEscrowFallback(endpoint);
+    } finally {
+      if (data?.success) {
         setTransactions(data.transactions || []);
         setStats(data.stats || null);
       }
-    } catch (err) {
-      console.error("Failed to fetch transactions:", err);
-    } finally {
       setLoading(false);
     }
   };
@@ -63,22 +73,40 @@ export default function EscrowManager({ onOpenVoucher }) {
       );
     }
 
+    const endpoint = "/api/escrow/release";
+    const payload = {
+      reference: refToRelease,
+      pin: pinToRelease
+    };
+
+    let data;
+    let isOk = false;
+
     try {
-      const res = await fetch("/api/escrow/release", {
+      const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          reference: refToRelease,
-          pin: pinToRelease
-        })
+        body: JSON.stringify(payload)
       });
 
-      const data = await res.json();
-
-      if (res.ok && data.success) {
+      const contentType = res.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        data = await res.json();
+        isOk = res.ok;
+      } else {
+        console.warn("Backend API not reachable; operating in autonomous client mode");
+        data = handleLocalEscrowFallback(endpoint, payload, "POST");
+        isOk = data?.success !== false;
+      }
+    } catch (err) {
+      console.warn("Backend API not reachable; operating in autonomous client mode", err);
+      data = handleLocalEscrowFallback(endpoint, payload, "POST");
+      isOk = data?.success !== false;
+    } finally {
+      if (isOk && data?.success) {
         setReleaseStatus({
           success: true,
-          message: `Success! Escrow released. ₦${(data.transaction.amountNGN || 0).toLocaleString()} disbursed to vendor (${data.transaction.vendor}).`
+          message: `Success! Escrow released. ₦${(data.transaction?.amountNGN || 0).toLocaleString()} disbursed to vendor (${data.transaction?.vendor}).`
         });
 
         // Trigger confetti celebration
@@ -95,16 +123,9 @@ export default function EscrowManager({ onOpenVoucher }) {
         setTransactions(previousTransactions);
         setReleaseStatus({
           success: false,
-          error: data.error || "PIN verification failed. Funds remain locked in escrow."
+          error: data?.error || "PIN verification failed. Funds remain locked in escrow."
         });
       }
-    } catch (err) {
-      setTransactions(previousTransactions);
-      setReleaseStatus({
-        success: false,
-        error: err.message || "Failed to communicate with escrow server"
-      });
-    } finally {
       setReleaseLoading(false);
     }
   };

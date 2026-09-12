@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ShieldCheck, TrendingUp, AlertTriangle, Search, Filter, ShieldAlert } from "lucide-react";
+import { handleLocalEscrowFallback } from "../utils/api.js";
 
 export default function FairPriceTracker() {
   const [fairPrices, setFairPrices] = useState([]);
@@ -8,15 +9,30 @@ export default function FairPriceTracker() {
   const [categoryFilter, setCategoryFilter] = useState("All");
 
   useEffect(() => {
-    fetch("/api/fair-prices")
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          setFairPrices(data.fairPrices || []);
-          setScamAdvisories(data.scamAdvisories || []);
+    const loadFairPrices = async () => {
+      const endpoint = "/api/fair-prices";
+      let data;
+      try {
+        const res = await fetch(endpoint);
+        const contentType = res.headers.get("content-type");
+        if (res.ok && contentType && contentType.includes("application/json")) {
+          data = await res.json();
+        } else {
+          console.warn("Backend API not reachable; operating in autonomous client mode");
+          data = handleLocalEscrowFallback(endpoint);
         }
-      })
-      .catch((err) => console.error(err));
+      } catch (err) {
+        console.warn("Backend API not reachable; operating in autonomous client mode", err);
+        data = handleLocalEscrowFallback(endpoint);
+      }
+
+      if (data?.success) {
+        setFairPrices(data.fairPrices || []);
+        setScamAdvisories(data.scamAdvisories || []);
+      }
+    };
+
+    loadFairPrices();
   }, []);
 
   const categories = ["All", "Transport & Logistics", "Accommodation", "Carnival & Bands", "Culinary & Dining", "Waterfront & Eco"];

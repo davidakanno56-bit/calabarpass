@@ -3,6 +3,7 @@ import { X, Lock, ShieldCheck, CreditCard, AlertCircle, ArrowRight, CheckCircle2
 import { CalendarPicker } from "./CalendarPicker.jsx";
 import { loadPaystackScript } from "../utils/paystackLoader.js";
 import { getHotelBaseRate } from "../data/hotels.js";
+import { handleLocalEscrowFallback } from "../utils/api.js";
 
 export default function PaystackCheckoutModal({
   pkg,
@@ -72,24 +73,43 @@ export default function PaystackCheckoutModal({
     setActiveStep("processing");
 
     try {
-      // 1. Initialize on Express backend with selectedDate
-      const res = await fetch("/api/paystack/initialize", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          packageId: pkg.id,
-          email: formData.email,
-          customerName: formData.customerName,
-          phone: formData.phone,
-          bookingDate: selectedDate,
-          callbackUrl: window.location.href
-        })
-      });
+      const endpoint = "/api/paystack/initialize";
+      const payload = {
+        packageId: pkg.id,
+        email: formData.email,
+        customerName: formData.customerName,
+        phone: formData.phone,
+        bookingDate: selectedDate,
+        callbackUrl: window.location.href
+      };
 
-      const initData = await res.json();
+      let initData;
+      let isOk = false;
 
-      if (!res.ok || !initData.success) {
-        throw new Error(initData.error || "Failed to initialize payment");
+      try {
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        const contentType = res.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          initData = await res.json();
+          isOk = res.ok;
+        } else {
+          console.warn("Backend API not reachable; operating in autonomous client mode");
+          initData = handleLocalEscrowFallback(endpoint, payload, "POST");
+          isOk = initData?.success !== false;
+        }
+      } catch (fetchErr) {
+        console.warn("Backend API not reachable; operating in autonomous client mode", fetchErr);
+        initData = handleLocalEscrowFallback(endpoint, payload, "POST");
+        isOk = initData?.success !== false;
+      }
+
+      if (!isOk || !initData?.success) {
+        throw new Error(initData?.error || "Failed to initialize payment");
       }
 
       const reference = initData.reference;
@@ -152,10 +172,24 @@ export default function PaystackCheckoutModal({
   const verifyBackendTransaction = async (reference) => {
     try {
       setActiveStep("verifying");
-      const res = await fetch(`/api/paystack/verify/${encodeURIComponent(reference)}`);
-      const data = await res.json();
+      const endpoint = `/api/paystack/verify/${encodeURIComponent(reference)}`;
+      let data;
 
-      if (data.success && data.transaction) {
+      try {
+        const res = await fetch(endpoint);
+        const contentType = res.headers.get("content-type");
+        if (res.ok && contentType && contentType.includes("application/json")) {
+          data = await res.json();
+        } else {
+          console.warn("Backend API not reachable; operating in autonomous client mode");
+          data = handleLocalEscrowFallback(endpoint);
+        }
+      } catch (fetchErr) {
+        console.warn("Backend API not reachable; operating in autonomous client mode", fetchErr);
+        data = handleLocalEscrowFallback(endpoint);
+      }
+
+      if (data?.success && data?.transaction) {
         // Ensure status label matches requirement
         const updatedTx = {
           ...data.transaction,
@@ -164,7 +198,7 @@ export default function PaystackCheckoutModal({
         onClose?.();
         onSuccessVoucher(updatedTx);
       } else {
-        throw new Error(data.message || "Payment verification failed");
+        throw new Error(data?.message || "Payment verification failed");
       }
     } catch (err) {
       console.error("Verification error:", err);
@@ -183,27 +217,54 @@ export default function PaystackCheckoutModal({
     setActiveStep("processing");
 
     try {
-      const res = await fetch("/api/paystack/initialize", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          packageId: pkg.id,
-          email: formData.email,
-          customerName: formData.customerName,
-          phone: formData.phone,
-          bookingDate: selectedDate
-        })
-      });
+      const initEndpoint = "/api/paystack/initialize";
+      const payload = {
+        packageId: pkg.id,
+        email: formData.email,
+        customerName: formData.customerName,
+        phone: formData.phone,
+        bookingDate: selectedDate
+      };
 
-      const initData = await res.json();
-      if (!initData.success) throw new Error(initData.error);
+      let initData;
+      try {
+        const res = await fetch(initEndpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const contentType = res.headers.get("content-type");
+        if (res.ok && contentType && contentType.includes("application/json")) {
+          initData = await res.json();
+        } else {
+          console.warn("Backend API not reachable; operating in autonomous client mode");
+          initData = handleLocalEscrowFallback(initEndpoint, payload, "POST");
+        }
+      } catch {
+        initData = handleLocalEscrowFallback(initEndpoint, payload, "POST");
+      }
+
+      if (!initData?.success) throw new Error(initData?.error || "Failed to initialize test lock");
 
       // Verify backend and transition
       setActiveStep("verifying");
-      const verifyRes = await fetch(`/api/paystack/verify/${encodeURIComponent(initData.reference)}?simulate=true`);
-      const verifyData = await verifyRes.json();
+      const verifyEndpoint = `/api/paystack/verify/${encodeURIComponent(initData.reference)}?simulate=true`;
+      let verifyData;
 
-      if (verifyData.success && verifyData.transaction) {
+      try {
+        const verifyRes = await fetch(verifyEndpoint);
+        const contentType = verifyRes.headers.get("content-type");
+        if (verifyRes.ok && contentType && contentType.includes("application/json")) {
+          verifyData = await verifyRes.json();
+        } else {
+          console.warn("Backend API not reachable; operating in autonomous client mode");
+          verifyData = handleLocalEscrowFallback(verifyEndpoint);
+        }
+      } catch {
+        verifyData = handleLocalEscrowFallback(verifyEndpoint);
+      }
+
+      if (verifyData?.success && verifyData?.transaction) {
         const updatedTx = {
           ...verifyData.transaction,
           statusLabel: "Escrow Secured - Awaiting On-Site Verification"
@@ -211,7 +272,7 @@ export default function PaystackCheckoutModal({
         onClose?.();
         onSuccessVoucher(updatedTx);
       } else {
-        throw new Error(verifyData.message || "Verification response pending");
+        throw new Error(verifyData?.message || "Verification response pending");
       }
     } catch (err) {
       console.error("Quick test checkout error:", err);
@@ -226,9 +287,17 @@ export default function PaystackCheckoutModal({
     const interval = setInterval(async () => {
       attempts++;
       try {
-        const res = await fetch(`/api/paystack/verify/${encodeURIComponent(reference)}`);
-        const data = await res.json();
-        if (data.success && data.transaction) {
+        const endpoint = `/api/paystack/verify/${encodeURIComponent(reference)}`;
+        let data;
+        const res = await fetch(endpoint);
+        const contentType = res.headers.get("content-type");
+        if (res.ok && contentType && contentType.includes("application/json")) {
+          data = await res.json();
+        } else {
+          data = handleLocalEscrowFallback(endpoint);
+        }
+
+        if (data?.success && data?.transaction) {
           clearInterval(interval);
           const updatedTx = {
             ...data.transaction,

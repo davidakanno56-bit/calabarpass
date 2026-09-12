@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import confetti from "canvas-confetti";
 import QRCode from "qrcode";
+import { handleLocalEscrowFallback } from "../utils/api.js";
 
 export default function EscrowVoucherModal({ transaction: initialTx, onClose, onOpenEscrowPortal }) {
   const [transaction, setTransaction] = useState(initialTx);
@@ -269,28 +270,43 @@ export default function EscrowVoucherModal({ transaction: initialTx, onClose, on
     if (!transaction?.reference) return;
 
     setDisputeSubmitting(true);
+    const endpoint = "/api/escrow/dispute";
+    const payload = {
+      reference: transaction.reference,
+      reason: disputeReason,
+      details: disputeDetails
+    };
+
+    let data;
+    let isOk = false;
+
     try {
-      const res = await fetch("/api/escrow/dispute", {
+      const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          reference: transaction.reference,
-          reason: disputeReason,
-          details: disputeDetails
-        })
+        body: JSON.stringify(payload)
       });
 
-      const data = await res.json();
-      if (res.ok && data.success) {
+      const contentType = res.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        data = await res.json();
+        isOk = res.ok;
+      } else {
+        console.warn("Backend API not reachable; operating in autonomous client mode");
+        data = handleLocalEscrowFallback(endpoint, payload, "POST");
+        isOk = data?.success !== false;
+      }
+    } catch (err) {
+      console.warn("Backend API not reachable; operating in autonomous client mode", err);
+      data = handleLocalEscrowFallback(endpoint, payload, "POST");
+      isOk = data?.success !== false;
+    } finally {
+      if (isOk && data?.success) {
         setTransaction(data.transaction);
         setDisputeSuccess(true);
       } else {
-        alert(data.error || "Failed to submit dispute");
+        alert(data?.error || "Failed to submit dispute");
       }
-    } catch (err) {
-      console.error("Dispute error:", err);
-      alert("Network error connecting to escrow authority");
-    } finally {
       setDisputeSubmitting(false);
     }
   };

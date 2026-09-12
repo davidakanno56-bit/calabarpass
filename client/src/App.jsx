@@ -6,6 +6,7 @@ import { PackageGridSkeleton, EscrowTableSkeleton } from "./components/SkeletonL
 import { fetchWithSWR } from "./utils/cache.js";
 import { PACKAGES as INITIAL_PACKAGES } from "./data/packages.js";
 import { ShieldCheck, Lock } from "lucide-react";
+import { handleLocalEscrowFallback } from "./utils/api.js";
 
 // Lazy-load heavy components and modals to keep initial bundle ultra-fast
 const PaystackCheckoutModal = lazy(() => import("./components/PaystackCheckoutModal.jsx"));
@@ -60,9 +61,20 @@ export default function App() {
     fetchWithSWR(
       "packages_catalog",
       async () => {
-        const res = await fetch("/api/packages");
-        const data = await res.json();
-        return data.success ? data.packages : null;
+        const endpoint = "/api/packages";
+        try {
+          const res = await fetch(endpoint);
+          const contentType = res.headers.get("content-type");
+          if (res.ok && contentType && contentType.includes("application/json")) {
+            const data = await res.json();
+            return data.success ? data.packages : null;
+          }
+          const fallback = handleLocalEscrowFallback(endpoint);
+          return fallback?.packages || null;
+        } catch {
+          const fallback = handleLocalEscrowFallback(endpoint);
+          return fallback?.packages || null;
+        }
       },
       {
         onData: (pkgList) => {
@@ -81,9 +93,20 @@ export default function App() {
     fetchWithSWR(
       "paystack_config",
       async () => {
-        const res = await fetch("/api/config/paystack");
-        const data = await res.json();
-        return data.success ? data.publicKey : null;
+        const endpoint = "/api/config/paystack";
+        try {
+          const res = await fetch(endpoint);
+          const contentType = res.headers.get("content-type");
+          if (res.ok && contentType && contentType.includes("application/json")) {
+            const data = await res.json();
+            return data.success ? data.publicKey : null;
+          }
+          const fallback = handleLocalEscrowFallback(endpoint);
+          return fallback?.publicKey || null;
+        } catch {
+          const fallback = handleLocalEscrowFallback(endpoint);
+          return fallback?.publicKey || null;
+        }
       },
       {
         onData: (pubKey) => {
@@ -93,14 +116,28 @@ export default function App() {
     ).catch((err) => console.warn("Paystack config error:", err));
 
     // 3. Escrow stats
-    fetch("/api/escrow/transactions")
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success && data.stats) {
+    const loadEscrowStats = async () => {
+      const endpoint = "/api/escrow/transactions";
+      try {
+        const res = await fetch(endpoint);
+        const contentType = res.headers.get("content-type");
+        let data;
+        if (res.ok && contentType && contentType.includes("application/json")) {
+          data = await res.json();
+        } else {
+          data = handleLocalEscrowFallback(endpoint);
+        }
+        if (data?.success && data?.stats) {
           setEscrowStats(data.stats);
         }
-      })
-      .catch((err) => console.warn("Escrow stats error:", err));
+      } catch {
+        const data = handleLocalEscrowFallback(endpoint);
+        if (data?.success && data?.stats) {
+          setEscrowStats(data.stats);
+        }
+      }
+    };
+    loadEscrowStats();
   }, []);
 
   const handleCheckoutSuccess = (transaction) => {
@@ -108,13 +145,25 @@ export default function App() {
     setSelectedPackage(null);
     setActiveVoucher(transaction);
 
-    // Refresh escrow stats in background
-    fetch("/api/escrow/transactions")
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) setEscrowStats(data.stats);
-      })
-      .catch(() => {});
+    // Refresh escrow stats in background safely
+    const refreshEscrow = async () => {
+      const endpoint = "/api/escrow/transactions";
+      try {
+        const res = await fetch(endpoint);
+        const contentType = res.headers.get("content-type");
+        let data;
+        if (res.ok && contentType && contentType.includes("application/json")) {
+          data = await res.json();
+        } else {
+          data = handleLocalEscrowFallback(endpoint);
+        }
+        if (data?.success && data?.stats) setEscrowStats(data.stats);
+      } catch {
+        const data = handleLocalEscrowFallback(endpoint);
+        if (data?.success && data?.stats) setEscrowStats(data.stats);
+      }
+    };
+    refreshEscrow();
   };
 
   return (
