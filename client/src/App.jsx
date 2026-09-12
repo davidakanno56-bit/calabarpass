@@ -4,35 +4,36 @@ import HeroBanner from "./components/HeroBanner.jsx";
 import PackageList from "./components/PackageList.jsx";
 import { PackageGridSkeleton, EscrowTableSkeleton } from "./components/SkeletonLoader.jsx";
 import { fetchWithSWR } from "./utils/cache.js";
+import { PACKAGES as INITIAL_PACKAGES } from "./data/packages.js";
 import { ShieldCheck, Lock } from "lucide-react";
 
 // Lazy-load heavy components and modals to keep initial bundle ultra-fast
 const PaystackCheckoutModal = lazy(() => import("./components/PaystackCheckoutModal.jsx"));
 const EscrowVoucherModal = lazy(() => import("./components/EscrowVoucherModal.jsx"));
 const EscrowManager = lazy(() => import("./components/EscrowManager.jsx"));
-const AIConciergeTerminal = lazy(() => import("./components/AIConciergeTerminal.jsx"));
 const FairPriceTracker = lazy(() => import("./components/FairPriceTracker.jsx"));
 const AccommodationsView = lazy(() => import("./components/AccommodationsView.jsx"));
+const VendorPortal = lazy(() => import("./components/VendorPortal.jsx"));
 
 export default function App() {
   const getInitialTab = () => {
     if (typeof window !== "undefined") {
       const path = window.location.pathname.toLowerCase();
       if (path === "/accommodations") return "accommodations";
-      if (path === "/concierge") return "concierge";
       if (path === "/shield") return "shield";
+      if (path === "/vendor") return "vendor";
       if (path === "/escrow") return "escrow";
     }
     return "packages";
   };
 
   const [activeTab, setActiveTabState] = useState(getInitialTab);
-  const [packages, setPackages] = useState([]);
+  const [packages, setPackages] = useState(INITIAL_PACKAGES);
   const [paystackPublicKey, setPaystackPublicKey] = useState("");
   const [escrowStats, setEscrowStats] = useState(null);
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [activeVoucher, setActiveVoucher] = useState(null);
-  const [loadingPackages, setLoadingPackages] = useState(true);
+  const [loadingPackages, setLoadingPackages] = useState(false);
 
   const handleTabChange = (tab) => {
     setActiveTabState(tab);
@@ -143,7 +144,7 @@ export default function App() {
               packages={packages}
               isLoading={loadingPackages && packages.length === 0}
               onSelectPackage={(pkg) => setSelectedPackage(pkg)}
-              onOpenConcierge={() => handleTabChange("concierge")}
+              onOpenShield={() => handleTabChange("shield")}
             />
           </>
         )}
@@ -156,20 +157,17 @@ export default function App() {
           </Suspense>
         )}
 
-        {activeTab === "concierge" && (
-          <Suspense fallback={<div className="p-12 text-center text-slate-400">Loading AI Concierge Terminal...</div>}>
-            <AIConciergeTerminal
-              onSelectPackageFromAI={(pkgId) => {
-                const pkg = packages.find((p) => p.id === pkgId);
-                if (pkg) setSelectedPackage(pkg);
-              }}
-            />
-          </Suspense>
-        )}
-
         {activeTab === "shield" && (
           <Suspense fallback={<div className="p-12 text-center text-slate-400">Loading Scam & Surge Shield...</div>}>
             <FairPriceTracker />
+          </Suspense>
+        )}
+
+        {activeTab === "vendor" && (
+          <Suspense fallback={<div className="p-12 text-center text-slate-400">Loading Vendor Portal & Clearinghouse...</div>}>
+            <VendorPortal
+              onOpenVoucher={(tx) => setActiveVoucher(tx)}
+            />
           </Suspense>
         )}
 
@@ -199,10 +197,6 @@ export default function App() {
           <EscrowVoucherModal
             transaction={activeVoucher}
             onClose={() => setActiveVoucher(null)}
-            onOpenEscrowPortal={() => {
-              setActiveVoucher(null);
-              handleTabChange("escrow");
-            }}
           />
         </Suspense>
       )}
@@ -219,28 +213,27 @@ export default function App() {
                 </span>
               </div>
               <p className="text-slate-400 text-xs leading-relaxed">
-                The premier verified 365-day booking escrow clearinghouse and AI concierge for Cross River State, covering 20 verified executive hotels, Obudu Mountain Resort, Agbokim Waterfalls, Marina Resort, Drill Monkey Ranch, Leboku Festival, and Carnival Calabar.
+                The premier verified 365-day booking escrow clearinghouse and fair-price directory for Cross River State, covering 5 verified executive hotels, Obudu Mountain Resort, Agbokim Waterfalls, Marina Resort, Drill Monkey Ranch, Leboku Festival, and Carnival Calabar.
               </p>
             </div>
 
             <div>
               <div className="font-bold text-white uppercase tracking-wider mb-3">365-Day Escrow Passes</div>
               <ul className="space-y-2">
-                <li><button onClick={() => { handleTabChange("accommodations"); window.scrollTo({ top: 0, behavior: 'smooth'}); }} className="hover:text-amber-400">Executive Hotels (20 Verified)</button></li>
-                <li><button onClick={() => { handleTabChange("packages"); window.scrollTo({ top: 500, behavior: 'smooth'}); }} className="hover:text-amber-400">Obudu Mountain Expedition</button></li>
-                <li><button onClick={() => { handleTabChange("packages"); window.scrollTo({ top: 500, behavior: 'smooth'}); }} className="hover:text-amber-400">Agbokim Waterfalls Canopy Tour</button></li>
-                <li><button onClick={() => { handleTabChange("packages"); window.scrollTo({ top: 500, behavior: 'smooth'}); }} className="hover:text-amber-400">Drill Monkey Rainforest Safari</button></li>
-                <li><button onClick={() => { handleTabChange("packages"); window.scrollTo({ top: 500, behavior: 'smooth'}); }} className="hover:text-amber-400">Cross River Safari National Park</button></li>
+                <li><button onClick={() => { handleTabChange("accommodations"); window.scrollTo({ top: 0, behavior: 'smooth'}); }} className="hover:text-amber-400 cursor-pointer">Verified Accommodations (5 Executive Hotels)</button></li>
+                <li><button onClick={() => { handleTabChange("packages"); window.scrollTo({ top: 500, behavior: 'smooth'}); }} className="hover:text-amber-400 cursor-pointer">Obudu Mountain Expedition</button></li>
+                <li><button onClick={() => { handleTabChange("packages"); window.scrollTo({ top: 500, behavior: 'smooth'}); }} className="hover:text-amber-400 cursor-pointer">Agbokim Waterfalls Canopy Tour</button></li>
+                <li><button onClick={() => { handleTabChange("packages"); window.scrollTo({ top: 500, behavior: 'smooth'}); }} className="hover:text-amber-400 cursor-pointer">Drill Monkey Rainforest Safari</button></li>
+                <li><button onClick={() => { handleTabChange("packages"); window.scrollTo({ top: 500, behavior: 'smooth'}); }} className="hover:text-amber-400 cursor-pointer">Cross River Safari National Park</button></li>
               </ul>
             </div>
 
             <div>
-              <div className="font-bold text-white uppercase tracking-wider mb-3">Security & Anti-Fraud</div>
+              <div className="font-bold text-white uppercase tracking-wider mb-3">Roles & Portals</div>
               <ul className="space-y-2">
-                <li><button onClick={() => handleTabChange("shield")} className="hover:text-amber-400">December Surge Predictor</button></li>
-                <li><button onClick={() => handleTabChange("shield")} className="hover:text-amber-400">Fake Wristband Red Flags</button></li>
-                <li><button onClick={() => handleTabChange("escrow")} className="hover:text-amber-400">6-Digit PIN Redemption Guide</button></li>
-                <li><button onClick={() => handleTabChange("concierge")} className="hover:text-amber-400">AI Concierge Terminal</button></li>
+                <li><button onClick={() => handleTabChange("vendor")} className="hover:text-amber-400 text-amber-300 font-semibold cursor-pointer">Merchant Portal & PIN Redemption ↗</button></li>
+                <li><button onClick={() => handleTabChange("shield")} className="hover:text-amber-400 cursor-pointer">December Surge Predictor & Anti-Scam</button></li>
+                <li><button onClick={() => handleTabChange("escrow")} className="hover:text-amber-400 cursor-pointer">Escrow Vault Audit & Commission (7%)</button></li>
               </ul>
             </div>
 

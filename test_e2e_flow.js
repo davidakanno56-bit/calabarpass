@@ -28,10 +28,10 @@ async function runE2ETests() {
   if (!drillRanch.image.startsWith("http")) throw new Error("Drill ranch image is not high-res external URL: " + drillRanch.image);
   console.log(`✓ Drill Ranch verified: "${drillRanch.name}" with high-res photo: ${drillRanch.image}`);
 
-  const safariPark = pkgData.packages.find(p => p.id === "pkg-cross-river-safari");
-  if (!safariPark) throw new Error("Missing pkg-cross-river-safari");
-  if (!safariPark.image.startsWith("http")) throw new Error("Safari park image is not high-res external URL: " + safariPark.image);
-  console.log(`✓ Safari Park verified: "${safariPark.name}" with high-res photo: ${safariPark.image}`);
+  const kwaFalls = pkgData.packages.find(p => p.id === "pkg-kwa-falls");
+  if (!kwaFalls) throw new Error("Missing pkg-kwa-falls");
+  if (!kwaFalls.image.startsWith("http")) throw new Error("Kwa Falls image is not high-res external URL: " + kwaFalls.image);
+  console.log(`✓ Kwa Falls verified: "${kwaFalls.name}" with high-res photo: ${kwaFalls.image}`);
 
   // 3. Check /api/hotels endpoint
   console.log("\n[3] Verifying /api/hotels endpoint (5 Premier Executive Stays)...");

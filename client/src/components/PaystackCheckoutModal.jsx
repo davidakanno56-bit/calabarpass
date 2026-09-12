@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { X, Lock, ShieldCheck, CreditCard, AlertCircle, ArrowRight, CheckCircle2, Loader2, Sparkles, Copy, Check, Calendar } from "lucide-react";
 import { CalendarPicker } from "./CalendarPicker.jsx";
 import { loadPaystackScript } from "../utils/paystackLoader.js";
@@ -21,6 +21,19 @@ export default function PaystackCheckoutModal({
   const [error, setError] = useState(null);
   const [activeStep, setActiveStep] = useState("form"); // 'form' | 'processing' | 'verifying'
   const [copiedCard, setCopiedCard] = useState(false);
+  const [devMode, setDevMode] = useState(false);
+
+  // Discreet keyboard shortcut (Ctrl+Shift+D) to toggle dev sandbox for testing
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.ctrlKey && e.shiftKey && (e.key === "D" || e.key === "d")) {
+        e.preventDefault();
+        setDevMode((prev) => !prev);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   const isHotel = !!pkg?.priceRange;
   const amountNGN = pkg?.priceNGN || (isHotel ? getHotelBaseRate(pkg.priceRange) : 0);
@@ -148,6 +161,7 @@ export default function PaystackCheckoutModal({
           ...data.transaction,
           statusLabel: "Escrow Secured - Awaiting On-Site Verification"
         };
+        onClose?.();
         onSuccessVoucher(updatedTx);
       } else {
         throw new Error(data.message || "Payment verification failed");
@@ -194,6 +208,7 @@ export default function PaystackCheckoutModal({
           ...verifyData.transaction,
           statusLabel: "Escrow Secured - Awaiting On-Site Verification"
         };
+        onClose?.();
         onSuccessVoucher(updatedTx);
       } else {
         throw new Error(verifyData.message || "Verification response pending");
@@ -261,26 +276,43 @@ export default function PaystackCheckoutModal({
 
         {/* Body */}
         <div className="p-6 space-y-5 max-h-[80vh] overflow-y-auto">
-          {/* Paystack Sandbox Helper Banner */}
-          <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-xs space-y-2">
-            <div className="flex items-center justify-between">
-              <div className="font-bold flex items-center gap-1.5 text-amber-300">
-                <Sparkles className="w-4 h-4 text-amber-400" />
-                <span>Paystack Test Credentials</span>
+          {/* Paystack Helper Banner: Revealed in Dev Mode, or sleek Escrow Assurance in Consumer Mode */}
+          {devMode ? (
+            <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-xs space-y-2">
+              <div className="flex items-center justify-between">
+                <div className="font-bold flex items-center gap-1.5 text-amber-300">
+                  <Sparkles className="w-4 h-4 text-amber-400" />
+                  <span>Paystack Test Credentials (Dev Mode)</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleCopyTestCard}
+                  className="flex items-center gap-1 text-[11px] bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 px-2 py-0.5 rounded border border-amber-500/30 transition-colors"
+                >
+                  {copiedCard ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                  <span>{copiedCard ? "Copied!" : "Copy Card"}</span>
+                </button>
               </div>
-              <button
-                type="button"
-                onClick={handleCopyTestCard}
-                className="flex items-center gap-1 text-[11px] bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 px-2 py-0.5 rounded border border-amber-500/30 transition-colors"
-              >
-                {copiedCard ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
-                <span>{copiedCard ? "Copied!" : "Copy Card"}</span>
-              </button>
+              <div className="font-mono text-[11px] bg-black/40 p-2 rounded-lg text-amber-100/90 border border-amber-500/20 break-all select-all">
+                Sandbox Testing: Card: 4084 0840 8408 4081 | CVV: 408 | Exp: Any future date | OTP: 123456
+              </div>
             </div>
-            <div className="font-mono text-[11px] bg-black/40 p-2 rounded-lg text-amber-100/90 border border-amber-500/20 break-all select-all">
-              Sandbox Testing: Card: 4084 0840 8408 4081 | CVV: 408 | Exp: Any future date | OTP: 123456
+          ) : (
+            <div className="p-3.5 rounded-2xl bg-slate-900/60 border border-slate-800 flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <div className="w-7 h-7 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center border border-emerald-500/20">
+                  <ShieldCheck className="w-4 h-4" />
+                </div>
+                <div>
+                  <div className="text-xs font-semibold text-white">Direct Paystack Gateway</div>
+                  <div className="text-[11px] text-slate-400">Cards, USSD, Bank Transfer & Apple Pay</div>
+                </div>
+              </div>
+              <span className="text-[10px] font-bold text-emerald-400 bg-emerald-950/60 px-2.5 py-1 rounded-full border border-emerald-500/30">
+                Escrow Protected
+              </span>
             </div>
-          </div>
+          )}
 
           {/* Package or Hotel Summary Box */}
           <div className="p-4 rounded-2xl bg-slate-950/70 border border-slate-800/90 flex gap-4 items-center">
@@ -321,7 +353,7 @@ export default function PaystackCheckoutModal({
             <ShieldCheck className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
             <div className="text-xs text-emerald-200 leading-relaxed">
               <strong className="text-emerald-300">100% Anti-Scam Protection: </strong>
-              Funds are not released immediately. They remain locked safely in the CalabarPass Escrow Vault. Upon payment callback, an official <strong>6-digit check-in PIN</strong> will be generated. Present this PIN on-site in Cross River State only after you inspect your pass or tour vehicle.
+              Funds are not released immediately. They remain locked safely in the CalabarPass Escrow Vault. Upon payment callback, an official <strong>6-digit check-in PIN</strong> will be generated. Present this PIN on-site in Cross River State only after you inspect your pass or accommodation.
             </div>
           </div>
 
@@ -397,18 +429,18 @@ export default function PaystackCheckoutModal({
             </div>
           </div>
 
-          {/* Action Buttons */}
+          {/* Primary Action Button (Production Standard) */}
           <div className="space-y-3 pt-1">
             <button
               onClick={handlePaystackCheckout}
               disabled={loading}
-              className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-black font-extrabold text-base shadow-gold-glow flex items-center justify-center gap-2 hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50"
+              className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-black font-extrabold text-base shadow-gold-glow flex items-center justify-center gap-2 hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 cursor-pointer"
             >
               {loading ? (
                 <>
                   <Loader2 className="w-5 h-5 animate-spin" />
                   <span>
-                    {activeStep === "processing" ? "Opening Paystack Sandbox..." : "Locking Escrow & Generating PIN..."}
+                    {activeStep === "processing" ? "Opening Paystack Secure Gateway..." : "Securing Escrow & Generating PIN..."}
                   </span>
                 </>
               ) : (
@@ -419,21 +451,43 @@ export default function PaystackCheckoutModal({
               )}
             </button>
 
-            {/* Test Simulation Button */}
-            <button
-              type="button"
-              onClick={handleQuickTestCheckout}
-              disabled={loading}
-              className="w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white text-xs font-semibold border border-slate-700/80 flex items-center justify-center gap-2 transition-colors"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-              <span>Instant Test Lock (Simulate Paystack Callback & 6-Digit PIN)</span>
-            </button>
+            {/* Discreet Dev Simulation Option - ONLY visible when dev mode is active */}
+            {devMode && (
+              <div className="p-3 rounded-xl bg-amber-500/10 border border-dashed border-amber-500/40 space-y-2">
+                <div className="text-[10px] font-mono text-amber-300 uppercase tracking-wider flex items-center justify-between">
+                  <span className="flex items-center gap-1">
+                    <Sparkles className="w-3 h-3 text-amber-400" />
+                    Sandbox Quick Simulator
+                  </span>
+                  <span className="text-emerald-400 font-bold">ACTIVE</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleQuickTestCheckout}
+                  disabled={loading}
+                  className="w-full py-2 px-3 rounded-lg bg-slate-900 hover:bg-slate-800 text-amber-200 hover:text-white text-xs font-semibold border border-amber-500/30 flex items-center justify-center gap-2 transition-colors cursor-pointer"
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Simulate Paystack Callback & Lock Escrow</span>
+                </button>
+              </div>
+            )}
           </div>
 
-          <div className="text-center text-[11px] text-slate-500 flex items-center justify-center gap-2">
-            <Lock className="w-3 h-3 text-emerald-500" />
-            <span>256-Bit SSL Encrypted • Paystack Certified Partner</span>
+          {/* Footer Security Badge & Discreet Dev Switch */}
+          <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-500">
+            <div className="flex items-center gap-1.5">
+              <Lock className="w-3.5 h-3.5 text-emerald-500" />
+              <span>256-Bit SSL Encrypted • Certified Paystack Partner</span>
+            </div>
+            <button
+              type="button"
+              onClick={() => setDevMode(!devMode)}
+              className="text-[10px] text-slate-500 hover:text-amber-400 cursor-pointer transition-colors px-1.5 py-0.5 rounded"
+              title="Toggle Sandbox Simulator (Shortcut: Ctrl+Shift+D)"
+            >
+              {devMode ? "Dev Mode: ON" : "Sandbox"}
+            </button>
           </div>
         </div>
       </div>

@@ -154,12 +154,12 @@ app.get("/api/paystack/verify/:reference", async (req, res) => {
 // 6. Release Escrow Funds to Vendor via 6-digit PIN
 app.post("/api/escrow/release", (req, res) => {
   try {
-    const { reference, pin } = req.body;
+    const { reference, pin, vendor } = req.body;
     if (!reference || !pin) {
       return res.status(400).json({ success: false, error: "Both reference and 6-digit PIN are required" });
     }
 
-    const result = releaseEscrowFunds({ reference, pin });
+    const result = releaseEscrowFunds({ reference, pin, vendor });
     if (!result.success) {
       return res.status(400).json(result);
     }
@@ -191,12 +191,25 @@ app.post("/api/escrow/dispute", (req, res) => {
   }
 });
 
-// 7. Get All Escrow Transactions & Metrics
+// 7. Get All Escrow Transactions & Metrics (Sanitized for Privacy)
 app.get("/api/escrow/transactions", (req, res) => {
   try {
-    const transactions = escrowStore.getAllTransactions();
+    const transactions = escrowStore.getAllTransactions({ sanitized: true });
     const stats = escrowStore.getEscrowStats();
     res.json({ success: true, transactions, stats });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// 7b. Dedicated Vendor Payouts Endpoint (Completed Disbursed Transactions & Active Arrivals)
+app.get("/api/vendor/payouts", (req, res) => {
+  try {
+    const { vendor } = req.query;
+    const payouts = escrowStore.getVendorPayouts(vendor);
+    const activeBookings = escrowStore.getVendorActiveBookings(vendor);
+    const stats = escrowStore.getEscrowStats(vendor);
+    res.json({ success: true, payouts, activeBookings, stats });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }

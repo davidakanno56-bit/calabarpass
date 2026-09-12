@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
-import { Shield, Sparkles, Lock, ArrowRight, CheckCircle, Key, QrCode, Cpu, Award, BedDouble } from "lucide-react";
+import { Shield, ShieldCheck, Lock, ArrowRight, CheckCircle, Key, QrCode, Cpu, Award, BedDouble } from "lucide-react";
+import { HOTELS } from "../data/hotels.js";
 
 export default function HeroBanner({ setActiveTab, escrowStats }) {
   const passRef = useRef(null);
@@ -43,58 +44,65 @@ export default function HeroBanner({ setActiveTab, escrowStats }) {
   };
 
   return (
-    <div className="relative overflow-hidden pt-6 pb-12 sm:pt-10 sm:pb-16">
-      {/* Background glowing orbs */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[380px] bg-gradient-to-tr from-amber-500/15 via-rose-500/10 to-emerald-500/15 blur-[130px] pointer-events-none rounded-full" />
+    <div className="relative overflow-hidden pt-8 pb-16 lg:pt-14 lg:pb-24 border-b border-slate-800/80">
+      {/* Dynamic Background Glows */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[350px] bg-amber-500/10 blur-[130px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/3 right-10 w-[400px] h-[300px] bg-emerald-500/10 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Top Pill Alert */}
-        <div className="text-center mb-6">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/90 border border-amber-500/30 text-amber-300 text-xs sm:text-sm font-medium shadow-gold-glow animate-pulse-slow">
-            <span className="text-base">✨</span>
-            <span>Carnival Calabar 2026 & 365-Day Cross River Tourism Escrow</span>
-            <span className="hidden sm:inline text-slate-500">•</span>
-            <span className="hidden sm:inline text-emerald-400 font-semibold">Zero Counterfeits Guarantee</span>
-          </div>
-        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          {/* Left Column: Core Value Proposition */}
+          <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
+            {/* Bureau Endorsement Pill */}
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 text-xs font-semibold shadow-emerald-glow">
+              <Shield className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Cross River State Tourism Bureau • Official 365-Day Escrow Platform</span>
+            </div>
 
-        {/* Hero 2-Column Showcase */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center mb-12">
-          {/* Left Column: Headlines & CTAs */}
-          <div className="lg:col-span-7 text-center lg:text-left space-y-6">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight font-heading leading-tight text-white">
-              Experience Cross River With <br className="hidden sm:block" />
-              <span className="carnival-gradient-text">Guaranteed Fair Prices</span> & Escrow
+            {/* Main Headline */}
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-heading tracking-tight text-white leading-[1.15]">
+              Experience Cross River State With{" "}
+              <span className="gold-gradient-text">Zero Scam Risk</span>
             </h1>
 
+            {/* Subheading */}
             <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-light">
-              Cross River State's 365-day tourism clearinghouse, AI fair-price concierge, and anti-fraud escrow platform. Book Obudu Mountain Resort expeditions, Agbokim Waterfalls canopy walks, Marina Resort river cruises, Drill Monkey Ranch safaris, Leboku New Yam Festival, and Carnival Calabar band kits with zero extortion risk and complete escrow protection.
+              Cross River State's official 365-day tourism clearinghouse, fair-price directory, and anti-fraud escrow platform. Book Obudu Mountain Resort expeditions, Agbokim Waterfalls canopy walks, Marina Resort river cruises, Drill Monkey Ranch safaris, Leboku New Yam Festival, and Carnival Calabar band kits with zero extortion risk and complete escrow protection.
             </p>
 
             {/* CTAs */}
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
               <button
-                onClick={() => setActiveTab("packages")}
-                className="flex items-center gap-2.5 px-7 py-3.5 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-black font-bold text-base shadow-gold-glow hover:scale-[1.02] active:scale-[0.98] transition-all"
+                onClick={() => {
+                  setActiveTab("packages");
+                  window.scrollTo({ top: 550, behavior: "smooth" });
+                }}
+                className="flex items-center gap-2.5 px-7 py-3.5 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-black font-bold text-base shadow-gold-glow hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
               >
                 <span>Explore Verified Packages</span>
                 <ArrowRight className="w-5 h-5" />
               </button>
 
               <button
-                onClick={() => setActiveTab("accommodations")}
-                className="flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-emerald-300 hover:text-emerald-200 font-semibold text-base border border-emerald-500/40 hover:border-emerald-500/70 transition-all shadow-sm shadow-emerald-500/10"
+                onClick={() => {
+                  setActiveTab("accommodations");
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                className="flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-emerald-300 hover:text-emerald-200 font-semibold text-base border border-emerald-500/40 hover:border-emerald-500/70 transition-all shadow-sm shadow-emerald-500/10 cursor-pointer"
               >
                 <BedDouble className="w-5 h-5 text-emerald-400" />
-                <span>Verified Accommodations (20 Hotels)</span>
+                <span>Verified Accommodations ({HOTELS?.length || 5} Executive Hotels)</span>
               </button>
 
               <button
-                onClick={() => setActiveTab("concierge")}
-                className="flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-white font-semibold text-base border border-slate-700/80 hover:border-amber-500/50 transition-all"
+                onClick={() => {
+                  setActiveTab("shield");
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                className="flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-white font-semibold text-base border border-slate-700/80 hover:border-amber-500/50 transition-all cursor-pointer"
               >
-                <Sparkles className="w-5 h-5 text-amber-400" />
-                <span>Ask Carnival AI Concierge</span>
+                <ShieldCheck className="w-5 h-5 text-amber-400" />
+                <span>Check Fair Street Fares & Scam Shield</span>
               </button>
             </div>
           </div>

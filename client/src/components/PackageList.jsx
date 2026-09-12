@@ -3,7 +3,7 @@ import PackageCard from "./PackageCard.jsx";
 import { PackageGridSkeleton } from "./SkeletonLoader.jsx";
 import { ShieldCheck, Sparkles, Calendar, Compass, Sun, Flame } from "lucide-react";
 
-export default function PackageList({ packages = [], onSelectPackage, onOpenConcierge, isLoading = false }) {
+export default function PackageList({ packages = [], onSelectPackage, onOpenShield, isLoading = false }) {
   const [seasonFilter, setSeasonFilter] = useState("all"); // 'all' | 'carnival' | 'year_round'
   const [subCategory, setSubCategory] = useState("All");
 
@@ -18,21 +18,21 @@ export default function PackageList({ packages = [], onSelectPackage, onOpenConc
       id: "carnival",
       label: "🎉 Carnival Specials (December Surge)",
       icon: Flame,
-      count: packages.filter(p => p.tourType === "carnival").length
+      count: packages.filter(p => p.tourType === "carnival" || p.category === "Carnival").length
     },
     {
       id: "year_round",
-      label: "🌿 365-Day Eco-Tourism & Heritage",
+      label: "🌿 365-Day Eco-Tourism, Hotels & Retail",
       icon: Sun,
-      count: packages.filter(p => p.tourType === "year_round").length
+      count: packages.filter(p => p.tourType === "year_round" || p.category !== "Carnival").length
     }
   ];
 
   // Primary filter by season/tourism type
   const seasonFiltered = packages.filter(pkg => {
     if (seasonFilter === "all") return true;
-    if (seasonFilter === "carnival") return pkg.tourType === "carnival";
-    if (seasonFilter === "year_round") return pkg.tourType === "year_round";
+    if (seasonFilter === "carnival") return pkg.tourType === "carnival" || pkg.category === "Carnival";
+    if (seasonFilter === "year_round") return pkg.tourType === "year_round" || pkg.category !== "Carnival";
     return true;
   });
 
@@ -173,19 +173,19 @@ export default function PackageList({ packages = [], onSelectPackage, onOpenConc
               <span>Cross River Tourism Escrow Protocol</span>
             </div>
             <h3 className="text-2xl font-bold font-heading text-white">
-              Not sure which Carnival band or year-round itinerary fits your schedule?
+              Worried about inflated street fares or counterfeit tickets?
             </h3>
             <p className="text-sm text-slate-300 max-w-2xl">
-              Our AI Concierge can calculate your 3-day budget, check peak December surge rates, or plan a 365-day ecotourism getaway to Agbokim Waterfalls and Obudu Mountain Resort.
+              Check verified airport taxi benchmarks, average hotel seasonal rates, and official scam advisories before arriving in Cross River State.
             </p>
           </div>
 
           <button
-            onClick={onOpenConcierge}
-            className="flex items-center gap-2 px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold text-sm shadow-gold-glow hover:scale-105 active:scale-95 transition-all shrink-0"
+            onClick={onOpenShield}
+            className="flex items-center gap-2 px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold text-sm shadow-gold-glow hover:scale-105 active:scale-95 transition-all shrink-0 cursor-pointer"
           >
-            <Sparkles className="w-4 h-4" />
-            <span>Launch AI Concierge</span>
+            <ShieldCheck className="w-4 h-4" />
+            <span>View Surge & Scam Shield</span>
           </button>
         </div>
       </div>

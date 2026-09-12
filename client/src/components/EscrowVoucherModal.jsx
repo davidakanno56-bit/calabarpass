@@ -22,6 +22,7 @@ import QRCode from "qrcode";
 export default function EscrowVoucherModal({ transaction: initialTx, onClose, onOpenEscrowPortal }) {
   const [transaction, setTransaction] = useState(initialTx);
   const [copied, setCopied] = useState(false);
+  const [copiedRef, setCopiedRef] = useState(false);
   const [qrSvg, setQrSvg] = useState("");
   const [qrDataUrl, setQrDataUrl] = useState("");
   const [showDisputeModal, setShowDisputeModal] = useState(false);
@@ -90,6 +91,14 @@ export default function EscrowVoucherModal({ transaction: initialTx, onClose, on
       navigator.clipboard.writeText(transaction.checkInPin);
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
+    }
+  };
+
+  const handleCopyReference = () => {
+    if (transaction?.reference) {
+      navigator.clipboard.writeText(transaction.reference);
+      setCopiedRef(true);
+      setTimeout(() => setCopiedRef(false), 2500);
     }
   };
 
@@ -305,14 +314,15 @@ export default function EscrowVoucherModal({ transaction: initialTx, onClose, on
                 🌴
               </div>
               <div>
-                <div className="text-xs font-bold uppercase tracking-widest text-amber-400 print:text-amber-600">
-                  Official Verification Pass • 365-Day Clearinghouse
+                <div className="text-xs font-bold uppercase tracking-widest text-amber-400 print:text-amber-600 flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Payment Verified • 365-Day Escrow Secured</span>
                 </div>
                 <h2 className="text-2xl font-extrabold font-heading text-white print:text-black">
-                  CalabarPass Escrow Voucher
+                  Booking Confirmed & Escrow Secured!
                 </h2>
                 <p className="text-xs text-slate-400 print:text-gray-600">
-                  Cross River State Tourism Bureau Anti-Fraud Escrow Network
+                  Cross River State Tourism Bureau Anti-Fraud Escrow Voucher
                 </p>
               </div>
             </div>
@@ -329,7 +339,7 @@ export default function EscrowVoucherModal({ transaction: initialTx, onClose, on
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                 </span>
-                <span>{transaction.statusLabel || "Escrow Secured - Awaiting On-Site Verification"}</span>
+                <span>Escrow Secured - Awaiting On-Site Verification</span>
               </div>
             )}
           </div>
@@ -350,40 +360,69 @@ export default function EscrowVoucherModal({ transaction: initialTx, onClose, on
             </div>
           )}
 
+          {/* Prominent Booking Reference Banner */}
+          <div className="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center border border-amber-500/20 shrink-0">
+                <FileCheck className="w-4 h-4" />
+              </div>
+              <div>
+                <div className="text-[10px] uppercase font-bold tracking-wider text-slate-400">
+                  Official Booking Reference ID
+                </div>
+                <div className="font-mono text-base font-extrabold text-white tracking-wide">
+                  {transaction.reference}
+                </div>
+              </div>
+            </div>
+            <button
+              onClick={handleCopyReference}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 text-xs font-medium transition-colors cursor-pointer shrink-0"
+              title="Copy Reference"
+            >
+              {copiedRef ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+              <span>{copiedRef ? "Copied Ref!" : "Copy Reference"}</span>
+            </button>
+          </div>
+
           {/* Core 6-Digit Check-in PIN Display Card */}
           <div className="p-6 rounded-2xl bg-gradient-to-br from-amber-950/30 via-slate-900 to-emerald-950/20 border-2 border-dashed border-amber-500/50 text-center relative overflow-hidden print:border-amber-600">
             <div className="text-xs font-bold uppercase tracking-widest text-amber-400 mb-1">
               Secret Physical Check-In Code
             </div>
             <div className="text-xs text-slate-400 mb-3">
-              Present this 6-digit PIN to the verified vendor upon arrival in Cross River State to redeem your pass/tour
+              Present this 6-digit PIN to your verified host upon arrival in Cross River State
             </div>
 
             {/* Huge PIN */}
-            <div className="flex items-center justify-center gap-3 mb-2">
+            <div className="flex items-center justify-center gap-3 mb-3">
               <div className="text-4xl sm:text-5xl font-black font-mono tracking-widest text-white bg-slate-950/90 px-6 py-3 rounded-2xl border border-amber-500/40 shadow-gold-glow print:text-black print:bg-gray-100">
                 {transaction.checkInPin || "849201"}
               </div>
               <button
                 onClick={handleCopyPin}
-                className="p-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 transition-colors no-print"
+                className="p-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 transition-colors no-print cursor-pointer"
                 title="Copy PIN"
               >
                 {copied ? <Check className="w-5 h-5 text-emerald-400" /> : <Copy className="w-5 h-5" />}
               </button>
             </div>
 
-            {/* Auto-Expiry Protection Badge */}
-            <div className="inline-flex items-center justify-center gap-2 text-[11px] text-emerald-300 bg-emerald-950/70 px-3.5 py-1.5 rounded-xl border border-emerald-500/30 mb-3 max-w-full">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-              <span>Escrow Guarantee: Funds remain protected until PIN redemption. 48-hour auto-dispute window.</span>
+            {/* Exact Security Warning Requirement */}
+            <div className="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-xs text-left sm:text-center space-y-1 my-3">
+              <div className="flex items-center justify-center gap-2 font-bold text-amber-300">
+                <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />
+                <span>CRITICAL ESCROW SECURITY NOTICE</span>
+              </div>
+              <p className="text-amber-100/90 leading-relaxed font-medium">
+                Keep this PIN private. Only hand this 6-digit code to your hotel receptionist or driver AFTER you inspect your room/service on-site in Cross River State.
+              </p>
             </div>
 
-            <div className="block">
-              <div className="inline-flex items-center gap-2 text-[11px] text-amber-300/90 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">
-                <AlertTriangle className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-                <span>DO NOT share this PIN on WhatsApp or phone calls. Disclose it only on-site after inspecting your stay/kit.</span>
-              </div>
+            {/* Auto-Expiry Protection Badge */}
+            <div className="inline-flex items-center justify-center gap-2 text-[11px] text-emerald-300 bg-emerald-950/70 px-3.5 py-1.5 rounded-xl border border-emerald-500/30 mb-1 max-w-full">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+              <span>Escrow Guarantee: Funds remain 100% protected until PIN redemption.</span>
             </div>
 
             {/* Escrow Safety Trigger link */}
@@ -464,17 +503,17 @@ export default function EscrowVoucherModal({ transaction: initialTx, onClose, on
             </div>
           </div>
 
-          {/* Action Buttons */}
+          {/* Action Buttons: Clean Download & Close/Done options */}
           <div className="flex flex-wrap items-center justify-between gap-3 pt-2 no-print">
             <div className="flex flex-wrap items-center gap-2">
-              {/* Download Offline Pass (PDF/Image) */}
+              {/* Download / Save Voucher (PDF/Image) */}
               <button
                 onClick={handleDownloadOfflinePass}
                 disabled={downloadingPass}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 hover:text-amber-200 text-xs font-bold border border-amber-500/40 transition-all shadow-sm cursor-pointer"
+                className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-black text-xs sm:text-sm font-extrabold shadow-gold-glow transition-all cursor-pointer"
               >
-                <Download className="w-4 h-4 text-amber-400" />
-                <span>{downloadingPass ? "Generating Pass..." : "Download Offline Pass (PDF/Image)"}</span>
+                <Download className="w-4 h-4 text-black" />
+                <span>{downloadingPass ? "Generating Pass..." : "Download / Save Voucher (PDF/Image)"}</span>
               </button>
 
               {/* Print Official Voucher */}
@@ -483,27 +522,17 @@ export default function EscrowVoucherModal({ transaction: initialTx, onClose, on
                 className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white text-xs font-semibold border border-slate-700 transition-colors cursor-pointer"
               >
                 <Printer className="w-4 h-4" />
-                <span>Print</span>
+                <span>Print Voucher</span>
               </button>
             </div>
 
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => {
-                  onClose();
-                  onOpenEscrowPortal();
-                }}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 text-black font-bold text-xs sm:text-sm shadow-emerald-glow transition-all cursor-pointer"
-              >
-                <span>Simulate On-Site PIN Check-In</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-
+            <div>
+              {/* Close / Done Button */}
               <button
                 onClick={onClose}
-                className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs transition-colors cursor-pointer"
+                className="px-6 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs sm:text-sm border border-slate-700 transition-colors cursor-pointer"
               >
-                Close
+                Close / Done
               </button>
             </div>
           </div>

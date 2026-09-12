@@ -171,46 +171,50 @@ export default function EscrowManager({ onOpenVoucher }) {
         </button>
       </div>
 
-      {/* Escrow Metrics */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* Escrow Metrics Summary */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* Total Locked in Escrow Vault */}
         <div className="glass-panel p-5 rounded-2xl border-slate-800">
           <div className="text-xs font-bold uppercase tracking-wider text-emerald-400 mb-1">
-            Active Vault Balance
+            Total Locked in Escrow Vault
           </div>
           <div className="text-2xl sm:text-3xl font-black font-heading text-white">
             ₦{(stats?.totalLockedNGN || 0).toLocaleString()}
           </div>
-          <div className="text-xs text-slate-400 mt-1">Locked safely in escrow</div>
+          <div className="text-xs text-slate-400 mt-1">Active buyer-protected deposits</div>
         </div>
 
+        {/* Platform Commission Accrued (7%) */}
+        <div className="glass-panel p-5 rounded-2xl border-slate-800">
+          <div className="text-xs font-bold uppercase tracking-wider text-amber-400 mb-1">
+            Platform Commission Accrued (7%)
+          </div>
+          <div className="text-2xl sm:text-3xl font-black font-heading text-amber-300">
+            ₦{(stats?.platformCommissionNGN || Math.round(((stats?.totalLockedNGN || 0) + (stats?.totalDisbursedNGN || 0)) * 0.07)).toLocaleString()}
+          </div>
+          <div className="text-xs text-slate-400 mt-1">Cross River State Clearinghouse Fee</div>
+        </div>
+
+        {/* Disbursed to Local Merchants */}
         <div className="glass-panel p-5 rounded-2xl border-slate-800">
           <div className="text-xs font-bold uppercase tracking-wider text-sky-400 mb-1">
-            Total Disbursed to Vendors
+            Disbursed to Local Merchants
           </div>
           <div className="text-2xl sm:text-3xl font-black font-heading text-white">
             ₦{(stats?.totalDisbursedNGN || 0).toLocaleString()}
           </div>
-          <div className="text-xs text-slate-400 mt-1">On-site PIN verified payouts</div>
+          <div className="text-xs text-slate-400 mt-1">Verified on-site PIN settlements</div>
         </div>
 
+        {/* Active Escrow Holds */}
         <div className="glass-panel p-5 rounded-2xl border-slate-800">
-          <div className="text-xs font-bold uppercase tracking-wider text-amber-400 mb-1">
+          <div className="text-xs font-bold uppercase tracking-wider text-purple-400 mb-1">
             Active Escrow Holds
           </div>
           <div className="text-2xl sm:text-3xl font-black font-heading text-white">
-            {stats?.activeEscrowBookings || 0}
+            {stats?.activeEscrowBookings || 0} Bookings
           </div>
-          <div className="text-xs text-slate-400 mt-1">Bookings awaiting physical PIN</div>
-        </div>
-
-        <div className="glass-panel p-5 rounded-2xl border-slate-800">
-          <div className="text-xs font-bold uppercase tracking-wider text-purple-400 mb-1">
-            Completed Bookings
-          </div>
-          <div className="text-2xl sm:text-3xl font-black font-heading text-white">
-            {stats?.completedDisbursedBookings || 0}
-          </div>
-          <div className="text-xs text-slate-400 mt-1">Zero fraud or disputes</div>
+          <div className="text-xs text-slate-400 mt-1">Awaiting physical on-site check-in</div>
         </div>
       </div>
 
@@ -369,12 +373,17 @@ export default function EscrowManager({ onOpenVoucher }) {
                       {getStatusBadge(tx)}
                     </td>
 
-                    {/* PIN */}
+                    {/* PIN Security Display */}
                     <td className="px-6 py-4">
-                      {tx.checkInPin ? (
-                        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-950 font-mono font-bold text-amber-400 border border-amber-500/30">
-                          <Key className="w-3 h-3" />
-                          <span>{tx.checkInPin}</span>
+                      {tx.status === "COMPLETED_DISBURSED" ? (
+                        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-950 font-mono font-bold text-sky-400 border border-sky-500/30">
+                          <CheckCircle2 className="w-3 h-3 text-sky-400" />
+                          <span>Redeemed ({tx.checkInPin || "Verified"})</span>
+                        </div>
+                      ) : tx.checkInPin ? (
+                        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-950 font-mono font-bold text-amber-400/90 border border-amber-500/30" title="Private to guest: revealed only on-site to vendor">
+                          <Lock className="w-3 h-3 text-amber-400" />
+                          <span>{tx.checkInPin.includes("•") ? tx.checkInPin : "•••••• (Guest Private)"}</span>
                         </div>
                       ) : (
                         <span className="text-slate-500 italic">Pending Payment</span>
@@ -384,21 +393,9 @@ export default function EscrowManager({ onOpenVoucher }) {
                     {/* Actions */}
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
-                        {tx.status === "ESCROW_LOCKED_ACTIVE" && (
-                          <button
-                            onClick={() => {
-                              setReleaseForm({ reference: tx.reference, pin: tx.checkInPin || "" });
-                              window.scrollTo({ top: 400, behavior: "smooth" });
-                            }}
-                            className="px-2.5 py-1 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 font-semibold border border-emerald-500/30 text-[11px] transition-colors"
-                          >
-                            Use In Terminal
-                          </button>
-                        )}
-
                         <button
                           onClick={() => onOpenVoucher(tx)}
-                          className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-semibold text-[11px] transition-colors"
+                          className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-semibold text-[11px] transition-colors cursor-pointer"
                         >
                           View Voucher
                         </button>

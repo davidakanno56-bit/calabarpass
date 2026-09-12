@@ -86,12 +86,36 @@ export default function PackageCard({ pkg, onSelectPackage }) {
           style={{ transform: "translateZ(15px)" }}
         >
           {imgError ? (
-            <div className="w-full h-full bg-gradient-to-br from-emerald-950 via-slate-900 to-amber-950/70 flex flex-col items-center justify-center p-6 text-center border-b border-emerald-500/20">
-              <div className="w-14 h-14 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 mb-2 shadow-emerald-glow">
-                <Trees className="w-7 h-7" />
+            <div
+              className={`w-full h-full flex flex-col items-center justify-center p-6 text-center border-b ${
+                pkg.tourType === "carnival" || pkg.category === "Carnival"
+                  ? "bg-gradient-to-br from-amber-950/90 via-slate-900 to-rose-950/70 border-amber-500/20"
+                  : "bg-gradient-to-br from-emerald-950 via-slate-900 to-teal-950/70 border-emerald-500/20"
+              }`}
+            >
+              <div
+                className={`w-14 h-14 rounded-2xl border flex items-center justify-center mb-2 ${
+                  pkg.tourType === "carnival" || pkg.category === "Carnival"
+                    ? "bg-amber-500/20 border-amber-500/40 text-amber-400 shadow-gold-glow"
+                    : "bg-emerald-500/20 border-emerald-500/40 text-emerald-400 shadow-emerald-glow"
+                }`}
+              >
+                {pkg.tourType === "carnival" || pkg.category === "Carnival" ? (
+                  <Sparkles className="w-7 h-7" />
+                ) : (
+                  <Trees className="w-7 h-7" />
+                )}
               </div>
-              <span className="text-xs font-bold uppercase tracking-wider text-emerald-300">
-                Cross River Conservation Sanctuary
+              <span
+                className={`text-xs font-bold uppercase tracking-wider ${
+                  pkg.tourType === "carnival" || pkg.category === "Carnival"
+                    ? "text-amber-300"
+                    : "text-emerald-300"
+                }`}
+              >
+                {pkg.tourType === "carnival" || pkg.category === "Carnival"
+                  ? "Carnival Calabar Experience"
+                  : "Cross River Eco-Tourism & Heritage"}
               </span>
               <span className="text-[11px] text-slate-400 mt-1 max-w-xs truncate">
                 {pkg.name || pkg.title}
@@ -99,11 +123,13 @@ export default function PackageCard({ pkg, onSelectPackage }) {
             </div>
           ) : (
             <img
-              src={pkg.image}
+              src={pkg.image || pkg.imageUrl}
               alt={pkg.name || pkg.title}
               onError={(e) => {
                 if (pkg.imageUrl && e.target.src !== pkg.imageUrl) {
                   e.target.src = pkg.imageUrl;
+                } else if (!e.target.src.includes("placeholder.jpg")) {
+                  e.target.src = "/assets/placeholder.jpg";
                 } else {
                   setImgError(true);
                 }

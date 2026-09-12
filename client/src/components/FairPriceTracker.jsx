@@ -131,6 +131,86 @@ export default function FairPriceTracker() {
         ))}
       </div>
 
+      {/* Dedicated Retail & Provisions Benchmark Section */}
+      <div className="max-w-5xl mx-auto pt-4 space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b border-slate-800 pb-3">
+          <div>
+            <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-emerald-400 mb-1">
+              <ShieldCheck className="w-3.5 h-3.5" />
+              <span>Official Cross River Commerce Clearinghouse</span>
+            </div>
+            <h3 className="text-2xl font-bold font-heading text-white">
+              Retail & Provisions Benchmark
+            </h3>
+          </div>
+          <p className="text-xs text-slate-400 max-w-md">
+            Guaranteed manufacturer shelf pricing with printed POS receipts to shield tourists from informal street scalper price gouging.
+          </p>
+        </div>
+
+        <div className="bg-slate-900/90 border border-slate-700/80 rounded-2xl p-6 shadow-xl relative overflow-hidden">
+          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4 mb-4">
+            <div className="flex items-center gap-3">
+              <div className="flex items-center justify-center bg-[#007a3d] px-2.5 py-1 rounded-md shadow-sm border border-emerald-600">
+                <div className="flex items-center gap-1.5 font-black tracking-tighter text-white">
+                  <svg className="w-5 h-5 fill-white" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" fill="#fff" />
+                    <path d="M12 4L8 10h2.5L7 15h3.5L8 19h8l-2.5-4H17l-3.5-5H16z" fill="#007a3d" />
+                  </svg>
+                  <span className="text-sm font-extrabold tracking-widest text-[#ee3124] bg-white px-1.5 py-0.2 rounded-sm" style={{ fontFamily: 'Impact, sans-serif' }}>
+                    SPAR
+                  </span>
+                </div>
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-white">SPAR Calabar Mall</h3>
+                <p className="text-xs text-slate-400">Cultural Centre Complex, Murtala Muhammed Highway, Calabar</p>
+              </div>
+            </div>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              Official Fixed Retail Benchmark • Zero Scam Markup
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-5 text-sm">
+            <div className="bg-slate-950/60 p-3.5 rounded-xl border border-slate-800">
+              <span className="text-xs text-slate-400 block mb-1">Bottled Water & Soft Drinks</span>
+              <span className="text-base font-bold text-emerald-400">₦300 – ₦800</span>
+              <span className="text-xs text-rose-400 block mt-0.5">Street Scalper Surge: ₦1,500+</span>
+            </div>
+            <div className="bg-slate-950/60 p-3.5 rounded-xl border border-slate-800">
+              <span className="text-xs text-slate-400 block mb-1">Toiletries & Travel Sunscreen</span>
+              <span className="text-base font-bold text-emerald-400">Regulated Shelf Price</span>
+              <span className="text-xs text-slate-400 block mt-0.5">Official Manufacturer Barcode</span>
+            </div>
+            <div className="bg-slate-950/60 p-3.5 rounded-xl border border-slate-800">
+              <span className="text-xs text-slate-400 block mb-1">Packaged Provisions & Snacks</span>
+              <span className="text-base font-bold text-emerald-400">Fixed Checkout Till</span>
+              <span className="text-xs text-emerald-500 block mt-0.5">Printed POS Itemized Receipt</span>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
+            <p className="text-xs text-slate-400 max-w-xl leading-relaxed">
+              <strong className="text-slate-200">Tourist Directive:</strong> No advance booking or escrow deposit required. Walk directly into the store and pay at the till using standard POS card or cash to completely avoid inflated street prices.
+            </p>
+            
+            <a 
+              href="https://www.google.com/maps/search/?api=1&query=SPAR+Calabar+Mall+Cultural+Centre+Complex+Calabar" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs transition duration-200 shadow-lg shadow-amber-500/20"
+            >
+              <span>📍 View Exact Location on Google Maps</span>
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
       {/* Major Anti-Scam Directives Section */}
       <div className="max-w-5xl mx-auto pt-6">
         <div className="text-center mb-6">

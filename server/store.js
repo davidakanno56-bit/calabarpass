@@ -3,139 +3,114 @@
 
 import { HOTELS, getHotelBaseRate } from "./hotels.js";
 
+// 6 Streamlined, Verified Launch Packages Covering Hotels, Eco-Tourism, Shopping & Carnival
 export const PACKAGES = [
   {
-    id: "pkg-seagull-pass",
-    name: "Seagull Band Master Pass & Full Costume Kit",
-    priceNGN: 85000,
-    category: "Carnival Band",
-    tourType: "carnival",
-    season: "December Carnival Calabar",
-    vendor: "Official Band Secretariat",
-    location: "Marian Road / Stadium Route, Calabar",
-    image: "/assets/seagull_band.jpg",
-    details: "Official 2026 route wristband, feather costume kit, hydration truck access, security escort.",
-    perks: [
-      "Official 2026 Carnival Route Wristband",
-      "Handcrafted Feather & Sequin Costume Kit",
-      "All-day Hydration & Refreshment Truck Access",
-      "Dedicated Escort & Paramedic Team along Marian Road"
-    ],
-    streetSurgePrice: 135000,
-    scamRisk: "Extreme counterfeit wristbands reported on Marian Road street corners",
-    escrowBadge: "Official Secretariat Verified",
-    openCapacity: true,
-    capacityLabel: "Open Daily / 365-Day Guarantee",
-    bookingMode: "365_day_open"
-  },
-  {
-    id: "pkg-vip-stadium",
-    name: "VIP Stadium Elevated Viewing Stand Pass",
-    priceNGN: 35000,
-    category: "VIP Experience",
-    tourType: "carnival",
-    season: "December Carnival Calabar",
-    vendor: "Cross River Tourism Bureau Verified",
-    location: "U.J. Esuene Stadium, Calabar",
-    image: "/assets/vip_stadium.jpg",
-    details: "Shaded elevated seating, priority accreditation, private security perimeter, refreshments.",
-    perks: [
-      "Reserved Shaded High-Tier Grandstand Seating",
-      "Fast-track Priority Security Accreditation",
-      "Air-conditioned VIP lounge & Refreshments",
-      "Unobstructed panoramic view of band adjudications"
-    ],
-    streetSurgePrice: 65000,
-    scamRisk: "Unauthorized hawkers selling duplicate barcode entry badges",
-    escrowBadge: "State Bureau Endorsed",
-    openCapacity: true,
-    capacityLabel: "Open Daily / 365-Day Guarantee",
-    bookingMode: "365_day_open"
-  },
-  {
-    id: "pkg-obudu-expedition",
-    name: "Obudu Mountain Resort Weekend Expedition",
-    priceNGN: 120000,
-    category: "Eco-Tourism",
+    id: "pkg-transcorp-suite",
+    name: "Transcorp Hotel Executive Suite",
+    title: "Transcorp Hotel Executive Suite",
+    priceNGN: 180000,
+    category: "Hotel",
     tourType: "year_round",
-    season: "365-Day Highlands Escape",
-    vendor: "Cross River Highlands Transit",
-    location: "Obanliku Plateau (Departs Marina)",
-    image: "/assets/obudu_mountain.jpg",
-    details: "Air-conditioned transit from Calabar Marina, 2-night resort booking, cable car pass, mountain guide.",
+    season: "365-Day Luxury Hospitality",
+    vendor: "Transcorp Hotel Calabar",
+    vendorName: "Transcorp Hotel Calabar",
+    vendorId: "transcorp-hotel",
+    location: "Murtala Mohammed Highway, Calabar",
+    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
+    details: "Spacious executive suite featuring king-size bedding, private jacuzzi, complimentary breakfast buffet for two, swimming pool, and tennis club privileges.",
+    description: "Spacious executive suite featuring king-size bedding, private jacuzzi, complimentary breakfast buffet for two, swimming pool, and tennis club privileges.",
     perks: [
-      "Roundtrip Executive Transit from Calabar Marina",
-      "2-Night Mountain Chalet Accommodation",
-      "Unlimited Cable Car Canopy Passes",
-      "Guided Holy Mountain & Becheve Nature Reserve Trek"
+      "King-Size Executive Suite with Private Balcony",
+      "Complimentary Daily Gourmet Breakfast Buffet",
+      "High-Speed Fiber Wi-Fi & Dedicated Work Desk",
+      "Full Access to Olympic Pool, Gym & Tennis Courts"
     ],
-    streetSurgePrice: 190000,
-    scamRisk: "Ghost tour operators demanding 100% upfront bank transfers with no vehicles",
-    escrowBadge: "Highlands Operator Certified",
+    streetSurgePrice: 260000,
+    scamRisk: "Counterfeit online booking agents requesting advance wire transfers to private personal accounts.",
+    escrowBadge: "Verified Luxury Partner",
+    badge: "Verified Luxury Partner",
+    openCapacity: true,
+    capacityLabel: "Open Daily / 365-Day Guarantee",
+    bookingMode: "365_day_open"
+  },
+  {
+    id: "pkg-hogis-deluxe",
+    name: "Hogis Luxury Suites Deluxe Room",
+    title: "Hogis Luxury Suites Deluxe Room",
+    priceNGN: 65000,
+    category: "Hotel",
+    tourType: "year_round",
+    season: "365-Day Boutique Comfort",
+    vendor: "Hogis Luxury Suites",
+    vendorName: "Hogis Luxury Suites",
+    vendorId: "hogis-suites",
+    location: "State Housing Estate, Calabar",
+    image: "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=80",
+    details: "Modern boutique deluxe room with soundproof glass, plush bedding, 24/7 power backup, high-speed Wi-Fi, and signature culinary restaurant on-site.",
+    description: "Modern boutique deluxe room with soundproof glass, plush bedding, 24/7 power backup, high-speed Wi-Fi, and signature culinary restaurant on-site.",
+    perks: [
+      "Deluxe Boutique Air-Conditioned Room",
+      "24/7 Guaranteed Uninterrupted Power Backup",
+      "Soundproof Acoustic Windows & Smart TV",
+      "Complimentary Calabar Fisherman Soup Dinner Voucher"
+    ],
+    streetSurgePrice: 110000,
+    scamRisk: "Fake hotel desk numbers listed on unverified social media profiles.",
+    escrowBadge: "Boutique Verified",
+    badge: "Boutique Verified",
     openCapacity: true,
     capacityLabel: "Open Daily / 365-Day Guarantee",
     bookingMode: "365_day_open"
   },
   {
     id: "pkg-marina-cruise",
-    name: "Marina Resort & Calabar River Heritage Cruise",
-    priceNGN: 15000,
-    category: "Cultural Heritage",
-    tourType: "year_round",
-    season: "365-Day Riverfront & Heritage",
-    vendor: "Marina Heritage Ventures",
-    location: "Marina Resort Waterfront, Calabar",
-    image: "/assets/marina_resort.jpg",
-    details: "Slave History Museum entry, 1-hour sunset river cruise, cultural dance performance.",
-    perks: [
-      "Curated Slave History Museum & Relic Tour",
-      "60-Minute Sunset Catamaran River Cruise",
-      "Traditional Efik Cultural Dance & Music Showcase",
-      "Complimentary Palm Wine & Calabar Pepper Soup Voucher"
-    ],
-    streetSurgePrice: 28000,
-    scamRisk: "Unlicensed boat skippers operating without life jackets",
-    escrowBadge: "Waterfront Authority Certified",
-    openCapacity: true,
-    capacityLabel: "Open Daily / 365-Day Guarantee",
-    bookingMode: "365_day_open"
-  },
-  {
-    id: "pkg-agbokim-waterfalls",
-    name: "Agbokim Waterfalls Eco-Adventure & Canopy Tour",
+    name: "Marina Resort Slave History & Boat Cruise",
+    title: "Marina Resort Slave History & Boat Cruise",
     priceNGN: 25000,
     category: "Eco-Tourism",
     tourType: "year_round",
-    season: "365-Day All-Weather Waterfall Tour",
-    vendor: "Ikom Ecotourism Guides Verified",
-    location: "Ikom LGA, Cross River",
-    image: "/assets/agbokim_waterfalls.jpg",
-    details: "Guided 7-stream waterfall hike, rainforest canopy photography pass, and verified local transport escort.",
+    season: "365-Day Waterfront & Heritage",
+    vendor: "Marina Resort & Waterway Bureau",
+    vendorName: "Marina Resort & Waterway Bureau",
+    vendorId: "marina-resort",
+    location: "Marina Resort Waterfront, Calabar",
+    image: "/assets/marina_resort.jpg",
+    imageUrl: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80",
+    details: "Curated Slave History Museum audio-visual tour, 1-hour sunset catamaran river cruise on the Calabar River, and traditional Efik cultural music performance.",
+    description: "Curated Slave History Museum audio-visual tour, 1-hour sunset catamaran river cruise on the Calabar River, and traditional Efik cultural music performance.",
     perks: [
-      "Guided 7-stream cascading waterfall hike & pool tour",
-      "Rainforest canopy photography pass & suspension viewpoints",
-      "Verified local transport escort from Ikom transit hub",
-      "Eco-ranger safety orientation and life-jacket provision"
+      "Curated Slave History Museum & Relic Audio-Visual Tour",
+      "60-Minute Sunset Catamaran Calabar River Cruise",
+      "Traditional Efik Cultural Dance & Music Showcase",
+      "Complimentary Palm Wine & Calabar Pepper Soup Voucher"
     ],
     streetSurgePrice: 42000,
-    scamRisk: "Unregistered roadside guides demanding cash tolls at informal checkpoints",
-    escrowBadge: "Ikom Ecotourism Verified",
+    scamRisk: "Unlicensed boat skippers operating without life jackets or maritime safety licenses.",
+    escrowBadge: "Waterfront Authority Certified",
+    badge: "Waterfront Authority Certified",
     openCapacity: true,
     capacityLabel: "Open Daily / 365-Day Guarantee",
     bookingMode: "365_day_open"
   },
   {
     id: "pkg-drill-ranch",
-    name: "Drill Monkey Ranch (Afi Mountain Sanctuary)",
+    name: "Drill Monkey Ranch Wildlife Safari & Canopy Walk",
+    title: "Drill Monkey Ranch Wildlife Safari & Canopy Walk",
     priceNGN: 45000,
     category: "Eco-Tourism",
     tourType: "year_round",
-    season: "365-Day Rainforest Reserve",
-    vendor: "Pandrillus Wildlife Conservation Verified",
+    season: "365-Day Rainforest Sanctuary",
+    vendor: "Afi Drill Monkey Sanctuary",
+    vendorName: "Afi Drill Monkey Sanctuary",
+    vendorId: "afi-drill",
     location: "Afi Mountain Reserve / Boki LGA, Cross River",
     image: "https://images.unsplash.com/photo-1540573133985-87b6da6d54a9?auto=format&fit=crop&w=1200&q=80",
-    imageUrl: "https://images.unsplash.com/photo-1540573133985-87b6da6d54a9?auto=format&fit=crop&w=1200&q=80",
-    details: "Endangered drill monkey sanctuary walk, canopy walkway trek over Afi rainforest, and Pandrillus conservation ranger briefing.",
+    imageUrl: "https://images.unsplash.com/photo-1535083783855-76ae62b2914e?auto=format&fit=crop&w=1200&q=80",
+    details: "Endangered drill monkey and chimpanzee rehabilitation sanctuary walk, canopy walkway trek over Afi rainforest, and Pandrillus conservation ranger briefing.",
+    description: "Endangered drill monkey and chimpanzee rehabilitation sanctuary walk, canopy walkway trek over Afi rainforest, and Pandrillus conservation ranger briefing.",
     perks: [
       "Guided sanctuary trek with Pandrillus wildlife rangers",
       "Afi Mountain rainforest canopy walkway expedition",
@@ -143,95 +118,104 @@ export const PACKAGES = [
       "Direct eco-fund contribution protecting Nigerian primates"
     ],
     streetSurgePrice: 75000,
-    scamRisk: "Illegal bushmeat poachers and bogus pseudo-conservation guides charging unauthorized fees",
+    scamRisk: "Illegal bushmeat poachers and bogus pseudo-guides charging unauthorized trail access fees.",
     escrowBadge: "Wildlife Trust Certified",
+    badge: "Wildlife Trust Certified",
     openCapacity: true,
     capacityLabel: "Open Daily / 365-Day Guarantee",
     bookingMode: "365_day_open"
   },
   {
-    id: "pkg-cross-river-safari",
-    name: "Cross River Safari National Park & Rainforest Expedition",
-    priceNGN: 55000,
+    id: "pkg-agbokim-waterfalls",
+    title: "Agbokim Waterfalls Guided Day Expedition",
+    name: "Agbokim Waterfalls Guided Day Expedition",
+    vendor: "Ikom Ecotourism Guides Cooperative",
+    vendorName: "Ikom Ecotourism Guides Cooperative",
+    vendorId: "ikom-ecotourism",
+    location: "Ikom LGA, Cross River State",
+    price: 25000,
+    priceNGN: 25000,
     category: "Eco-Tourism",
     tourType: "year_round",
-    season: "365-Day Rainforest Safari",
-    vendor: "Cross River National Park Eco-Rangers",
-    location: "Akamkpa / Oban Hills Division, Cross River",
-    image: "https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=1200&q=80",
-    imageUrl: "https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=1200&q=80",
-    details: "Certified eco-ranger guided safari through Oban Division primary rainforest, bird-watching canopy tower access, and native biodiversity tracking.",
-    perks: [
-      "Certified National Park Ranger Armed Escort & Guide",
-      "Oban Division Rainforest Trek & Botanical Canopy Tower Pass",
-      "Rare Primates & Forest Elephant Conservation Briefing",
-      "Park Entrance Permits & Ecotourism Escrow Protection"
+    season: "365-Day Rainforest Wonder",
+    image: "/images/agbokim.jpg",
+    imageUrl: "/images/agbokim.jpg",
+    details: "Stream-cascading waterfall hike, certified canopy walkway access, verified round-trip transport from Calabar, and official eco-ranger security escort.",
+    description: "Stream-cascading waterfall hike, certified canopy walkway access, verified round-trip transport from Calabar, and official eco-ranger security escort.",
+    included: [
+      "Stream-cascading waterfall hike",
+      "Certified canopy walkway access",
+      "Verified round-trip transport from Calabar",
+      "Official eco-ranger security escort"
     ],
-    streetSurgePrice: 88000,
-    scamRisk: "Unregistered poachers and fake guides operating outside designated park borders without radios",
-    escrowBadge: "National Park Certified",
+    perks: [
+      "Stream-cascading waterfall hike",
+      "Certified canopy walkway access",
+      "Verified round-trip transport from Calabar",
+      "Official eco-ranger security escort"
+    ],
+    antiScamAlert: "Unregistered roadside guides demanding cash tolls at informal checkpoints along Ikom road.",
+    scamRisk: "Unregistered roadside guides demanding cash tolls at informal checkpoints along Ikom road.",
+    streetSurgePrice: 42000,
+    escrowBadge: "Certified Eco-Expedition",
+    badge: "Certified Eco-Expedition",
     openCapacity: true,
     capacityLabel: "Open Daily / 365-Day Guarantee",
     bookingMode: "365_day_open"
   },
   {
-    id: "pkg-leboku-festival",
-    name: "Leboku International New Yam Festival Cultural Access Pass",
-    priceNGN: 20000,
-    category: "Cultural Heritage",
-    tourType: "year_round",
-    season: "Annual August Showcase & Cultural Center",
-    vendor: "Yakurr Traditional Heritage Council",
-    location: "Ugep, Cross River",
-    image: "/assets/leboku_festival.jpg",
-    details: "Official wrestling bout VIP seating, Mr./Miss Leboku pageant entry, and traditional hospitality tasting.",
-    perks: [
-      "Official Traditional Wrestling Arena VIP Grandstand Seating",
-      "Evening Mr. & Miss Leboku Cultural Pageant Priority Entry",
-      "Traditional Yakurr New Yam Feast & Fresh Palm Wine Tasting",
-      "Royal Palace Obol Lopon reception viewing escort"
-    ],
-    streetSurgePrice: 38000,
-    scamRisk: "Unauthorized street touts peddling photocopied arena wristbands",
-    escrowBadge: "Yakurr Council Endorsed",
-    openCapacity: true,
-    capacityLabel: "Open Daily / 365-Day Guarantee",
-    bookingMode: "365_day_open"
-  },
-  {
-    id: "pkg-state-executive-vip",
-    name: "Executive Governor's Stand & Official Protocol Pass",
-    title: "Executive Governor's Stand & Official Protocol Pass",
-    priceNGN: 150000,
-    category: "VIP Experience",
+    id: "pkg-seagull-pass",
+    name: "Seagull Band Official Costume Kit & Street Pass",
+    title: "Seagull Band Official Costume Kit & Street Pass",
+    priceNGN: 85000,
+    category: "Carnival",
     tourType: "carnival",
     season: "December Carnival Calabar",
-    vendor: "Cross River State Protocol & Tourism Commission",
-    vendorName: "Cross River State Protocol & Tourism Commission",
-    location: "U.J. Esuene Stadium Executive Stand, Calabar",
-    image: "/assets/executive_vip.jpg",
-    imageUrl: "https://cdn.thenationonlineng.net/wp-content/uploads/2024/12/29075713/Otu-commends.jpeg",
-    details: "Exclusive accreditation with access to the State Dignitaries Viewing Pavilion, full protocol escort, seated in proximity to state leadership, official state banquet invite, and commemorative medallion.",
-    description: "Exclusive accreditation with access to the State Dignitaries Viewing Pavilion, full protocol escort, seated in proximity to state leadership, official state banquet invite, and commemorative medallion.",
+    vendor: "Seagull Band Secretariat",
+    vendorName: "Seagull Band Secretariat",
+    vendorId: "seagull-band",
+    location: "Marian Road / Stadium Route, Calabar",
+    image: "/assets/seagull_band.jpg",
+    imageUrl: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80",
+    details: "Official 2026 route wristband, handcrafted feather costume kit, hydration truck access, and dedicated security escort along the 12km carnival route.",
+    description: "Official 2026 route wristband, handcrafted feather costume kit, hydration truck access, and dedicated security escort along the 12km carnival route.",
     perks: [
-      "Exclusive access to the State Dignitaries Viewing Pavilion with Governor Bassey Otu & First Lady",
-      "Full Government Protocol & Security Perimeter Escort",
-      "Official State Governor's Carnival Banquet Invitation & Accreditation",
-      "Commemorative 2026 Gold Medallion & Executive Swag Box",
-      "VIP Elevated sightlines directly over the grand adjudication arena"
+      "Official 2026 Carnival Route Wristband",
+      "Handcrafted Feather & Sequin Costume Kit",
+      "All-day Hydration & Refreshment Truck Access",
+      "Dedicated Escort & Paramedic Team along Marian Road"
     ],
-    streetSurgePrice: 280000,
-    scamRisk: "Counterfeit protocol passes sold by black-market political fixers",
-    escrowBadge: "Executive Verified",
-    badge: "Executive Verified",
+    streetSurgePrice: 135000,
+    scamRisk: "Extreme counterfeit wristbands reported on Marian Road street corners. Only verified band RFID chips pass scanning.",
+    escrowBadge: "Official Secretariat Verified",
+    badge: "Official Secretariat Verified",
     openCapacity: true,
     capacityLabel: "Open Daily / 365-Day Guarantee",
     bookingMode: "365_day_open"
   }
 ];
 
-// Unified Transaction States:
-// 'AWAITING_PAYMENT' -> 'ESCROW_LOCKED_ACTIVE' ('Escrow Secured - Awaiting On-Site Verification') -> 'COMPLETED_DISBURSED'
+// Helper for Multi-Tenant Isolation: Match vendor strings flexibly across ID, full names, and aliases
+export function isVendorMatch(txVendor, query) {
+  if (!txVendor || !query) return false;
+  const tv = String(txVendor).toLowerCase().trim();
+  const q = String(query).toLowerCase().trim();
+
+  if (tv === q) return true;
+  if (tv.includes(q) || q.includes(tv)) return true;
+
+  // Key Launch Partners
+  if ((q.includes("transcorp") || q === "transcorp-hotel") && (tv.includes("transcorp") || tv === "transcorp-hotel")) return true;
+  if ((q.includes("monty") || q === "monty-suites") && (tv.includes("monty") || tv === "monty-suites")) return true;
+  if ((q.includes("hogis") || q === "hogis-suites") && (tv.includes("hogis") || tv === "hogis-suites")) return true;
+  if ((q.includes("marina") || q === "marina-resort") && (tv.includes("marina") || tv === "marina-resort")) return true;
+  if ((q.includes("drill") || q.includes("pandrillus") || q === "afi-drill") && (tv.includes("drill") || tv.includes("pandrillus") || tv === "afi-drill")) return true;
+  if ((q.includes("ikom") || q === "ikom-ecotourism") && (tv.includes("ikom") || tv === "ikom-ecotourism")) return true;
+  if ((q.includes("spar") || q === "spar-mall") && (tv.includes("spar") || tv === "spar-mall")) return true;
+  if ((q.includes("seagull") || q.includes("official band") || q === "seagull-band") && (tv.includes("seagull") || tv.includes("official band") || tv === "seagull-band")) return true;
+
+  return false;
+}
 
 class EscrowStore {
   constructor() {
@@ -241,12 +225,250 @@ class EscrowStore {
 
   seedInitialTransactions() {
     const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
-    const demoRef1 = "CP-DEMO-849201";
-    this.transactions.set(demoRef1, {
-      reference: demoRef1,
+
+    // 1. Transcorp Hotel Calabar (transcorp-hotel)
+    const refTranscorpActive = "CP-DEMO-551902";
+    this.transactions.set(refTranscorpActive, {
+      reference: refTranscorpActive,
+      packageId: "pkg-transcorp-suite",
+      packageName: "Transcorp Hotel Executive Suite",
+      vendor: "Transcorp Hotel Calabar",
+      vendorId: "transcorp-hotel",
+      customerName: "Dr. Emeka Nnamdi",
+      email: "emeka.nnamdi@example.com",
+      phone: "+234 802 331 9904",
+      amountNGN: 180000,
+      amountKobo: 18000000,
+      bookingDate: tomorrow,
+      status: "ESCROW_LOCKED_ACTIVE",
+      statusLabel: "Escrow Secured - Awaiting On-Site Verification",
+      checkInPin: "551902",
+      createdAt: new Date(Date.now() - 3600000 * 2).toISOString(),
+      lockedAt: new Date(Date.now() - 3600000 * 1.8).toISOString(),
+      disbursedAt: null,
+      paystackStatus: "success",
+      channel: "card"
+    });
+
+    const refTranscorpDisbursed = "CP-DEMO-772109";
+    this.transactions.set(refTranscorpDisbursed, {
+      reference: refTranscorpDisbursed,
+      packageId: "pkg-transcorp-suite",
+      packageName: "Transcorp Hotel Executive Suite",
+      vendor: "Transcorp Hotel Calabar",
+      vendorId: "transcorp-hotel",
+      customerName: "Chief Bassey Duke",
+      email: "bassey.duke@example.com",
+      phone: "+234 805 119 7720",
+      amountNGN: 180000,
+      amountKobo: 18000000,
+      bookingDate: "2026-12-25",
+      status: "COMPLETED_DISBURSED",
+      statusLabel: "Completed & Disbursed to Vendor",
+      checkInPin: "772109",
+      createdAt: new Date(Date.now() - 3600000 * 36).toISOString(),
+      lockedAt: new Date(Date.now() - 3600000 * 35.5).toISOString(),
+      disbursedAt: new Date(Date.now() - 3600000 * 8).toISOString(),
+      paystackStatus: "success",
+      channel: "card"
+    });
+
+    // 2. Hogis Luxury Suites (hogis-suites)
+    const refHogisActive = "CP-DEMO-310892";
+    this.transactions.set(refHogisActive, {
+      reference: refHogisActive,
+      packageId: "pkg-hogis-deluxe",
+      packageName: "Hogis Luxury Suites Deluxe Room",
+      vendor: "Hogis Luxury Suites",
+      vendorId: "hogis-suites",
+      customerName: "Sarah Johnson",
+      email: "sarah.j@example.com",
+      phone: "+234 803 992 1044",
+      amountNGN: 65000,
+      amountKobo: 6500000,
+      bookingDate: tomorrow,
+      status: "ESCROW_LOCKED_ACTIVE",
+      statusLabel: "Escrow Secured - Awaiting On-Site Verification",
+      checkInPin: "310892",
+      createdAt: new Date(Date.now() - 3600000 * 3).toISOString(),
+      lockedAt: new Date(Date.now() - 3600000 * 2.8).toISOString(),
+      disbursedAt: null,
+      paystackStatus: "success",
+      channel: "card"
+    });
+
+    const refHogisDisbursed = "CP-DEMO-219084";
+    this.transactions.set(refHogisDisbursed, {
+      reference: refHogisDisbursed,
+      packageId: "pkg-hogis-deluxe",
+      packageName: "Hogis Luxury Suites Deluxe Room",
+      vendor: "Hogis Luxury Suites",
+      vendorId: "hogis-suites",
+      customerName: "Ken Nwosu",
+      email: "ken.nwosu@example.com",
+      phone: "+234 814 200 9931",
+      amountNGN: 65000,
+      amountKobo: 6500000,
+      bookingDate: "2026-12-24",
+      status: "COMPLETED_DISBURSED",
+      statusLabel: "Completed & Disbursed to Vendor",
+      checkInPin: "219084",
+      createdAt: new Date(Date.now() - 3600000 * 40).toISOString(),
+      lockedAt: new Date(Date.now() - 3600000 * 39.5).toISOString(),
+      disbursedAt: new Date(Date.now() - 3600000 * 14).toISOString(),
+      paystackStatus: "success",
+      channel: "card"
+    });
+
+    // 3. Marina Resort & Waterway Bureau (marina-resort)
+    const refMarinaActive = "CP-DEMO-441209";
+    this.transactions.set(refMarinaActive, {
+      reference: refMarinaActive,
+      packageId: "pkg-marina-cruise",
+      packageName: "Marina Resort Slave History & Boat Cruise",
+      vendor: "Marina Resort & Waterway Bureau",
+      vendorId: "marina-resort",
+      customerName: "Kemi Adeleke",
+      email: "kemi.adeleke@example.com",
+      phone: "+234 809 314 5521",
+      amountNGN: 25000,
+      amountKobo: 2500000,
+      bookingDate: tomorrow,
+      status: "ESCROW_LOCKED_ACTIVE",
+      statusLabel: "Escrow Secured - Awaiting On-Site Verification",
+      checkInPin: "441209",
+      createdAt: new Date(Date.now() - 3600000 * 5).toISOString(),
+      lockedAt: new Date(Date.now() - 3600000 * 4.9).toISOString(),
+      disbursedAt: null,
+      paystackStatus: "success",
+      channel: "card"
+    });
+
+    const refMarinaDisbursed = "CP-DEMO-190283";
+    this.transactions.set(refMarinaDisbursed, {
+      reference: refMarinaDisbursed,
+      packageId: "pkg-marina-cruise",
+      packageName: "Marina Resort Slave History & Boat Cruise",
+      vendor: "Marina Resort & Waterway Bureau",
+      vendorId: "marina-resort",
+      customerName: "David Okon",
+      email: "david.okon@example.com",
+      phone: "+234 802 771 9021",
+      amountNGN: 25000,
+      amountKobo: 2500000,
+      bookingDate: "2026-12-22",
+      status: "COMPLETED_DISBURSED",
+      statusLabel: "Completed & Disbursed to Vendor",
+      checkInPin: "190283",
+      createdAt: new Date(Date.now() - 3600000 * 50).toISOString(),
+      lockedAt: new Date(Date.now() - 3600000 * 49.5).toISOString(),
+      disbursedAt: new Date(Date.now() - 3600000 * 20).toISOString(),
+      paystackStatus: "success",
+      channel: "card"
+    });
+
+    // 4. Afi Drill Monkey Sanctuary (afi-drill)
+    const refDrillActive = "CP-DEMO-662901";
+    this.transactions.set(refDrillActive, {
+      reference: refDrillActive,
+      packageId: "pkg-drill-ranch",
+      packageName: "Drill Monkey Ranch Wildlife Safari & Canopy Walk",
+      vendor: "Afi Drill Monkey Sanctuary",
+      vendorId: "afi-drill",
+      customerName: "Marcus Brody",
+      email: "marcus.b@example.com",
+      phone: "+234 805 441 9090",
+      amountNGN: 45000,
+      amountKobo: 4500000,
+      bookingDate: tomorrow,
+      status: "ESCROW_LOCKED_ACTIVE",
+      statusLabel: "Escrow Secured - Awaiting On-Site Verification",
+      checkInPin: "662901",
+      createdAt: new Date(Date.now() - 3600000 * 6).toISOString(),
+      lockedAt: new Date(Date.now() - 3600000 * 5.8).toISOString(),
+      disbursedAt: null,
+      paystackStatus: "success",
+      channel: "card"
+    });
+
+    const refDrillDisbursed = "CP-DEMO-550192";
+    this.transactions.set(refDrillDisbursed, {
+      reference: refDrillDisbursed,
+      packageId: "pkg-drill-ranch",
+      packageName: "Drill Monkey Ranch Wildlife Safari & Canopy Walk",
+      vendor: "Afi Drill Monkey Sanctuary",
+      vendorId: "afi-drill",
+      customerName: "Dr. Lisa Vance",
+      email: "lisa.vance@example.com",
+      phone: "+234 810 551 2299",
+      amountNGN: 45000,
+      amountKobo: 4500000,
+      bookingDate: "2026-12-20",
+      status: "COMPLETED_DISBURSED",
+      statusLabel: "Completed & Disbursed to Vendor",
+      checkInPin: "550192",
+      createdAt: new Date(Date.now() - 3600000 * 60).toISOString(),
+      lockedAt: new Date(Date.now() - 3600000 * 59.5).toISOString(),
+      disbursedAt: new Date(Date.now() - 3600000 * 22).toISOString(),
+      paystackStatus: "success",
+      channel: "card"
+    });
+
+    // 5. Monty Suites Calabar (monty-suites)
+    const refMontyActive = "CP-DEMO-289410";
+    this.transactions.set(refMontyActive, {
+      reference: refMontyActive,
+      packageId: "hotel-monty",
+      packageName: "Monty Suites Executive King Room",
+      vendor: "Monty Suites Calabar",
+      vendorId: "monty-suites",
+      customerName: "Dr. Victoria Asuquo",
+      email: "v.asuquo@example.com",
+      phone: "+234 803 551 7890",
+      amountNGN: 95000,
+      amountKobo: 9500000,
+      bookingDate: tomorrow,
+      status: "ESCROW_LOCKED_ACTIVE",
+      statusLabel: "Escrow Secured - Awaiting On-Site Verification",
+      checkInPin: "289410",
+      createdAt: new Date(Date.now() - 3600000 * 7).toISOString(),
+      lockedAt: new Date(Date.now() - 3600000 * 6.8).toISOString(),
+      disbursedAt: null,
+      paystackStatus: "success",
+      channel: "card"
+    });
+
+    const refMontyDisbursed = "CP-DEMO-789012";
+    this.transactions.set(refMontyDisbursed, {
+      reference: refMontyDisbursed,
+      packageId: "hotel-monty",
+      packageName: "Monty Suites Executive King Room",
+      vendor: "Monty Suites Calabar",
+      vendorId: "monty-suites",
+      customerName: "Engr. Patrick Etim",
+      email: "patrick.etim@example.com",
+      phone: "+234 818 901 4432",
+      amountNGN: 95000,
+      amountKobo: 9500000,
+      bookingDate: "2026-12-19",
+      status: "COMPLETED_DISBURSED",
+      statusLabel: "Completed & Disbursed to Vendor",
+      checkInPin: "789012",
+      createdAt: new Date(Date.now() - 3600000 * 70).toISOString(),
+      lockedAt: new Date(Date.now() - 3600000 * 69.5).toISOString(),
+      disbursedAt: new Date(Date.now() - 3600000 * 25).toISOString(),
+      paystackStatus: "success",
+      channel: "card"
+    });
+
+    // 6. Seagull Band Secretariat (seagull-band)
+    const refSeagullActive = "CP-DEMO-849201";
+    this.transactions.set(refSeagullActive, {
+      reference: refSeagullActive,
       packageId: "pkg-seagull-pass",
-      packageName: "Seagull Band Master Pass & Full Costume Kit",
-      vendor: "Official Band Secretariat",
+      packageName: "Seagull Band Official Costume Kit & Street Pass",
+      vendor: "Seagull Band Secretariat",
+      vendorId: "seagull-band",
       customerName: "Chidi Okafor",
       email: "chidi.okafor@example.com",
       phone: "+234 803 219 4091",
@@ -263,26 +485,27 @@ class EscrowStore {
       channel: "card"
     });
 
-    const demoRef2 = "CP-DEMO-392810";
-    this.transactions.set(demoRef2, {
-      reference: demoRef2,
-      packageId: "pkg-vip-stadium",
-      packageName: "VIP Stadium Elevated Viewing Stand Pass",
-      vendor: "Cross River Tourism Bureau Verified",
-      customerName: "Amina Bello",
-      email: "amina.b@example.com",
-      phone: "+234 812 770 1822",
-      amountNGN: 35000,
-      amountKobo: 3500000,
-      bookingDate: "2026-12-27",
+    const refSeagullDisbursed = "CP-DEMO-631024";
+    this.transactions.set(refSeagullDisbursed, {
+      reference: refSeagullDisbursed,
+      packageId: "pkg-seagull-pass",
+      packageName: "Seagull Band Official Costume Kit & Street Pass",
+      vendor: "Seagull Band Secretariat",
+      vendorId: "seagull-band",
+      customerName: "Folake Adebayo",
+      email: "folake.adebayo@example.com",
+      phone: "+234 813 402 8819",
+      amountNGN: 85000,
+      amountKobo: 8500000,
+      bookingDate: "2026-12-26",
       status: "COMPLETED_DISBURSED",
       statusLabel: "Completed & Disbursed to Vendor",
-      checkInPin: "392810",
-      createdAt: new Date(Date.now() - 3600000 * 24).toISOString(),
-      lockedAt: new Date(Date.now() - 3600000 * 23.5).toISOString(),
-      disbursedAt: new Date(Date.now() - 3600000 * 12).toISOString(),
+      checkInPin: "631024",
+      createdAt: new Date(Date.now() - 3600000 * 48).toISOString(),
+      lockedAt: new Date(Date.now() - 3600000 * 47.5).toISOString(),
+      disbursedAt: new Date(Date.now() - 3600000 * 18).toISOString(),
       paystackStatus: "success",
-      channel: "bank_transfer"
+      channel: "card"
     });
   }
 
@@ -304,14 +527,18 @@ class EscrowStore {
 
     const hotel = HOTELS.find(h => h.id === id);
     if (hotel) {
+      const vendorId = hotel.id === "hotel-transcorp" ? "transcorp-hotel" : (hotel.id === "hotel-hogis" ? "hogis-suites" : hotel.id);
+      const vendorName = hotel.name === "Transcorp Hotels Calabar" ? "Transcorp Hotel Calabar" : hotel.name;
       return {
         id: hotel.id,
         name: `${hotel.name} - Executive Accommodation`,
         priceNGN: getHotelBaseRate(hotel.priceRange),
-        category: hotel.category,
+        category: "Hotel",
         tourType: "accommodation",
         season: "365-Day Escrow Reservation",
-        vendor: `${hotel.name} (Verified Escrow Accommodation)`,
+        vendor: vendorName,
+        vendorName: vendorName,
+        vendorId: vendorId,
         location: hotel.area,
         image: hotel.images[0],
         imageUrl: hotel.images[0],
@@ -334,6 +561,7 @@ class EscrowStore {
       packageId,
       packageName: pkg.name || "Cross River Tourism Package",
       vendor: pkg.vendor || "Verified Cross River Vendor",
+      vendorId: pkg.vendorId || (pkg.vendor ? pkg.vendor.toLowerCase().replace(/[^a-z0-9]/g, '-') : "verified-vendor"),
       customerName: customerName || "Guest Explorer",
       email,
       phone: phone || "",
@@ -390,10 +618,25 @@ class EscrowStore {
     return updated;
   }
 
-  releaseEscrow(reference, pin) {
+  releaseEscrow(reference, pin, authenticatedVendor = null) {
     const transaction = this.transactions.get(reference);
     if (!transaction) {
       return { success: false, error: "Booking transaction not found" };
+    }
+
+    // Strict Multi-Tenant Scope Guard:
+    // When a vendor inputs a PIN, verify that the booking belongs to THAT specific authenticated vendor.
+    // If an executive hotel inputs a PIN that belongs to a Seagull Band pass (or another merchant),
+    // reject with exact error: "Access Denied: This booking voucher is assigned to another merchant."
+    if (authenticatedVendor) {
+      const matchByName = isVendorMatch(transaction.vendor, authenticatedVendor);
+      const matchById = transaction.vendorId && isVendorMatch(transaction.vendorId, authenticatedVendor);
+      if (!matchByName && !matchById) {
+        return {
+          success: false,
+          error: "Access Denied: This booking voucher is assigned to another merchant."
+        };
+      }
     }
 
     if (transaction.status === "COMPLETED_DISBURSED") {
@@ -446,14 +689,70 @@ class EscrowStore {
     return { success: true, transaction: updated };
   }
 
-  getAllTransactions() {
-    return Array.from(this.transactions.values()).sort(
+  getAllTransactions({ sanitized = true } = {}) {
+    const list = Array.from(this.transactions.values()).sort(
       (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
     );
+
+    if (!sanitized) return list;
+
+    // Security: Mask private 6-digit check-in PINs for unverified active holds
+    return list.map(tx => {
+      if (tx.status === "COMPLETED_DISBURSED") {
+        return tx;
+      }
+      return {
+        ...tx,
+        checkInPin: tx.checkInPin ? "••••••" : null
+      };
+    });
   }
 
-  getEscrowStats() {
-    const all = Array.from(this.transactions.values());
+  // Active bookings awaiting physical on-site guest check-in PIN redemption
+  getVendorActiveBookings(vendorQuery = null) {
+    let list = Array.from(this.transactions.values())
+      .filter(t => t.status === "ESCROW_LOCKED_ACTIVE")
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+    if (vendorQuery && vendorQuery !== "all") {
+      list = list.filter(t => 
+        (t.vendorId && isVendorMatch(t.vendorId, vendorQuery)) || 
+        isVendorMatch(t.vendor, vendorQuery)
+      );
+    }
+
+    return list.map(tx => ({
+      ...tx,
+      checkInPin: tx.checkInPin ? "••••••" : null,
+      rawPinForDemo: tx.checkInPin
+    }));
+  }
+
+  // Completed disbursements for this vendor
+  getVendorPayouts(vendorQuery = null) {
+    let list = Array.from(this.transactions.values())
+      .filter(t => t.status === "COMPLETED_DISBURSED")
+      .sort((a, b) => new Date(b.disbursedAt || b.createdAt) - new Date(a.disbursedAt || a.createdAt));
+
+    if (vendorQuery && vendorQuery !== "all") {
+      list = list.filter(t => 
+        (t.vendorId && isVendorMatch(t.vendorId, vendorQuery)) || 
+        isVendorMatch(t.vendor, vendorQuery)
+      );
+    }
+
+    return list;
+  }
+
+  getEscrowStats(vendorQuery = null) {
+    let all = Array.from(this.transactions.values());
+    if (vendorQuery && vendorQuery !== "all") {
+      all = all.filter(t => 
+        (t.vendorId && isVendorMatch(t.vendorId, vendorQuery)) || 
+        isVendorMatch(t.vendor, vendorQuery)
+      );
+    }
+
     const totalLocked = all
       .filter(t => t.status === "ESCROW_LOCKED_ACTIVE")
       .reduce((sum, t) => sum + (t.amountNGN || 0), 0);
@@ -462,6 +761,10 @@ class EscrowStore {
       .filter(t => t.status === "COMPLETED_DISBURSED")
       .reduce((sum, t) => sum + (t.amountNGN || 0), 0);
 
+    const totalVolume = totalLocked + totalDisbursed;
+    const commissionRate = 0.07; // 7% Platform Clearinghouse Commission
+    const platformCommission = Math.round(totalVolume * commissionRate);
+
     const activeCount = all.filter(t => t.status === "ESCROW_LOCKED_ACTIVE").length;
     const completedCount = all.filter(t => t.status === "COMPLETED_DISBURSED").length;
     const disputedCount = all.filter(t => t.status === "ESCROW_FROZEN_DISPUTE").length;
@@ -469,6 +772,8 @@ class EscrowStore {
     return {
       totalLockedNGN: totalLocked,
       totalDisbursedNGN: totalDisbursed,
+      platformCommissionNGN: platformCommission,
+      commissionRate: commissionRate,
       activeEscrowBookings: activeCount,
       completedDisbursedBookings: completedCount,
       disputedEscrowBookings: disputedCount,

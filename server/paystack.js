@@ -161,8 +161,8 @@ export async function verifyTransaction(reference) {
 
 /**
  * Disburse escrow funds on-site in Calabar upon 6-digit PIN redemption
- * @param {Object} params - { reference, pin }
+ * @param {Object} params - { reference, pin, vendor }
  */
-export function releaseEscrowFunds({ reference, pin }) {
-  return escrowStore.releaseEscrow(reference, pin);
+export function releaseEscrowFunds({ reference, pin, vendor }) {
+  return escrowStore.releaseEscrow(reference, pin, vendor);
 }

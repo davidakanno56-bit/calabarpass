@@ -1,5 +1,5 @@
 import React from "react";
-import { ShieldCheck, Sparkles, Lock, Compass, Ticket, CheckCircle2, BedDouble } from "lucide-react";
+import { ShieldCheck, Lock, Ticket, BedDouble, Building2 } from "lucide-react";
 
 export default function Navbar({ activeTab, setActiveTab, escrowStats }) {
   return (
@@ -29,7 +29,7 @@ export default function Navbar({ activeTab, setActiveTab, escrowStats }) {
             </div>
           </div>
 
-          {/* Navigation Tabs */}
+          {/* Navigation Tabs - Balanced 4 Core Sections */}
           <nav className="hidden md:flex items-center gap-1 bg-slate-900/90 p-1.5 rounded-xl border border-slate-800">
             <button
               onClick={() => setActiveTab("packages")}
@@ -40,7 +40,7 @@ export default function Navbar({ activeTab, setActiveTab, escrowStats }) {
               }`}
             >
               <Ticket className="w-4 h-4" />
-              Verified Packages
+              <span>Verified Packages</span>
             </button>
 
             <button
@@ -52,19 +52,7 @@ export default function Navbar({ activeTab, setActiveTab, escrowStats }) {
               }`}
             >
               <BedDouble className="w-4 h-4" />
-              Accommodations
-            </button>
-
-            <button
-              onClick={() => setActiveTab("concierge")}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                activeTab === "concierge"
-                  ? "bg-amber-500 text-black font-semibold shadow-sm"
-                  : "text-slate-300 hover:text-white hover:bg-slate-800/60"
-              }`}
-            >
-              <Sparkles className="w-4 h-4" />
-              AI Concierge
+              <span>Accommodations</span>
             </button>
 
             <button
@@ -76,44 +64,31 @@ export default function Navbar({ activeTab, setActiveTab, escrowStats }) {
               }`}
             >
               <ShieldCheck className="w-4 h-4" />
-              Surge & Scam Shield
+              <span>Surge & Scam Shield</span>
             </button>
 
             <button
-              onClick={() => setActiveTab("escrow")}
+              onClick={() => setActiveTab("vendor")}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                activeTab === "escrow"
+                activeTab === "vendor"
                   ? "bg-amber-500 text-black font-semibold shadow-sm"
                   : "text-slate-300 hover:text-white hover:bg-slate-800/60"
               }`}
             >
-              <Lock className="w-4 h-4" />
-              Escrow Vault & Check-In
-              {escrowStats?.activeEscrowBookings > 0 && (
-                <span className="w-5 h-5 rounded-full bg-emerald-500 text-black text-xs font-bold flex items-center justify-center">
-                  {escrowStats.activeEscrowBookings}
-                </span>
-              )}
+              <Building2 className="w-4 h-4" />
+              <span>Vendor Portal</span>
             </button>
           </nav>
 
-          {/* Escrow Verification Badge */}
+          {/* Right Header: 100% Escrow Protection Badge */}
           <div className="flex items-center gap-3">
             <div className="hidden lg:flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 text-xs font-medium shadow-emerald-glow">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
               </span>
-              <span>Verified by Cross River Tourism Escrow</span>
+              <span>100% Escrow Protected</span>
             </div>
-
-            <button
-              onClick={() => setActiveTab("escrow")}
-              className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-semibold text-xs sm:text-sm shadow-gold-glow transition-all"
-            >
-              <CheckCircle2 className="w-4 h-4" />
-              <span>Redeem PIN</span>
-            </button>
           </div>
         </div>
 
@@ -136,14 +111,6 @@ export default function Navbar({ activeTab, setActiveTab, escrowStats }) {
             Accommodations
           </button>
           <button
-            onClick={() => setActiveTab("concierge")}
-            className={`px-3 py-1.5 rounded-lg whitespace-nowrap font-medium ${
-              activeTab === "concierge" ? "bg-amber-500 text-black font-bold" : "text-slate-400 bg-slate-900"
-            }`}
-          >
-            AI Concierge
-          </button>
-          <button
             onClick={() => setActiveTab("shield")}
             className={`px-3 py-1.5 rounded-lg whitespace-nowrap font-medium ${
               activeTab === "shield" ? "bg-amber-500 text-black font-bold" : "text-slate-400 bg-slate-900"
@@ -152,12 +119,12 @@ export default function Navbar({ activeTab, setActiveTab, escrowStats }) {
             Scam Shield
           </button>
           <button
-            onClick={() => setActiveTab("escrow")}
+            onClick={() => setActiveTab("vendor")}
             className={`px-3 py-1.5 rounded-lg whitespace-nowrap font-medium ${
-              activeTab === "escrow" ? "bg-amber-500 text-black font-bold" : "text-slate-400 bg-slate-900"
+              activeTab === "vendor" ? "bg-amber-500 text-black font-bold" : "text-slate-400 bg-slate-900"
             }`}
           >
-            Escrow & PIN
+            Vendor Portal
           </button>
         </div>
       </div>
