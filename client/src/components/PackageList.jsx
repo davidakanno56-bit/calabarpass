@@ -22,7 +22,7 @@ export default function PackageList({ packages = [], onSelectPackage, onOpenShie
     },
     {
       id: "year_round",
-      label: "🌿 365-Day Eco-Tourism, Hotels & Retail",
+      label: "🌿 365-Day Eco-Tourism & Excursions",
       icon: Sun,
       count: packages.filter(p => p.tourType === "year_round" || p.category !== "Carnival").length
     }

@@ -256,6 +256,48 @@ const SEED_TRANSACTIONS = [
     disbursedAt: new Date(Date.now() - 3600000 * 6).toISOString(),
     paystackStatus: "success",
     channel: "card"
+  },
+  {
+    reference: "CP-DEMO-882103",
+    packageId: "pkg-obudu-expedition",
+    packageName: "Obudu Mountain Resort Cable Car & Plateau Retreat",
+    vendor: "Obudu Highland Tours & Rangers",
+    vendorId: "obudu-tours",
+    customerName: "Dr. Ken Anozie",
+    email: "ken.anozie@example.com",
+    phone: "+234 803 771 9931",
+    amountNGN: 85000,
+    amountKobo: 8500000,
+    bookingDate: new Date(Date.now() + 86400000 * 2).toISOString().split("T")[0],
+    status: "ESCROW_LOCKED_ACTIVE",
+    statusLabel: "Escrow Secured - Awaiting On-Site Verification",
+    checkInPin: "882103",
+    createdAt: new Date(Date.now() - 3600000 * 4).toISOString(),
+    lockedAt: new Date(Date.now() - 3600000 * 3.9).toISOString(),
+    disbursedAt: null,
+    paystackStatus: "success",
+    channel: "card"
+  },
+  {
+    reference: "CP-DEMO-661044",
+    packageId: "pkg-kwa-falls",
+    packageName: "Kwa Falls Guided Canyon Walk & River Basin Tour",
+    vendor: "Akamkpa Eco-Guides Guild",
+    vendorId: "akamkpa-guides",
+    customerName: "Brenda Offiong",
+    email: "brenda.o@example.com",
+    phone: "+234 814 883 2291",
+    amountNGN: 18000,
+    amountKobo: 1800000,
+    bookingDate: new Date(Date.now() + 86400000).toISOString().split("T")[0],
+    status: "ESCROW_LOCKED_ACTIVE",
+    statusLabel: "Escrow Secured - Awaiting On-Site Verification",
+    checkInPin: "661044",
+    createdAt: new Date(Date.now() - 3600000 * 5).toISOString(),
+    lockedAt: new Date(Date.now() - 3600000 * 4.8).toISOString(),
+    disbursedAt: null,
+    paystackStatus: "success",
+    channel: "card"
   }
 ];
 
@@ -427,6 +469,8 @@ function matchVendor(tx, queryVendor) {
   if (q.includes("drill") && (tvId.includes("drill") || tvName.includes("drill"))) return true;
   if (q.includes("seagull") && (tvId.includes("seagull") || tvName.includes("seagull"))) return true;
   if (q.includes("ikom") && (tvId.includes("ikom") || tvName.includes("ikom"))) return true;
+  if (q.includes("obudu") && (tvId.includes("obudu") || tvName.includes("obudu"))) return true;
+  if (q.includes("akamkpa") && (tvId.includes("akamkpa") || tvName.includes("akamkpa"))) return true;
 
   return false;
 }

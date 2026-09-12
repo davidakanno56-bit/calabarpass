@@ -136,6 +136,44 @@ export const VERIFIED_MERCHANTS = [
       description: "Marina Resort Cruise • Kemi Adeleke (₦25,000)",
       owner: "Marina Resort & Waterway Bureau"
     }
+  },
+  {
+    id: "obudu-tours",
+    name: "Obudu Highland Tours & Rangers",
+    category: "Eco-Tourism / Highlands",
+    bankAccount: "Heritage Bank ****4491",
+    ledgerTitle: "Obudu Highland Tours & Rangers Payouts & Settlement Ledger",
+    queryKey: "obudu-tours",
+    demoReservation: {
+      reference: "CP-DEMO-882103",
+      pin: "882103",
+      description: "Cable Car & Plateau Retreat • Dr. Ken Anozie (₦85,000)"
+    },
+    competitorVoucher: {
+      reference: "CP-DEMO-661044",
+      pin: "661044",
+      description: "Kwa Falls Guided Canyon Walk • Brenda Offiong (₦18,000)",
+      owner: "Akamkpa Eco-Guides Guild"
+    }
+  },
+  {
+    id: "akamkpa-guides",
+    name: "Akamkpa Eco-Guides Guild",
+    category: "Nature & Adventure",
+    bankAccount: "First Bank ****8820",
+    ledgerTitle: "Akamkpa Eco-Guides Guild Payouts & Settlement Ledger",
+    queryKey: "akamkpa-guides",
+    demoReservation: {
+      reference: "CP-DEMO-661044",
+      pin: "661044",
+      description: "Kwa Falls Guided Canyon Walk • Brenda Offiong (₦18,000)"
+    },
+    competitorVoucher: {
+      reference: "CP-DEMO-882103",
+      pin: "882103",
+      description: "Cable Car & Plateau Retreat • Dr. Ken Anozie (₦85,000)",
+      owner: "Obudu Highland Tours & Rangers"
+    }
   }
 ];
 
