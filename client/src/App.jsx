@@ -2,6 +2,7 @@ import React, { useState, useEffect, lazy, Suspense } from "react";
 import Navbar from "./components/Navbar.jsx";
 import HeroBanner from "./components/HeroBanner.jsx";
 import PackageList from "./components/PackageList.jsx";
+import CalabarDiningMapGuide from "./components/CalabarDiningMapGuide.jsx";
 import VerifiedDestinations from "./components/VerifiedDestinations.jsx";
 import { PackageGridSkeleton, EscrowTableSkeleton } from "./components/SkeletonLoader.jsx";
 import { fetchWithSWR } from "./utils/cache.js";
@@ -185,6 +186,7 @@ export default function App() {
               onSelectPackage={(pkg) => setSelectedPackage(pkg)}
               onOpenShield={() => handleTabChange("shield")}
             />
+            <CalabarDiningMapGuide />
             <VerifiedDestinations
               onSelectListing={(item) => setSelectedPackage(item)}
             />
