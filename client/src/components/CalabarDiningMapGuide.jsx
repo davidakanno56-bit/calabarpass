@@ -14,7 +14,8 @@ const DINING_SPOTS = [
     address: "Marian Road, Calabar",
     corridor: "Marian Road",
     specialty: "Crispy fried chicken, meat pies, and jollof combos",
-    category: "Fast Food",
+    category: "Fast Food & Bites",
+    mapQuery: "Crunchies Fast Food Marian Road Calabar",
   },
   {
     id: "crunchies-plus",
@@ -22,15 +23,9 @@ const DINING_SPOTS = [
     address: "Calabar Road, Commercial District",
     corridor: "Calabar Road / Watt Market",
     specialty: "Fast bites, pastries, and ice cream",
-    category: "Fast Food",
-  },
-  {
-    id: "de-choice",
-    name: "De Choice Fast Food & Bakery",
-    address: "Marian Road, Near Atekong Junction",
-    corridor: "Marian Road / Atekong Junction",
-    specialty: "Fresh bakery items, fried rice, and shawarma",
-    category: "Fast Food",
+    category: "Fast Food & Bites",
+    mapQuery: "Crunchies Plus Calabar Road Watt Market Calabar",
+    navigationUrl: "https://www.google.com/maps/search/?api=1&query=Crunchies+Plus+Calabar+Road+Watt+Market+Calabar",
   },
   {
     id: "captain-cook",
@@ -38,7 +33,28 @@ const DINING_SPOTS = [
     address: "Marian Road / State Housing Junction",
     corridor: "Marian Road / State Housing Junction",
     specialty: "Pastries, pepper soup, and casual meals",
-    category: "Fast Food",
+    category: "Fast Food & Bites",
+    mapQuery: "Captain Cook Bakery Marian Road Calabar",
+  },
+  {
+    id: "harmonics",
+    name: "Harmonics Restaurant & Crispy Chicken",
+    address: "Marian Road / State Housing axis, Calabar",
+    corridor: "Marian Road / State Housing axis",
+    specialty: "Famous crispy fried chicken, combos, and fresh pastries",
+    category: "Fast Food & Bites",
+    mapQuery: "Harmonics Crispy Chicken Marian Road Calabar",
+    navigationUrl: "https://www.google.com/maps/search/?api=1&query=Harmonics+Crispy+Chicken+Marian+Road+Calabar",
+  },
+  {
+    id: "spar-calabar-mall",
+    name: "SPAR Calabar Mall",
+    address: "Cultural Centre Complex / Murtala Mohammed Highway, Calabar",
+    corridor: "Cultural Centre Complex / Murtala Mohammed Highway",
+    specialty: "Premier shopping mall, supermarket bakery, food court, and cinema relaxation hub",
+    category: "Relaxation & Sip",
+    mapQuery: "SPAR Calabar Mall Cross River",
+    navigationUrl: "https://www.google.com/maps/search/?api=1&query=SPAR+Calabar+Mall+Cross+River",
   },
   {
     id: "the-arena",
@@ -46,52 +62,110 @@ const DINING_SPOTS = [
     address: "Marian Road, Calabar",
     corridor: "Marian Road",
     specialty: "BBQ fish platters, grilled wings, and cocktails",
-    category: "Grills & Lounges",
+    category: "Lounges & Nightlife",
+    mapQuery: "The Arena Lounge and Grills Marian Road Calabar",
+  },
+  {
+    id: "mayfair-lounge",
+    name: "Mayfair Lounge & Club",
+    address: "Marian Road Corridor, Calabar",
+    corridor: "Marian Road Corridor",
+    specialty: "High-energy VIP nightlife, bottle service, and resident DJs",
+    category: "Lounges & Nightlife",
+    mapQuery: "Mayfair Lounge Marian Calabar",
+    navigationUrl: "https://www.google.com/maps/search/?api=1&query=Mayfair+Lounge+Marian+Calabar",
+  },
+  {
+    id: "paddles",
+    name: "Paddles Sports Bar & Nightclub",
+    address: "MCC Road, Calabar",
+    corridor: "MCC Road",
+    specialty: "Premium dance floor, weekend parties, and late-night lounge",
+    category: "Lounges & Nightlife",
+    mapQuery: "Paddles Lounge Calabar",
+    navigationUrl: "https://www.google.com/maps/search/?api=1&query=Paddles+Lounge+Calabar",
+  },
+  {
+    id: "the-dome",
+    name: "The Dome Calabar",
+    address: "Murtala Mohammed Highway, Calabar",
+    corridor: "Murtala Mohammed Highway",
+    specialty: "VIP event lounge, nightlife entertainment, and luxury cocktails",
+    category: "Lounges & Nightlife",
+    mapQuery: "The Dome Calabar Murtala Mohammed Highway",
+  },
+  {
+    id: "art-and-sip",
+    name: "Art & Sip / Paint Experience Hub",
+    address: "State Housing Estate, Calabar",
+    corridor: "State Housing Estate",
+    specialty: "Creative sip-and-paint sessions, cocktails, and outdoor artsy ambience",
+    category: "Relaxation & Sip",
+    mapQuery: "Art and Sip Paint Experience Hub State Housing Estate Calabar",
+  },
+  {
+    id: "calabar-beach-marina-lounge",
+    name: "Calabar Beach & Marina Lounge",
+    address: "Marina Resort waterfront, Calabar",
+    corridor: "Marina Resort waterfront",
+    specialty: "Open-air waterfront relaxation, boat cruise views, and calm afternoon drinks",
+    category: "Relaxation & Sip",
+    mapQuery: "Calabar Beach Marina Lounge Marina Resort Calabar",
   },
   {
     id: "supreme-viking",
     name: "Supreme Viking Restaurant",
-    address: "Murtala Mohammed Highway",
+    address: "Murtala Mohammed Highway, Calabar",
     corridor: "Murtala Mohammed Highway",
-    specialty: "Authentic Fisherman soup, Afang, and Edikang Ikong",
-    category: "Authentic Cuisine",
+    specialty: "Calabar native kitchen serving authentic Fisherman soup, Afang, and Edikang Ikong",
+    category: "Authentic & Grills",
+    mapQuery: "Supreme Viking Restaurant Murtala Mohammed Highway Calabar",
   },
   {
     id: "calabar-marina",
-    name: "Calabar Marina Waterfront Seafood",
-    address: "Marina Resort Waterfront",
+    name: "Marina Resort Waterfront Seafood",
+    address: "Marina Resort, Calabar",
     corridor: "Marina Resort Waterfront",
     specialty: "Fresh river catfish, grilled croaker, and waterfront breeze",
-    category: "Authentic Cuisine",
+    category: "Authentic & Grills",
+    mapQuery: "Marina Resort Waterfront Seafood Calabar",
   },
   {
     id: "bogobiri-suya",
     name: "Bogobiri Suya Corner",
-    address: "Bogobiri Street, Hausa Quarter",
-    corridor: "Bogobiri Street / Hausa Quarter",
+    address: "Hausa Quarter, Calabar",
+    corridor: "Hausa Quarter",
     specialty: "Open-flame beef suya, masa, and spiced grills",
-    category: "Grills & Lounges",
+    category: "Authentic & Grills",
+    mapQuery: "Bogobiri Suya Corner Hausa Quarter Calabar",
   },
   {
     id: "freddies",
     name: "Freddie's Continental Restaurant",
-    address: "State Housing Estate",
+    address: "State Housing Estate, Calabar",
     corridor: "State Housing Estate",
     specialty: "Steaks, Lebanese mezze, and fine wine",
-    category: "Grills & Lounges",
+    category: "Authentic & Grills",
+    mapQuery: "Freddie's Continental Restaurant State Housing Estate Calabar",
   },
 ];
 
-const CATEGORIES = ["All", "Fast Food", "Authentic Cuisine", "Grills & Lounges"];
+const CATEGORIES = [
+  "All Spots",
+  "Fast Food & Bites",
+  "Lounges & Nightlife",
+  "Relaxation & Sip",
+  "Authentic & Grills",
+];
 
 export default function CalabarDiningMapGuide() {
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState("All Spots");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSpotId, setSelectedSpotId] = useState(DINING_SPOTS[0].id);
 
   const filteredSpots = DINING_SPOTS.filter((spot) => {
     const matchesCategory =
-      selectedCategory === "All" || spot.category === selectedCategory;
+      selectedCategory === "All Spots" || spot.category === selectedCategory;
     const query = searchQuery.trim().toLowerCase();
     const matchesSearch =
       !query ||
@@ -102,10 +176,11 @@ export default function CalabarDiningMapGuide() {
   const selectedSpot =
     filteredSpots.find((spot) => spot.id === selectedSpotId) ?? filteredSpots[0];
   const mapUrl = selectedSpot
-    ? `https://maps.google.com/maps?q=${encodeURIComponent(`${selectedSpot.name} ${selectedSpot.address}`)}&t=&z=15&ie=UTF8&iwloc=&output=embed`
+    ? `https://maps.google.com/maps?q=${encodeURIComponent(selectedSpot.mapQuery)}&t=&z=15&ie=UTF8&iwloc=&output=embed`
     : null;
   const navigationUrl = selectedSpot
-    ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${selectedSpot.name} ${selectedSpot.address}`)}`
+    ? selectedSpot.navigationUrl ??
+      `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(selectedSpot.mapQuery)}`
     : null;
 
   return (
@@ -114,15 +189,15 @@ export default function CalabarDiningMapGuide() {
         <div className="mb-8 max-w-3xl">
           <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-amber-500/20 bg-amber-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-amber-400">
             <Utensils className="h-3.5 w-3.5" />
-            Calabar local dining guide
+            Calabar lifestyle & street guide
           </div>
           <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
-            Find your next great bite
+            Find your next Calabar destination
           </h2>
           <p className="mt-3 text-sm leading-6 text-slate-400 sm:text-base">
-            Explore fast-food favourites, authentic local cuisine, and lively
-            grill spots around the city. Choose a destination to see it on the
-            map and get directions.
+            Explore active fast-food favourites, local cuisine, nightlife,
+            shopping, and relaxing spots around the city. Choose a destination
+            to see it on the map and get directions.
           </p>
         </div>
 
@@ -140,12 +215,19 @@ export default function CalabarDiningMapGuide() {
                   className="w-full rounded-xl border border-slate-800 bg-slate-900/60 py-3 pl-10 pr-4 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-amber-500/60"
                 />
               </label>
-              <div className="flex flex-wrap gap-2" aria-label="Dining categories">
+              <div className="flex flex-wrap gap-2" aria-label="Destination categories">
                 {CATEGORIES.map((category) => (
                   <button
                     key={category}
                     type="button"
-                    onClick={() => setSelectedCategory(category)}
+                    onClick={() => {
+                      setSelectedCategory(category);
+                      const firstSpot = DINING_SPOTS.find(
+                        (spot) =>
+                          category === "All Spots" || spot.category === category,
+                      );
+                      if (firstSpot) setSelectedSpotId(firstSpot.id);
+                    }}
                     aria-pressed={selectedCategory === category}
                     className={`rounded-full border px-3.5 py-2 text-xs font-semibold transition ${
                       selectedCategory === category
@@ -176,6 +258,9 @@ export default function CalabarDiningMapGuide() {
                         <span className="mb-2 inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-amber-400">
                           <MapPin className="h-3 w-3" />
                           {spot.corridor}
+                        </span>
+                        <span className="mb-2 ml-2 inline-flex rounded-full border border-slate-700 bg-slate-800/80 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-slate-300">
+                          {spot.category}
                         </span>
                         <h3 className="text-base font-bold leading-snug text-white sm:text-lg">
                           {spot.name}
