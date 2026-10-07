@@ -2,13 +2,13 @@ import React, { useState, useEffect, lazy, Suspense } from "react";
 import Navbar from "./components/Navbar.jsx";
 import HeroBanner from "./components/HeroBanner.jsx";
 import PackageList from "./components/PackageList.jsx";
+import VerifiedDestinations from "./components/VerifiedDestinations.jsx";
 import { PackageGridSkeleton, EscrowTableSkeleton } from "./components/SkeletonLoader.jsx";
 import { fetchWithSWR } from "./utils/cache.js";
 import { PACKAGES as INITIAL_PACKAGES } from "./data/packages.js";
 import { ShieldCheck, Lock } from "lucide-react";
 import { handleLocalEscrowFallback } from "./utils/api.js";
 
-// Lazy-load heavy components and modals to keep initial bundle ultra-fast
 const PaystackCheckoutModal = lazy(() => import("./components/PaystackCheckoutModal.jsx"));
 const EscrowVoucherModal = lazy(() => import("./components/EscrowVoucherModal.jsx"));
 const EscrowManager = lazy(() => import("./components/EscrowManager.jsx"));
@@ -46,7 +46,6 @@ export default function App() {
     }
   };
 
-  // Listen to browser Back / Forward buttons for seamless URL navigation
   useEffect(() => {
     const handlePopState = () => {
       setActiveTabState(getInitialTab());
@@ -55,9 +54,7 @@ export default function App() {
     return () => window.removeEventListener("popstate", handlePopState);
   }, []);
 
-  // Load app data using Stale-While-Revalidate caching pattern
   useEffect(() => {
-    // 1. Packages with SWR cache
     fetchWithSWR(
       "packages_catalog",
       async () => {
@@ -89,7 +86,6 @@ export default function App() {
       setLoadingPackages(false);
     });
 
-    // 2. Paystack Config with cache
     fetchWithSWR(
       "paystack_config",
       async () => {
@@ -115,7 +111,6 @@ export default function App() {
       }
     ).catch((err) => console.warn("Paystack config error:", err));
 
-    // 3. Escrow stats
     const loadEscrowStats = async () => {
       const endpoint = "/api/escrow/transactions";
       try {
@@ -141,11 +136,9 @@ export default function App() {
   }, []);
 
   const handleCheckoutSuccess = (transaction) => {
-    // Instant modal switch without full page reload
     setSelectedPackage(null);
     setActiveVoucher(transaction);
 
-    // Refresh escrow stats in background safely
     const refreshEscrow = async () => {
       const endpoint = "/api/escrow/transactions";
       try {
@@ -168,20 +161,17 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#0b0f17] text-slate-100 selection:bg-amber-500 selection:text-black">
-      {/* Top Verified Badge Header Bar */}
       <div className="bg-gradient-to-r from-amber-600 via-amber-500 to-emerald-600 py-1.5 px-4 text-center text-black font-extrabold text-xs tracking-wide no-print flex items-center justify-center gap-2 shadow-sm">
         <ShieldCheck className="w-4 h-4 text-black shrink-0" />
         <span>OFFICIAL CROSS RIVER STATE 365-DAY TOURISM CLEARINGHOUSE & ANTI-FRAUD ESCROW SYSTEM • 100% BUYER PROTECTION</span>
       </div>
 
-      {/* Navigation */}
       <Navbar
         activeTab={activeTab}
         setActiveTab={handleTabChange}
         escrowStats={escrowStats}
       />
 
-      {/* Main Content Area */}
       <main className="flex-1">
         {activeTab === "packages" && (
           <>
@@ -194,6 +184,9 @@ export default function App() {
               isLoading={loadingPackages && packages.length === 0}
               onSelectPackage={(pkg) => setSelectedPackage(pkg)}
               onOpenShield={() => handleTabChange("shield")}
+            />
+            <VerifiedDestinations
+              onSelectListing={(item) => setSelectedPackage(item)}
             />
           </>
         )}
@@ -229,7 +222,6 @@ export default function App() {
         )}
       </main>
 
-      {/* Modals wrapped in Suspense */}
       {selectedPackage && (
         <Suspense fallback={null}>
           <PaystackCheckoutModal
@@ -250,7 +242,6 @@ export default function App() {
         </Suspense>
       )}
 
-      {/* Footer */}
       <footer className="mt-20 border-t border-slate-800/80 bg-slate-950/80 py-12 text-slate-400 text-xs no-print">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
@@ -262,18 +253,15 @@ export default function App() {
                 </span>
               </div>
               <p className="text-slate-400 text-xs leading-relaxed">
-                The premier verified 365-day booking escrow clearinghouse and fair-price directory for Cross River State, covering 5 verified executive hotels, Obudu Mountain Resort, Agbokim Waterfalls, Marina Resort, Drill Monkey Ranch, Leboku Festival, and Carnival Calabar.
+                The premier verified 365-day booking escrow clearinghouse and fair-price directory for Cross River State.
               </p>
             </div>
 
             <div>
               <div className="font-bold text-white uppercase tracking-wider mb-3">365-Day Escrow Passes</div>
               <ul className="space-y-2">
-                <li><button onClick={() => { handleTabChange("accommodations"); window.scrollTo({ top: 0, behavior: 'smooth'}); }} className="hover:text-amber-400 cursor-pointer">Verified Accommodations (5 Executive Hotels)</button></li>
-                <li><button onClick={() => { handleTabChange("packages"); window.scrollTo({ top: 500, behavior: 'smooth'}); }} className="hover:text-amber-400 cursor-pointer">Obudu Mountain Expedition</button></li>
-                <li><button onClick={() => { handleTabChange("packages"); window.scrollTo({ top: 500, behavior: 'smooth'}); }} className="hover:text-amber-400 cursor-pointer">Agbokim Waterfalls Canopy Tour</button></li>
-                <li><button onClick={() => { handleTabChange("packages"); window.scrollTo({ top: 500, behavior: 'smooth'}); }} className="hover:text-amber-400 cursor-pointer">Drill Monkey Rainforest Safari</button></li>
-                <li><button onClick={() => { handleTabChange("packages"); window.scrollTo({ top: 500, behavior: 'smooth'}); }} className="hover:text-amber-400 cursor-pointer">Cross River Safari National Park</button></li>
+                <li><button onClick={() => { handleTabChange("accommodations"); window.scrollTo({ top: 0, behavior: "smooth" }); }} className="hover:text-amber-400 cursor-pointer">Verified Accommodations</button></li>
+                <li><button onClick={() => { handleTabChange("packages"); window.scrollTo({ top: 500, behavior: "smooth" }); }} className="hover:text-amber-400 cursor-pointer">Obudu Mountain Expedition</button></li>
               </ul>
             </div>
 
@@ -281,8 +269,7 @@ export default function App() {
               <div className="font-bold text-white uppercase tracking-wider mb-3">Roles & Portals</div>
               <ul className="space-y-2">
                 <li><button onClick={() => handleTabChange("vendor")} className="hover:text-amber-400 text-amber-300 font-semibold cursor-pointer">Merchant Portal & PIN Redemption ↗</button></li>
-                <li><button onClick={() => handleTabChange("shield")} className="hover:text-amber-400 cursor-pointer">December Surge Predictor & Anti-Scam</button></li>
-                <li><button onClick={() => handleTabChange("escrow")} className="hover:text-amber-400 cursor-pointer">Escrow Vault Audit & Commission (7%)</button></li>
+                <li><button onClick={() => handleTabChange("shield")} className="hover:text-amber-400 cursor-pointer">Surge Predictor</button></li>
               </ul>
             </div>
 
@@ -293,20 +280,13 @@ export default function App() {
                   <Lock className="w-4 h-4" />
                   <span>Paystack Certified Direct API</span>
                 </div>
-                <p className="text-[11px]">
-                  All hotel room deposits and pass fees are held in secure escrow until physical on-site check-in via your 6-digit PIN in Cross River State.
-                </p>
               </div>
             </div>
           </div>
 
           <div className="pt-8 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-500 text-[11px]">
-            <div>
-              © 2026 CalabarPass • Cross River State Tourism Bureau Clearinghouse Platform.
-            </div>
-            <div className="flex items-center gap-1">
-              Guaranteed Fair Prices & Zero Counterfeit Escrow 🌴
-            </div>
+            <div>© 2026 CalabarPass • Cross River State Tourism Bureau.</div>
+            <div>Guaranteed Fair Prices & Zero Counterfeit Escrow 🌴</div>
           </div>
         </div>
       </footer>
