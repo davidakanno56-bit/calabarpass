@@ -3,7 +3,7 @@ import PackageCard from "./PackageCard.jsx";
 import { PackageGridSkeleton } from "./SkeletonLoader.jsx";
 import { ShieldCheck, Sparkles, Calendar, Compass, Sun, Flame } from "lucide-react";
 
-export default function PackageList({ packages = [], onSelectPackage, onOpenShield, isLoading = false }) {
+export default function PackageList({ packages = [], onSelectPackage, onViewPackage, onOpenShield, isLoading = false }) {
   const [seasonFilter, setSeasonFilter] = useState("all"); // 'all' | 'carnival' | 'year_round'
   const [subCategory, setSubCategory] = useState("All");
 
@@ -159,6 +159,7 @@ export default function PackageList({ packages = [], onSelectPackage, onOpenShie
               key={pkg.id}
               pkg={pkg}
               onSelectPackage={onSelectPackage}
+              onViewPackage={onViewPackage}
             />
           ))}
         </div>

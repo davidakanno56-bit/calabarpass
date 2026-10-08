@@ -1,4 +1,4 @@
-import React, { useState, useEffect, lazy, Suspense } from "react";
+import React, { useState, useEffect, useCallback, lazy, Suspense } from "react";
 import Navbar from "./components/Navbar.jsx";
 import HeroBanner from "./components/HeroBanner.jsx";
 import PackageList from "./components/PackageList.jsx";
@@ -16,6 +16,7 @@ const EscrowManager = lazy(() => import("./components/EscrowManager.jsx"));
 const FairPriceTracker = lazy(() => import("./components/FairPriceTracker.jsx"));
 const AccommodationsView = lazy(() => import("./components/AccommodationsView.jsx"));
 const VendorPortal = lazy(() => import("./components/VendorPortal.jsx"));
+const PackageDetailsModal = lazy(() => import("./components/PackageDetailsModal.jsx"));
 
 export default function App() {
   const getInitialTab = () => {
@@ -34,8 +35,11 @@ export default function App() {
   const [paystackPublicKey, setPaystackPublicKey] = useState("");
   const [escrowStats, setEscrowStats] = useState(null);
   const [selectedPackage, setSelectedPackage] = useState(null);
+  const [packageForDetails, setPackageForDetails] = useState(null);
   const [activeVoucher, setActiveVoucher] = useState(null);
   const [loadingPackages, setLoadingPackages] = useState(false);
+
+  const closePackageDetails = useCallback(() => setPackageForDetails(null), []);
 
   const handleTabChange = (tab) => {
     setActiveTabState(tab);
@@ -184,11 +188,13 @@ export default function App() {
               packages={packages}
               isLoading={loadingPackages && packages.length === 0}
               onSelectPackage={(pkg) => setSelectedPackage(pkg)}
+              onViewPackage={(pkg) => setPackageForDetails(pkg)}
               onOpenShield={() => handleTabChange("shield")}
             />
             <CalabarDiningMapGuide />
             <VerifiedDestinations
-              onSelectListing={(item) => setSelectedPackage(item)}
+              packages={packages}
+              onViewPackage={(item) => setPackageForDetails(item)}
             />
           </>
         )}
@@ -231,6 +237,16 @@ export default function App() {
             paystackPublicKey={paystackPublicKey}
             onClose={() => setSelectedPackage(null)}
             onSuccessVoucher={handleCheckoutSuccess}
+          />
+        </Suspense>
+      )}
+
+      {packageForDetails && (
+        <Suspense fallback={null}>
+          <PackageDetailsModal
+            pkg={packageForDetails}
+            onClose={closePackageDetails}
+            onBookNow={(pkg) => setSelectedPackage(pkg)}
           />
         </Suspense>
       )}

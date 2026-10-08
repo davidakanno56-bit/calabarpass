@@ -15,9 +15,10 @@ import { handleLocalEscrowFallback } from "../utils/api.js";
 
 const MERCHANTS = [
   {
-    id: "transcorp-hotel",
+    id: "transcorp",
+    apiVendorId: "transcorp-hotel",
     name: "Transcorp Hotel Calabar",
-    category: "Hotel",
+    category: "hotel",
     terminalType: "Executive Hotel",
     bankAccount: "Access Bank ****4102",
     terms: {
@@ -25,38 +26,17 @@ const MERCHANTS = [
       booking: "Room Bookings",
       item: "Room Type",
       itemExample: "Executive Suite",
+      dateLabel: "Check-in",
+      amountLabel: "Nightly rate",
     },
-  },
-  {
-    id: "seagull-band",
-    name: "Seagull Carnival Band",
-    category: "Carnival Band",
-    terminalType: "Band HQ",
-    bankAccount: "Zenith Bank ****9120",
-    terms: {
-      incoming: "Band Registrations",
-      booking: "Costume Pickups",
-      item: "Pass Type",
-      itemExample: "Seagull VIP Carnival Pass",
-    },
-  },
-  {
-    id: "marina-resort",
-    name: "Marina Resort & Waterway",
-    category: "Eco-Tourism & Attractions",
-    terminalType: "Eco-Tourism",
-    bankAccount: "UBA ****3304",
-    terms: {
-      incoming: "Visitor Admissions",
-      booking: "Tour Reservations",
-      item: "Pass Type",
-      itemExample: "Waterway Cruise Voucher",
-    },
+    aliases: ["transcorp-hotel"],
+    demo: ["CP-TRC-260812", "418205", "Dr. Emeka Nnamdi", "Executive Suite", 180000],
   },
   {
     id: "monty-suites",
+    apiVendorId: "monty-suites",
     name: "Monty Suites Calabar",
-    category: "Hotel",
+    category: "hotel",
     terminalType: "Executive Hotel",
     bankAccount: "First Bank ****1188",
     terms: {
@@ -64,12 +44,182 @@ const MERCHANTS = [
       booking: "Room Bookings",
       item: "Room Type",
       itemExample: "Executive King Room",
+      dateLabel: "Check-in",
+      amountLabel: "Nightly rate",
     },
+    demo: ["CP-MON-260827", "894213", "Dr. Victoria Asuquo", "Executive King Room", 95000],
   },
   {
-    id: "obudu-tours",
+    id: "channel-view",
+    apiVendorId: "channel-view",
+    name: "Channel View Hotel",
+    category: "hotel",
+    terminalType: "Executive Hotel",
+    bankAccount: "Zenith Bank ****2045",
+    terms: {
+      incoming: "Guest Check-Ins",
+      booking: "Room Bookings",
+      item: "Room Type",
+      itemExample: "Carnival View Suite",
+      dateLabel: "Check-in",
+      amountLabel: "Nightly rate",
+    },
+    demo: ["CP-CHV-260833", "471926", "Nseobong Ekpo", "Carnival View Suite", 65000],
+  },
+  {
+    id: "mega-hilton",
+    apiVendorId: "mega-hilton",
+    name: "Mega Hilton Hotel",
+    category: "hotel",
+    terminalType: "Executive Hotel",
+    bankAccount: "GTBank ****8839",
+    terms: {
+      incoming: "Guest Check-Ins",
+      booking: "Room Bookings",
+      item: "Room Type",
+      itemExample: "Business Deluxe Room",
+      dateLabel: "Check-in",
+      amountLabel: "Nightly rate",
+    },
+    demo: ["CP-MGH-260839", "905317", "Imaobong Etta", "Business Deluxe Room", 50000],
+  },
+  {
+    id: "pyramid-hotel",
+    apiVendorId: "pyramid-hotel",
+    name: "Pyramid Hotel & Suites",
+    category: "hotel",
+    terminalType: "Executive Hotel",
+    bankAccount: "Fidelity Bank ****6210",
+    terms: {
+      incoming: "Guest Check-Ins",
+      booking: "Room Bookings",
+      item: "Room Type",
+      itemExample: "Highway Executive Room",
+      dateLabel: "Check-in",
+      amountLabel: "Nightly rate",
+    },
+    demo: ["CP-PYR-260841", "306582", "Ekaette Bassey", "Highway Executive Room", 45000],
+  },
+  {
+    id: "hotel-45",
+    apiVendorId: "hotel-45",
+    name: "Hotel 45 (Forty-Five)",
+    category: "hotel",
+    terminalType: "Executive Hotel",
+    bankAccount: "Stanbic IBTC ****9044",
+    terms: {
+      incoming: "Guest Check-Ins",
+      booking: "Room Bookings",
+      item: "Room Type",
+      itemExample: "Marian Boutique Suite",
+      dateLabel: "Check-in",
+      amountLabel: "Nightly rate",
+    },
+    demo: ["CP-H45-260843", "713804", "Anietie Duke", "Marian Boutique Suite", 40000],
+  },
+  {
+    id: "tinapa-lakeside",
+    apiVendorId: "tinapa-lakeside",
+    name: "Tinapa Lakeside Hotel",
+    category: "hotel",
+    terminalType: "Executive Hotel",
+    bankAccount: "UBA ****5518",
+    terms: {
+      incoming: "Guest Check-Ins",
+      booking: "Room Bookings",
+      item: "Room Type",
+      itemExample: "Lakeside Retreat Room",
+      dateLabel: "Check-in",
+      amountLabel: "Nightly rate",
+    },
+    demo: ["CP-TLH-260845", "182639", "Mfon Okon", "Lakeside Retreat Room", 55000],
+  },
+  {
+    id: "seagull-band",
+    apiVendorId: "seagull-band",
+    name: "Seagull Carnival Band",
+    category: "band",
+    terminalType: "Band HQ",
+    bankAccount: "Zenith Bank ****9120",
+    terms: {
+      incoming: "Band Registrations",
+      booking: "Costume Pickups",
+      item: "Band Section Package",
+      itemExample: "Seagull VIP Carnival Pass",
+      dateLabel: "Pickup",
+    },
+    aliases: ["seagull band secretariat"],
+    demo: ["CP-SGB-260819", "625184", "Chidi Okafor", "Seagull VIP Carnival Pass", 85000],
+  },
+  {
+    id: "passion4-band",
+    apiVendorId: "passion4-band",
+    name: "Passion 4 Band",
+    category: "band",
+    terminalType: "Band HQ",
+    bankAccount: "Access Bank ****7731",
+    terms: {
+      incoming: "Band Registrations",
+      booking: "Costume Pickups",
+      item: "Band Section Package",
+      itemExample: "Passion 4 Premium Section Pass",
+      dateLabel: "Pickup",
+    },
+    demo: ["CP-P4B-260847", "631705", "Ene Inyang", "Passion 4 Premium Section Pass", 78000],
+  },
+  {
+    id: "masta-blasta",
+    apiVendorId: "masta-blasta",
+    name: "Masta Blasta Band",
+    category: "band",
+    terminalType: "Band HQ",
+    bankAccount: "First Bank ****3419",
+    terms: {
+      incoming: "Band Registrations",
+      booking: "Costume Pickups",
+      item: "Band Section Package",
+      itemExample: "Masta Blasta Signature Costume Package",
+      dateLabel: "Pickup",
+    },
+    demo: ["CP-MBB-260849", "721436", "Bassey Ibor", "Masta Blasta Signature Costume Package", 82000],
+  },
+  {
+    id: "bayside-band",
+    apiVendorId: "bayside-band",
+    name: "Bayside Band",
+    category: "band",
+    terminalType: "Band HQ",
+    bankAccount: "GTBank ****6602",
+    terms: {
+      incoming: "Band Registrations",
+      booking: "Costume Pickups",
+      item: "Band Section Package",
+      itemExample: "Bayside VIP Route Package",
+      dateLabel: "Pickup",
+    },
+    demo: ["CP-BSB-260851", "842193", "Ofem Ekanem", "Bayside VIP Route Package", 79000],
+  },
+  {
+    id: "freedom-band",
+    apiVendorId: "freedom-band",
+    name: "Freedom Band",
+    category: "band",
+    terminalType: "Band HQ",
+    bankAccount: "UBA ****4129",
+    terms: {
+      incoming: "Band Registrations",
+      booking: "Costume Pickups",
+      item: "Band Section Package",
+      itemExample: "Freedom Carnival Costume & Route Pass",
+      dateLabel: "Pickup",
+    },
+    demo: ["CP-FRB-260853", "513768", "Edim Orok", "Freedom Carnival Costume & Route Pass", 76000],
+  },
+  {
+    id: "obudu-resort",
+    apiVendorId: "obudu-tours",
     name: "Obudu Mountain Resort",
-    category: "Eco-Tourism & Attractions",
+    category: "eco",
     terminalType: "Eco-Tourism",
     bankAccount: "GTBank ****7721",
     terms: {
@@ -77,122 +227,105 @@ const MERCHANTS = [
       booking: "Tour Reservations",
       item: "Pass Type",
       itemExample: "Obudu Mountain Resort Pass",
+      dateLabel: "Visit",
     },
+    aliases: ["obudu-tours", "obudu highland tours & rangers"],
+    demo: ["CP-OBU-260831", "572640", "Dr. Ken Anozie", "Obudu Mountain Resort Pass", 85000],
+  },
+  {
+    id: "marina-resort",
+    apiVendorId: "marina-resort",
+    name: "Marina Resort & Waterway",
+    category: "eco",
+    terminalType: "Eco-Tourism",
+    bankAccount: "UBA ****3304",
+    terms: {
+      incoming: "Visitor Admissions",
+      booking: "Tour Reservations",
+      item: "Pass Type",
+      itemExample: "Waterway Cruise Voucher",
+      dateLabel: "Visit",
+    },
+    aliases: ["marina resort & waterway bureau"],
+    demo: ["CP-MAR-260823", "301769", "Kemi Adeleke", "Waterway Cruise Voucher", 25000],
+  },
+  {
+    id: "agbokim-falls",
+    apiVendorId: "ikom-ecotourism",
+    name: "Agbokim Waterfalls Guided Tour",
+    category: "eco",
+    terminalType: "Eco-Tourism",
+    bankAccount: "Zenith Bank ****5401",
+    terms: {
+      incoming: "Visitor Admissions",
+      booking: "Tour Reservations",
+      item: "Pass Type",
+      itemExample: "Agbokim Waterfalls Guided Trek",
+      dateLabel: "Visit",
+    },
+    aliases: ["ikom-ecotourism", "ikom ecotourism guides cooperative"],
+    demo: ["CP-AGB-260855", "740261", "Uduak Ekanem", "Agbokim Waterfalls Guided Trek", 25000],
+  },
+  {
+    id: "kwa-falls",
+    apiVendorId: "akamkpa-guides",
+    name: "Kwa Falls Canyon & River Basin",
+    category: "eco",
+    terminalType: "Eco-Tourism",
+    bankAccount: "Access Bank ****1932",
+    terms: {
+      incoming: "Visitor Admissions",
+      booking: "Tour Reservations",
+      item: "Pass Type",
+      itemExample: "Kwa Falls Canyon & River Basin Tour",
+      dateLabel: "Visit",
+    },
+    aliases: ["akamkpa-guides", "akamkpa eco-guides guild"],
+    demo: ["CP-KWA-260857", "924615", "Brenda Offiong", "Kwa Falls Canyon & River Basin Tour", 18000],
+  },
+  {
+    id: "drill-ranch",
+    apiVendorId: "afi-drill",
+    name: "Afi Drill Monkey Ranch & Canopy Walk",
+    category: "eco",
+    terminalType: "Eco-Tourism",
+    bankAccount: "First Bank ****8290",
+    terms: {
+      incoming: "Visitor Admissions",
+      booking: "Tour Reservations",
+      item: "Pass Type",
+      itemExample: "Afi Drill Monkey Ranch & Canopy Walk Tour",
+      dateLabel: "Visit",
+    },
+    aliases: ["afi-drill", "afi drill monkey sanctuary"],
+    demo: ["CP-AFI-260859", "362817", "Marcus Brody", "Afi Drill Monkey Ranch & Canopy Walk Tour", 45000],
   },
 ];
 
-// Explicitly local samples make each terminal useful in demonstrations.
-// They are never sent to the live escrow release endpoint.
-const DEMO_BOOKINGS = {
-  "transcorp-hotel": [
-    {
-      reference: "CP-TRC-260812",
-      pin: "418205",
-      customerName: "Dr. Emeka Nnamdi",
-      packageName: "Executive Suite",
-      bookingDate: "2026-10-09",
-      amountNGN: 180000,
-    },
-  ],
-  "seagull-band": [
-    {
-      reference: "CP-SGB-260819",
-      pin: "625184",
-      customerName: "Chidi Okafor",
-      packageName: "Seagull VIP Carnival Pass",
-      bookingDate: "2026-10-12",
-      amountNGN: 85000,
-    },
-  ],
-  "marina-resort": [
-    {
-      reference: "CP-MAR-260823",
-      pin: "301769",
-      customerName: "Kemi Adeleke",
-      packageName: "Waterway Cruise Voucher",
-      bookingDate: "2026-10-13",
-      amountNGN: 25000,
-    },
-  ],
-  "monty-suites": [
-    {
-      reference: "CP-MON-260827",
-      pin: "894213",
-      customerName: "Dr. Victoria Asuquo",
-      packageName: "Executive King Room",
-      bookingDate: "2026-10-14",
-      amountNGN: 95000,
-    },
-  ],
-  "obudu-tours": [
-    {
-      reference: "CP-OBU-260831",
-      pin: "572640",
-      customerName: "Dr. Ken Anozie",
-      packageName: "Obudu Mountain Resort Pass",
-      bookingDate: "2026-10-15",
-      amountNGN: 85000,
-    },
-  ],
-};
-
-const DEMO_PAYOUTS = {
-  "transcorp-hotel": [
-    {
-      reference: "CP-TRC-260601",
-      customerName: "Chief Bassey Duke",
-      packageName: "Presidential Suite",
-      bookingDate: "2026-10-02",
-      disbursedAt: "2026-10-02T12:00:00.000Z",
-      amountNGN: 160000,
-      isDemo: true,
-    },
-  ],
-  "seagull-band": [
-    {
-      reference: "CP-SGB-260603",
-      customerName: "Grace Archibong",
-      packageName: "Seagull VIP Carnival Pass",
-      bookingDate: "2026-10-03",
-      disbursedAt: "2026-10-03T12:00:00.000Z",
-      amountNGN: 75000,
-      isDemo: true,
-    },
-  ],
-  "marina-resort": [
-    {
-      reference: "CP-MAR-260605",
-      customerName: "Tunde Bakare",
-      packageName: "Waterway Sunset Cruise",
-      bookingDate: "2026-10-04",
-      disbursedAt: "2026-10-04T12:00:00.000Z",
-      amountNGN: 30000,
-      isDemo: true,
-    },
-  ],
-  "monty-suites": [
-    {
-      reference: "CP-MON-260607",
-      customerName: "Engr. Patrick Etim",
-      packageName: "Executive King Room",
-      bookingDate: "2026-10-05",
-      disbursedAt: "2026-10-05T12:00:00.000Z",
-      amountNGN: 85000,
-      isDemo: true,
-    },
-  ],
-  "obudu-tours": [
-    {
-      reference: "CP-OBU-260609",
-      customerName: "Amara Nwosu",
-      packageName: "Mountain Canopy & Cable Car Pass",
-      bookingDate: "2026-10-06",
-      disbursedAt: "2026-10-06T12:00:00.000Z",
-      amountNGN: 65000,
-      isDemo: true,
-    },
-  ],
-};
+// Local-only samples keep each terminal demonstrable without impersonating a
+// real API release or exposing demo PINs as live booking credentials.
+const DEMO_BOOKINGS = Object.fromEntries(
+  MERCHANTS.map((merchant, index) => {
+    const [reference, pin, customerName, packageName, amountNGN] = merchant.demo;
+    const bookingDate = new Date(Date.UTC(2026, 9, 9 + index))
+      .toISOString()
+      .slice(0, 10);
+    return [
+      merchant.id,
+      [{
+        reference,
+        pin,
+        customerName,
+        packageName,
+        bookingDate,
+        amountNGN,
+        vendorId: merchant.id,
+        vendor: merchant.name,
+        isDemo: true,
+      }],
+    ];
+  }),
+);
 
 const VENDOR_API_ROUTES = {
   payouts: "/api/vendor/payouts",
@@ -200,6 +333,27 @@ const VENDOR_API_ROUTES = {
 };
 
 const PAYOUT_RATE = 0.95;
+
+const DEMO_PAYOUTS = Object.fromEntries(
+  MERCHANTS.map((merchant, index) => {
+    const [, , customerName, packageName, amountNGN] = merchant.demo;
+    const disbursedAt = new Date(Date.UTC(2026, 9, 1 + index, 12)).toISOString();
+    return [
+      merchant.id,
+      [{
+        reference: `${merchant.demo[0]}-SETTLED`,
+        customerName: `${customerName} (Previous stay)`,
+        packageName,
+        bookingDate: disbursedAt.slice(0, 10),
+        disbursedAt,
+        amountNGN,
+        vendorId: merchant.id,
+        vendor: merchant.name,
+        isDemo: true,
+      }],
+    ];
+  }),
+);
 
 async function requestVendorApi(endpoint, options = {}) {
   const method = options.method || "GET";
@@ -262,13 +416,10 @@ const vendorMatches = (record, merchant) => {
   const vendorName = String(record.vendor || "").toLowerCase();
   return (
     vendorId === merchant.id ||
+    vendorId === merchant.apiVendorId ||
+    (merchant.aliases || []).includes(vendorId) ||
     vendorName === merchant.name.toLowerCase() ||
-    (merchant.id === "seagull-band" &&
-      vendorName === "seagull band secretariat") ||
-    (merchant.id === "marina-resort" &&
-      vendorName === "marina resort & waterway bureau") ||
-    (merchant.id === "obudu-tours" &&
-      vendorName === "obudu highland tours & rangers")
+    (merchant.aliases || []).includes(vendorName)
   );
 };
 
@@ -300,7 +451,7 @@ export default function VendorPortal({ onOpenVoucher }) {
       setLedgerError("");
 
       try {
-        const endpoint = `${VENDOR_API_ROUTES.payouts}?vendor=${encodeURIComponent(activeMerchant.id)}`;
+        const endpoint = `${VENDOR_API_ROUTES.payouts}?vendor=${encodeURIComponent(activeMerchant.apiVendorId)}`;
         const data = await requestVendorApi(endpoint);
         if (!data?.success) {
           throw new Error(data?.error || "Unable to load the merchant ledger.");
@@ -458,7 +609,7 @@ export default function VendorPortal({ onOpenVoucher }) {
           body: JSON.stringify({
             reference,
             pin,
-            vendor: activeMerchant.id,
+            vendor: activeMerchant.apiVendorId,
           }),
         });
 
@@ -522,11 +673,33 @@ export default function VendorPortal({ onOpenVoucher }) {
             onChange={(event) => setActiveMerchantId(event.target.value)}
             className="rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 text-sm font-semibold text-white outline-none transition hover:border-amber-500/60 focus:border-amber-400"
           >
-            {MERCHANTS.map((merchant) => (
-              <option key={merchant.id} value={merchant.id}>
-                {merchant.name}
-              </option>
-            ))}
+            <optgroup label="Executive Hotels">
+              {MERCHANTS.filter((merchant) => merchant.category === "hotel").map(
+                (merchant) => (
+                  <option key={merchant.id} value={merchant.id}>
+                    {merchant.name}
+                  </option>
+                ),
+              )}
+            </optgroup>
+            <optgroup label="Official Carnival Bands">
+              {MERCHANTS.filter((merchant) => merchant.category === "band").map(
+                (merchant) => (
+                  <option key={merchant.id} value={merchant.id}>
+                    {merchant.name}
+                  </option>
+                ),
+              )}
+            </optgroup>
+            <optgroup label="Eco-Tourism & Attractions">
+              {MERCHANTS.filter((merchant) => merchant.category === "eco").map(
+                (merchant) => (
+                  <option key={merchant.id} value={merchant.id}>
+                    {merchant.name}
+                  </option>
+                ),
+              )}
+            </optgroup>
           </select>
         </label>
       </header>
@@ -547,7 +720,12 @@ export default function VendorPortal({ onOpenVoucher }) {
               </span>
             </div>
             <p className="mt-1 text-xs text-slate-400">
-              {activeMerchant.category} • Active terminal
+              {activeMerchant.category === "hotel"
+                ? "Accommodations & Executive Hotels"
+                : activeMerchant.category === "band"
+                  ? "Official Carnival Bands"
+                  : "Eco-Tourism & Attractions"}{" "}
+              • Active terminal
             </p>
           </div>
         </div>
@@ -704,10 +882,17 @@ export default function VendorPortal({ onOpenVoucher }) {
                 <div className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-slate-800 pt-3 text-xs">
                   <span className="inline-flex items-center gap-1.5 text-slate-400">
                     <CalendarDays className="h-3.5 w-3.5" />
-                    Check-in {formatDate(booking.bookingDate)}
+                    {activeMerchant.terms.dateLabel}{" "}
+                    {formatDate(booking.bookingDate)}
                   </span>
-                  <span className="font-semibold text-slate-200">
-                    {formatNaira(booking.amountNGN)}
+                  <span className="text-right">
+                    <span className="block text-[10px] text-slate-500">
+                      {activeMerchant.terms.amountLabel || "Booking value"}
+                    </span>
+                    <span className="font-semibold text-slate-200">
+                      {formatNaira(booking.amountNGN)}
+                      {activeMerchant.category === "hotel" ? " / night" : ""}
+                    </span>
                   </span>
                 </div>
               </article>

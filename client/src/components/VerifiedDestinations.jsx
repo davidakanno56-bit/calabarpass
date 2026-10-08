@@ -89,7 +89,7 @@ export const DESTINATIONS = [
   }
 ];
 
-export default function VerifiedDestinations({ packages = [], onSelectPackage }) {
+export default function VerifiedDestinations({ packages = [], onViewPackage }) {
   const handleDestinationClick = (dest) => {
     // Match package from loaded packages or fallback
     const matchedPkg = packages.find((p) => p.id === dest.packageId) || {
@@ -104,8 +104,8 @@ export default function VerifiedDestinations({ packages = [], onSelectPackage })
       imageUrl: dest.image
     };
 
-    if (onSelectPackage) {
-      onSelectPackage(matchedPkg);
+    if (onViewPackage) {
+      onViewPackage(matchedPkg);
     }
   };
 

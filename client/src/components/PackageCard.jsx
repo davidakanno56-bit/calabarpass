@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { ShieldCheck, MapPin, Check, ArrowRight, ShieldAlert, Trees, Leaf, Sparkles } from "lucide-react";
 
-export default function PackageCard({ pkg, onSelectPackage }) {
+export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
   const savings = pkg.streetSurgePrice ? pkg.streetSurgePrice - pkg.priceNGN : 0;
   const cardRef = useRef(null);
   const [imgError, setImgError] = useState(false);
@@ -271,13 +271,26 @@ export default function PackageCard({ pkg, onSelectPackage }) {
               )}
             </div>
 
-            <button
-              onClick={() => onSelectPackage(pkg)}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-bold text-sm shadow-gold-glow hover:scale-105 active:scale-95 transition-all whitespace-nowrap"
-            >
-              <span>Book via Escrow</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
+            <div className="flex flex-wrap justify-end gap-2">
+              {onViewPackage && (
+                <button
+                  type="button"
+                  onClick={() => onViewPackage(pkg)}
+                  className="flex items-center gap-2 rounded-xl border border-slate-700 px-4 py-2.5 text-sm font-bold text-slate-200 transition hover:border-amber-500/50 hover:text-amber-300"
+                >
+                  <span>View Package</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={() => onSelectPackage(pkg)}
+                className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 px-5 py-2.5 text-sm font-bold text-black shadow-gold-glow transition-all hover:scale-105 hover:from-amber-400 hover:to-amber-500 active:scale-95"
+              >
+                <span>Book via Escrow</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
