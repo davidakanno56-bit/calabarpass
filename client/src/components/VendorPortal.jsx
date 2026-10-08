@@ -11,6 +11,7 @@ import {
   Wallet,
 } from "lucide-react";
 import { EscrowTableSkeleton } from "./SkeletonLoader.jsx";
+import { handleLocalEscrowFallback } from "../utils/api.js";
 
 // The active terminal is fixed here because this app currently has no vendor
 // authentication context from which to resolve a signed-in merchant.
@@ -19,6 +20,50 @@ const ACTIVE_TERMINAL = {
   name: "Transcorp Hotel Calabar",
   bankAccount: "Access Bank ****4102",
 };
+
+const VENDOR_API_ROUTES = {
+  payouts: "/api/vendor/payouts",
+  release: "/api/escrow/release",
+};
+
+async function requestVendorApi(endpoint, options = {}) {
+  const method = options.method || "GET";
+  let payload = null;
+
+  if (options.body) {
+    try {
+      payload =
+        typeof options.body === "string"
+          ? JSON.parse(options.body)
+          : options.body;
+    } catch {
+      payload = options.body;
+    }
+  }
+
+  const response = await fetch(endpoint, options);
+  const contentType = response.headers.get("content-type") || "";
+
+  if (contentType.toLowerCase().includes("application/json")) {
+    let data;
+    try {
+      data = await response.json();
+    } catch {
+      throw new Error("The server returned malformed JSON.");
+    }
+
+    if (!response.ok) {
+      throw new Error(data?.error || `Request failed (${response.status}).`);
+    }
+
+    return data;
+  }
+
+  console.warn(
+    `Vendor API ${endpoint} returned a non-JSON response (HTTP ${response.status}); using the local Vercel fallback.`,
+  );
+  return handleLocalEscrowFallback(endpoint, payload, method);
+}
 
 const formatNaira = (amount = 0) =>
   `₦${Number(amount).toLocaleString("en-NG", {
@@ -55,11 +100,10 @@ export default function VendorPortal({ onOpenVoucher }) {
     setLedgerError("");
 
     try {
-      const url = `/api/vendor/payouts?vendor=${encodeURIComponent(ACTIVE_TERMINAL.id)}`;
-      const response = await fetch(url);
-      const data = await response.json();
+      const url = `${VENDOR_API_ROUTES.payouts}?vendor=${encodeURIComponent(ACTIVE_TERMINAL.id)}`;
+      const data = await requestVendorApi(url);
 
-      if (!response.ok || !data.success) {
+      if (!data?.success) {
         throw new Error(data.error || "Unable to load the merchant ledger.");
       }
 
@@ -96,7 +140,7 @@ export default function VendorPortal({ onOpenVoucher }) {
     setReleaseStatus(null);
 
     try {
-      const response = await fetch("/api/escrow/release", {
+      const data = await requestVendorApi(VENDOR_API_ROUTES.release, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -105,9 +149,8 @@ export default function VendorPortal({ onOpenVoucher }) {
           vendor: ACTIVE_TERMINAL.id,
         }),
       });
-      const data = await response.json();
 
-      if (!response.ok || !data.success) {
+      if (!data?.success) {
         throw new Error(data.error || "PIN verification could not be completed.");
       }
 
