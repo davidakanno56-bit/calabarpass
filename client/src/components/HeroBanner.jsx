@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { Shield, ShieldCheck, Lock, ArrowRight, CheckCircle, Key, QrCode, Cpu, Award, BedDouble } from "lucide-react";
 import { HOTELS } from "../data/hotels.js";
 
-export default function HeroBanner({ setActiveTab, escrowStats }) {
+export default function HeroBanner({ setActiveTab, onSelectCategory, escrowStats }) {
   const passRef = useRef(null);
   const [passTilt, setPassTilt] = useState({
     rotX: 0,
@@ -43,6 +43,20 @@ export default function HeroBanner({ setActiveTab, escrowStats }) {
     });
   };
 
+  const handleCategoryJump = (catId) => {
+    if (onSelectCategory) {
+      onSelectCategory(catId);
+    } else {
+      setActiveTab("packages");
+    }
+    setTimeout(() => {
+      const el = document.getElementById("directory-catalog");
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 50);
+  };
+
   return (
     <div className="relative overflow-hidden pt-8 pb-16 lg:pt-14 lg:pb-24 border-b border-slate-800/80">
       {/* Dynamic Background Glows */}
@@ -73,25 +87,19 @@ export default function HeroBanner({ setActiveTab, escrowStats }) {
             {/* CTAs */}
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
               <button
-                onClick={() => {
-                  setActiveTab("packages");
-                  window.scrollTo({ top: 550, behavior: "smooth" });
-                }}
+                onClick={() => handleCategoryJump("all")}
                 className="flex items-center gap-2.5 px-7 py-3.5 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-black font-bold text-base shadow-gold-glow hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
               >
-                <span>Explore Verified Packages</span>
+                <span>Explore Verified 365 Architecture</span>
                 <ArrowRight className="w-5 h-5" />
               </button>
 
               <button
-                onClick={() => {
-                  setActiveTab("accommodations");
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }}
+                onClick={() => handleCategoryJump("accommodations")}
                 className="flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-emerald-300 hover:text-emerald-200 font-semibold text-base border border-emerald-500/40 hover:border-emerald-500/70 transition-all shadow-sm shadow-emerald-500/10 cursor-pointer"
               >
                 <BedDouble className="w-5 h-5 text-emerald-400" />
-                <span>Verified Accommodations ({HOTELS?.length || 5} Executive Hotels)</span>
+                <span>Verified Accommodations ({HOTELS?.length || 5} Stays)</span>
               </button>
 
               <button
@@ -102,8 +110,30 @@ export default function HeroBanner({ setActiveTab, escrowStats }) {
                 className="flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-white font-semibold text-base border border-slate-700/80 hover:border-amber-500/50 transition-all cursor-pointer"
               >
                 <ShieldCheck className="w-5 h-5 text-amber-400" />
-                <span>Check Fair Street Fares & Scam Shield</span>
+                <span>Fair Rates & Scam Shield</span>
               </button>
+            </div>
+
+            {/* Quick 5-Category Jump Badges */}
+            <div className="pt-4 flex flex-wrap items-center justify-center lg:justify-start gap-2 text-xs">
+              <span className="text-[11px] uppercase tracking-wider text-slate-500 font-bold mr-1">
+                Explore Categories:
+              </span>
+              {[
+                { id: "accommodations", label: "🏨 Accommodations" },
+                { id: "eco-sites", label: "🌿 Eco-Sites & Heritage" },
+                { id: "dining-nightlife", label: "🍽️ Dining & Nightlife" },
+                { id: "trade-expo", label: "🏛️ Trade & Expo Hub" },
+                { id: "carnival-culture", label: "🎉 Carnival & Culture" },
+              ].map((chip) => (
+                <button
+                  key={chip.id}
+                  onClick={() => handleCategoryJump(chip.id)}
+                  className="px-2.5 py-1 rounded-lg bg-slate-900/80 border border-slate-800 text-slate-300 hover:text-amber-300 hover:border-amber-500/40 transition cursor-pointer text-[11px] font-medium"
+                >
+                  {chip.label}
+                </button>
+              ))}
             </div>
           </div>
 

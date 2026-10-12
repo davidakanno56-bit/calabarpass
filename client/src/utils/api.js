@@ -298,6 +298,48 @@ const SEED_TRANSACTIONS = [
     disbursedAt: null,
     paystackStatus: "success",
     channel: "card"
+  },
+  {
+    reference: "CP-DEMO-712490",
+    packageId: "trade-fair-pass",
+    packageName: "Cross River 365 Commercial Buyer Pass",
+    vendor: "Ministry of Commerce & Trade Bureau",
+    vendorId: "commerce-ministry",
+    customerName: "Engr. Patrick Etim",
+    email: "patrick.etim@example.com",
+    phone: "+234 818 901 4432",
+    amountNGN: 35000,
+    amountKobo: 3500000,
+    bookingDate: new Date(Date.now() + 86400000 * 3).toISOString().split("T")[0],
+    status: "ESCROW_LOCKED_ACTIVE",
+    statusLabel: "Escrow Secured - Awaiting On-Site Verification",
+    checkInPin: "712490",
+    createdAt: new Date(Date.now() - 3600000 * 3).toISOString(),
+    lockedAt: new Date(Date.now() - 3600000 * 2.9).toISOString(),
+    disbursedAt: null,
+    paystackStatus: "success",
+    channel: "card"
+  },
+  {
+    reference: "CP-DEMO-819402",
+    packageId: "dine-supreme-viking",
+    packageName: "Supreme Viking Fisherman Soup Clay-Pot Feast",
+    vendor: "Supreme Viking Native Kitchen",
+    vendorId: "supreme-viking",
+    customerName: "Barrister Orok",
+    email: "orok.b@example.com",
+    phone: "+234 803 221 8840",
+    amountNGN: 6500,
+    amountKobo: 650000,
+    bookingDate: new Date(Date.now() + 86400000).toISOString().split("T")[0],
+    status: "ESCROW_LOCKED_ACTIVE",
+    statusLabel: "Escrow Secured - Awaiting On-Site Verification",
+    checkInPin: "819402",
+    createdAt: new Date(Date.now() - 3600000 * 2).toISOString(),
+    lockedAt: new Date(Date.now() - 3600000 * 1.8).toISOString(),
+    disbursedAt: null,
+    paystackStatus: "success",
+    channel: "card"
   }
 ];
 
@@ -471,6 +513,12 @@ function matchVendor(tx, queryVendor) {
   if (q.includes("ikom") && (tvId.includes("ikom") || tvName.includes("ikom"))) return true;
   if (q.includes("obudu") && (tvId.includes("obudu") || tvName.includes("obudu"))) return true;
   if (q.includes("akamkpa") && (tvId.includes("akamkpa") || tvName.includes("akamkpa"))) return true;
+  if ((q.includes("commerce") || q.includes("trade")) && (tvId.includes("commerce") || tvName.includes("commerce") || tvId.includes("trade") || tvName.includes("trade"))) return true;
+  if (q.includes("cicc") && (tvId.includes("cicc") || tvName.includes("cicc"))) return true;
+  if (q.includes("crunchies") && (tvId.includes("crunchies") || tvName.includes("crunchies"))) return true;
+  if (q.includes("viking") && (tvId.includes("viking") || tvName.includes("viking"))) return true;
+  if (q.includes("arena") && (tvId.includes("arena") || tvName.includes("arena"))) return true;
+  if (q.includes("mayfair") && (tvId.includes("mayfair") || tvName.includes("mayfair"))) return true;
 
   return false;
 }

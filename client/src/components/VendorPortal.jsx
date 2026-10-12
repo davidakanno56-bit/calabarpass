@@ -14,11 +14,12 @@ import { EscrowTableSkeleton } from "./SkeletonLoader.jsx";
 import { handleLocalEscrowFallback } from "../utils/api.js";
 
 const MERCHANTS = [
+  // 1. ACCOMMODATIONS (Hotels, Resorts, Suites)
   {
     id: "transcorp",
     apiVendorId: "transcorp-hotel",
     name: "Transcorp Hotel Calabar",
-    category: "hotel",
+    category: "accommodations",
     terminalType: "Executive Hotel",
     bankAccount: "Access Bank ****4102",
     terms: {
@@ -36,9 +37,9 @@ const MERCHANTS = [
     id: "monty-suites",
     apiVendorId: "monty-suites",
     name: "Monty Suites Calabar",
-    category: "hotel",
+    category: "accommodations",
     terminalType: "Executive Hotel",
-    bankAccount: "First Bank ****1188",
+    bankAccount: "Zenith Bank ****7890",
     terms: {
       incoming: "Guest Check-Ins",
       booking: "Room Bookings",
@@ -47,13 +48,32 @@ const MERCHANTS = [
       dateLabel: "Check-in",
       amountLabel: "Nightly rate",
     },
+    aliases: ["monty-suites"],
     demo: ["CP-MON-260827", "894213", "Dr. Victoria Asuquo", "Executive King Room", 95000],
+  },
+  {
+    id: "hogis-suites",
+    apiVendorId: "hogis-suites",
+    name: "Hogis Luxury Suites",
+    category: "accommodations",
+    terminalType: "Boutique Executive Suites",
+    bankAccount: "First Bank ****1904",
+    terms: {
+      incoming: "Guest Check-Ins",
+      booking: "Room Bookings",
+      item: "Room Type",
+      itemExample: "VIP Private Suite",
+      dateLabel: "Check-in",
+      amountLabel: "Nightly rate",
+    },
+    aliases: ["hogis-suites"],
+    demo: ["CP-HOG-260829", "512903", "Chief Bassey Duke", "VIP Private Suite", 75000],
   },
   {
     id: "channel-view",
     apiVendorId: "channel-view",
     name: "Channel View Hotel",
-    category: "hotel",
+    category: "accommodations",
     terminalType: "Executive Hotel",
     bankAccount: "Zenith Bank ****2045",
     terms: {
@@ -70,7 +90,7 @@ const MERCHANTS = [
     id: "mega-hilton",
     apiVendorId: "mega-hilton",
     name: "Mega Hilton Hotel",
-    category: "hotel",
+    category: "accommodations",
     terminalType: "Executive Hotel",
     bankAccount: "GTBank ****8839",
     terms: {
@@ -87,7 +107,7 @@ const MERCHANTS = [
     id: "pyramid-hotel",
     apiVendorId: "pyramid-hotel",
     name: "Pyramid Hotel & Suites",
-    category: "hotel",
+    category: "accommodations",
     terminalType: "Executive Hotel",
     bankAccount: "Fidelity Bank ****6210",
     terms: {
@@ -104,8 +124,8 @@ const MERCHANTS = [
     id: "hotel-45",
     apiVendorId: "hotel-45",
     name: "Hotel 45 (Forty-Five)",
-    category: "hotel",
-    terminalType: "Executive Hotel",
+    category: "accommodations",
+    terminalType: "Boutique Hotel",
     bankAccount: "Stanbic IBTC ****9044",
     terms: {
       incoming: "Guest Check-Ins",
@@ -121,8 +141,8 @@ const MERCHANTS = [
     id: "tinapa-lakeside",
     apiVendorId: "tinapa-lakeside",
     name: "Tinapa Lakeside Hotel",
-    category: "hotel",
-    terminalType: "Executive Hotel",
+    category: "accommodations",
+    terminalType: "Resort Hotel",
     bankAccount: "UBA ****5518",
     terms: {
       incoming: "Guest Check-Ins",
@@ -134,117 +154,22 @@ const MERCHANTS = [
     },
     demo: ["CP-TLH-260845", "182639", "Mfon Okon", "Lakeside Retreat Room", 55000],
   },
-  {
-    id: "seagull-band",
-    apiVendorId: "seagull-band",
-    name: "Seagull Carnival Band",
-    category: "band",
-    terminalType: "Band HQ",
-    bankAccount: "Zenith Bank ****9120",
-    terms: {
-      incoming: "Band Registrations",
-      booking: "Costume Pickups",
-      item: "Band Section Package",
-      itemExample: "Seagull VIP Carnival Pass",
-      dateLabel: "Pickup",
-    },
-    aliases: ["seagull band secretariat"],
-    demo: ["CP-SGB-260819", "625184", "Chidi Okafor", "Seagull VIP Carnival Pass", 85000],
-  },
-  {
-    id: "passion4-band",
-    apiVendorId: "passion4-band",
-    name: "Passion 4 Band",
-    category: "band",
-    terminalType: "Band HQ",
-    bankAccount: "Access Bank ****7731",
-    terms: {
-      incoming: "Band Registrations",
-      booking: "Costume Pickups",
-      item: "Band Section Package",
-      itemExample: "Passion 4 Premium Section Pass",
-      dateLabel: "Pickup",
-    },
-    demo: ["CP-P4B-260847", "631705", "Ene Inyang", "Passion 4 Premium Section Pass", 78000],
-  },
-  {
-    id: "masta-blasta",
-    apiVendorId: "masta-blasta",
-    name: "Masta Blasta Band",
-    category: "band",
-    terminalType: "Band HQ",
-    bankAccount: "First Bank ****3419",
-    terms: {
-      incoming: "Band Registrations",
-      booking: "Costume Pickups",
-      item: "Band Section Package",
-      itemExample: "Masta Blasta Signature Costume Package",
-      dateLabel: "Pickup",
-    },
-    demo: ["CP-MBB-260849", "721436", "Bassey Ibor", "Masta Blasta Signature Costume Package", 82000],
-  },
-  {
-    id: "bayside-band",
-    apiVendorId: "bayside-band",
-    name: "Bayside Band",
-    category: "band",
-    terminalType: "Band HQ",
-    bankAccount: "GTBank ****6602",
-    terms: {
-      incoming: "Band Registrations",
-      booking: "Costume Pickups",
-      item: "Band Section Package",
-      itemExample: "Bayside VIP Route Package",
-      dateLabel: "Pickup",
-    },
-    demo: ["CP-BSB-260851", "842193", "Ofem Ekanem", "Bayside VIP Route Package", 79000],
-  },
-  {
-    id: "freedom-band",
-    apiVendorId: "freedom-band",
-    name: "Freedom Band",
-    category: "band",
-    terminalType: "Band HQ",
-    bankAccount: "UBA ****4129",
-    terms: {
-      incoming: "Band Registrations",
-      booking: "Costume Pickups",
-      item: "Band Section Package",
-      itemExample: "Freedom Carnival Costume & Route Pass",
-      dateLabel: "Pickup",
-    },
-    demo: ["CP-FRB-260853", "513768", "Edim Orok", "Freedom Carnival Costume & Route Pass", 76000],
-  },
-  {
-    id: "obudu-resort",
-    apiVendorId: "obudu-tours",
-    name: "Obudu Mountain Resort",
-    category: "eco",
-    terminalType: "Eco-Tourism",
-    bankAccount: "GTBank ****7721",
-    terms: {
-      incoming: "Visitor Admissions",
-      booking: "Tour Reservations",
-      item: "Pass Type",
-      itemExample: "Obudu Mountain Resort Pass",
-      dateLabel: "Visit",
-    },
-    aliases: ["obudu-tours", "obudu highland tours & rangers"],
-    demo: ["CP-OBU-260831", "572640", "Dr. Ken Anozie", "Obudu Mountain Resort Pass", 85000],
-  },
+
+  // 2. ECO-SITES & HERITAGE (Marina Resort, Agbokim Waterfalls, Drill Ranch, Kwa Falls)
   {
     id: "marina-resort",
     apiVendorId: "marina-resort",
-    name: "Marina Resort & Waterway",
-    category: "eco",
-    terminalType: "Eco-Tourism",
-    bankAccount: "UBA ****3304",
+    name: "Marina Resort & Waterway Bureau",
+    category: "eco-sites",
+    terminalType: "Heritage & Waterfront Bureau",
+    bankAccount: "Heritage Bank ****6610",
     terms: {
       incoming: "Visitor Admissions",
       booking: "Tour Reservations",
       item: "Pass Type",
       itemExample: "Waterway Cruise Voucher",
       dateLabel: "Visit",
+      amountLabel: "Pass rate",
     },
     aliases: ["marina resort & waterway bureau"],
     demo: ["CP-MAR-260823", "301769", "Kemi Adeleke", "Waterway Cruise Voucher", 25000],
@@ -252,9 +177,9 @@ const MERCHANTS = [
   {
     id: "agbokim-falls",
     apiVendorId: "ikom-ecotourism",
-    name: "Agbokim Waterfalls Guided Tour",
-    category: "eco",
-    terminalType: "Eco-Tourism",
+    name: "Ikom Ecotourism Guides Cooperative (Agbokim)",
+    category: "eco-sites",
+    terminalType: "Eco-Tourism Guides",
     bankAccount: "Zenith Bank ****5401",
     terms: {
       incoming: "Visitor Admissions",
@@ -262,16 +187,35 @@ const MERCHANTS = [
       item: "Pass Type",
       itemExample: "Agbokim Waterfalls Guided Trek",
       dateLabel: "Visit",
+      amountLabel: "Pass rate",
     },
     aliases: ["ikom-ecotourism", "ikom ecotourism guides cooperative"],
     demo: ["CP-AGB-260855", "740261", "Uduak Ekanem", "Agbokim Waterfalls Guided Trek", 25000],
   },
   {
+    id: "drill-ranch",
+    apiVendorId: "afi-drill",
+    name: "Afi Drill Monkey Sanctuary",
+    category: "eco-sites",
+    terminalType: "Wildlife Sanctuary",
+    bankAccount: "Zenith Bank ****3301",
+    terms: {
+      incoming: "Visitor Admissions",
+      booking: "Tour Reservations",
+      item: "Pass Type",
+      itemExample: "Afi Drill Monkey Ranch & Canopy Walk Tour",
+      dateLabel: "Visit",
+      amountLabel: "Pass rate",
+    },
+    aliases: ["afi-drill", "afi drill monkey sanctuary"],
+    demo: ["CP-AFI-260859", "362817", "Marcus Brody", "Afi Drill Monkey Ranch & Canopy Walk Tour", 45000],
+  },
+  {
     id: "kwa-falls",
     apiVendorId: "akamkpa-guides",
-    name: "Kwa Falls Canyon & River Basin",
-    category: "eco",
-    terminalType: "Eco-Tourism",
+    name: "Akamkpa Eco-Guides Guild (Kwa Falls)",
+    category: "eco-sites",
+    terminalType: "River Basin Eco-Guides",
     bankAccount: "Access Bank ****1932",
     terms: {
       incoming: "Visitor Admissions",
@@ -279,26 +223,286 @@ const MERCHANTS = [
       item: "Pass Type",
       itemExample: "Kwa Falls Canyon & River Basin Tour",
       dateLabel: "Visit",
+      amountLabel: "Pass rate",
     },
     aliases: ["akamkpa-guides", "akamkpa eco-guides guild"],
     demo: ["CP-KWA-260857", "924615", "Brenda Offiong", "Kwa Falls Canyon & River Basin Tour", 18000],
   },
   {
-    id: "drill-ranch",
-    apiVendorId: "afi-drill",
-    name: "Afi Drill Monkey Ranch & Canopy Walk",
-    category: "eco",
-    terminalType: "Eco-Tourism",
-    bankAccount: "First Bank ****8290",
+    id: "obudu-resort",
+    apiVendorId: "obudu-tours",
+    name: "Obudu Highland Tours & Rangers",
+    category: "eco-sites",
+    terminalType: "Highland Sanctuary",
+    bankAccount: "GTBank ****7721",
     terms: {
       incoming: "Visitor Admissions",
       booking: "Tour Reservations",
       item: "Pass Type",
-      itemExample: "Afi Drill Monkey Ranch & Canopy Walk Tour",
+      itemExample: "Obudu Mountain Resort Pass",
       dateLabel: "Visit",
+      amountLabel: "Pass rate",
     },
-    aliases: ["afi-drill", "afi drill monkey sanctuary"],
-    demo: ["CP-AFI-260859", "362817", "Marcus Brody", "Afi Drill Monkey Ranch & Canopy Walk Tour", 45000],
+    aliases: ["obudu-tours", "obudu highland tours & rangers"],
+    demo: ["CP-OBU-260831", "572640", "Dr. Ken Anozie", "Obudu Mountain Resort Pass", 85000],
+  },
+
+  // 3. DINING & NIGHTLIFE (Eateries, Seafood Hubs, Lounges)
+  {
+    id: "crunchies-marian",
+    apiVendorId: "crunchies-calabar",
+    name: "Crunchies Fast Food & Pastries",
+    category: "dining-nightlife",
+    terminalType: "Fast Food & Bites",
+    bankAccount: "Zenith Bank ****4419",
+    terms: {
+      incoming: "Diner Check-Ins",
+      booking: "Meal Voucher Redemptions",
+      item: "Meal Combo",
+      itemExample: "Family Crispy Chicken Combo",
+      dateLabel: "Redemption Date",
+      amountLabel: "Voucher value",
+    },
+    aliases: ["crunchies-calabar", "crunchies fast food"],
+    demo: ["CP-CRU-260861", "482019", "Etim Bassey", "Family Crispy Chicken Combo Pass", 4500],
+  },
+  {
+    id: "supreme-viking",
+    apiVendorId: "supreme-viking",
+    name: "Supreme Viking Native Kitchen",
+    category: "dining-nightlife",
+    terminalType: "Native Seafood Kitchen",
+    bankAccount: "First Bank ****6281",
+    terms: {
+      incoming: "Table Reservations",
+      booking: "Feast Vouchers",
+      item: "Feast Type",
+      itemExample: "Fisherman Soup Clay-Pot Feast",
+      dateLabel: "Dine-in Date",
+      amountLabel: "Feast rate",
+    },
+    aliases: ["supreme-viking", "supreme viking restaurant"],
+    demo: ["CP-VIK-260863", "819402", "Barrister Orok", "Fisherman Soup Clay-Pot Feast", 6500],
+  },
+  {
+    id: "marina-seafood",
+    apiVendorId: "marina-seafood",
+    name: "Marina Resort Waterfront Seafood Hub",
+    category: "dining-nightlife",
+    terminalType: "Waterfront Seafood Hub",
+    bankAccount: "Heritage Bank ****8102",
+    terms: {
+      incoming: "Waterfront Diners",
+      booking: "Dining Passes",
+      item: "Platter Selection",
+      itemExample: "Grilled River Catfish Feast",
+      dateLabel: "Dine-in Date",
+      amountLabel: "Platter rate",
+    },
+    aliases: ["marina-seafood", "marina waterfront seafood"],
+    demo: ["CP-MSF-260865", "630184", "Idongesit Udoh", "Grilled River Catfish Feast Pass", 8500],
+  },
+  {
+    id: "the-arena",
+    apiVendorId: "the-arena",
+    name: "The Arena Lounge & Grills",
+    category: "dining-nightlife",
+    terminalType: "VIP Lounge & Grills",
+    bankAccount: "Access Bank ****9281",
+    terms: {
+      incoming: "Lounge Guest List",
+      booking: "Table Bookings",
+      item: "Lounge Package",
+      itemExample: "Courtyard BBQ Platter & Cocktails",
+      dateLabel: "Visit Date",
+      amountLabel: "Table rate",
+    },
+    aliases: ["the-arena", "the arena lounge"],
+    demo: ["CP-ARN-260867", "529148", "Tunde Lawal", "Courtyard BBQ Platter & Cocktails", 7500],
+  },
+  {
+    id: "mayfair-lounge",
+    apiVendorId: "mayfair-lounge",
+    name: "Mayfair VIP Lounge & Nightclub",
+    category: "dining-nightlife",
+    terminalType: "VIP Nightclub",
+    bankAccount: "GTBank ****3104",
+    terms: {
+      incoming: "Guest List Admissions",
+      booking: "VIP Table Reservations",
+      item: "Table Tier",
+      itemExample: "Mezzanine VIP Bottle Service",
+      dateLabel: "Club Night",
+      amountLabel: "Table rate",
+    },
+    aliases: ["mayfair-lounge", "mayfair club"],
+    demo: ["CP-MAY-260869", "941720", "Chuka Eze", "Mezzanine VIP Bottle Service Pass", 15000],
+  },
+
+  // 4. TRADE & EXPO HUB (Business Passes, Trade Fair Booths, Industrial Exhibitors under Ministry of Commerce)
+  {
+    id: "commerce-ministry",
+    apiVendorId: "commerce-ministry",
+    name: "Cross River State Ministry of Commerce & Trade Bureau",
+    category: "trade-expo",
+    terminalType: "Ministry of Commerce",
+    bankAccount: "Central Bank / Zenith Revenue ****5001",
+    terms: {
+      incoming: "Commercial Buyer Clearances",
+      booking: "Trade Registrations",
+      item: "Pass Specification",
+      itemExample: "365 Commercial Buyer & Investor Pass",
+      dateLabel: "Accreditation Date",
+      amountLabel: "Pass fee",
+    },
+    aliases: ["commerce-ministry", "ministry of commerce"],
+    demo: ["CP-COM-260871", "712490", "Engr. Patrick Etim", "Cross River 365 Commercial Buyer Pass", 35000],
+  },
+  {
+    id: "cicc-trade-expo",
+    apiVendorId: "cicc-trade-expo",
+    name: "Calabar International Convention Centre (CICC) Trade Expo",
+    category: "trade-expo",
+    terminalType: "Trade Fair Pavilion",
+    bankAccount: "Zenith Bank ****8203",
+    terms: {
+      incoming: "Exhibitor Check-Ins",
+      booking: "Booth Allocations",
+      item: "Exhibition Space",
+      itemExample: "9sqm SME Shell-Scheme Booth",
+      dateLabel: "Exhibition Date",
+      amountLabel: "Booth fee",
+    },
+    aliases: ["cicc-trade-expo", "cicc convention centre"],
+    demo: ["CP-CIC-260873", "840192", "Mrs. Folake Adebayo", "9sqm Shell-Scheme Exhibition Booth", 150000],
+  },
+  {
+    id: "tinapa-expo-terminal",
+    apiVendorId: "tinapa-expo-terminal",
+    name: "Tinapa Free Trade Zone Industrial Authority",
+    category: "trade-expo",
+    terminalType: "FTZ Industrial Authority",
+    bankAccount: "UBA ****7740",
+    terms: {
+      incoming: "Delegation Clearances",
+      booking: "Industrial Tours",
+      item: "Delegation Pass",
+      itemExample: "FTZ Industrial Park Delegation Pass",
+      dateLabel: "Tour Date",
+      amountLabel: "Delegation fee",
+    },
+    aliases: ["tinapa-expo-terminal", "tinapa free trade zone"],
+    demo: ["CP-FTZ-260875", "419382", "Alhaji Bello Danjuma", "FTZ Industrial Park Delegation Pass", 50000],
+  },
+
+  // 5. CARNIVAL & CULTURE (Carnival Band Passes, Festival Tickets)
+  {
+    id: "seagull-band",
+    apiVendorId: "seagull-band",
+    name: "Seagull Band Secretariat",
+    category: "carnival-culture",
+    terminalType: "Band Secretariat",
+    bankAccount: "Zenith Bank ****8821",
+    terms: {
+      incoming: "Band Registrations",
+      booking: "Costume Pickups",
+      item: "Band Section Package",
+      itemExample: "Seagull VIP Carnival Pass",
+      dateLabel: "Pickup",
+      amountLabel: "Pass fee",
+    },
+    aliases: ["seagull band secretariat", "seagull-band"],
+    demo: ["CP-SGB-260819", "625184", "Chidi Okafor", "Seagull VIP Carnival Pass", 85000],
+  },
+  {
+    id: "passion4-band",
+    apiVendorId: "passion4-band",
+    name: "Passion 4 Band Secretariat",
+    category: "carnival-culture",
+    terminalType: "Band Secretariat",
+    bankAccount: "Access Bank ****7731",
+    terms: {
+      incoming: "Band Registrations",
+      booking: "Costume Pickups",
+      item: "Band Section Package",
+      itemExample: "Passion 4 Premium Section Pass",
+      dateLabel: "Pickup",
+      amountLabel: "Pass fee",
+    },
+    aliases: ["passion4-band", "passion 4 band"],
+    demo: ["CP-P4B-260847", "631705", "Ene Inyang", "Passion 4 Premium Section Pass", 78000],
+  },
+  {
+    id: "masta-blasta",
+    apiVendorId: "masta-blasta",
+    name: "Masta Blasta Band Secretariat",
+    category: "carnival-culture",
+    terminalType: "Band Secretariat",
+    bankAccount: "First Bank ****3419",
+    terms: {
+      incoming: "Band Registrations",
+      booking: "Costume Pickups",
+      item: "Band Section Package",
+      itemExample: "Masta Blasta Signature Costume Package",
+      dateLabel: "Pickup",
+      amountLabel: "Pass fee",
+    },
+    aliases: ["masta-blasta", "masta blasta band"],
+    demo: ["CP-MBB-260849", "721436", "Bassey Ibor", "Masta Blasta Signature Costume Package", 82000],
+  },
+  {
+    id: "bayside-band",
+    apiVendorId: "bayside-band",
+    name: "Bayside Band Secretariat",
+    category: "carnival-culture",
+    terminalType: "Band Secretariat",
+    bankAccount: "GTBank ****6602",
+    terms: {
+      incoming: "Band Registrations",
+      booking: "Costume Pickups",
+      item: "Band Section Package",
+      itemExample: "Bayside VIP Route Package",
+      dateLabel: "Pickup",
+      amountLabel: "Pass fee",
+    },
+    aliases: ["bayside-band"],
+    demo: ["CP-BSB-260851", "842193", "Ofem Ekanem", "Bayside VIP Route Package", 79000],
+  },
+  {
+    id: "freedom-band",
+    apiVendorId: "freedom-band",
+    name: "Freedom Band Secretariat",
+    category: "carnival-culture",
+    terminalType: "Band Secretariat",
+    bankAccount: "UBA ****4129",
+    terms: {
+      incoming: "Band Registrations",
+      booking: "Costume Pickups",
+      item: "Band Section Package",
+      itemExample: "Freedom Carnival Costume & Route Pass",
+      dateLabel: "Pickup",
+      amountLabel: "Pass fee",
+    },
+    aliases: ["freedom-band"],
+    demo: ["CP-FRB-260853", "513768", "Edim Orok", "Freedom Carnival Costume & Route Pass", 76000],
+  },
+  {
+    id: "stadium-festival-box",
+    apiVendorId: "stadium-festival-box",
+    name: "Calabar Festival & Stadium Box Office",
+    category: "carnival-culture",
+    terminalType: "Festival Box Office",
+    bankAccount: "Zenith Bank ****9012",
+    terms: {
+      incoming: "Gate Admissions",
+      booking: "Box Office Tickets",
+      item: "Seating Tier",
+      itemExample: "VIP Stadium Grandstand Ticket",
+      dateLabel: "Event Date",
+      amountLabel: "Ticket fee",
+    },
+    aliases: ["stadium-festival-box", "calabar festival secretariat"],
+    demo: ["CP-STB-260877", "931204", "Senator Victor Ndoma", "VIP Stadium Grandstand Ticket", 35000],
   },
 ];
 
@@ -419,7 +623,9 @@ const vendorMatches = (record, merchant) => {
     vendorId === merchant.apiVendorId ||
     (merchant.aliases || []).includes(vendorId) ||
     vendorName === merchant.name.toLowerCase() ||
-    (merchant.aliases || []).includes(vendorName)
+    (merchant.aliases || []).includes(vendorName) ||
+    (merchant.category === "trade-expo" && (vendorId.includes("commerce") || vendorName.includes("commerce") || vendorId.includes("cicc") || vendorName.includes("cicc") || vendorId.includes("trade") || vendorName.includes("trade"))) ||
+    (merchant.category === "dining-nightlife" && (vendorId.includes("crunchies") || vendorName.includes("crunchies") || vendorId.includes("viking") || vendorName.includes("viking") || vendorId.includes("arena") || vendorName.includes("arena") || vendorId.includes("mayfair") || vendorName.includes("mayfair")))
   );
 };
 
@@ -428,8 +634,9 @@ const withNetPayout = (transaction) => ({
   payoutNGN: Math.round((Number(transaction.amountNGN) || 0) * PAYOUT_RATE),
 });
 
-export default function VendorPortal({ onOpenVoucher }) {
+export default function VendorPortal({ onOpenVoucher, onLockTerminal }) {
   const [activeMerchantId, setActiveMerchantId] = useState(MERCHANTS[0].id);
+  const [vendorCategoryFilter, setVendorCategoryFilter] = useState("all");
   const [payouts, setPayouts] = useState([]);
   const [activeBookings, setActiveBookings] = useState([]);
   const [redeemedDemoBookings, setRedeemedDemoBookings] = useState({});
@@ -653,9 +860,22 @@ export default function VendorPortal({ onOpenVoucher }) {
     <main className="mx-auto max-w-7xl space-y-8 px-4 py-10 text-slate-100 sm:px-6 lg:px-8">
       <header className="flex flex-col justify-between gap-5 border-b border-slate-800 pb-6 lg:flex-row lg:items-end">
         <div>
-          <div className="mb-2 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-amber-400">
-            <Building2 className="h-4 w-4" />
-            Merchant settlement terminal
+          <div className="mb-2 flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-amber-400">
+              <Building2 className="h-4 w-4" />
+              <span>Merchant settlement terminal</span>
+            </div>
+            {onLockTerminal && (
+              <button
+                type="button"
+                onClick={onLockTerminal}
+                className="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-slate-900 hover:bg-slate-800 text-rose-300 hover:text-rose-200 border border-rose-500/30 text-xs font-bold transition cursor-pointer"
+                title="Lock terminal and end merchant operator session"
+              >
+                <LockKeyhole className="h-3.5 w-3.5" />
+                <span>Lock Terminal</span>
+              </button>
+            )}
           </div>
           <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
             {activeMerchant.name}
@@ -666,42 +886,101 @@ export default function VendorPortal({ onOpenVoucher }) {
           </p>
         </div>
 
-        <label className="flex flex-col gap-2 text-xs font-semibold text-slate-400 sm:min-w-80">
-          Switch active terminal
+        <div className="flex flex-col gap-2 sm:min-w-80">
+          <div className="flex items-center justify-between text-xs font-semibold text-slate-400">
+            <span>Switch active terminal</span>
+            <span className="text-[10px] text-amber-400 font-mono">
+              {MERCHANTS.length} Verified Terminals
+            </span>
+          </div>
+
+          {/* Quick Category Filter for Terminals */}
+          <div className="flex items-center gap-1 overflow-x-auto py-1 scrollbar-none text-[11px]">
+            {[
+              { id: "all", label: "All" },
+              { id: "accommodations", label: "Accommodations" },
+              { id: "eco-sites", label: "Eco-Sites" },
+              { id: "dining-nightlife", label: "Dining" },
+              { id: "trade-expo", label: "Trade & Expo" },
+              { id: "carnival-culture", label: "Carnival" },
+            ].map((cat) => (
+              <button
+                key={cat.id}
+                type="button"
+                onClick={() => setVendorCategoryFilter(cat.id)}
+                className={`px-2 py-0.5 rounded-md text-[10px] font-semibold whitespace-nowrap transition cursor-pointer ${
+                  vendorCategoryFilter === cat.id
+                    ? "bg-amber-500 text-black font-bold"
+                    : "bg-slate-800/80 text-slate-400 hover:text-white"
+                }`}
+              >
+                {cat.label}
+              </button>
+            ))}
+          </div>
+
           <select
             value={activeMerchantId}
             onChange={(event) => setActiveMerchantId(event.target.value)}
-            className="rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 text-sm font-semibold text-white outline-none transition hover:border-amber-500/60 focus:border-amber-400"
+            className="rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 text-sm font-semibold text-white outline-none transition hover:border-amber-500/60 focus:border-amber-400 cursor-pointer"
           >
-            <optgroup label="Executive Hotels">
-              {MERCHANTS.filter((merchant) => merchant.category === "hotel").map(
-                (merchant) => (
-                  <option key={merchant.id} value={merchant.id}>
-                    {merchant.name}
-                  </option>
-                ),
-              )}
-            </optgroup>
-            <optgroup label="Official Carnival Bands">
-              {MERCHANTS.filter((merchant) => merchant.category === "band").map(
-                (merchant) => (
-                  <option key={merchant.id} value={merchant.id}>
-                    {merchant.name}
-                  </option>
-                ),
-              )}
-            </optgroup>
-            <optgroup label="Eco-Tourism & Attractions">
-              {MERCHANTS.filter((merchant) => merchant.category === "eco").map(
-                (merchant) => (
-                  <option key={merchant.id} value={merchant.id}>
-                    {merchant.name}
-                  </option>
-                ),
-              )}
-            </optgroup>
+            {(vendorCategoryFilter === "all" || vendorCategoryFilter === "accommodations") && (
+              <optgroup label="1. Accommodations (Hotels, Resorts, Suites)">
+                {MERCHANTS.filter((merchant) => merchant.category === "accommodations").map(
+                  (merchant) => (
+                    <option key={merchant.id} value={merchant.id}>
+                      {merchant.name} ({merchant.bankAccount})
+                    </option>
+                  ),
+                )}
+              </optgroup>
+            )}
+            {(vendorCategoryFilter === "all" || vendorCategoryFilter === "eco-sites") && (
+              <optgroup label="2. Eco-Sites & Heritage (Marina Resort, Agbokim, Drill Ranch, Kwa Falls)">
+                {MERCHANTS.filter((merchant) => merchant.category === "eco-sites").map(
+                  (merchant) => (
+                    <option key={merchant.id} value={merchant.id}>
+                      {merchant.name} ({merchant.bankAccount})
+                    </option>
+                  ),
+                )}
+              </optgroup>
+            )}
+            {(vendorCategoryFilter === "all" || vendorCategoryFilter === "dining-nightlife") && (
+              <optgroup label="3. Dining & Nightlife (Eateries, Seafood Hubs, Lounges)">
+                {MERCHANTS.filter((merchant) => merchant.category === "dining-nightlife").map(
+                  (merchant) => (
+                    <option key={merchant.id} value={merchant.id}>
+                      {merchant.name} ({merchant.bankAccount})
+                    </option>
+                  ),
+                )}
+              </optgroup>
+            )}
+            {(vendorCategoryFilter === "all" || vendorCategoryFilter === "trade-expo") && (
+              <optgroup label="4. Trade & Expo Hub (Ministry of Commerce & Exhibitors)">
+                {MERCHANTS.filter((merchant) => merchant.category === "trade-expo").map(
+                  (merchant) => (
+                    <option key={merchant.id} value={merchant.id}>
+                      {merchant.name} ({merchant.bankAccount})
+                    </option>
+                  ),
+                )}
+              </optgroup>
+            )}
+            {(vendorCategoryFilter === "all" || vendorCategoryFilter === "carnival-culture") && (
+              <optgroup label="5. Carnival & Culture (Carnival Band Passes & Festivals)">
+                {MERCHANTS.filter((merchant) => merchant.category === "carnival-culture").map(
+                  (merchant) => (
+                    <option key={merchant.id} value={merchant.id}>
+                      {merchant.name} ({merchant.bankAccount})
+                    </option>
+                  ),
+                )}
+              </optgroup>
+            )}
           </select>
-        </label>
+        </div>
       </header>
 
       <section
@@ -720,12 +999,16 @@ export default function VendorPortal({ onOpenVoucher }) {
               </span>
             </div>
             <p className="mt-1 text-xs text-slate-400">
-              {activeMerchant.category === "hotel"
-                ? "Accommodations & Executive Hotels"
-                : activeMerchant.category === "band"
-                  ? "Official Carnival Bands"
-                  : "Eco-Tourism & Attractions"}{" "}
-              • Active terminal
+              {activeMerchant.category === "accommodations"
+                ? "1. Accommodations (Hotels, Resorts, Suites)"
+                : activeMerchant.category === "eco-sites"
+                  ? "2. Eco-Sites & Heritage (Marina, Agbokim, Drill Ranch, Kwa Falls)"
+                  : activeMerchant.category === "dining-nightlife"
+                    ? "3. Dining & Nightlife (Eateries, Seafood Hubs, Lounges)"
+                    : activeMerchant.category === "trade-expo"
+                      ? "4. Trade & Expo Hub (Ministry of Commerce Architecture)"
+                      : "5. Carnival & Culture (Band Passes & Festival Tickets)"}{" "}
+              • Active Verified Settlement Terminal
             </p>
           </div>
         </div>

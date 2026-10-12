@@ -17,20 +17,50 @@ const FairPriceTracker = lazy(() => import("./components/FairPriceTracker.jsx"))
 const AccommodationsView = lazy(() => import("./components/AccommodationsView.jsx"));
 const VendorPortal = lazy(() => import("./components/VendorPortal.jsx"));
 const PackageDetailsModal = lazy(() => import("./components/PackageDetailsModal.jsx"));
+const VendorAuthModal = lazy(() => import("./components/VendorAuthModal.jsx"));
 
 export default function App() {
+  const isSessionVendorAuthenticated = () => {
+    if (typeof window !== "undefined") {
+      return sessionStorage.getItem("calabarpass_vendor_auth") === "true";
+    }
+    return false;
+  };
+
   const getInitialTab = () => {
     if (typeof window !== "undefined") {
       const path = window.location.pathname.toLowerCase();
-      if (path === "/accommodations") return "accommodations";
       if (path === "/shield") return "shield";
-      if (path === "/vendor") return "vendor";
+      if (path === "/vendor") {
+        return isSessionVendorAuthenticated() ? "vendor" : "packages";
+      }
       if (path === "/escrow") return "escrow";
+      if (path === "/accommodations") return "packages"; // Handled via activeCategory
     }
     return "packages";
   };
 
+  const getInitialCategory = () => {
+    if (typeof window !== "undefined") {
+      const path = window.location.pathname.toLowerCase();
+      if (path === "/accommodations") return "accommodations";
+      if (path === "/eco-sites") return "eco-sites";
+      if (path === "/dining" || path === "/dining-nightlife") return "dining-nightlife";
+      if (path === "/trade" || path === "/trade-expo") return "trade-expo";
+      if (path === "/carnival" || path === "/carnival-culture") return "carnival-culture";
+    }
+    return "all";
+  };
+
+  const [isVendorAuthenticated, setIsVendorAuthenticated] = useState(isSessionVendorAuthenticated);
+  const [showVendorAuthModal, setShowVendorAuthModal] = useState(() => {
+    if (typeof window !== "undefined") {
+      return window.location.pathname.toLowerCase() === "/vendor" && !isSessionVendorAuthenticated();
+    }
+    return false;
+  });
   const [activeTab, setActiveTabState] = useState(getInitialTab);
+  const [activeCategory, setActiveCategory] = useState(getInitialCategory);
   const [packages, setPackages] = useState(INITIAL_PACKAGES);
   const [paystackPublicKey, setPaystackPublicKey] = useState("");
   const [escrowStats, setEscrowStats] = useState(null);
@@ -41,7 +71,37 @@ export default function App() {
 
   const closePackageDetails = useCallback(() => setPackageForDetails(null), []);
 
+  const handleOpenVendorPortal = () => {
+    if (isVendorAuthenticated) {
+      handleTabChange("vendor");
+    } else {
+      setShowVendorAuthModal(true);
+    }
+  };
+
+  const handleVendorAuthSuccess = () => {
+    setIsVendorAuthenticated(true);
+    setShowVendorAuthModal(false);
+    setActiveTabState("vendor");
+    if (typeof window !== "undefined" && window.location.pathname !== "/vendor") {
+      window.history.pushState(null, "", "/vendor");
+    }
+  };
+
+  const handleLockTerminal = () => {
+    if (typeof window !== "undefined") {
+      sessionStorage.removeItem("calabarpass_vendor_auth");
+      sessionStorage.removeItem("calabarpass_vendor_auth_time");
+    }
+    setIsVendorAuthenticated(false);
+    handleTabChange("packages");
+  };
+
   const handleTabChange = (tab) => {
+    if (tab === "vendor" && !isVendorAuthenticated) {
+      setShowVendorAuthModal(true);
+      return;
+    }
     setActiveTabState(tab);
     if (typeof window !== "undefined") {
       const path = tab === "packages" ? "/" : `/${tab}`;
@@ -49,6 +109,22 @@ export default function App() {
         window.history.pushState(null, "", path);
       }
     }
+  };
+
+  const handleCategoryChange = (category) => {
+    setActiveCategory(category);
+    if (activeTab !== "packages") {
+      setActiveTabState("packages");
+      if (typeof window !== "undefined") {
+        window.history.pushState(null, "", `/${category}`);
+      }
+    }
+    setTimeout(() => {
+      const el = document.getElementById("directory-catalog");
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 50);
   };
 
   useEffect(() => {
@@ -174,6 +250,10 @@ export default function App() {
       <Navbar
         activeTab={activeTab}
         setActiveTab={handleTabChange}
+        activeCategory={activeCategory}
+        onSelectCategory={handleCategoryChange}
+        onOpenVendorPortal={handleOpenVendorPortal}
+        isVendorAuthenticated={isVendorAuthenticated}
         escrowStats={escrowStats}
       />
 
@@ -182,10 +262,13 @@ export default function App() {
           <>
             <HeroBanner
               setActiveTab={handleTabChange}
+              onSelectCategory={handleCategoryChange}
               escrowStats={escrowStats}
             />
             <PackageList
               packages={packages}
+              activeCategory={activeCategory}
+              onSelectCategory={handleCategoryChange}
               isLoading={loadingPackages && packages.length === 0}
               onSelectPackage={(pkg) => setSelectedPackage(pkg)}
               onViewPackage={(pkg) => setPackageForDetails(pkg)}
@@ -215,9 +298,28 @@ export default function App() {
 
         {activeTab === "vendor" && (
           <Suspense fallback={<div className="p-12 text-center text-slate-400">Loading Vendor Portal & Clearinghouse...</div>}>
-            <VendorPortal
-              onOpenVoucher={(tx) => setActiveVoucher(tx)}
-            />
+            {isVendorAuthenticated ? (
+              <VendorPortal
+                onOpenVoucher={(tx) => setActiveVoucher(tx)}
+                onLockTerminal={handleLockTerminal}
+              />
+            ) : (
+              <div className="py-20 px-4 max-w-xl mx-auto text-center space-y-6">
+                <div className="w-16 h-16 rounded-3xl bg-amber-500/20 border border-amber-500/40 text-amber-400 flex items-center justify-center mx-auto shadow-gold-glow">
+                  <Lock className="w-8 h-8" />
+                </div>
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-white">Merchant Settlement Terminal Locked</h2>
+                <p className="text-slate-400 text-sm leading-relaxed">
+                  Direct access to merchant settlement ledgers is restricted to authorized Cross River hospitality and tour operators. Please authenticate with your Vendor Access Code.
+                </p>
+                <button
+                  onClick={() => setShowVendorAuthModal(true)}
+                  className="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-extrabold text-sm shadow-gold-glow transition cursor-pointer"
+                >
+                  Enter Vendor Access Code
+                </button>
+              </div>
+            )}
           </Suspense>
         )}
 
@@ -260,6 +362,16 @@ export default function App() {
         </Suspense>
       )}
 
+      {showVendorAuthModal && (
+        <Suspense fallback={null}>
+          <VendorAuthModal
+            isOpen={showVendorAuthModal}
+            onClose={() => setShowVendorAuthModal(false)}
+            onSuccess={handleVendorAuthSuccess}
+          />
+        </Suspense>
+      )}
+
       <footer className="mt-20 border-t border-slate-800/80 bg-slate-950/80 py-12 text-slate-400 text-xs no-print">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
@@ -286,7 +398,7 @@ export default function App() {
             <div>
               <div className="font-bold text-white uppercase tracking-wider mb-3">Roles & Portals</div>
               <ul className="space-y-2">
-                <li><button onClick={() => handleTabChange("vendor")} className="hover:text-amber-400 text-amber-300 font-semibold cursor-pointer">Merchant Portal & PIN Redemption ↗</button></li>
+                <li><button onClick={handleOpenVendorPortal} className="hover:text-amber-400 text-amber-300 font-semibold cursor-pointer">Merchant Portal & PIN Redemption ↗</button></li>
                 <li><button onClick={() => handleTabChange("shield")} className="hover:text-amber-400 cursor-pointer">Surge Predictor</button></li>
               </ul>
             </div>

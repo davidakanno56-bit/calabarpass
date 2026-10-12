@@ -255,6 +255,12 @@ export function isVendorMatch(txVendor, query) {
   if ((q.includes("akamkpa") || q.includes("kwa") || q === "akamkpa-guides") && (tv.includes("akamkpa") || tv.includes("kwa") || tv === "akamkpa-guides")) return true;
   if ((q.includes("spar") || q === "spar-mall") && (tv.includes("spar") || tv === "spar-mall")) return true;
   if ((q.includes("seagull") || q.includes("official band") || q === "seagull-band") && (tv.includes("seagull") || tv.includes("official band") || tv === "seagull-band")) return true;
+  if ((q.includes("commerce") || q.includes("trade")) && (tv.includes("commerce") || tv.includes("trade"))) return true;
+  if (q.includes("cicc") && tv.includes("cicc")) return true;
+  if (q.includes("crunchies") && tv.includes("crunchies")) return true;
+  if (q.includes("viking") && tv.includes("viking")) return true;
+  if (q.includes("arena") && tv.includes("arena")) return true;
+  if (q.includes("mayfair") && tv.includes("mayfair")) return true;
 
   return false;
 }
