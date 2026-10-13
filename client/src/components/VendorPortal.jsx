@@ -11,7 +11,7 @@ import {
   Wallet,
 } from "lucide-react";
 import { EscrowTableSkeleton } from "./SkeletonLoader.jsx";
-import { handleLocalEscrowFallback } from "../utils/api.js";
+import { handleLocalEscrowFallback, getStoredVendors } from "../utils/api.js";
 
 const MERCHANTS = [
   // 1. ACCOMMODATIONS (Hotels, Resorts, Suites)
@@ -635,7 +635,48 @@ const withNetPayout = (transaction) => ({
 });
 
 export default function VendorPortal({ onOpenVoucher, onLockTerminal }) {
-  const [activeMerchantId, setActiveMerchantId] = useState(MERCHANTS[0].id);
+  const [registeredVendors, setRegisteredVendors] = useState(() => getStoredVendors());
+
+  // Merge dynamically registered merchants with static baseline merchants
+  const allMerchants = React.useMemo(() => {
+    const staticIds = new Set(MERCHANTS.map((m) => m.id));
+    const dynamicFormatted = (registeredVendors || [])
+      .filter((v) => !staticIds.has(v.id))
+      .map((v) => ({
+        id: v.id,
+        apiVendorId: v.apiVendorId || v.id,
+        name: v.name || v.businessName,
+        category: v.category || "accommodations",
+        terminalType: v.terminalType || "Verified Merchant",
+        bankAccount: v.bankAccount || "Verified Settlement Account",
+        terms: v.terms || {
+          incoming: "Guest Check-Ins",
+          booking: "Bookings",
+          item: "Service",
+          itemExample: `${v.name || v.businessName} Pass`,
+          dateLabel: "Verification Date",
+          amountLabel: "Rate",
+        },
+        aliases: v.aliases || [v.id],
+        demo: v.demo || [
+          `CP-${(v.accessCode || "DEMO").replace(/[^A-Z0-9]/g, "")}`,
+          "552190",
+          "Verified Onboarding Guest",
+          `${v.name || v.businessName} Pass`,
+          35000,
+        ],
+      }));
+    return [...dynamicFormatted, ...MERCHANTS];
+  }, [registeredVendors]);
+
+  const [activeMerchantId, setActiveMerchantId] = useState(() => {
+    if (typeof window !== "undefined") {
+      const saved = sessionStorage.getItem("calabarpass_active_merchant_id");
+      if (saved) return saved;
+    }
+    return MERCHANTS[0].id;
+  });
+
   const [vendorCategoryFilter, setVendorCategoryFilter] = useState("all");
   const [payouts, setPayouts] = useState([]);
   const [activeBookings, setActiveBookings] = useState([]);
@@ -648,8 +689,20 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal }) {
   const [releaseLoading, setReleaseLoading] = useState(false);
 
   const activeMerchant =
-    MERCHANTS.find((merchant) => merchant.id === activeMerchantId) ||
+    allMerchants.find((merchant) => merchant.id === activeMerchantId) ||
+    allMerchants[0] ||
     MERCHANTS[0];
+
+  useEffect(() => {
+    fetch("/api/vendor/list")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data?.success && Array.isArray(data.vendors) && data.vendors.length > 0) {
+          setRegisteredVendors(data.vendors);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const fetchLedger = useCallback(
     async ({ quiet = false } = {}) => {
@@ -674,7 +727,19 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal }) {
           .filter((payout) => vendorMatches(payout, activeMerchant))
           .map((payout) => ({ ...payout, isDemo: false }));
 
-        const demoBookings = (DEMO_BOOKINGS[activeMerchant.id] || [])
+        const baseDemoBooking = DEMO_BOOKINGS[activeMerchant.id] || (activeMerchant.demo ? [{
+          reference: activeMerchant.demo[0],
+          pin: activeMerchant.demo[1],
+          customerName: activeMerchant.demo[2],
+          packageName: activeMerchant.demo[3],
+          bookingDate: new Date().toISOString().slice(0, 10),
+          amountNGN: activeMerchant.demo[4],
+          vendorId: activeMerchant.id,
+          vendor: activeMerchant.name,
+          isDemo: true,
+        }] : []);
+
+        const demoBookings = baseDemoBooking
           .filter(
             (booking) =>
               !(redeemedDemoBookings[activeMerchant.id] || []).some(
@@ -707,8 +772,20 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal }) {
         setLedgerError(
           `${error.message || "Unable to load live merchant records."} Showing demo bookings only where available.`,
         );
+        const baseDemoBooking = DEMO_BOOKINGS[activeMerchant.id] || (activeMerchant.demo ? [{
+          reference: activeMerchant.demo[0],
+          pin: activeMerchant.demo[1],
+          customerName: activeMerchant.demo[2],
+          packageName: activeMerchant.demo[3],
+          bookingDate: new Date().toISOString().slice(0, 10),
+          amountNGN: activeMerchant.demo[4],
+          vendorId: activeMerchant.id,
+          vendor: activeMerchant.name,
+          isDemo: true,
+        }] : []);
+
         setActiveBookings(
-          (DEMO_BOOKINGS[activeMerchant.id] || [])
+          baseDemoBooking
             .filter(
               (booking) =>
                 !(redeemedDemoBookings[activeMerchant.id] || []).some(
@@ -890,7 +967,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal }) {
           <div className="flex items-center justify-between text-xs font-semibold text-slate-400">
             <span>Switch active terminal</span>
             <span className="text-[10px] text-amber-400 font-mono">
-              {MERCHANTS.length} Verified Terminals
+              {allMerchants.length} Verified Terminals
             </span>
           </div>
 
@@ -926,7 +1003,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal }) {
           >
             {(vendorCategoryFilter === "all" || vendorCategoryFilter === "accommodations") && (
               <optgroup label="1. Accommodations (Hotels, Resorts, Suites)">
-                {MERCHANTS.filter((merchant) => merchant.category === "accommodations").map(
+                {allMerchants.filter((merchant) => merchant.category === "accommodations").map(
                   (merchant) => (
                     <option key={merchant.id} value={merchant.id}>
                       {merchant.name} ({merchant.bankAccount})
@@ -937,7 +1014,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal }) {
             )}
             {(vendorCategoryFilter === "all" || vendorCategoryFilter === "eco-sites") && (
               <optgroup label="2. Eco-Sites & Heritage (Marina Resort, Agbokim, Drill Ranch, Kwa Falls)">
-                {MERCHANTS.filter((merchant) => merchant.category === "eco-sites").map(
+                {allMerchants.filter((merchant) => merchant.category === "eco-sites").map(
                   (merchant) => (
                     <option key={merchant.id} value={merchant.id}>
                       {merchant.name} ({merchant.bankAccount})
@@ -948,7 +1025,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal }) {
             )}
             {(vendorCategoryFilter === "all" || vendorCategoryFilter === "dining-nightlife") && (
               <optgroup label="3. Dining & Nightlife (Eateries, Seafood Hubs, Lounges)">
-                {MERCHANTS.filter((merchant) => merchant.category === "dining-nightlife").map(
+                {allMerchants.filter((merchant) => merchant.category === "dining-nightlife").map(
                   (merchant) => (
                     <option key={merchant.id} value={merchant.id}>
                       {merchant.name} ({merchant.bankAccount})
@@ -959,7 +1036,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal }) {
             )}
             {(vendorCategoryFilter === "all" || vendorCategoryFilter === "trade-expo") && (
               <optgroup label="4. Trade & Expo Hub (Ministry of Commerce & Exhibitors)">
-                {MERCHANTS.filter((merchant) => merchant.category === "trade-expo").map(
+                {allMerchants.filter((merchant) => merchant.category === "trade-expo").map(
                   (merchant) => (
                     <option key={merchant.id} value={merchant.id}>
                       {merchant.name} ({merchant.bankAccount})
@@ -970,7 +1047,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal }) {
             )}
             {(vendorCategoryFilter === "all" || vendorCategoryFilter === "carnival-culture") && (
               <optgroup label="5. Carnival & Culture (Carnival Band Passes & Festivals)">
-                {MERCHANTS.filter((merchant) => merchant.category === "carnival-culture").map(
+                {allMerchants.filter((merchant) => merchant.category === "carnival-culture").map(
                   (merchant) => (
                     <option key={merchant.id} value={merchant.id}>
                       {merchant.name} ({merchant.bankAccount})

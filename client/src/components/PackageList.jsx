@@ -27,6 +27,7 @@ import {
 
 export default function PackageList({ 
   packages = [], 
+  dynamicCards = [],
   activeCategory = "all", 
   onSelectCategory, 
   onSelectPackage, 
@@ -54,11 +55,33 @@ export default function PackageList({
     }
   };
 
-  const categoryCounts = useMemo(() => getCategoryCounts(), []);
+  // Merge dynamic onboarded cards with baseline directory catalog
+  const allCards = useMemo(() => {
+    if (!dynamicCards || dynamicCards.length === 0) return ALL_EXPANDED_CARDS;
+    const dynamicIds = new Set(dynamicCards.map(c => c.id));
+    return [...dynamicCards, ...ALL_EXPANDED_CARDS.filter(c => !dynamicIds.has(c.id))];
+  }, [dynamicCards]);
+
+  const categoryCounts = useMemo(() => {
+    const counts = {
+      all: allCards.length,
+      accommodations: 0,
+      "eco-sites": 0,
+      "dining-nightlife": 0,
+      "trade-expo": 0,
+      "carnival-culture": 0
+    };
+    allCards.forEach(card => {
+      if (counts[card.categoryGroup] !== undefined) {
+        counts[card.categoryGroup]++;
+      }
+    });
+    return counts;
+  }, [allCards]);
 
   // Filter cards by primary category, sub-category, and search query
   const filteredCards = useMemo(() => {
-    let result = ALL_EXPANDED_CARDS;
+    let result = allCards;
 
     // 1. Primary Category Filter
     if (currentCategory && currentCategory !== "all") {
@@ -84,11 +107,11 @@ export default function PackageList({
     }
 
     return result;
-  }, [currentCategory, subCategory, searchQuery]);
+  }, [allCards, currentCategory, subCategory, searchQuery]);
 
   // Extract available subcategories for active filter
   const availableSubCategories = useMemo(() => {
-    let base = ALL_EXPANDED_CARDS;
+    let base = allCards;
     if (currentCategory && currentCategory !== "all") {
       base = base.filter(card => card.categoryGroup === currentCategory);
     }
@@ -97,7 +120,7 @@ export default function PackageList({
       if (card.subCategory) subs.add(card.subCategory);
     });
     return ["All", ...Array.from(subs)];
-  }, [currentCategory]);
+  }, [allCards, currentCategory]);
 
   const categoryIcons = {
     all: Compass,
@@ -130,7 +153,7 @@ export default function PackageList({
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
           <span className="text-slate-300 font-medium">Active Directory:</span>
           <span className="font-bold text-amber-400 font-mono">
-            {ALL_EXPANDED_CARDS.length} Verified Venues & Passes
+            {allCards.length} Verified Venues & Passes
           </span>
         </div>
       </div>

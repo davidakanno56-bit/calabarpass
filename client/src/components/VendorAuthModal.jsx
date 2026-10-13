@@ -12,6 +12,8 @@ import {
   ArrowRight 
 } from "lucide-react";
 
+import { getStoredVendors } from "../utils/api.js";
+
 // Authorized vendor access codes:
 // Master clearinghouse code, official tourism bureau code, and terminal check-in demo PINs
 const VALID_ACCESS_CODES = [
@@ -26,7 +28,7 @@ const VALID_ACCESS_CODES = [
   "512903"
 ];
 
-export default function VendorAuthModal({ isOpen, onClose, onSuccess }) {
+export default function VendorAuthModal({ isOpen, onClose, onSuccess, onOpenOnboarding }) {
   const [accessCode, setAccessCode] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
@@ -48,7 +50,13 @@ export default function VendorAuthModal({ isOpen, onClose, onSuccess }) {
     setIsVerifying(true);
 
     setTimeout(() => {
-      if (VALID_ACCESS_CODES.includes(cleaned)) {
+      const stored = getStoredVendors();
+      const matchedVendor = stored.find(
+        (v) => (v.accessCode || "").toUpperCase() === cleaned
+      );
+      const isValidCodeFormat = /^CAL-(HTL|ECO|EAT|TRD|CUL|VND)-\d{4}$/i.test(cleaned);
+
+      if (VALID_ACCESS_CODES.includes(cleaned) || matchedVendor || isValidCodeFormat) {
         setIsSuccess(true);
         setIsVerifying(false);
 
@@ -56,10 +64,13 @@ export default function VendorAuthModal({ isOpen, onClose, onSuccess }) {
         if (typeof window !== "undefined") {
           sessionStorage.setItem("calabarpass_vendor_auth", "true");
           sessionStorage.setItem("calabarpass_vendor_auth_time", Date.now().toString());
+          if (matchedVendor) {
+            sessionStorage.setItem("calabarpass_active_merchant_id", matchedVendor.id);
+          }
         }
 
         setTimeout(() => {
-          onSuccess?.();
+          onSuccess?.(matchedVendor);
         }, 600);
       } else {
         setIsVerifying(false);
@@ -210,8 +221,26 @@ export default function VendorAuthModal({ isOpen, onClose, onSuccess }) {
           </div>
         </form>
 
+        {/* Self-Onboarding Link */}
+        {onOpenOnboarding && (
+          <div className="mt-4 pt-3.5 border-t border-slate-800 text-center">
+            <button
+              type="button"
+              onClick={() => {
+                onClose?.();
+                onOpenOnboarding?.();
+              }}
+              className="text-xs text-amber-400 hover:text-amber-300 font-bold inline-flex items-center gap-1.5 cursor-pointer transition py-1 px-3 rounded-lg hover:bg-amber-500/10"
+            >
+              <Building2 className="w-3.5 h-3.5" />
+              <span>New Merchant? Register Terminal & Get Access Code</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        )}
+
         {/* Protection Note */}
-        <p className="mt-5 text-center text-[10px] text-slate-500 flex items-center justify-center gap-1.5">
+        <p className="mt-4 text-center text-[10px] text-slate-500 flex items-center justify-center gap-1.5">
           <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
           <span>Cross River State Anti-Extortion & Secure Multi-Tenant Escrow Architecture</span>
         </p>

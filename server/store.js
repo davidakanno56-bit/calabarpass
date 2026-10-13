@@ -2,6 +2,7 @@
 // CalabarPass In-Memory Store & 365-Day Escrow Transaction State Engine
 
 import { HOTELS, getHotelBaseRate } from "./hotels.js";
+import { generateVendorAccessCode } from "./vendorAuth.js";
 
 // 6 Curated Cross River Tourism Packages (Strictly Tours, Excursions & Eco-Expeditions - Zero Lodging/Hotels)
 export const PACKAGES = [
@@ -268,6 +269,8 @@ export function isVendorMatch(txVendor, query) {
 class EscrowStore {
   constructor() {
     this.transactions = new Map();
+    this.vendors = new Map();
+    this.dynamicCards = [];
     this.seedInitialTransactions();
   }
 
@@ -827,6 +830,171 @@ class EscrowStore {
       disputedEscrowBookings: disputedCount,
       totalTransactions: all.length
     };
+  }
+
+  registerVendor({
+    businessName,
+    name,
+    category,
+    bankPayoutDetails,
+    bankAccount,
+    phone,
+    phoneNumber,
+    logoUrl,
+    image,
+    imageUrl,
+    location,
+    corridor,
+    description,
+    price,
+    priceNGN
+  }) {
+    const title = (businessName || name || "").trim();
+    if (!title) {
+      throw new Error("Business name is required for vendor onboarding.");
+    }
+
+    const rawCategory = (category || "accommodations").toLowerCase().trim();
+    let normalizedCategory = "accommodations";
+    if (rawCategory.includes("eco") || rawCategory.includes("heritage")) {
+      normalizedCategory = "eco-sites";
+    } else if (rawCategory.includes("din") || rawCategory.includes("eat") || rawCategory.includes("food") || rawCategory.includes("lounge")) {
+      normalizedCategory = "dining-nightlife";
+    } else if (rawCategory.includes("trade") || rawCategory.includes("expo") || rawCategory.includes("commerce")) {
+      normalizedCategory = "trade-expo";
+    } else if (rawCategory.includes("carnival") || rawCategory.includes("cultur") || rawCategory.includes("band") || rawCategory.includes("festival")) {
+      normalizedCategory = "carnival-culture";
+    }
+
+    const accessCode = generateVendorAccessCode(normalizedCategory);
+    const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    const vendorId = `vnd-${slug}-${Date.now().toString(36)}`;
+    const bank = bankPayoutDetails || bankAccount || "Access Bank ****4102";
+    const tel = phone || phoneNumber || "+234 800 000 0000";
+    const img = logoUrl || image || imageUrl || "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80";
+    const loc = location || corridor || "Calabar Municipality, Cross River State";
+    const rate = Number(priceNGN || price || 35000);
+
+    const vendorRecord = {
+      id: vendorId,
+      apiVendorId: vendorId,
+      name: title,
+      businessName: title,
+      category: normalizedCategory,
+      bankAccount: bank,
+      phone: tel,
+      logoUrl: img,
+      image: img,
+      location: loc,
+      description: description || `Verified Cross River 365-day commercial operator in ${normalizedCategory}.`,
+      accessCode,
+      registeredAt: new Date().toISOString(),
+      status: "VERIFIED_ACTIVE",
+      terms: {
+        incoming: "Guest Check-Ins",
+        booking: "Clearances & Bookings",
+        item: "Service Offering",
+        itemExample: `${title} Pass`,
+        dateLabel: "Verification Date",
+        amountLabel: "Rate",
+      },
+      aliases: [vendorId, slug, title.toLowerCase()],
+      demo: [`CP-${accessCode.replace(/[^A-Z0-9]/g, "")}`, "552190", "Verified Onboarding Guest", `${title} Pass`, rate],
+    };
+
+    // Store in internal maps
+    this.vendors.set(vendorId, vendorRecord);
+    this.vendors.set(accessCode.toUpperCase(), vendorRecord);
+
+    // Create a public directory card
+    const directoryCard = {
+      id: `card-${vendorId}`,
+      categoryGroup: normalizedCategory,
+      category: normalizedCategory,
+      subCategory: "Verified Partner",
+      name: title,
+      title: `${title} - Verified 365 Architecture`,
+      vendor: title,
+      vendorName: title,
+      vendorId: vendorId,
+      location: loc,
+      corridor: loc,
+      priceNGN: rate,
+      price: rate,
+      priceRange: `₦${rate.toLocaleString()}`,
+      rating: 5.0,
+      reviews: 1,
+      badge: "Newly Verified",
+      escrowBadge: "State Bureau Verified Operator",
+      image: img,
+      imageUrl: img,
+      description: vendorRecord.description,
+      details: `Official verified ${normalizedCategory} merchant in Cross River State with 100% escrow buyer protection.`,
+      amenities: ["100% Escrow Protected", "Verified Payout Account", "PIN Redemption", "365-Day Guarantee"],
+      accessCode,
+      bookingMode: "365_day_open",
+      capacityLabel: "Open Daily • 365-Day Escrow Check-In",
+    };
+
+    this.dynamicCards.push(directoryCard);
+
+    // Initialize an isolated private vendor booking in this vendor's terminal
+    const demoRef = `CP-${accessCode.replace(/[^A-Z0-9]/g, "")}`;
+    this.transactions.set(demoRef, {
+      reference: demoRef,
+      packageId: directoryCard.id,
+      packageName: `${title} Initial Booking`,
+      vendor: title,
+      vendorId: vendorId,
+      customerName: "Official Clearinghouse Guest",
+      email: "guest@crossriver.ng",
+      phone: tel,
+      amountNGN: rate,
+      amountKobo: rate * 100,
+      bookingDate: new Date(Date.now() + 86400000).toISOString().split("T")[0],
+      status: "ESCROW_LOCKED_ACTIVE",
+      statusLabel: "Escrow Secured - Awaiting On-Site Verification",
+      checkInPin: "552190",
+      createdAt: new Date().toISOString(),
+      lockedAt: new Date().toISOString(),
+      disbursedAt: null,
+      paystackStatus: "success",
+      channel: "card",
+    });
+
+    return {
+      success: true,
+      vendor: vendorRecord,
+      directoryCard,
+      accessCode,
+    };
+  }
+
+  getVendorByAccessCode(code) {
+    if (!code) return null;
+    const cleaned = String(code).trim().toUpperCase();
+    if (cleaned === "CALABAR2026" || cleaned === "3652026" || cleaned === "CALABARPASS") {
+      return {
+        id: "master-clearinghouse",
+        name: "Cross River State Clearinghouse Master",
+        category: "all",
+        accessCode: cleaned,
+        isMaster: true,
+      };
+    }
+    return this.vendors.get(cleaned) || null;
+  }
+
+  getAllVendors() {
+    const map = new Map();
+    for (const v of this.vendors.values()) {
+      if (v.id) map.set(v.id, v);
+    }
+    return Array.from(map.values());
+  }
+
+  getDynamicCards() {
+    return this.dynamicCards || [];
   }
 }
 

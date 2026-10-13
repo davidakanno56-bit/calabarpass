@@ -215,6 +215,101 @@ app.get("/api/vendor/payouts", (req, res) => {
   }
 });
 
+// 7c. Merchant Self-Onboarding Registration Endpoint
+const handleVendorRegistration = (req, res) => {
+  try {
+    const { 
+      businessName, 
+      name, 
+      category, 
+      bankPayoutDetails, 
+      bankAccount, 
+      phone, 
+      phoneNumber, 
+      logoUrl, 
+      image, 
+      location, 
+      corridor, 
+      description, 
+      price, 
+      priceNGN 
+    } = req.body || {};
+
+    const title = businessName || name;
+    if (!title) {
+      return res.status(400).json({ success: false, error: "Business name is required." });
+    }
+    if (!bankPayoutDetails && !bankAccount) {
+      return res.status(400).json({ success: false, error: "Bank payout details are required." });
+    }
+    if (!phone && !phoneNumber) {
+      return res.status(400).json({ success: false, error: "Phone number is required." });
+    }
+
+    const result = escrowStore.registerVendor({
+      businessName: title,
+      category,
+      bankPayoutDetails: bankPayoutDetails || bankAccount,
+      phone: phone || phoneNumber,
+      logoUrl: logoUrl || image,
+      location: location || corridor,
+      description,
+      priceNGN: priceNGN || price
+    });
+
+    res.status(201).json({
+      success: true,
+      vendor: result.vendor,
+      accessCode: result.accessCode,
+      directoryCard: result.directoryCard,
+      message: `Merchant registered successfully. Save your Vendor Access Code: ${result.accessCode}`
+    });
+  } catch (error) {
+    console.error("Vendor Onboarding Error:", error.message);
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+app.post("/api/vendor/register", handleVendorRegistration);
+app.post("/api/vendor/onboard", handleVendorRegistration);
+
+// 7d. Get all Registered Vendors
+app.get("/api/vendor/list", (req, res) => {
+  try {
+    const vendors = escrowStore.getAllVendors();
+    res.json({ success: true, vendors });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// 7e. Verify Vendor Access Code
+app.post("/api/vendor/verify-access", (req, res) => {
+  try {
+    const { accessCode } = req.body || {};
+    if (!accessCode) {
+      return res.status(400).json({ success: false, error: "Access code is required." });
+    }
+    const vendor = escrowStore.getVendorByAccessCode(accessCode);
+    if (!vendor) {
+      return res.status(401).json({ success: false, error: "Invalid Vendor Access Code." });
+    }
+    res.json({ success: true, vendor, accessCode });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// 7f. Get Dynamic Directory Cards
+app.get("/api/vendor/dynamic-cards", (req, res) => {
+  try {
+    const cards = escrowStore.getDynamicCards();
+    res.json({ success: true, cards });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 // 8. Fair Price Catalog & Scam Advisories
 app.get("/api/fair-prices", (req, res) => {
   res.json({

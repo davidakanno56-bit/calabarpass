@@ -55,6 +55,7 @@ export default function Navbar({
   activeCategory = "all",
   onSelectCategory,
   onOpenVendorPortal,
+  onOpenOnboarding,
   isVendorAuthenticated = false,
   escrowStats
 }) {
@@ -160,6 +161,18 @@ export default function Navbar({
               <span className="hidden md:inline">Scam Shield</span>
             </button>
 
+            {/* Onboard Merchant */}
+            {onOpenOnboarding && (
+              <button
+                onClick={onOpenOnboarding}
+                className="hidden xl:flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all border border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 cursor-pointer shadow-sm"
+                title="Register Merchant Terminal & Get Access Code"
+              >
+                <Building2 className="w-3.5 h-3.5 text-amber-400" />
+                <span>Onboard</span>
+              </button>
+            )}
+
             {/* Vendor Portal Terminal Access */}
             <button
               onClick={handleVendorClick}
@@ -232,6 +245,16 @@ export default function Navbar({
           >
             Scam Shield
           </button>
+
+          {onOpenOnboarding && (
+            <button
+              onClick={onOpenOnboarding}
+              className="flex items-center gap-1 px-3 py-1.5 rounded-lg whitespace-nowrap font-bold text-xs transition-all cursor-pointer text-amber-300 bg-amber-500/10 border border-amber-500/30"
+              title="Onboard Merchant"
+            >
+              <span>+ Onboard</span>
+            </button>
+          )}
 
           <button
             onClick={handleVendorClick}

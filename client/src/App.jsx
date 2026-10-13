@@ -8,7 +8,7 @@ import { PackageGridSkeleton, EscrowTableSkeleton } from "./components/SkeletonL
 import { fetchWithSWR } from "./utils/cache.js";
 import { PACKAGES as INITIAL_PACKAGES } from "./data/packages.js";
 import { ShieldCheck, Lock } from "lucide-react";
-import { handleLocalEscrowFallback } from "./utils/api.js";
+import { handleLocalEscrowFallback, getStoredDynamicCards } from "./utils/api.js";
 
 const PaystackCheckoutModal = lazy(() => import("./components/PaystackCheckoutModal.jsx"));
 const EscrowVoucherModal = lazy(() => import("./components/EscrowVoucherModal.jsx"));
@@ -18,6 +18,7 @@ const AccommodationsView = lazy(() => import("./components/AccommodationsView.js
 const VendorPortal = lazy(() => import("./components/VendorPortal.jsx"));
 const PackageDetailsModal = lazy(() => import("./components/PackageDetailsModal.jsx"));
 const VendorAuthModal = lazy(() => import("./components/VendorAuthModal.jsx"));
+const MerchantOnboardingModal = lazy(() => import("./components/MerchantOnboardingModal.jsx"));
 
 export default function App() {
   const isSessionVendorAuthenticated = () => {
@@ -59,6 +60,8 @@ export default function App() {
     }
     return false;
   });
+  const [showOnboardingModal, setShowOnboardingModal] = useState(false);
+  const [dynamicVendorCards, setDynamicVendorCards] = useState(() => getStoredDynamicCards());
   const [activeTab, setActiveTabState] = useState(getInitialTab);
   const [activeCategory, setActiveCategory] = useState(getInitialCategory);
   const [packages, setPackages] = useState(INITIAL_PACKAGES);
@@ -79,10 +82,32 @@ export default function App() {
     }
   };
 
-  const handleVendorAuthSuccess = () => {
+  const handleVendorAuthSuccess = (matchedVendor) => {
     setIsVendorAuthenticated(true);
     setShowVendorAuthModal(false);
     setActiveTabState("vendor");
+    if (matchedVendor?.id && typeof window !== "undefined") {
+      sessionStorage.setItem("calabarpass_active_merchant_id", matchedVendor.id);
+    }
+    if (typeof window !== "undefined" && window.location.pathname !== "/vendor") {
+      window.history.pushState(null, "", "/vendor");
+    }
+  };
+
+  const handleOnboardSuccess = (created) => {
+    if (created?.directoryCard) {
+      setDynamicVendorCards((prev) => [
+        created.directoryCard,
+        ...prev.filter((c) => c.id !== created.directoryCard.id),
+      ]);
+    }
+    setIsVendorAuthenticated(true);
+    setShowVendorAuthModal(false);
+    setShowOnboardingModal(false);
+    setActiveTabState("vendor");
+    if (created?.vendor?.id && typeof window !== "undefined") {
+      sessionStorage.setItem("calabarpass_active_merchant_id", created.vendor.id);
+    }
     if (typeof window !== "undefined" && window.location.pathname !== "/vendor") {
       window.history.pushState(null, "", "/vendor");
     }
@@ -92,6 +117,7 @@ export default function App() {
     if (typeof window !== "undefined") {
       sessionStorage.removeItem("calabarpass_vendor_auth");
       sessionStorage.removeItem("calabarpass_vendor_auth_time");
+      sessionStorage.removeItem("calabarpass_active_merchant_id");
     }
     setIsVendorAuthenticated(false);
     handleTabChange("packages");
@@ -253,6 +279,7 @@ export default function App() {
         activeCategory={activeCategory}
         onSelectCategory={handleCategoryChange}
         onOpenVendorPortal={handleOpenVendorPortal}
+        onOpenOnboarding={() => setShowOnboardingModal(true)}
         isVendorAuthenticated={isVendorAuthenticated}
         escrowStats={escrowStats}
       />
@@ -267,6 +294,7 @@ export default function App() {
             />
             <PackageList
               packages={packages}
+              dynamicCards={dynamicVendorCards}
               activeCategory={activeCategory}
               onSelectCategory={handleCategoryChange}
               isLoading={loadingPackages && packages.length === 0}
@@ -312,12 +340,20 @@ export default function App() {
                 <p className="text-slate-400 text-sm leading-relaxed">
                   Direct access to merchant settlement ledgers is restricted to authorized Cross River hospitality and tour operators. Please authenticate with your Vendor Access Code.
                 </p>
-                <button
-                  onClick={() => setShowVendorAuthModal(true)}
-                  className="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-extrabold text-sm shadow-gold-glow transition cursor-pointer"
-                >
-                  Enter Vendor Access Code
-                </button>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                  <button
+                    onClick={() => setShowVendorAuthModal(true)}
+                    className="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-extrabold text-sm shadow-gold-glow transition cursor-pointer"
+                  >
+                    Enter Vendor Access Code
+                  </button>
+                  <button
+                    onClick={() => setShowOnboardingModal(true)}
+                    className="px-5 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-amber-300 font-bold text-sm border border-amber-500/30 transition cursor-pointer"
+                  >
+                    + Register Merchant Terminal
+                  </button>
+                </div>
               </div>
             )}
           </Suspense>
@@ -368,6 +404,20 @@ export default function App() {
             isOpen={showVendorAuthModal}
             onClose={() => setShowVendorAuthModal(false)}
             onSuccess={handleVendorAuthSuccess}
+            onOpenOnboarding={() => {
+              setShowVendorAuthModal(false);
+              setShowOnboardingModal(true);
+            }}
+          />
+        </Suspense>
+      )}
+
+      {showOnboardingModal && (
+        <Suspense fallback={null}>
+          <MerchantOnboardingModal
+            isOpen={showOnboardingModal}
+            onClose={() => setShowOnboardingModal(false)}
+            onOnboardSuccess={handleOnboardSuccess}
           />
         </Suspense>
       )}
