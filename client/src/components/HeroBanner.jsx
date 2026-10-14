@@ -113,28 +113,6 @@ export default function HeroBanner({ setActiveTab, onSelectCategory, escrowStats
                 <span>Fair Rates & Scam Shield</span>
               </button>
             </div>
-
-            {/* Quick 5-Category Jump Badges */}
-            <div className="pt-4 flex flex-wrap items-center justify-center lg:justify-start gap-2 text-xs">
-              <span className="text-[11px] uppercase tracking-wider text-slate-500 font-bold mr-1">
-                Explore Categories:
-              </span>
-              {[
-                { id: "accommodations", label: "🏨 Accommodations" },
-                { id: "eco-sites", label: "🌿 Eco-Sites & Heritage" },
-                { id: "dining-nightlife", label: "🍽️ Dining & Nightlife" },
-                { id: "trade-expo", label: "🏛️ Trade & Expo Hub" },
-                { id: "carnival-culture", label: "🎉 Carnival & Culture" },
-              ].map((chip) => (
-                <button
-                  key={chip.id}
-                  onClick={() => handleCategoryJump(chip.id)}
-                  className="px-2.5 py-1 rounded-lg bg-slate-900/80 border border-slate-800 text-slate-300 hover:text-amber-300 hover:border-amber-500/40 transition cursor-pointer text-[11px] font-medium"
-                >
-                  {chip.label}
-                </button>
-              ))}
-            </div>
           </div>
 
           {/* Right Column: 3D Floating Metallic VIP Escrow Pass */}

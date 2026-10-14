@@ -74,12 +74,14 @@ export default function Navbar({
     if (activeTab !== "packages") {
       setActiveTab("packages");
     }
-    setTimeout(() => {
+    const scrollToCatalog = () => {
       const el = document.getElementById("directory-catalog");
       if (el) {
         el.scrollIntoView({ behavior: "smooth", block: "start" });
       }
-    }, 50);
+    };
+    scrollToCatalog();
+    setTimeout(scrollToCatalog, 60);
   };
 
   const handleLogoClick = () => {

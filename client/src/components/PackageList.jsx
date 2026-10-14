@@ -36,20 +36,17 @@ export default function PackageList({
   isLoading = false 
 }) {
   const [currentCategory, setCurrentCategory] = useState(activeCategory);
-  const [subCategory, setSubCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
 
   // Sync with prop if it changes from Navbar
   React.useEffect(() => {
     if (activeCategory && activeCategory !== currentCategory) {
       setCurrentCategory(activeCategory);
-      setSubCategory("All");
     }
   }, [activeCategory]);
 
   const handleCategoryChange = (catId) => {
     setCurrentCategory(catId);
-    setSubCategory("All");
     if (onSelectCategory) {
       onSelectCategory(catId);
     }
@@ -88,12 +85,7 @@ export default function PackageList({
       result = result.filter(card => card.categoryGroup === currentCategory);
     }
 
-    // 2. Secondary Sub-Category Filter
-    if (subCategory && subCategory !== "All") {
-      result = result.filter(card => card.subCategory === subCategory || card.category === subCategory);
-    }
-
-    // 3. Search Query Filter
+    // 2. Search Query Filter
     const query = searchQuery.trim().toLowerCase();
     if (query) {
       result = result.filter(card => {
@@ -107,20 +99,7 @@ export default function PackageList({
     }
 
     return result;
-  }, [allCards, currentCategory, subCategory, searchQuery]);
-
-  // Extract available subcategories for active filter
-  const availableSubCategories = useMemo(() => {
-    let base = allCards;
-    if (currentCategory && currentCategory !== "all") {
-      base = base.filter(card => card.categoryGroup === currentCategory);
-    }
-    const subs = new Set();
-    base.forEach(card => {
-      if (card.subCategory) subs.add(card.subCategory);
-    });
-    return ["All", ...Array.from(subs)];
-  }, [allCards, currentCategory]);
+  }, [allCards, currentCategory, searchQuery]);
 
   const categoryIcons = {
     all: Compass,
@@ -132,7 +111,7 @@ export default function PackageList({
   };
 
   return (
-    <section id="directory-catalog" className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="directory-catalog" className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-24">
       {/* Section Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
         <div>
@@ -221,27 +200,6 @@ export default function PackageList({
         </div>
       </div>
 
-      {/* Secondary Sub-Category Filter Pills */}
-      {availableSubCategories.length > 2 && (
-        <div className="mb-6 flex items-center gap-2 overflow-x-auto py-1 scrollbar-none">
-          <span className="text-[11px] uppercase font-bold text-slate-500 shrink-0 mr-1">
-            Filter:
-          </span>
-          {availableSubCategories.map(sub => (
-            <button
-              key={sub}
-              onClick={() => setSubCategory(sub)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
-                subCategory === sub
-                  ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-sm"
-                  : "text-slate-400 hover:text-slate-200 bg-slate-900/60 border border-slate-800/80"
-              }`}
-            >
-              {sub}
-            </button>
-          ))}
-        </div>
-      )}
 
       {/* Explanatory Informative Callout Banners for each Category */}
       {currentCategory === "accommodations" && (
