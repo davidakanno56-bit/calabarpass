@@ -118,6 +118,8 @@ export default function App() {
       sessionStorage.removeItem("calabarpass_vendor_auth");
       sessionStorage.removeItem("calabarpass_vendor_auth_time");
       sessionStorage.removeItem("calabarpass_active_merchant_id");
+      sessionStorage.removeItem("calabarpass_is_operator");
+      sessionStorage.removeItem("calabarpass_operator_code");
     }
     setIsVendorAuthenticated(false);
     handleTabChange("packages");
@@ -159,6 +161,14 @@ export default function App() {
     };
     window.addEventListener("popstate", handlePopState);
     return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
+  useEffect(() => {
+    const handleCardsSync = () => {
+      setDynamicVendorCards(getStoredDynamicCards());
+    };
+    window.addEventListener("calabarpass_dynamic_cards_updated", handleCardsSync);
+    return () => window.removeEventListener("calabarpass_dynamic_cards_updated", handleCardsSync);
   }, []);
 
   useEffect(() => {
@@ -330,6 +340,7 @@ export default function App() {
               <VendorPortal
                 onOpenVoucher={(tx) => setActiveVoucher(tx)}
                 onLockTerminal={handleLockTerminal}
+                onDynamicCardsChange={(updatedCards) => setDynamicVendorCards(updatedCards)}
               />
             ) : (
               <div className="py-20 px-4 max-w-xl mx-auto text-center space-y-6">

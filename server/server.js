@@ -310,6 +310,34 @@ app.get("/api/vendor/dynamic-cards", (req, res) => {
   }
 });
 
+// 7g. Operator Reset: Clear Dynamic Test Registrations (Master Only)
+app.post("/api/vendor/clear-dynamic", (req, res) => {
+  try {
+    const { accessCode } = req.body || {};
+    const result = escrowStore.clearDynamicVendors(accessCode);
+    if (!result.success) {
+      return res.status(403).json(result);
+    }
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// 7h. Operator Reset: Delete Specific Dynamic Vendor (Master Only)
+app.post("/api/vendor/delete", (req, res) => {
+  try {
+    const { vendorId, accessCode } = req.body || {};
+    const result = escrowStore.deleteDynamicVendor(vendorId, accessCode);
+    if (!result.success) {
+      return res.status(403).json(result);
+    }
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 // 8. Fair Price Catalog & Scam Advisories
 app.get("/api/fair-prices", (req, res) => {
   res.json({

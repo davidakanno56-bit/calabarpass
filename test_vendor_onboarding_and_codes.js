@@ -149,6 +149,45 @@ assert.strictEqual(clientCards.success, true);
 assert(clientCards.cards.length >= 1);
 console.log(`  ✅ PASS: Client fallback served ${clientCards.cards.length} dynamic directory card(s)`);
 
+// 9. Verify Operator Reset Authentication Guard (CALABAR2026 strictly required)
+console.log("\n9. Verifying Operator Reset Authentication Guard (CALABAR2026 required)...");
+const unauthClear = handleLocalEscrowFallback("/api/vendor/clear-dynamic", {
+  accessCode: "UNAUTHORIZED_123"
+}, "POST");
+assert.strictEqual(unauthClear.success, false);
+assert(unauthClear.error.includes("Access Denied"));
+console.log("  ✅ PASS: Non-operator access code rejected with Access Denied for clear-dynamic");
+
+const unauthDelete = handleLocalEscrowFallback("/api/vendor/delete", {
+  vendorId: clientRegResult.vendor.id,
+  accessCode: "CAL-VND-0000"
+}, "POST");
+assert.strictEqual(unauthDelete.success, false);
+assert(unauthDelete.error.includes("Access Denied"));
+console.log("  ✅ PASS: Regular vendor code rejected with Access Denied for delete");
+
+// 10. Verify Authorized Operator Reset & Cleanup
+console.log("\n10. Verifying Operator Clear Dynamic Registrations & Storage Cleanup...");
+const authClear = handleLocalEscrowFallback("/api/vendor/clear-dynamic", {
+  accessCode: "CALABAR2026"
+}, "POST");
+assert.strictEqual(authClear.success, true);
+assert(authClear.message.includes("cleared"));
+console.log("  ✅ PASS: CALABAR2026 cleared test registrations successfully");
+
+const postClearCards = handleLocalEscrowFallback("/api/vendor/dynamic-cards");
+assert.strictEqual(postClearCards.cards.length, 0, "All dynamic cards purged");
+const postClearVendors = handleLocalEscrowFallback("/api/vendor/list");
+assert.strictEqual(postClearVendors.vendors.length, 0, "All dynamic vendors purged");
+console.log("  ✅ PASS: Dynamic cards and vendors cleanly restored to empty/default baseline");
+
+// 11. Verify Server Store clearDynamicVendors
+console.log("\n11. Verifying Server Store clearDynamicVendors (CALABAR2026)...");
+const serverClear = escrowStore.clearDynamicVendors("CALABAR2026");
+assert.strictEqual(serverClear.success, true);
+assert.strictEqual(escrowStore.getDynamicCards().length, 0);
+console.log("  ✅ PASS: Server escrowStore cleared all dynamic test cards and restored catalog");
+
 console.log("\n======================================================================");
-console.log("RESULTS: ALL VENDOR ACCESS CODE & ONBOARDING TESTS PASSED (100%)");
+console.log("RESULTS: ALL VENDOR ONBOARDING & OPERATOR RESET TESTS PASSED (100%)");
 console.log("======================================================================\n");

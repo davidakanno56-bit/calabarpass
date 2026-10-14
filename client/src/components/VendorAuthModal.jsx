@@ -67,6 +67,14 @@ export default function VendorAuthModal({ isOpen, onClose, onSuccess, onOpenOnbo
           if (matchedVendor) {
             sessionStorage.setItem("calabarpass_active_merchant_id", matchedVendor.id);
           }
+          const isMaster = ["CALABAR2026", "3652026", "CALABARPASS", "CP2026"].includes(cleaned);
+          if (isMaster) {
+            sessionStorage.setItem("calabarpass_is_operator", "true");
+            sessionStorage.setItem("calabarpass_operator_code", cleaned);
+          } else {
+            sessionStorage.removeItem("calabarpass_is_operator");
+            sessionStorage.removeItem("calabarpass_operator_code");
+          }
         }
 
         setTimeout(() => {

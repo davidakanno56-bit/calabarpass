@@ -996,6 +996,90 @@ class EscrowStore {
   getDynamicCards() {
     return this.dynamicCards || [];
   }
+
+  clearDynamicVendors(accessCode) {
+    const cleaned = String(accessCode || "").trim().toUpperCase();
+    const isMaster = ["CALABAR2026", "3652026", "CALABARPASS", "CP2026"].includes(cleaned);
+    if (!isMaster) {
+      return {
+        success: false,
+        error: "Access Denied: Master Access Code (CALABAR2026) required to clear test registrations.",
+      };
+    }
+
+    const clearedCount = this.dynamicCards.length;
+    // Collect vendor IDs to purge matching transactions
+    const purgedVendorIds = new Set();
+    for (const v of this.vendors.values()) {
+      if (v?.id) purgedVendorIds.add(v.id);
+    }
+
+    // Clear dynamic maps and cards
+    this.vendors.clear();
+    this.dynamicCards = [];
+
+    // Remove any demo transactions created for dynamic vendors
+    for (const [ref, tx] of this.transactions.entries()) {
+      if (
+        purgedVendorIds.has(tx.vendorId) ||
+        (ref && ref.startsWith("CP-CAL")) ||
+        (tx.vendorId && tx.vendorId.startsWith("vnd-"))
+      ) {
+        this.transactions.delete(ref);
+      }
+    }
+
+    return {
+      success: true,
+      count: clearedCount,
+      message: `Successfully cleared ${clearedCount} test merchant registration(s). Catalog restored to verified defaults.`,
+    };
+  }
+
+  deleteDynamicVendor(vendorId, accessCode) {
+    const cleaned = String(accessCode || "").trim().toUpperCase();
+    const isMaster = ["CALABAR2026", "3652026", "CALABARPASS", "CP2026"].includes(cleaned);
+    if (!isMaster) {
+      return {
+        success: false,
+        error: "Access Denied: Master Access Code (CALABAR2026) required to delete dynamic merchant.",
+      };
+    }
+
+    if (!vendorId) {
+      return { success: false, error: "Vendor ID is required." };
+    }
+
+    // Find and remove from vendors map
+    let removedVendor = null;
+    for (const [key, v] of this.vendors.entries()) {
+      if (v.id === vendorId || key === vendorId) {
+        removedVendor = v;
+        this.vendors.delete(key);
+      }
+    }
+    if (removedVendor?.accessCode) {
+      this.vendors.delete(removedVendor.accessCode.toUpperCase());
+    }
+
+    // Remove from dynamicCards
+    this.dynamicCards = this.dynamicCards.filter(
+      (c) => c.vendorId !== vendorId && c.id !== `card-${vendorId}`
+    );
+
+    // Remove associated demo transaction
+    for (const [ref, tx] of this.transactions.entries()) {
+      if (tx.vendorId === vendorId) {
+        this.transactions.delete(ref);
+      }
+    }
+
+    return {
+      success: true,
+      vendorId,
+      message: `Merchant ${removedVendor?.name || vendorId} removed successfully.`,
+    };
+  }
 }
 
 export const escrowStore = new EscrowStore();

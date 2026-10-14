@@ -538,6 +538,45 @@ export function saveStoredDynamicCards(cards) {
   }
 }
 
+export function clearStoredDynamicData() {
+  inMemoryVendors = [];
+  inMemoryDynamicCards = [];
+  if (typeof window !== "undefined") {
+    try {
+      localStorage.removeItem(VENDORS_STORAGE_KEY);
+      localStorage.removeItem(DYNAMIC_CARDS_STORAGE_KEY);
+      const activeId = sessionStorage.getItem("calabarpass_active_merchant_id");
+      if (activeId && (activeId.startsWith("vnd-") || activeId.startsWith("card-"))) {
+        sessionStorage.removeItem("calabarpass_active_merchant_id");
+      }
+      window.dispatchEvent(new Event("calabarpass_dynamic_cards_updated"));
+    } catch {}
+  }
+}
+
+export function removeStoredDynamicVendor(vendorId) {
+  if (!vendorId) return;
+  const currentVendors = getStoredVendors();
+  const updatedVendors = currentVendors.filter((v) => v.id !== vendorId);
+  saveStoredVendors(updatedVendors);
+
+  const currentCards = getStoredDynamicCards();
+  const updatedCards = currentCards.filter(
+    (c) => c.vendorId !== vendorId && c.id !== `card-${vendorId}` && c.id !== vendorId
+  );
+  saveStoredDynamicCards(updatedCards);
+
+  if (typeof window !== "undefined") {
+    try {
+      const activeId = sessionStorage.getItem("calabarpass_active_merchant_id");
+      if (activeId === vendorId) {
+        sessionStorage.removeItem("calabarpass_active_merchant_id");
+      }
+      window.dispatchEvent(new Event("calabarpass_dynamic_cards_updated"));
+    } catch {}
+  }
+}
+
 /**
  * Category Prefix Mapping:
  * - Accommodations (Hotels, Resorts, Suites): CAL-HTL-XXXX
@@ -1114,6 +1153,73 @@ export function handleLocalEscrowFallback(endpoint, payload = null, method = "GE
     return { success: false, error: "Invalid Vendor Access Code." };
   }
 
+  // 14. Operator Reset: Clear Dynamic Test Registrations (Master Only)
+  if (cleanEndpoint === "/api/vendor/clear-dynamic") {
+    const code = String(payload?.accessCode || "").trim().toUpperCase();
+    const isMaster = ["CALABAR2026", "3652026", "CALABARPASS", "CP2026"].includes(code);
+    if (!isMaster) {
+      return {
+        success: false,
+        error: "Access Denied: Master Access Code (CALABAR2026) required to clear test registrations."
+      };
+    }
+
+    const currentCards = getStoredDynamicCards();
+    const currentVendors = getStoredVendors();
+    const clearedCount = currentCards.length || currentVendors.length;
+    const purgedIds = new Set(currentVendors.map((v) => v.id));
+
+    clearStoredDynamicData();
+
+    // Clear dynamic demo transactions
+    const txs = getStoredTransactions();
+    const filteredTxs = txs.filter((tx) => {
+      const ref = tx.reference || "";
+      const vid = tx.vendorId || "";
+      return !purgedIds.has(vid) && !ref.startsWith("CP-CAL") && !vid.startsWith("vnd-");
+    });
+    saveStoredTransactions(filteredTxs);
+
+    return {
+      success: true,
+      count: clearedCount,
+      message: `Successfully cleared ${clearedCount} test merchant registration(s). Catalog restored to verified defaults.`
+    };
+  }
+
+  // 15. Operator Reset: Delete Specific Dynamic Vendor (Master Only)
+  if (cleanEndpoint === "/api/vendor/delete") {
+    const code = String(payload?.accessCode || "").trim().toUpperCase();
+    const isMaster = ["CALABAR2026", "3652026", "CALABARPASS", "CP2026"].includes(code);
+    if (!isMaster) {
+      return {
+        success: false,
+        error: "Access Denied: Master Access Code (CALABAR2026) required to delete dynamic merchant."
+      };
+    }
+
+    const vendorId = payload?.vendorId;
+    if (!vendorId) {
+      return { success: false, error: "Vendor ID is required." };
+    }
+
+    const currentVendors = getStoredVendors();
+    const targetVendor = currentVendors.find((v) => v.id === vendorId);
+
+    removeStoredDynamicVendor(vendorId);
+
+    // Remove associated demo transaction
+    const txs = getStoredTransactions();
+    const filteredTxs = txs.filter((tx) => tx.vendorId !== vendorId);
+    saveStoredTransactions(filteredTxs);
+
+    return {
+      success: true,
+      vendorId,
+      message: `Merchant ${targetVendor?.name || vendorId} removed successfully.`
+    };
+  }
+
   return { success: true, message: "Autonomous client operation completed." };
 }
 
@@ -1123,6 +1229,30 @@ export async function registerMerchantOnboarding(data) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data)
   });
+}
+
+export async function clearDynamicTestRegistrations(accessCode = "CALABAR2026") {
+  const result = await safeFetch("/api/vendor/clear-dynamic", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ accessCode })
+  });
+  if (result.ok && result.data?.success) {
+    clearStoredDynamicData();
+  }
+  return result;
+}
+
+export async function deleteDynamicMerchantListing(vendorId, accessCode = "CALABAR2026") {
+  const result = await safeFetch("/api/vendor/delete", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ vendorId, accessCode })
+  });
+  if (result.ok && result.data?.success) {
+    removeStoredDynamicVendor(vendorId);
+  }
+  return result;
 }
 
 /**

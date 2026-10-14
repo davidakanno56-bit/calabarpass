@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useMemo } from "react";
 import {
   AlertCircle,
   Building2,
@@ -9,9 +9,20 @@ import {
   RefreshCw,
   ShieldCheck,
   Wallet,
+  Trash2,
+  RotateCcw,
+  KeyRound,
+  ShieldAlert,
+  X,
 } from "lucide-react";
 import { EscrowTableSkeleton } from "./SkeletonLoader.jsx";
-import { handleLocalEscrowFallback, getStoredVendors } from "../utils/api.js";
+import {
+  handleLocalEscrowFallback,
+  getStoredVendors,
+  clearDynamicTestRegistrations,
+  deleteDynamicMerchantListing,
+  getStoredDynamicCards,
+} from "../utils/api.js";
 
 const MERCHANTS = [
   // 1. ACCOMMODATIONS (Hotels, Resorts, Suites)
@@ -634,16 +645,18 @@ const withNetPayout = (transaction) => ({
   payoutNGN: Math.round((Number(transaction.amountNGN) || 0) * PAYOUT_RATE),
 });
 
-export default function VendorPortal({ onOpenVoucher, onLockTerminal }) {
+export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicCardsChange }) {
   const [registeredVendors, setRegisteredVendors] = useState(() => getStoredVendors());
 
+  const staticIds = useMemo(() => new Set(MERCHANTS.map((m) => m.id)), []);
+
   // Merge dynamically registered merchants with static baseline merchants
-  const allMerchants = React.useMemo(() => {
-    const staticIds = new Set(MERCHANTS.map((m) => m.id));
+  const allMerchants = useMemo(() => {
     const dynamicFormatted = (registeredVendors || [])
       .filter((v) => !staticIds.has(v.id))
       .map((v) => ({
         id: v.id,
+        isDynamic: true,
         apiVendorId: v.apiVendorId || v.id,
         name: v.name || v.businessName,
         category: v.category || "accommodations",
@@ -667,7 +680,12 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal }) {
         ],
       }));
     return [...dynamicFormatted, ...MERCHANTS];
-  }, [registeredVendors]);
+  }, [registeredVendors, staticIds]);
+
+  const dynamicMerchants = useMemo(
+    () => (registeredVendors || []).filter((v) => !staticIds.has(v.id)),
+    [registeredVendors, staticIds]
+  );
 
   const [activeMerchantId, setActiveMerchantId] = useState(() => {
     if (typeof window !== "undefined") {
@@ -688,10 +706,112 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal }) {
   const [releaseStatus, setReleaseStatus] = useState(null);
   const [releaseLoading, setReleaseLoading] = useState(false);
 
+  // Operator modal state
+  const [operatorModal, setOperatorModal] = useState({
+    isOpen: false,
+    type: "clear", // "clear" | "delete"
+    targetVendorId: null,
+    targetVendorName: "",
+  });
+  const [operatorCodeInput, setOperatorCodeInput] = useState("");
+  const [operatorError, setOperatorError] = useState("");
+  const [operatorLoading, setOperatorLoading] = useState(false);
+
   const activeMerchant =
     allMerchants.find((merchant) => merchant.id === activeMerchantId) ||
     allMerchants[0] ||
     MERCHANTS[0];
+
+  const isCurrentDynamic = Boolean(activeMerchant?.isDynamic || !staticIds.has(activeMerchant?.id));
+
+  const handleOpenOperatorModal = (type = "clear", targetVendorId = null, targetVendorName = "") => {
+    const savedCode =
+      typeof window !== "undefined"
+        ? sessionStorage.getItem("calabarpass_operator_code") || ""
+        : "";
+    setOperatorCodeInput(savedCode || "");
+    setOperatorError("");
+    setOperatorModal({
+      isOpen: true,
+      type,
+      targetVendorId: targetVendorId || (type === "delete" ? activeMerchant.id : null),
+      targetVendorName: targetVendorName || (type === "delete" ? activeMerchant.name : ""),
+    });
+  };
+
+  const handleOperatorSubmit = async (e) => {
+    e?.preventDefault();
+    setOperatorError("");
+    const cleaned = operatorCodeInput.trim().toUpperCase();
+    const isMaster = ["CALABAR2026", "3652026", "CALABARPASS", "CP2026"].includes(cleaned);
+
+    if (!isMaster) {
+      setOperatorError(
+        "Access Denied: Master Operator Code (CALABAR2026) required to authorize this action."
+      );
+      return;
+    }
+
+    setOperatorLoading(true);
+
+    try {
+      if (operatorModal.type === "clear") {
+        const res = await clearDynamicTestRegistrations(cleaned);
+        if (!res.ok || res.data?.success === false) {
+          throw new Error(res.data?.error || "Failed to clear test registrations.");
+        }
+        setRegisteredVendors([]);
+        setActiveMerchantId(MERCHANTS[0].id);
+        if (typeof window !== "undefined") {
+          sessionStorage.setItem("calabarpass_active_merchant_id", MERCHANTS[0].id);
+        }
+        onDynamicCardsChange?.([]);
+        setOperatorModal({
+          isOpen: false,
+          type: "clear",
+          targetVendorId: null,
+          targetVendorName: "",
+        });
+        setReleaseStatus({
+          success: true,
+          message:
+            res.data?.message ||
+            "Successfully cleared test registrations. Public directory catalog restored to verified defaults.",
+        });
+      } else if (operatorModal.type === "delete") {
+        const vendorId = operatorModal.targetVendorId || activeMerchant.id;
+        const res = await deleteDynamicMerchantListing(vendorId, cleaned);
+        if (!res.ok || res.data?.success === false) {
+          throw new Error(res.data?.error || "Failed to delete dynamic merchant.");
+        }
+        setRegisteredVendors((prev) => prev.filter((v) => v.id !== vendorId));
+        if (activeMerchantId === vendorId) {
+          setActiveMerchantId(MERCHANTS[0].id);
+          if (typeof window !== "undefined") {
+            sessionStorage.setItem("calabarpass_active_merchant_id", MERCHANTS[0].id);
+          }
+        }
+        const remainingCards = getStoredDynamicCards();
+        onDynamicCardsChange?.(remainingCards);
+        setOperatorModal({
+          isOpen: false,
+          type: "delete",
+          targetVendorId: null,
+          targetVendorName: "",
+        });
+        setReleaseStatus({
+          success: true,
+          message:
+            res.data?.message ||
+            `Merchant removed successfully. Catalog restored to verified baseline.`,
+        });
+      }
+    } catch (err) {
+      setOperatorError(err.message || "An error occurred during operator execution.");
+    } finally {
+      setOperatorLoading(false);
+    }
+  };
 
   useEffect(() => {
     fetch("/api/vendor/list")
@@ -942,17 +1062,28 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal }) {
               <Building2 className="h-4 w-4" />
               <span>Merchant settlement terminal</span>
             </div>
-            {onLockTerminal && (
+            <div className="flex items-center gap-2">
               <button
                 type="button"
-                onClick={onLockTerminal}
-                className="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-slate-900 hover:bg-slate-800 text-rose-300 hover:text-rose-200 border border-rose-500/30 text-xs font-bold transition cursor-pointer"
-                title="Lock terminal and end merchant operator session"
+                onClick={() => handleOpenOperatorModal("clear")}
+                className="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 hover:text-amber-200 border border-amber-500/30 text-xs font-bold transition cursor-pointer"
+                title="Operator Reset: Clear dynamic test registrations (requires CALABAR2026)"
               >
-                <LockKeyhole className="h-3.5 w-3.5" />
-                <span>Lock Terminal</span>
+                <RotateCcw className="h-3.5 w-3.5 text-amber-400" />
+                <span>Clear Test Registrations{dynamicMerchants.length > 0 ? ` (${dynamicMerchants.length})` : ""}</span>
               </button>
-            )}
+              {onLockTerminal && (
+                <button
+                  type="button"
+                  onClick={onLockTerminal}
+                  className="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-slate-900 hover:bg-slate-800 text-rose-300 hover:text-rose-200 border border-rose-500/30 text-xs font-bold transition cursor-pointer"
+                  title="Lock terminal and end merchant operator session"
+                >
+                  <LockKeyhole className="h-3.5 w-3.5" />
+                  <span>Lock Terminal</span>
+                </button>
+              )}
+            </div>
           </div>
           <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
             {activeMerchant.name}
@@ -1060,6 +1191,55 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal }) {
         </div>
       </header>
 
+      {/* Operator Clearinghouse Control Section (Private to Vendor Terminal) */}
+      {dynamicMerchants.length > 0 && (
+        <section
+          aria-label="Clearinghouse operator administration"
+          className="rounded-2xl border border-amber-500/30 bg-gradient-to-r from-amber-950/40 via-slate-900/90 to-slate-900/80 p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-lg shadow-black/40"
+        >
+          <div className="flex items-start gap-3.5">
+            <div className="rounded-xl border border-amber-500/40 bg-amber-500/10 p-2.5 text-amber-400 shrink-0">
+              <KeyRound className="h-5 w-5" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <h2 className="text-sm font-bold text-white tracking-wide">Operator Clearinghouse Control: Test Registrations</h2>
+                <span className="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-[11px] font-mono font-extrabold border border-amber-500/40">
+                  {dynamicMerchants.length} Custom Test Registration{dynamicMerchants.length === 1 ? "" : "s"} Active
+                </span>
+              </div>
+              <p className="text-xs text-slate-400 mt-1.5 max-w-2xl leading-relaxed">
+                Custom merchant listings (e.g. Obudu Cattle Ranch) are currently rendering live on the public directory catalog (<strong className="text-slate-300">#directory-catalog</strong>).
+                Triggering the reset permanently removes custom registered entries from storage and cleanly restores the directory catalog to verified defaults (strictly locked behind operator key <code className="text-amber-300 font-mono bg-black/50 px-1.5 py-0.5 rounded border border-amber-500/30">CALABAR2026</code>).
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2.5 shrink-0 flex-wrap">
+            {isCurrentDynamic && (
+              <button
+                type="button"
+                onClick={() => handleOpenOperatorModal("delete", activeMerchant.id, activeMerchant.name)}
+                className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-rose-950/70 hover:bg-rose-900/90 text-rose-200 hover:text-white border border-rose-500/50 text-xs font-extrabold transition shadow-sm cursor-pointer"
+                title="Delete this test merchant registration"
+              >
+                <Trash2 className="h-4 w-4 text-rose-400" />
+                <span>Delete Item</span>
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={() => handleOpenOperatorModal("clear")}
+              className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-extrabold text-xs transition shadow-gold-glow cursor-pointer"
+              title="Clear all custom test registrations"
+            >
+              <RotateCcw className="h-4 w-4" />
+              <span>Clear Test Registrations</span>
+            </button>
+          </div>
+        </section>
+      )}
+
       <section
         aria-label="Active terminal and verified settlement account"
         className="flex flex-col gap-5 rounded-2xl border border-emerald-500/25 bg-gradient-to-r from-emerald-950/50 via-slate-900/80 to-slate-900/70 p-5 sm:flex-row sm:items-center sm:justify-between"
@@ -1074,6 +1254,11 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal }) {
               <span className="rounded-full border border-amber-500/25 bg-amber-500/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-amber-300">
                 {activeMerchant.terminalType}
               </span>
+              {isCurrentDynamic && (
+                <span className="rounded-full border border-rose-500/40 bg-rose-500/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-rose-300">
+                  Custom Test Registration
+                </span>
+              )}
             </div>
             <p className="mt-1 text-xs text-slate-400">
               {activeMerchant.category === "accommodations"
@@ -1098,15 +1283,28 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal }) {
             {activeMerchant.bankAccount}
           </span>
         </div>
-        <button
-          type="button"
-          onClick={() => fetchLedger({ quiet: true })}
-          disabled={refreshing}
-          className="inline-flex items-center justify-center gap-2 self-start rounded-xl border border-slate-700 bg-slate-900 px-4 py-2.5 text-sm font-semibold text-slate-200 transition hover:border-slate-600 hover:bg-slate-800 disabled:cursor-wait disabled:opacity-60 sm:self-auto"
-        >
-          <RefreshCw className={`h-4 w-4 ${refreshing ? "animate-spin" : ""}`} />
-          Refresh
-        </button>
+        <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
+          {isCurrentDynamic && (
+            <button
+              type="button"
+              onClick={() => handleOpenOperatorModal("delete", activeMerchant.id, activeMerchant.name)}
+              className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-rose-500/40 bg-rose-950/40 hover:bg-rose-900/60 px-3.5 py-2.5 text-xs font-bold text-rose-200 transition cursor-pointer"
+              title="Operator Delete: Remove this custom merchant from catalog and terminal"
+            >
+              <Trash2 className="h-4 w-4 text-rose-400" />
+              <span>Delete Item</span>
+            </button>
+          )}
+          <button
+            type="button"
+            onClick={() => fetchLedger({ quiet: true })}
+            disabled={refreshing}
+            className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-700 bg-slate-900 px-4 py-2.5 text-sm font-semibold text-slate-200 transition hover:border-slate-600 hover:bg-slate-800 disabled:cursor-wait disabled:opacity-60"
+          >
+            <RefreshCw className={`h-4 w-4 ${refreshing ? "animate-spin" : ""}`} />
+            Refresh
+          </button>
+        </div>
       </section>
 
       {ledgerError && (
@@ -1481,6 +1679,120 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal }) {
               Demo
             </span>
           )}
+        </div>
+      )}
+
+      {/* Operator Authorization & Confirmation Modal */}
+      {operatorModal.isOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn">
+          <div
+            className="relative w-full max-w-md bg-[#0f1523] border border-amber-500/40 rounded-3xl p-6 shadow-2xl text-slate-100"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="operator-modal-title"
+          >
+            <button
+              type="button"
+              onClick={() => setOperatorModal({ isOpen: false, type: "clear", targetVendorId: null, targetVendorName: "" })}
+              className="absolute top-5 right-5 p-2 rounded-xl bg-slate-800/80 text-slate-400 hover:text-white hover:bg-slate-700 transition cursor-pointer"
+              aria-label="Close modal"
+            >
+              <X className="w-4 h-4" />
+            </button>
+
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-2xl bg-amber-500/20 border border-amber-500/40 text-amber-400 flex items-center justify-center shrink-0">
+                <ShieldAlert className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 id="operator-modal-title" className="text-lg font-bold text-white">
+                  {operatorModal.type === "clear" ? "Clear Test Registrations" : "Delete Item"}
+                </h3>
+                <p className="text-xs text-amber-400/90 font-medium">Operator Authentication (CALABAR2026)</p>
+              </div>
+            </div>
+
+            <p className="text-xs text-slate-300 leading-relaxed mb-4">
+              {operatorModal.type === "clear"
+                ? `You are about to purge all ${dynamicMerchants.length} custom test merchant registration(s). All custom listings will be removed from state and storage, cleanly restoring the public directory catalog (#directory-catalog) to the default verified listings.`
+                : `You are about to permanently delete '${operatorModal.targetVendorName || activeMerchant.name}' from storage, private vendor terminals, and the public directory catalog (#directory-catalog).`}
+            </p>
+
+            <form onSubmit={handleOperatorSubmit} className="space-y-4">
+              <div>
+                <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+                  Master Operator Code <span className="text-amber-400">*</span>
+                </label>
+                <div className="relative">
+                  <KeyRound className="w-4 h-4 absolute left-3.5 top-3.5 text-slate-400" />
+                  <input
+                    type="password"
+                    value={operatorCodeInput}
+                    onChange={(e) => {
+                      setOperatorCodeInput(e.target.value);
+                      if (operatorError) setOperatorError("");
+                    }}
+                    placeholder="Enter CALABAR2026"
+                    className="w-full bg-slate-900 border border-slate-700 focus:border-amber-400 rounded-xl pl-10 pr-4 py-2.5 text-sm font-mono text-white placeholder-slate-500 outline-none transition"
+                    autoFocus
+                  />
+                </div>
+                <div className="mt-1.5 flex items-center justify-between text-[11px]">
+                  <span className="text-slate-400">Strictly locked to authorized operators</span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setOperatorCodeInput("CALABAR2026");
+                      if (operatorError) setOperatorError("");
+                    }}
+                    className="text-amber-300 hover:text-amber-200 underline font-mono cursor-pointer"
+                  >
+                    Use CALABAR2026
+                  </button>
+                </div>
+              </div>
+
+              {operatorError && (
+                <div className="p-3 rounded-xl bg-rose-950/50 border border-rose-500/40 text-rose-200 text-xs flex items-start gap-2">
+                  <AlertCircle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+                  <span>{operatorError}</span>
+                </div>
+              )}
+
+              <div className="flex items-center gap-3 pt-2">
+                <button
+                  type="submit"
+                  disabled={operatorLoading}
+                  className={`flex-1 py-2.5 px-4 rounded-xl font-bold text-xs transition cursor-pointer flex items-center justify-center gap-2 ${
+                    operatorModal.type === "clear"
+                      ? "bg-amber-500 hover:bg-amber-400 text-black shadow-gold-glow"
+                      : "bg-rose-600 hover:bg-rose-500 text-white shadow-lg shadow-rose-900/30"
+                  } disabled:opacity-50 disabled:cursor-not-allowed`}
+                >
+                  {operatorLoading ? (
+                    <RefreshCw className="w-4 h-4 animate-spin" />
+                  ) : operatorModal.type === "clear" ? (
+                    <>
+                      <RotateCcw className="w-4 h-4" />
+                      <span>Confirm &amp; Clear Registrations</span>
+                    </>
+                  ) : (
+                    <>
+                      <Trash2 className="w-4 h-4" />
+                      <span>Confirm &amp; Delete Item</span>
+                    </>
+                  )}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setOperatorModal({ isOpen: false, type: "clear", targetVendorId: null, targetVendorName: "" })}
+                  className="py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs transition cursor-pointer"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       )}
     </main>
