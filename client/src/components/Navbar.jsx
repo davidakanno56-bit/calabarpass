@@ -1,6 +1,5 @@
 import React from "react";
 import { 
-  ShieldCheck, 
   BedDouble, 
   Trees, 
   Utensils, 
@@ -8,8 +7,7 @@ import {
   Flame, 
   Building2, 
   ShieldAlert, 
-  Lock,
-  Clock 
+  Lock 
 } from "lucide-react";
 
 export const NAV_CATEGORIES = [
@@ -162,20 +160,6 @@ export default function Navbar({
             >
               <ShieldAlert className="w-3.5 h-3.5 text-amber-400" />
               <span className="hidden md:inline">Scam Shield</span>
-            </button>
-
-            {/* Admin Moderation Queue Quick Link */}
-            <button
-              onClick={() => setActiveTab("admin")}
-              className={`hidden md:flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all border cursor-pointer ${
-                activeTab === "admin"
-                  ? "bg-amber-500/25 text-amber-300 border-amber-400 shadow-gold-glow"
-                  : "bg-slate-900/60 text-slate-300 border-slate-800 hover:text-white hover:bg-slate-800"
-              }`}
-              title="Admin Moderation & Pending Merchant Review Queue"
-            >
-              <Clock className="w-3.5 h-3.5 text-amber-400" />
-              <span>Admin Queue</span>
             </button>
 
             {/* Onboard Merchant */}

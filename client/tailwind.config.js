@@ -7,6 +7,15 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Official Cross River State & Enterprise Palette
+        stateBlue: {
+          DEFAULT: '#0A2540', // Deep Trust Blue
+          dark: '#061729',
+          light: '#1E3A8A',
+        },
+        stateCyan: '#0284C7',   // Accent Sky Blue for QR & Links
+        stateGreen: '#10B981',  // Escrow & Tax Success Green
+        stateBg: '#F8FAFC',     // Clean Off-White Background
         calabar: {
           bg: "#0b0f17",
           card: "#121826",
@@ -22,7 +31,7 @@ export default {
         }
       },
       fontFamily: {
-        sans: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
+        sans: ['Inter', 'Plus Jakarta Sans', 'system-ui', '-apple-system', 'sans-serif'],
       },
       boxShadow: {
         'gold-glow': '0 0 25px -5px rgba(245, 158, 11, 0.3)',

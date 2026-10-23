@@ -290,6 +290,8 @@ class EscrowStore {
       location: "Marina Waterfront Promenade, Calabar",
       priceNGN: 9500,
       status: "pending",
+      imageUrl: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80",
+      image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80",
       description: "Premium open-air waterfront grill serving charcoal river catfish and palm wine cocktails.",
       createdAt: new Date(Date.now() - 3600000 * 6).toISOString()
     };
@@ -305,6 +307,8 @@ class EscrowStore {
       location: "Cross River National Park (Oban Division)",
       priceNGN: 42000,
       status: "pending",
+      imageUrl: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80",
+      image: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80",
       description: "Eco-certified forest cabins with canopy walkway guides, birdwatching towers, and ranger patrol.",
       createdAt: new Date(Date.now() - 3600000 * 12).toISOString()
     };
@@ -1046,6 +1050,8 @@ class EscrowStore {
           bankPayoutDetails: v.bankPayoutDetails || v.bankAccount,
           location: v.location,
           priceNGN: v.priceNGN,
+          imageUrl: v.imageUrl || v.image,
+          image: v.image || v.imageUrl,
           status: v.status,
           createdAt: v.createdAt || v.registeredAt
         });

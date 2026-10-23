@@ -511,6 +511,8 @@ const SEED_PENDING_MERCHANTS = [
     location: "Marina Waterfront Promenade, Calabar",
     priceNGN: 9500,
     status: "pending",
+    imageUrl: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80",
+    image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80",
     createdAt: new Date(Date.now() - 3600000 * 6).toISOString()
   },
   {
@@ -525,6 +527,8 @@ const SEED_PENDING_MERCHANTS = [
     location: "Cross River National Park (Oban Division)",
     priceNGN: 42000,
     status: "pending",
+    imageUrl: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80",
+    image: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80",
     createdAt: new Date(Date.now() - 3600000 * 12).toISOString()
   }
 ];

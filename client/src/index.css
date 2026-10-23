@@ -2,17 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  body {
-    background-color: #0b0f17;
-    color: #f1f5f9;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    overflow-x: hidden;
-  }
+body {
+  background-color: #F8FAFC;
+  color: #0A2540;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+}
 
-  h1, h2, h3, .font-heading {
-    font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
-  }
+h1, h2, h3, .font-heading {
+  font-family: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Custom Scrollbar for State Dashboards */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F8FAFC;
+}
+::-webkit-scrollbar-thumb {
+  background: #0A2540;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #1E3A8A;
 }
 
 /* Glassmorphism surfaces */
@@ -39,25 +53,6 @@
   background: linear-gradient(135deg, #f59e0b 0%, #ec4899 50%, #8b5cf6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-}
-
-/* Custom subtle scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #0b0f17;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #1e293b;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #334155;
 }
 
 /* 3D Transform & Perspective Utilities */

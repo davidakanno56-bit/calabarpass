@@ -243,8 +243,8 @@ export const ACCOMMODATIONS_CARDS = [
     reviews: 89,
     badge: "Waterfront Resort",
     escrowBadge: "State Bureau Verified Stay",
-    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
-    imageUrl: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
+    image: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1200&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1200&q=80",
     description: "Picturesque waterfront resort set beside the tranquil Tinapa Lake with lush tropical rainforest views and conferencing facilities.",
     details: "Lakefront guest rooms, Tinapa waterpark and movie studio proximity, serene natural breeze, and spacious conferencing halls.",
     included: [
@@ -308,7 +308,7 @@ export const ACCOMMODATIONS_CARDS = [
   }
 ];
 
-// 2. Eco-Sites & Heritage Cards (Marina Resort, Agbokim Waterfalls, Drill Ranch, Kwa Falls, Obudu Mountain Resort)
+// 2. Eco-Sites & Heritage Cards (Marina Resort, Agbokim Waterfalls, Drill Ranch, Kwa Falls, Oban Rainforest, Obudu Mountain Resort)
 export const ECO_SITES_CARDS = [
   ...CORE_PACKAGES.filter(p => p.id !== "pkg-seagull-pass").map(p => ({
     ...p,
@@ -317,7 +317,46 @@ export const ECO_SITES_CARDS = [
       : p.id === "pkg-agbokim-waterfalls" || p.id === "pkg-kwa-falls" ? "Waterfalls & Canyons"
       : p.id === "pkg-drill-ranch" ? "Wildlife & Rainforest"
       : "Waterfront & Heritage"
-  }))
+  })),
+  {
+    id: "vnd-oban-rainforest-lodge-mvl902b",
+    categoryGroup: "eco-sites",
+    category: "Eco-Sites & Heritage",
+    subCategory: "Wildlife & Rainforest",
+    name: "Oban Rainforest Canopy Lodge",
+    title: "Oban Rainforest Canopy Lodge & Ranger Tour",
+    vendor: "Oban Rainforest Canopy Lodge",
+    vendorName: "Oban Rainforest Canopy Lodge",
+    vendorId: "vnd-oban-rainforest-lodge-mvl902b",
+    location: "Cross River National Park (Oban Division)",
+    corridor: "Cross River National Park (Oban Division)",
+    priceNGN: 42000,
+    price: 42000,
+    rating: 4.8,
+    reviews: 78,
+    badge: "National Park Sanctuary",
+    escrowBadge: "State Bureau Verified Operator",
+    image: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80",
+    description: "Eco-certified forest cabins with canopy walkway guides, birdwatching towers, and ranger patrol deep inside Cross River National Park.",
+    details: "Full-day guided rainforest expedition, canopy walkway access, binoculars rental, certified park ranger escort, and herbal refreshment kit.",
+    included: [
+      "Cross River National Park Canopy Walkway Pass",
+      "Certified Eco-Ranger & Primatologist Guide",
+      "Birdwatching Tower & Binoculars Equipment",
+      "Conservation Fund Contribution & Forest Lunch"
+    ],
+    perks: [
+      "Canopy Walkway Pass",
+      "Certified Eco-Ranger Guide",
+      "Birdwatching Tower Access",
+      "Conservation Fund Pass"
+    ],
+    antiScamAlert: "Unlicensed poachers and illegal tour operators solicit inside Akamkpa junctions. Only book via verified state escrow.",
+    scamRisk: "Unlicensed guides without safety equipment soliciting at Akamkpa.",
+    bookingMode: "365_day_open",
+    capacityLabel: "Open Daily • 365-Day Escrow Protected"
+  }
 ];
 
 // 3. Dining & Nightlife Cards (Eateries, Seafood Hubs, Lounges)
@@ -383,8 +422,8 @@ export const DINING_NIGHTLIFE_CARDS = [
     reviews: 195,
     badge: "Heritage Native Kitchen",
     escrowBadge: "Verified Culinary Voucher",
-    image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=80",
-    imageUrl: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=80",
+    image: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1200&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1200&q=80",
     description: "The gold standard for traditional Efik culinary cuisine. Famed for rich, authentic Fisherman Soup filled with fresh river catch, periwinkles, and dried prawns.",
     details: "Clay-pot bowl of authentic Calabar Fisherman Soup or rich Afang soup, choice of freshly pounded yam or semo, assorted goat meat, and palm wine.",
     included: [
@@ -407,6 +446,48 @@ export const DINING_NIGHTLIFE_CARDS = [
     capacityLabel: "Open Daily 11am - 11pm • Instant Escrow PIN"
   },
   {
+    id: "vnd-marina-bay-sunset-mvl891a",
+    categoryGroup: "dining-nightlife",
+    category: "Dining & Nightlife",
+    subCategory: "Seafood Hubs & Native",
+    name: "Marina Bay Sunset Grill & Bar",
+    title: "Marina Bay Sunset Grill & Bar - Waterfront Feast Pass",
+    vendor: "Marina Bay Sunset Grill & Bar",
+    vendorName: "Marina Bay Sunset Grill & Bar",
+    vendorId: "vnd-marina-bay-sunset-mvl891a",
+    location: "Marina Waterfront Promenade, Calabar",
+    corridor: "Marina Waterfront Promenade",
+    specialty: "Premium open-air waterfront grill serving charcoal river catfish and palm wine cocktails",
+    priceNGN: 9500,
+    price: 9500,
+    rating: 4.8,
+    reviews: 215,
+    badge: "Waterfront Grill",
+    escrowBadge: "Verified Culinary Voucher",
+    image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80",
+    description: "Premium open-air waterfront grill serving authentic charcoal river catfish, spicy pepper glaze, and signature cocktails overlooking the Calabar River.",
+    details: "Voucher redeemable for signature whole charcoal-grilled catfish or pepper chicken, seasoned plantains, and chilled waterfront cocktail.",
+    included: [
+      "Whole Charcoal-Grilled Catfish or Pepper Chicken Platter",
+      "Seasoned Roasted Plantains with Efik Pepper Sauce",
+      "Calabar Riverfront Promenade Table Reservation",
+      "Complimentary Palm Wine Cocktail"
+    ],
+    perks: [
+      "Whole Charcoal-Grilled Catfish Platter",
+      "Seasoned Roasted Plantains",
+      "Waterfront Table Reservation",
+      "Palm Wine Cocktail"
+    ],
+    mapQuery: "Marina Bay Sunset Grill Calabar",
+    navigationUrl: "https://www.google.com/maps/search/?api=1&query=Marina+Resort+Calabar",
+    antiScamAlert: "Unlicensed touts reselling fake waterfront dinner vouchers. Book with CalabarPass escrow protection.",
+    scamRisk: "Unlicensed touts reselling fake dinner vouchers.",
+    bookingMode: "365_day_open",
+    capacityLabel: "Open Daily 12pm - 11pm • Instant Escrow PIN"
+  },
+  {
     id: "dine-marina-seafood",
     categoryGroup: "dining-nightlife",
     category: "Dining & Nightlife",
@@ -425,8 +506,8 @@ export const DINING_NIGHTLIFE_CARDS = [
     reviews: 310,
     badge: "Waterfront Seafood Hub",
     escrowBadge: "Verified Culinary Voucher",
-    image: "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=1200&q=80",
-    imageUrl: "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=1200&q=80",
+    image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80",
     description: "Dine directly along the Calabar River with open-air sunset views, freshly caught grilled river catfish spiced with authentic local herbs, and roasted plantains.",
     details: "Whole live-grilled river catfish or sea croaker, spicy Efik pepper glaze, roasted ripe plantains (boli), and outdoor waterfront cabana seating.",
     included: [
@@ -595,8 +676,8 @@ export const TRADE_EXPO_CARDS = [
     reviews: 82,
     badge: "Official Trade Fair Pavilion",
     escrowBadge: "State Trade Bureau Certified",
-    image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80",
-    imageUrl: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80",
+    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1200&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1200&q=80",
     description: "Secure an official standard 9sqm shell-scheme commercial exhibition booth at Calabar International Convention Centre under Ministry of Commerce sponsorship.",
     details: "9sqm carpeted shell-scheme exhibition space, 24/7 continuous industrial power supply, 2 spotlights, 1 table, 2 chairs, official fascia board branding, and 3 exhibitor badges.",
     included: [
@@ -721,7 +802,7 @@ export const CARNIVAL_CULTURE_CARDS = [
     streetSurgePrice: 135000,
     badge: "Official Secretariat Verified",
     escrowBadge: "Official Secretariat Verified",
-    image: "/assets/seagull_band.jpg",
+    image: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80",
     imageUrl: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80",
     description: "Official 2026 route wristband, handcrafted feather costume kit, hydration truck access, and dedicated security escort along the 12km carnival route.",
     details: "Official 2026 route wristband, handcrafted feather costume kit, hydration truck access, and dedicated security escort along the 12km carnival route.",
@@ -841,8 +922,8 @@ export const CARNIVAL_CULTURE_CARDS = [
     reviews: 180,
     badge: "Festival Bureau Certified",
     escrowBadge: "State Bureau Verified Pass",
-    image: "https://images.unsplash.com/photo-1469488865564-c2de10f69f96?auto=format&fit=crop&w=1200&q=80",
-    imageUrl: "https://images.unsplash.com/photo-1469488865564-c2de10f69f96?auto=format&fit=crop&w=1200&q=80",
+    image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1200&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1200&q=80",
     description: "Unobstructed elevated view of the final carnival band grand finale performances and international concerts inside U.J. Esuene Stadium.",
     details: "Shaded VIP grandstand seat, dedicated security turnstile, air-conditioned restroom access, and official festival programme guide.",
     included: [

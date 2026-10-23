@@ -178,41 +178,51 @@ export default function AdminVendorQueue({ onApprovalSuccess }) {
               key={vendor.id}
               className="p-5 bg-slate-800/80 hover:bg-slate-800 rounded-xl flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 border border-slate-700 transition"
             >
-              <div className="space-y-1.5 flex-1">
-                <div className="flex flex-wrap items-center gap-2.5">
-                  <h3 className="font-bold text-lg text-white">
-                    {vendor.business_name || vendor.businessName}
-                  </h3>
-                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-500/15 text-amber-300 border border-amber-500/30">
-                    {vendor.category}
-                  </span>
-                  <span className="px-2 py-0.5 rounded text-[10px] font-mono text-slate-400 bg-slate-900 border border-slate-700">
-                    ID: {vendor.id}
-                  </span>
-                </div>
-
-                <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-400">
-                  <span className="flex items-center gap-1 text-slate-300">
-                    <Phone className="w-3.5 h-3.5 text-amber-400" />
-                    <span>{vendor.phone}</span>
-                  </span>
-                  <span className="flex items-center gap-1 text-slate-300">
-                    <Mail className="w-3.5 h-3.5 text-cyan-400" />
-                    <span>{vendor.email || "No email provided"}</span>
-                  </span>
-                  {vendor.bankPayoutDetails && (
-                    <span className="flex items-center gap-1 text-slate-400">
-                      <CreditCard className="w-3.5 h-3.5 text-slate-500" />
-                      <span>{vendor.bankPayoutDetails}</span>
+              <div className="flex items-start gap-4 flex-1">
+                {(vendor.imageUrl || vendor.image) && (
+                  <img
+                    src={vendor.imageUrl || vendor.image}
+                    alt={vendor.business_name || vendor.businessName}
+                    className="w-20 h-20 rounded-xl object-cover border border-slate-700/80 shadow-md shrink-0 hidden sm:block"
+                    onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                  />
+                )}
+                <div className="space-y-1.5 flex-1">
+                  <div className="flex flex-wrap items-center gap-2.5">
+                    <h3 className="font-bold text-lg text-white">
+                      {vendor.business_name || vendor.businessName}
+                    </h3>
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-500/15 text-amber-300 border border-amber-500/30">
+                      {vendor.category}
                     </span>
+                    <span className="px-2 py-0.5 rounded text-[10px] font-mono text-slate-400 bg-slate-900 border border-slate-700">
+                      ID: {vendor.id}
+                    </span>
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-400">
+                    <span className="flex items-center gap-1 text-slate-300">
+                      <Phone className="w-3.5 h-3.5 text-amber-400" />
+                      <span>{vendor.phone}</span>
+                    </span>
+                    <span className="flex items-center gap-1 text-slate-300">
+                      <Mail className="w-3.5 h-3.5 text-cyan-400" />
+                      <span>{vendor.email || "No email provided"}</span>
+                    </span>
+                    {vendor.bankPayoutDetails && (
+                      <span className="flex items-center gap-1 text-slate-400">
+                        <CreditCard className="w-3.5 h-3.5 text-slate-500" />
+                        <span>{vendor.bankPayoutDetails}</span>
+                      </span>
+                    )}
+                  </div>
+
+                  {vendor.location && (
+                    <p className="text-[11px] text-slate-400">
+                      📍 {vendor.location}
+                    </p>
                   )}
                 </div>
-
-                {vendor.location && (
-                  <p className="text-[11px] text-slate-400">
-                    📍 {vendor.location}
-                  </p>
-                )}
               </div>
 
               <div className="flex items-center gap-3 shrink-0 self-end lg:self-center">
