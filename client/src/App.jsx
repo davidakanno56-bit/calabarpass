@@ -19,6 +19,7 @@ const VendorPortal = lazy(() => import("./components/VendorPortal.jsx"));
 const PackageDetailsModal = lazy(() => import("./components/PackageDetailsModal.jsx"));
 const VendorAuthModal = lazy(() => import("./components/VendorAuthModal.jsx"));
 const MerchantOnboardingModal = lazy(() => import("./components/MerchantOnboardingModal.jsx"));
+const AdminVendorQueue = lazy(() => import("./components/AdminVendorQueue.jsx"));
 
 export default function App() {
   const isSessionVendorAuthenticated = () => {
@@ -31,6 +32,7 @@ export default function App() {
   const getInitialTab = () => {
     if (typeof window !== "undefined") {
       const path = window.location.pathname.toLowerCase();
+      if (path === "/admin" || path === "/moderation") return "admin";
       if (path === "/shield") return "shield";
       if (path === "/vendor") {
         return isSessionVendorAuthenticated() ? "vendor" : "packages";
@@ -331,6 +333,14 @@ export default function App() {
         {activeTab === "shield" && (
           <Suspense fallback={<div className="p-12 text-center text-slate-400">Loading Scam & Surge Shield...</div>}>
             <FairPriceTracker />
+          </Suspense>
+        )}
+
+        {activeTab === "admin" && (
+          <Suspense fallback={<div className="p-12 text-center text-slate-400">Loading Admin Moderation Queue...</div>}>
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+              <AdminVendorQueue />
+            </div>
           </Suspense>
         )}
 

@@ -496,9 +496,62 @@ function saveStoredTransactions(txs) {
 
 const VENDORS_STORAGE_KEY = "calabarpass_registered_vendors";
 const DYNAMIC_CARDS_STORAGE_KEY = "calabarpass_dynamic_cards";
+const PENDING_STORAGE_KEY = "calabarpass_pending_merchants";
+
+const SEED_PENDING_MERCHANTS = [
+  {
+    id: "vnd-marina-bay-sunset-mvl891a",
+    business_name: "Marina Bay Sunset Grill & Bar",
+    businessName: "Marina Bay Sunset Grill & Bar",
+    name: "Marina Bay Sunset Grill & Bar",
+    category: "dining-nightlife",
+    phone: "+234 803 111 8822",
+    email: "manager@marinabaysunset.com",
+    bankPayoutDetails: "Zenith Bank - 1092837190",
+    location: "Marina Waterfront Promenade, Calabar",
+    priceNGN: 9500,
+    status: "pending",
+    createdAt: new Date(Date.now() - 3600000 * 6).toISOString()
+  },
+  {
+    id: "vnd-oban-rainforest-lodge-mvl902b",
+    business_name: "Oban Rainforest Canopy Lodge",
+    businessName: "Oban Rainforest Canopy Lodge",
+    name: "Oban Rainforest Canopy Lodge",
+    category: "eco-sites",
+    phone: "+234 814 220 3311",
+    email: "bookings@obanrainforest.org",
+    bankPayoutDetails: "Access Bank - 9028172635",
+    location: "Cross River National Park (Oban Division)",
+    priceNGN: 42000,
+    status: "pending",
+    createdAt: new Date(Date.now() - 3600000 * 12).toISOString()
+  }
+];
 
 let inMemoryVendors = [];
 let inMemoryDynamicCards = [];
+let inMemoryPending = [...SEED_PENDING_MERCHANTS];
+
+export function getStoredPendingVendors() {
+  if (typeof window !== "undefined") {
+    try {
+      const raw = localStorage.getItem(PENDING_STORAGE_KEY);
+      if (raw) return JSON.parse(raw);
+      localStorage.setItem(PENDING_STORAGE_KEY, JSON.stringify(SEED_PENDING_MERCHANTS));
+    } catch {}
+  }
+  return inMemoryPending;
+}
+
+export function saveStoredPendingVendors(list) {
+  inMemoryPending = Array.isArray(list) ? list : [];
+  if (typeof window !== "undefined") {
+    try {
+      localStorage.setItem(PENDING_STORAGE_KEY, JSON.stringify(inMemoryPending));
+    } catch {}
+  }
+}
 
 export function getStoredVendors() {
   if (typeof window !== "undefined") {
@@ -541,10 +594,12 @@ export function saveStoredDynamicCards(cards) {
 export function clearStoredDynamicData() {
   inMemoryVendors = [];
   inMemoryDynamicCards = [];
+  inMemoryPending = [...SEED_PENDING_MERCHANTS];
   if (typeof window !== "undefined") {
     try {
       localStorage.removeItem(VENDORS_STORAGE_KEY);
       localStorage.removeItem(DYNAMIC_CARDS_STORAGE_KEY);
+      localStorage.removeItem(PENDING_STORAGE_KEY);
       const activeId = sessionStorage.getItem("calabarpass_active_merchant_id");
       if (activeId && (activeId.startsWith("vnd-") || activeId.startsWith("card-"))) {
         sessionStorage.removeItem("calabarpass_active_merchant_id");
@@ -981,12 +1036,15 @@ export function handleLocalEscrowFallback(endpoint, payload = null, method = "GE
   if (cleanEndpoint === "/api/vendor/register" || cleanEndpoint === "/api/vendor/onboard") {
     const { 
       businessName, 
+      business_name,
       name, 
       category, 
       bankPayoutDetails, 
       bankAccount, 
       phone, 
       phoneNumber, 
+      email,
+      contactEmail,
       logoUrl, 
       image, 
       location, 
@@ -996,7 +1054,7 @@ export function handleLocalEscrowFallback(endpoint, payload = null, method = "GE
       priceNGN 
     } = payload || {};
 
-    const title = (businessName || name || "").trim();
+    const title = (businessName || business_name || name || "").trim();
     if (!title) {
       return { success: false, error: "Business name is required." };
     }
@@ -1019,6 +1077,7 @@ export function handleLocalEscrowFallback(endpoint, payload = null, method = "GE
     const vendorId = `vnd-${slug}-${Date.now().toString(36)}`;
     const bank = bankPayoutDetails || bankAccount || "Access Bank ****4102";
     const tel = phone || phoneNumber || "+234 800 000 0000";
+    const mail = (email || contactEmail || `${slug}@merchant.calabarpass.ng`).trim();
     const img = logoUrl || image || "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80";
     const loc = location || corridor || "Calabar Municipality, Cross River State";
     const rate = Number(priceNGN || price || 35000);
@@ -1028,16 +1087,20 @@ export function handleLocalEscrowFallback(endpoint, payload = null, method = "GE
       apiVendorId: vendorId,
       name: title,
       businessName: title,
+      business_name: title,
       category: normalizedCategory,
       bankAccount: bank,
+      bankPayoutDetails: bank,
       phone: tel,
+      email: mail,
       logoUrl: img,
       image: img,
       location: loc,
       description: description || `Verified Cross River 365-day commercial operator in ${normalizedCategory}.`,
       accessCode,
       registeredAt: new Date().toISOString(),
-      status: "VERIFIED_ACTIVE",
+      createdAt: new Date().toISOString(),
+      status: "pending",
       terms: {
         incoming: "Guest Check-Ins",
         booking: "Clearances & Bookings",
@@ -1049,6 +1112,23 @@ export function handleLocalEscrowFallback(endpoint, payload = null, method = "GE
       aliases: [vendorId, slug, title.toLowerCase()],
       demo: [`CP-${accessCode.replace(/[^A-Z0-9]/g, "")}`, "552190", "Verified Onboarding Guest", `${title} Pass`, rate]
     };
+
+    // Store in pending queue as well
+    const pendingList = getStoredPendingVendors();
+    pendingList.unshift({
+      id: vendorId,
+      business_name: title,
+      businessName: title,
+      category: normalizedCategory,
+      phone: tel,
+      email: mail,
+      bankPayoutDetails: bank,
+      location: loc,
+      priceNGN: rate,
+      status: "pending",
+      createdAt: new Date().toISOString()
+    });
+    saveStoredPendingVendors(pendingList);
 
     const vendors = getStoredVendors();
     vendors.unshift(vendorRecord);
@@ -1218,6 +1298,59 @@ export function handleLocalEscrowFallback(endpoint, payload = null, method = "GE
       vendorId,
       message: `Merchant ${targetVendor?.name || vendorId} removed successfully.`
     };
+  }
+
+  // 15. Admin Pending Vendors Queue
+  if (cleanEndpoint === "/api/admin/vendors/pending") {
+    return getStoredPendingVendors();
+  }
+
+  // 16. Admin Vendor Review (Approve or Remove)
+  if (cleanEndpoint.startsWith("/api/admin/vendors/") && cleanEndpoint.includes("/review")) {
+    const rawId = cleanEndpoint.replace("/api/admin/vendors/", "").replace(/\/review.*$/, "");
+    const vendorId = decodeURIComponent(rawId);
+    const action = urlObj?.searchParams.get("action") || payload?.action;
+
+    if (!action || !["approve", "remove"].includes(action.toLowerCase())) {
+      return { status: "error", detail: "Invalid action parameter.", error: "Invalid action parameter.", success: false };
+    }
+
+    const pendingList = getStoredPendingVendors();
+    const vendorIndex = pendingList.findIndex(v => v.id === vendorId);
+    const currentVendors = getStoredVendors();
+    const vendorRecord = vendorIndex >= 0 ? pendingList[vendorIndex] : currentVendors.find(v => v.id === vendorId);
+
+    if (!vendorRecord && vendorIndex < 0) {
+      return { status: "error", detail: "Vendor not found.", error: "Vendor not found.", success: false };
+    }
+
+    const cleanAction = action.toLowerCase();
+    if (cleanAction === "approve") {
+      const catCode = ((vendorRecord?.category) || "HTL").replace(/[^a-zA-Z]/g, "").slice(0, 3).toUpperCase();
+      const timestampSec = Math.floor(Date.now() / 1000);
+      const merchant_code = `CAL-${catCode}-${timestampSec}`;
+
+      if (vendorRecord) {
+        vendorRecord.status = "approved";
+        vendorRecord.merchant_code = merchant_code;
+        vendorRecord.accessCode = merchant_code;
+      }
+
+      // Remove from pending
+      const updatedPending = pendingList.filter(v => v.id !== vendorId);
+      saveStoredPendingVendors(updatedPending);
+
+      return { status: "success", message: `Vendor successfully approved.`, merchant_code };
+    } else if (cleanAction === "remove") {
+      if (vendorRecord) {
+        vendorRecord.status = "removed";
+      }
+      const updatedPending = pendingList.filter(v => v.id !== vendorId);
+      saveStoredPendingVendors(updatedPending);
+      removeStoredDynamicVendor(vendorId);
+
+      return { status: "success", message: `Vendor successfully removed.` };
+    }
   }
 
   return { success: true, message: "Autonomous client operation completed." };

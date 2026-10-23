@@ -220,12 +220,15 @@ const handleVendorRegistration = (req, res) => {
   try {
     const { 
       businessName, 
+      business_name,
       name, 
       category, 
       bankPayoutDetails, 
       bankAccount, 
       phone, 
       phoneNumber, 
+      email,
+      contactEmail,
       logoUrl, 
       image, 
       location, 
@@ -235,7 +238,7 @@ const handleVendorRegistration = (req, res) => {
       priceNGN 
     } = req.body || {};
 
-    const title = businessName || name;
+    const title = businessName || business_name || name;
     if (!title) {
       return res.status(400).json({ success: false, error: "Business name is required." });
     }
@@ -248,9 +251,11 @@ const handleVendorRegistration = (req, res) => {
 
     const result = escrowStore.registerVendor({
       businessName: title,
+      business_name: title,
       category,
       bankPayoutDetails: bankPayoutDetails || bankAccount,
       phone: phone || phoneNumber,
+      email: email || contactEmail,
       logoUrl: logoUrl || image,
       location: location || corridor,
       description,
@@ -262,7 +267,8 @@ const handleVendorRegistration = (req, res) => {
       vendor: result.vendor,
       accessCode: result.accessCode,
       directoryCard: result.directoryCard,
-      message: `Merchant registered successfully. Save your Vendor Access Code: ${result.accessCode}`
+      status: result.vendor.status || "pending",
+      message: `Merchant registered successfully. Application is in pending review queue.`
     });
   } catch (error) {
     console.error("Vendor Onboarding Error:", error.message);
@@ -272,6 +278,48 @@ const handleVendorRegistration = (req, res) => {
 
 app.post("/api/vendor/register", handleVendorRegistration);
 app.post("/api/vendor/onboard", handleVendorRegistration);
+
+// ==========================================
+// Admin Moderation API Endpoints
+// ==========================================
+
+// 7c-2. Get all Pending Merchant Applications
+app.get("/api/admin/vendors/pending", (req, res) => {
+  try {
+    const pendingVendors = escrowStore.getPendingVendors();
+    res.json(pendingVendors);
+  } catch (error) {
+    res.status(500).json({ detail: error.message, error: error.message });
+  }
+});
+
+// 7c-3. Review Merchant Application (Approve or Remove)
+app.post("/api/admin/vendors/:vendor_id/review", (req, res) => {
+  try {
+    const { vendor_id } = req.params;
+    const action = req.query.action || req.body?.action;
+
+    if (!action) {
+      return res.status(400).json({ detail: "Invalid action parameter." });
+    }
+
+    const result = escrowStore.reviewVendor(vendor_id, action);
+    if (!result.success) {
+      if (result.notFound) {
+        return res.status(404).json({ detail: "Vendor not found." });
+      }
+      if (result.invalidAction) {
+        return res.status(400).json({ detail: "Invalid action parameter." });
+      }
+      return res.status(400).json({ detail: result.error || "Review failed." });
+    }
+
+    res.json({ status: "success", message: `Vendor successfully ${action}d.` });
+  } catch (error) {
+    console.error("Admin Review Error:", error.message);
+    res.status(500).json({ detail: error.message, error: error.message });
+  }
+});
 
 // 7d. Get all Registered Vendors
 app.get("/api/vendor/list", (req, res) => {

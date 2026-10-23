@@ -3,6 +3,7 @@
 
 import { HOTELS, getHotelBaseRate } from "./hotels.js";
 import { generateVendorAccessCode } from "./vendorAuth.js";
+import { sendTransactionalEmail } from "./mail.js";
 
 // 6 Curated Cross River Tourism Packages (Strictly Tours, Excursions & Eco-Expeditions - Zero Lodging/Hotels)
 export const PACKAGES = [
@@ -270,8 +271,45 @@ class EscrowStore {
   constructor() {
     this.transactions = new Map();
     this.vendors = new Map();
+    this.pendingVendors = new Map();
     this.dynamicCards = [];
     this.seedInitialTransactions();
+    this.seedPendingVendors();
+  }
+
+  seedPendingVendors() {
+    const p1 = {
+      id: "vnd-marina-bay-sunset-mvl891a",
+      business_name: "Marina Bay Sunset Grill & Bar",
+      businessName: "Marina Bay Sunset Grill & Bar",
+      name: "Marina Bay Sunset Grill & Bar",
+      category: "dining-nightlife",
+      phone: "+234 803 111 8822",
+      email: "manager@marinabaysunset.com",
+      bankPayoutDetails: "Zenith Bank - 1092837190 (Marina Bay Grill Ltd)",
+      location: "Marina Waterfront Promenade, Calabar",
+      priceNGN: 9500,
+      status: "pending",
+      description: "Premium open-air waterfront grill serving charcoal river catfish and palm wine cocktails.",
+      createdAt: new Date(Date.now() - 3600000 * 6).toISOString()
+    };
+    const p2 = {
+      id: "vnd-oban-rainforest-lodge-mvl902b",
+      business_name: "Oban Rainforest Canopy Lodge",
+      businessName: "Oban Rainforest Canopy Lodge",
+      name: "Oban Rainforest Canopy Lodge",
+      category: "eco-sites",
+      phone: "+234 814 220 3311",
+      email: "bookings@obanrainforest.org",
+      bankPayoutDetails: "Access Bank - 9028172635 (Oban Heritage Co)",
+      location: "Cross River National Park (Oban Division)",
+      priceNGN: 42000,
+      status: "pending",
+      description: "Eco-certified forest cabins with canopy walkway guides, birdwatching towers, and ranger patrol.",
+      createdAt: new Date(Date.now() - 3600000 * 12).toISOString()
+    };
+    this.pendingVendors.set(p1.id, p1);
+    this.pendingVendors.set(p2.id, p2);
   }
 
   seedInitialTransactions() {
@@ -834,12 +872,15 @@ class EscrowStore {
 
   registerVendor({
     businessName,
+    business_name,
     name,
     category,
     bankPayoutDetails,
     bankAccount,
     phone,
     phoneNumber,
+    email,
+    contactEmail,
     logoUrl,
     image,
     imageUrl,
@@ -849,7 +890,7 @@ class EscrowStore {
     price,
     priceNGN
   }) {
-    const title = (businessName || name || "").trim();
+    const title = (businessName || business_name || name || "").trim();
     if (!title) {
       throw new Error("Business name is required for vendor onboarding.");
     }
@@ -871,6 +912,7 @@ class EscrowStore {
     const vendorId = `vnd-${slug}-${Date.now().toString(36)}`;
     const bank = bankPayoutDetails || bankAccount || "Access Bank ****4102";
     const tel = phone || phoneNumber || "+234 800 000 0000";
+    const mail = (email || contactEmail || `${slug}@merchant.calabarpass.ng`).trim();
     const img = logoUrl || image || imageUrl || "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80";
     const loc = location || corridor || "Calabar Municipality, Cross River State";
     const rate = Number(priceNGN || price || 35000);
@@ -880,16 +922,20 @@ class EscrowStore {
       apiVendorId: vendorId,
       name: title,
       businessName: title,
+      business_name: title,
       category: normalizedCategory,
       bankAccount: bank,
+      bankPayoutDetails: bank,
       phone: tel,
+      email: mail,
       logoUrl: img,
       image: img,
       location: loc,
       description: description || `Verified Cross River 365-day commercial operator in ${normalizedCategory}.`,
       accessCode,
       registeredAt: new Date().toISOString(),
-      status: "VERIFIED_ACTIVE",
+      createdAt: new Date().toISOString(),
+      status: "pending",
       terms: {
         incoming: "Guest Check-Ins",
         booking: "Clearances & Bookings",
@@ -902,7 +948,8 @@ class EscrowStore {
       demo: [`CP-${accessCode.replace(/[^A-Z0-9]/g, "")}`, "552190", "Verified Onboarding Guest", `${title} Pass`, rate],
     };
 
-    // Store in internal maps
+    // Store in pending queue and internal vendor index
+    this.pendingVendors.set(vendorId, vendorRecord);
     this.vendors.set(vendorId, vendorRecord);
     this.vendors.set(accessCode.toUpperCase(), vendorRecord);
 
@@ -985,6 +1032,103 @@ class EscrowStore {
     return this.vendors.get(cleaned) || null;
   }
 
+  getPendingVendors() {
+    const list = [];
+    for (const v of this.pendingVendors.values()) {
+      if (v && v.status === "pending") {
+        list.push({
+          id: v.id,
+          business_name: v.business_name || v.businessName || v.name,
+          businessName: v.business_name || v.businessName || v.name,
+          category: v.category,
+          phone: v.phone,
+          email: v.email,
+          bankPayoutDetails: v.bankPayoutDetails || v.bankAccount,
+          location: v.location,
+          priceNGN: v.priceNGN,
+          status: v.status,
+          createdAt: v.createdAt || v.registeredAt
+        });
+      }
+    }
+    return list;
+  }
+
+  reviewVendor(vendorId, action) {
+    const cleanAction = String(action || "").toLowerCase().trim();
+    let vendor = this.pendingVendors.get(vendorId) || this.vendors.get(vendorId);
+
+    if (!vendor) {
+      return {
+        success: false,
+        notFound: true,
+        error: "Vendor not found."
+      };
+    }
+
+    if (cleanAction === "approve") {
+      vendor.status = "approved";
+      // Official state merchant code CAL-{CATEGORY[:3]}-{timestamp}
+      const catCode = (vendor.category || "HTL").replace(/[^a-zA-Z]/g, "").slice(0, 3).toUpperCase();
+      const timestampSec = Math.floor(Date.now() / 1000);
+      vendor.merchant_code = `CAL-${catCode}-${timestampSec}`;
+      vendor.accessCode = vendor.merchant_code;
+
+      // Register official state merchant code
+      this.vendors.set(vendor.id, vendor);
+      this.vendors.set(vendor.merchant_code.toUpperCase(), vendor);
+      this.pendingVendors.delete(vendorId);
+
+      // Trigger Approval Email
+      sendTransactionalEmail({
+        to_email: vendor.email,
+        subject: "🎉 Your CalabarPass Merchant Account is Approved!",
+        body: `Hello ${vendor.business_name || vendor.businessName},\n\nYour business has been verified by the CalabarPass administration. Your official state merchant code is ${vendor.merchant_code}. You can now log into your Vendor Settlement Terminal and accept escrow payments.`
+      });
+
+      return {
+        status: "success",
+        success: true,
+        message: "Vendor successfully approved.",
+        merchant_code: vendor.merchant_code,
+        vendor
+      };
+    } else if (cleanAction === "remove") {
+      vendor.status = "removed";
+      this.pendingVendors.delete(vendorId);
+      this.vendors.delete(vendorId);
+      if (vendor.accessCode) {
+        this.vendors.delete(vendor.accessCode.toUpperCase());
+      }
+      if (vendor.merchant_code) {
+        this.vendors.delete(vendor.merchant_code.toUpperCase());
+      }
+
+      // Remove from dynamicCards
+      this.dynamicCards = this.dynamicCards.filter(c => c.vendorId !== vendorId);
+
+      // Trigger Removal / Rejection Email
+      sendTransactionalEmail({
+        to_email: vendor.email,
+        subject: "Update Regarding Your CalabarPass Registration",
+        body: `Hello ${vendor.business_name || vendor.businessName},\n\nAfter reviewing your submission, your listing could not be verified at this time as it did not meet our state compliance and security standards. If you believe this is an error, please reach out to support.`
+      });
+
+      return {
+        status: "success",
+        success: true,
+        message: "Vendor successfully removed.",
+        vendor
+      };
+    } else {
+      return {
+        success: false,
+        invalidAction: true,
+        error: "Invalid action parameter."
+      };
+    }
+  }
+
   getAllVendors() {
     const map = new Map();
     for (const v of this.vendors.values()) {
@@ -1016,6 +1160,8 @@ class EscrowStore {
 
     // Clear dynamic maps and cards
     this.vendors.clear();
+    this.pendingVendors.clear();
+    this.seedPendingVendors();
     this.dynamicCards = [];
 
     // Remove any demo transactions created for dynamic vendors

@@ -17,7 +17,8 @@ import {
   CreditCard, 
   Phone, 
   MapPin, 
-  Image as ImageIcon 
+  Image as ImageIcon,
+  Mail 
 } from "lucide-react";
 import { registerMerchantOnboarding } from "../utils/api.js";
 
@@ -70,6 +71,7 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
     category: "accommodations",
     bankPayoutDetails: "",
     phone: "",
+    email: "",
     location: "Marian Road / Calabar Municipality",
     logoUrl: "",
     priceNGN: 45000,
@@ -105,6 +107,7 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
       category: "accommodations",
       bankPayoutDetails: "Zenith Bank - 1029384756 (Royal Hospitality Ltd)",
       phone: "+234 803 772 1904",
+      email: "reservations@royalefiksuites.com",
       location: "Marian Road / State Housing Estate, Calabar",
       logoUrl: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80",
       priceNGN: 65000,
@@ -298,6 +301,21 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
                     required
                   />
                 </div>
+              </div>
+
+              {/* Business Email for Verification & Approval Dispatch */}
+              <div>
+                <label className="block font-bold uppercase tracking-wider text-slate-300 mb-1.5 flex items-center gap-1.5">
+                  <Mail className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Official Business Email (Receives State Merchant Code & Approval Notice)</span>
+                </label>
+                <input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => handleInputChange("email", e.target.value)}
+                  placeholder="e.g. contact@yourbusiness.com"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-700 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-amber-400 transition"
+                />
               </div>
 
               {/* Location & Rate */}

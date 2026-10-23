@@ -113,3 +113,99 @@ export function getHotelBaseRate(priceRange) {
   }
   return 75000;
 }
+
+export const officialAfSnetHotels = [
+  {
+    id: "metropolitan-hotel",
+    name: "Metropolitan Hotel",
+    rating: "5-star",
+    distanceToCICC: "10 minutes to CICC",
+    pricePerNight: "₦70,000",
+    contactPerson: "Victor Uyoata",
+    phone: "+234 812 369 6019",
+    email: "reservations@metropolitanhotelcalabar.com",
+    category: "Accommodations",
+    imageUrl: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: "monty-suites",
+    name: "Monty Suites",
+    rating: "5-star",
+    distanceToCICC: "10 minutes to CICC",
+    pricePerNight: "₦155,000",
+    contactPerson: "Bassey Ita Asuquo",
+    phone: "+234 803 646 1074",
+    email: "reservations.calabar@montysuites.com",
+    category: "Accommodations",
+    imageUrl: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: "channel-view",
+    name: "Channel View Hotel",
+    rating: "4-star",
+    distanceToCICC: "13 minutes to CICC",
+    pricePerNight: "₦140,000",
+    phone: "+234 803 974 2044",
+    email: "info@channelviewhotelsng.com",
+    category: "Accommodations",
+    imageUrl: "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: "gemba-hotel",
+    name: "Gemba Hotel & Resort",
+    rating: "4-star",
+    distanceToCICC: "20 minutes to CICC",
+    pricePerNight: "₦150,000",
+    phone: "+234 902 222 2094",
+    email: "info@gembahotelandresort.com",
+    category: "Accommodations",
+    imageUrl: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: "hogis-royale",
+    name: "Hogis Royale Apartments",
+    rating: "4-star",
+    distanceToCICC: "16 minutes to CICC",
+    pricePerNight: "₦160,000",
+    phone: "+234 703 934 2262",
+    email: "fom@hogisluxurysuites.com",
+    category: "Accommodations",
+    imageUrl: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: "pearl-suites",
+    name: "Pearl Suites",
+    rating: "3-star",
+    distanceToCICC: "12 minutes to CICC",
+    pricePerNight: "₦138,800",
+    contactPerson: "Daniel Francis",
+    phone: "+234 913 737 3249",
+    email: "pearlsuitehotels@yahoo.com",
+    category: "Accommodations",
+    imageUrl: "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: "ug-wis",
+    name: "UG WIS Hotels & Suites",
+    rating: "3-star",
+    distanceToCICC: "12 minutes to CICC",
+    pricePerNight: "₦175,000",
+    contactPerson: "Chris Ogar",
+    phone: "+234 803 966 0825",
+    email: "ugwishotels@gmail.com",
+    category: "Accommodations",
+    imageUrl: "https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: "de-grand",
+    name: "De Grand Hotel & Rooftop",
+    rating: "3-star",
+    distanceToCICC: "17 minutes to CICC",
+    pricePerNight: "₦140,000",
+    contactPerson: "Obasanjo Omoleke",
+    phone: "+234 803 834 5856",
+    email: "degrandbayhotel.rooftop@gmail.com",
+    category: "Accommodations",
+    imageUrl: "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?auto=format&fit=crop&w=800&q=80"
+  }
+];

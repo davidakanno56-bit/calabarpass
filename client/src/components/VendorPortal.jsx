@@ -23,6 +23,7 @@ import {
   deleteDynamicMerchantListing,
   getStoredDynamicCards,
 } from "../utils/api.js";
+import AdminVendorQueue from "./AdminVendorQueue.jsx";
 
 const MERCHANTS = [
   // 1. ACCOMMODATIONS (Hotels, Resorts, Suites)
@@ -647,6 +648,7 @@ const withNetPayout = (transaction) => ({
 
 export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicCardsChange }) {
   const [registeredVendors, setRegisteredVendors] = useState(() => getStoredVendors());
+  const [portalView, setPortalView] = useState("terminal"); // 'terminal' | 'admin'
 
   const staticIds = useMemo(() => new Set(MERCHANTS.map((m) => m.id)), []);
 
@@ -1072,6 +1074,19 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
                 <RotateCcw className="h-3.5 w-3.5 text-amber-400" />
                 <span>Clear Test Registrations{dynamicMerchants.length > 0 ? ` (${dynamicMerchants.length})` : ""}</span>
               </button>
+              <button
+                type="button"
+                onClick={() => setPortalView(prev => prev === "admin" ? "terminal" : "admin")}
+                className={`flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer border ${
+                  portalView === "admin"
+                    ? "bg-amber-500 text-black border-amber-400 shadow-gold-glow"
+                    : "bg-slate-900 hover:bg-slate-800 text-amber-300 border-amber-500/30"
+                }`}
+                title="Toggle Pending Merchant Approvals Queue"
+              >
+                <Clock3 className="h-3.5 w-3.5" />
+                <span>{portalView === "admin" ? "Back to Terminal" : "Pending Approvals"}</span>
+              </button>
               {onLockTerminal && (
                 <button
                   type="button"
@@ -1240,6 +1255,21 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
         </section>
       )}
 
+      {portalView === "admin" ? (
+        <AdminVendorQueue 
+          onApprovalSuccess={() => {
+            fetch("/api/vendor/list")
+              .then(r => r.ok ? r.json() : null)
+              .then(d => {
+                if (d?.success && Array.isArray(d.vendors)) {
+                  setRegisteredVendors(d.vendors);
+                }
+              })
+              .catch(() => {});
+          }} 
+        />
+      ) : (
+        <>
       <section
         aria-label="Active terminal and verified settlement account"
         className="flex flex-col gap-5 rounded-2xl border border-emerald-500/25 bg-gradient-to-r from-emerald-950/50 via-slate-900/80 to-slate-900/70 p-5 sm:flex-row sm:items-center sm:justify-between"
@@ -1657,6 +1687,8 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
           </div>
         )}
       </section>
+      </>
+      )}
 
       {releaseStatus && (
         <div

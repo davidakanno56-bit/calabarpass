@@ -5,285 +5,405 @@ import {
   Star, 
   ShieldCheck, 
   Search, 
-  Lock 
+  Lock,
+  Phone,
+  Mail,
+  User,
+  Clock,
+  ExternalLink,
+  ChevronRight,
+  Sparkles
 } from "lucide-react";
 
-export const VERIFIED_LISTINGS = [
+export const officialAfSnetHotels = [
   {
-    id: "transcorp-calabar",
-    name: "Transcorp Hotels Calabar",
-    category: "Executive Hotels",
-    corridor: "10 Murtala Mohammed Highway",
-    price: 120000,
-    rating: 4.8,
-    reviews: 142,
-    badge: "Luxury Flagship",
-    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80",
-    amenities: ["Pool", "24/7 Power", "Fine Dining", "Armed Security"],
-    description: "The premier hospitality base for executive delegations and carnival festival VIPs."
+    id: "metropolitan-hotel",
+    name: "Metropolitan Hotel",
+    rating: "5-star",
+    distanceToCICC: "10 minutes to CICC",
+    pricePerNight: "₦70,000",
+    contactPerson: "Victor Uyoata",
+    phone: "+234 812 369 6019",
+    email: "reservations@metropolitanhotelcalabar.com",
+    category: "Accommodations",
+    imageUrl: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80"
   },
   {
     id: "monty-suites",
-    name: "Monty Suites Calabar",
-    category: "Boutique & Resorts",
-    corridor: "Northern Industrial Layout, Behind Zone 6",
-    price: 85000,
-    rating: 4.7,
-    reviews: 98,
-    badge: "Premium Boutique",
-    image: "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=800&q=80",
-    amenities: ["Outdoor Pool", "Executive Lounge", "24/7 CCTV", "Breakfast"],
-    description: "Quiet luxury in the residential heart of Calabar with top-tier security."
+    name: "Monty Suites",
+    rating: "5-star",
+    distanceToCICC: "10 minutes to CICC",
+    pricePerNight: "₦155,000",
+    contactPerson: "Bassey Ita Asuquo",
+    phone: "+234 803 646 1074",
+    email: "reservations.calabar@montysuites.com",
+    category: "Accommodations",
+    imageUrl: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80"
   },
   {
     id: "channel-view",
     name: "Channel View Hotel",
-    category: "Executive Hotels",
-    corridor: "27/29 MCC Road",
-    price: 65000,
-    rating: 4.5,
-    reviews: 115,
-    badge: "Carnival Prime Route",
-    image: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=80",
-    amenities: ["Carnival View", "24/7 Electricity", "Event Halls", "Secured Parking"],
-    description: "Right on the official carnival procession path with front-row parade viewing."
+    rating: "4-star",
+    distanceToCICC: "13 minutes to CICC",
+    pricePerNight: "₦140,000",
+    phone: "+234 803 974 2044",
+    email: "info@channelviewhotelsng.com",
+    category: "Accommodations",
+    imageUrl: "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80"
   },
   {
-    id: "mega-hilton",
-    name: "Mega Hilton Hotel",
-    category: "Executive Hotels",
-    corridor: "State Housing Estate",
-    price: 50000,
-    rating: 4.4,
-    reviews: 76,
-    badge: "Business & Leisure",
-    image: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=80",
-    amenities: ["24/7 Electricity", "Cocktail Bar", "Free WiFi", "Guarded Gate"],
-    description: "Affordable luxury nestled in the quiet, green State Housing Estate."
+    id: "gemba-hotel",
+    name: "Gemba Hotel & Resort",
+    rating: "4-star",
+    distanceToCICC: "20 minutes to CICC",
+    pricePerNight: "₦150,000",
+    phone: "+234 902 222 2094",
+    email: "info@gembahotelandresort.com",
+    category: "Accommodations",
+    imageUrl: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=80"
   },
   {
-    id: "pyramid-hotel",
-    name: "Pyramid Hotel & Suites",
-    category: "Boutique & Resorts",
-    corridor: "152 Murtala Mohammed Highway",
-    price: 45000,
-    rating: 4.3,
-    reviews: 64,
-    badge: "Highway Central",
-    image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=800&q=80",
-    amenities: ["Restaurant", "Secure Parking", "Air Conditioning", "24/7 Power"],
-    description: "Direct highway access offering quick links to Margaret Ekpo Airport and U.J. Esuene Stadium."
+    id: "hogis-royale",
+    name: "Hogis Royale Apartments",
+    rating: "4-star",
+    distanceToCICC: "16 minutes to CICC",
+    pricePerNight: "₦160,000",
+    phone: "+234 703 934 2262",
+    email: "fom@hogisluxurysuites.com",
+    category: "Accommodations",
+    imageUrl: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80"
   },
   {
-    id: "hotel-45",
-    name: "Hotel 45 (Forty-Five)",
-    category: "Boutique & Resorts",
-    corridor: "45 St. Mary's St, Off Marian Road",
-    price: 40000,
-    rating: 4.4,
-    reviews: 52,
-    badge: "Trendy Boutique",
-    image: "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80",
-    amenities: ["Cocktail Lounge", "High-Speed WiFi", "24/7 Power", "Modern Interior"],
-    description: "Steps away from Marian Road’s vibrant district and festival nightlife."
+    id: "pearl-suites",
+    name: "Pearl Suites",
+    rating: "3-star",
+    distanceToCICC: "12 minutes to CICC",
+    pricePerNight: "₦138,800",
+    contactPerson: "Daniel Francis",
+    phone: "+234 913 737 3249",
+    email: "pearlsuitehotels@yahoo.com",
+    category: "Accommodations",
+    imageUrl: "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?auto=format&fit=crop&w=800&q=80"
   },
   {
-    id: "tinapa-lakeside",
-    name: "Tinapa Lakeside Hotel",
-    category: "Boutique & Resorts",
-    corridor: "Tinapa Free Zone, Adiabo",
-    price: 55000,
-    rating: 4.2,
-    reviews: 89,
-    badge: "Waterfront Resort",
-    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
-    amenities: ["Lake Views", "Waterpark Access", "Serene Nature", "Conferencing"],
-    description: "Picturesque waterfront resort with lush forest views and full resort amenities."
+    id: "ug-wis",
+    name: "UG WIS Hotels & Suites",
+    rating: "3-star",
+    distanceToCICC: "12 minutes to CICC",
+    pricePerNight: "₦175,000",
+    contactPerson: "Chris Ogar",
+    phone: "+234 803 966 0825",
+    email: "ugwishotels@gmail.com",
+    category: "Accommodations",
+    imageUrl: "https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=800&q=80"
   },
   {
-    id: "axari-hotel",
-    name: "Axari Hotel & Suites",
-    category: "Executive Hotels",
-    corridor: "Murtala Mohammed Highway",
-    price: 48000,
-    rating: 4.3,
-    reviews: 58,
-    badge: "Executive Comfort",
-    image: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=800&q=80",
-    amenities: ["Swimming Pool", "Fitness Center", "Conference Hall", "24/7 Power"],
-    description: "Centrally located on Murtala Mohammed Highway with executive rooms and private meeting spaces."
+    id: "de-grand",
+    name: "De Grand Hotel & Rooftop",
+    rating: "3-star",
+    distanceToCICC: "17 minutes to CICC",
+    pricePerNight: "₦140,000",
+    contactPerson: "Obasanjo Omoleke",
+    phone: "+234 803 834 5856",
+    email: "degrandbayhotel.rooftop@gmail.com",
+    category: "Accommodations",
+    imageUrl: "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?auto=format&fit=crop&w=800&q=80"
   }
 ];
 
+// Backwards compatibility alias
+export const VERIFIED_LISTINGS = officialAfSnetHotels;
+
 export default function AccommodationsView({ onBookHotel }) {
-  const [selectedCategory, setSelectedCategory] = useState("All Stays");
+  const [selectedRating, setSelectedRating] = useState("All Stays");
   const [searchQuery, setSearchQuery] = useState("");
+  const [activeHotelDetails, setActiveHotelDetails] = useState(null);
 
-  const categories = ["All Stays", "Executive Hotels", "Boutique & Resorts"];
+  const filterOptions = ["All Stays", "5-Star Luxury", "4-Star Executive", "3-Star Comfort"];
 
-  const filteredListings = VERIFIED_LISTINGS.filter((item) => {
-    const matchesCategory = selectedCategory === "All Stays" || item.category === selectedCategory;
+  const filteredHotels = officialAfSnetHotels.filter((hotel) => {
+    const matchesRating =
+      selectedRating === "All Stays" ||
+      (selectedRating === "5-Star Luxury" && hotel.rating.startsWith("5")) ||
+      (selectedRating === "4-Star Executive" && hotel.rating.startsWith("4")) ||
+      (selectedRating === "3-Star Comfort" && hotel.rating.startsWith("3"));
+
+    const query = searchQuery.toLowerCase().trim();
     const matchesSearch =
-      item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.corridor.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
+      !query ||
+      hotel.name.toLowerCase().includes(query) ||
+      hotel.distanceToCICC.toLowerCase().includes(query) ||
+      (hotel.contactPerson && hotel.contactPerson.toLowerCase().includes(query)) ||
+      (hotel.phone && hotel.phone.toLowerCase().includes(query)) ||
+      (hotel.email && hotel.email.toLowerCase().includes(query));
+
+    return matchesRating && matchesSearch;
   });
 
+  const handleBookingClick = (hotel) => {
+    const parsedPrice = parseInt(hotel.pricePerNight.replace(/[^\d]/g, ""), 10) || 75000;
+    const bookingPayload = {
+      ...hotel,
+      price: parsedPrice,
+      priceNGN: parsedPrice,
+      image: hotel.imageUrl,
+      corridor: hotel.distanceToCICC,
+      vendor: hotel.name,
+      vendorName: hotel.name,
+      vendorId: hotel.id
+    };
+    onBookHotel?.(bookingPayload);
+  };
+
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
       {/* Header */}
-      <div className="mb-8">
+      <div>
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-3">
           <ShieldCheck className="w-4 h-4" />
-          <span>State Bureau Verified Directory • 365 Days</span>
+          <span>Official AfSNET Verified Hotel Directory • 365 Days</span>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-          Calabar Premier Executive Stays
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight font-heading">
+          Calabar Verified AfSNET Executive Accommodations
         </h1>
         <p className="mt-2 text-slate-400 text-sm sm:text-base max-w-3xl">
-          Browse {VERIFIED_LISTINGS.length} verified executive hotels and boutique resorts across Calabar. All payments remain locked in the <span className="text-amber-400 font-semibold">CalabarPass Anti-Fraud Escrow Vault</span> until physical check-in.
+          Browse the {officialAfSnetHotels.length} officially accredited AfSNET hotels with verified conference proximity to the Calabar International Convention Centre (CICC). All guest reservations are backed by the <span className="text-amber-400 font-semibold">CalabarPass Anti-Fraud Escrow Protocol</span>.
         </p>
 
-        {/* Protection Banner */}
-        <div className="mt-6 p-4 rounded-xl bg-slate-900/80 border border-emerald-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        {/* Protection Guarantee Banner */}
+        <div className="mt-6 p-4 rounded-2xl bg-slate-900/90 border border-emerald-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-lg">
           <div className="flex items-center gap-3">
             <span className="text-2xl">🏨</span>
             <div className="text-xs sm:text-sm text-slate-300">
-              <span className="font-bold text-emerald-400">Zero-Risk Escrow Guarantee:</span> Room deposits remain safely locked in escrow until you arrive on-site and present your 6-digit PIN at the front desk.
+              <span className="font-bold text-emerald-400">Zero-Risk Escrow Guarantee:</span> Your room deposit remains safely locked in state escrow until you arrive on-site and present your 6-digit PIN at the hotel front desk.
             </div>
           </div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/60 border border-emerald-500/40 text-emerald-400 text-xs font-bold shrink-0 self-start sm:self-auto">
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-500/40 text-emerald-400 text-xs font-bold shrink-0 self-start sm:self-auto">
             <Lock className="w-3.5 h-3.5" />
             100% Escrow Protected
           </div>
         </div>
       </div>
 
-      {/* Search & Filters */}
-      <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-8">
+      {/* Search & Rating Filter Bar */}
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="relative w-full md:w-96">
           <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
           <input
             type="text"
-            placeholder="Search hotel name or corridor..."
+            placeholder="Search hotel name, CICC distance, or contact..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-900 border border-slate-800 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-amber-500/60"
+            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-white placeholder-slate-500 text-xs sm:text-sm focus:outline-none focus:border-amber-400 transition"
           />
         </div>
 
         <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
-          {categories.map((cat) => (
+          {filterOptions.map((opt) => (
             <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
-              className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
-                selectedCategory === cat
-                  ? "bg-amber-500 text-black font-bold shadow-md shadow-amber-500/20"
+              key={opt}
+              onClick={() => setSelectedRating(opt)}
+              className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                selectedRating === opt
+                  ? "bg-amber-500 text-black shadow-md shadow-amber-500/20"
                   : "bg-slate-900 text-slate-300 hover:bg-slate-800 border border-slate-800"
               }`}
             >
-              {cat === "All Stays" ? `All Stays (${VERIFIED_LISTINGS.length})` : cat}
+              {opt === "All Stays" ? `All Stays (${officialAfSnetHotels.length})` : opt}
             </button>
           ))}
         </div>
       </div>
 
-      {/* Grid of 8 Hotels */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredListings.map((item) => (
-          <div
-            key={item.id}
-            className="group rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-amber-500/40 transition-all duration-300 flex flex-col overflow-hidden hover:-translate-y-1 shadow-lg"
+      {/* Grid of Verified AfSNET Hotels */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {filteredHotels.map((hotel) => (
+          <article
+            key={hotel.id}
+            className="group rounded-2xl bg-slate-900/70 border border-slate-800 hover:border-amber-500/50 transition-all duration-300 flex flex-col overflow-hidden hover:-translate-y-1 shadow-xl"
           >
+            {/* Image Header with Real URLs */}
             <div className="relative h-48 w-full overflow-hidden bg-slate-950">
               <img
-                src={item.image}
-                alt={item.name}
+                src={hotel.imageUrl}
+                alt={hotel.name}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                loading="lazy"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent" />
-              <div className="absolute top-3 left-3 flex items-center gap-2">
-                <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/20 border border-emerald-400/40 px-2 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-emerald-300">
-                  <ShieldCheck className="w-3 h-3" />
-                  Verified
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
+              
+              <div className="absolute top-3 left-3 flex items-center gap-1.5">
+                <span className="inline-flex items-center gap-1 rounded-full bg-emerald-950/80 border border-emerald-400/40 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-emerald-300 backdrop-blur-sm">
+                  <ShieldCheck className="w-3 h-3 text-emerald-400" />
+                  AfSNET Verified
                 </span>
               </div>
-              <div className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-slate-950/80 border border-slate-700 px-2 py-1 text-[11px] font-semibold text-amber-300 backdrop-blur-sm">
-                <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
-                {item.rating.toFixed(1)}
+
+              <div className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-slate-950/80 border border-amber-500/30 px-2.5 py-1 text-[11px] font-bold text-amber-300 backdrop-blur-sm">
+                <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                {hotel.rating}
+              </div>
+
+              <div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between text-xs">
+                <div className="flex items-center gap-1.5 text-slate-200 text-[11px] font-medium bg-slate-950/60 backdrop-blur-sm px-2 py-0.5 rounded-md">
+                  <Clock className="w-3 h-3 text-cyan-400" />
+                  <span>{hotel.distanceToCICC}</span>
+                </div>
               </div>
             </div>
 
-            <div className="p-5 flex flex-col flex-1">
-              <div className="flex items-start justify-between gap-3 mb-3">
-                <div>
-                  <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.14em] text-emerald-400/90">
-                    <Building2 className="w-3.5 h-3.5" />
-                    {item.category}
-                  </div>
-                  <h3 className="mt-2 text-xl font-bold text-white leading-tight">{item.name}</h3>
-                </div>
-                <div className="text-right">
-                  <div className="text-[10px] uppercase tracking-[0.14em] text-slate-500">From / night</div>
-                  <div className="text-lg font-extrabold text-amber-400">₦{item.price.toLocaleString()}</div>
-                </div>
-              </div>
-
-              <div className="mb-4 flex items-center gap-2 text-sm text-slate-300">
-                <MapPin className="w-4 h-4 text-slate-500" />
-                <span>{item.corridor}</span>
-              </div>
-
-              <div className="mb-4 flex items-center justify-between gap-3 text-[11px] text-slate-400">
-                <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full bg-slate-800 text-slate-300">
-                  <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
-                  {item.rating.toFixed(1)} ({item.reviews} reviews)
-                </span>
-                <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-300">
-                  {item.badge}
-                </span>
-              </div>
-
-              <p className="text-sm text-slate-400 mb-4 line-clamp-3">{item.description}</p>
-
-              <div className="flex flex-wrap gap-2 mb-5">
-                {item.amenities.map((amenity) => (
-                  <span
-                    key={`${item.id}-${amenity}`}
-                    className="px-2.5 py-1 rounded-full bg-slate-800 text-[11px] text-slate-300 border border-slate-700"
-                  >
-                    {amenity}
+            {/* Content Body */}
+            <div className="p-5 flex flex-col flex-1 space-y-3">
+              <div>
+                <h3 className="text-lg font-bold text-white group-hover:text-amber-400 transition-colors line-clamp-1">
+                  {hotel.name}
+                </h3>
+                <div className="flex items-baseline justify-between mt-1">
+                  <span className="text-[11px] uppercase tracking-wider text-slate-400 font-semibold">
+                    AfSNET Conference Rate
                   </span>
-                ))}
+                  <span className="text-base font-extrabold text-amber-400 font-mono">
+                    {hotel.pricePerNight}
+                    <span className="text-[10px] text-slate-400 font-normal"> / night</span>
+                  </span>
+                </div>
               </div>
 
-              <div className="mt-auto flex items-center gap-3">
+              {/* Contact Information */}
+              <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80 space-y-1.5 text-[11px] text-slate-300">
+                {hotel.contactPerson && (
+                  <div className="flex items-center gap-2">
+                    <User className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                    <span className="font-medium text-slate-200">{hotel.contactPerson}</span>
+                  </div>
+                )}
+                <div className="flex items-center gap-2">
+                  <Phone className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                  <a href={`tel:${hotel.phone}`} className="hover:text-white transition underline-offset-2 hover:underline">
+                    {hotel.phone}
+                  </a>
+                </div>
+                <div className="flex items-center gap-2 truncate">
+                  <Mail className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                  <a href={`mailto:${hotel.email}`} className="hover:text-white transition truncate underline-offset-2 hover:underline">
+                    {hotel.email}
+                  </a>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="mt-auto pt-2 flex items-center gap-2">
                 <button
-                  onClick={() => onBookHotel?.(item)}
-                  className="flex-1 rounded-xl bg-amber-500 text-black font-bold py-2.5 text-sm hover:bg-amber-400 transition-colors"
+                  onClick={() => handleBookingClick(hotel)}
+                  className="flex-1 py-2.5 px-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-extrabold text-xs transition shadow-md shadow-amber-500/10 cursor-pointer flex items-center justify-center gap-1.5"
                 >
-                  Reserve stay
+                  <Lock className="w-3.5 h-3.5" />
+                  <span>Reserve with Escrow</span>
                 </button>
                 <button
-                  className="rounded-xl border border-slate-700 bg-slate-950 px-3 py-2.5 text-sm text-slate-200 hover:border-slate-500 transition-colors"
-                  aria-label={`View details for ${item.name}`}
+                  onClick={() => setActiveHotelDetails(hotel)}
+                  className="p-2.5 rounded-xl border border-slate-700 bg-slate-800/60 hover:bg-slate-800 text-slate-300 hover:text-white text-xs transition cursor-pointer"
+                  title="View Verified Details"
                 >
-                  Details
+                  <ExternalLink className="w-4 h-4" />
                 </button>
               </div>
             </div>
-          </div>
+          </article>
         ))}
       </div>
 
-      {!filteredListings.length && (
-        <div className="mt-8 rounded-2xl border border-slate-800 bg-slate-900/70 p-8 text-center">
-          <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-slate-800 text-slate-300">
+      {filteredHotels.length === 0 && (
+        <div className="mt-8 rounded-2xl border border-slate-800 bg-slate-900/70 p-12 text-center space-y-3">
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-slate-800 text-slate-400">
             <Search className="w-5 h-5" />
           </div>
-          <h3 className="text-lg font-semibold text-white mb-2">No stays match your search</h3>
-          <p className="text-sm text-slate-400">Try another hotel name or corridor, or switch back to all categories.</p>
+          <h3 className="text-base font-bold text-white">No AfSNET Hotels Match Your Filter</h3>
+          <p className="text-xs text-slate-400">
+            Try adjusting your search criteria or switch back to "All Stays" to view all 8 accredited hotels.
+          </p>
+        </div>
+      )}
+
+      {/* Hotel Quick Details Modal */}
+      {activeHotelDetails && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn">
+          <div className="relative w-full max-w-lg bg-[#0f1523] border border-amber-500/40 rounded-3xl p-6 shadow-2xl text-slate-100 space-y-5">
+            <div className="relative h-44 rounded-2xl overflow-hidden">
+              <img
+                src={activeHotelDetails.imageUrl}
+                alt={activeHotelDetails.name}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent" />
+              <button
+                onClick={() => setActiveHotelDetails(null)}
+                className="absolute top-3 right-3 p-2 rounded-full bg-slate-950/80 text-slate-300 hover:text-white cursor-pointer"
+              >
+                ✕
+              </button>
+              <div className="absolute bottom-3 left-3">
+                <span className="px-2.5 py-1 rounded-md bg-amber-500 text-black font-extrabold text-xs">
+                  {activeHotelDetails.rating}
+                </span>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-extrabold text-white font-heading">
+                {activeHotelDetails.name}
+              </h3>
+              <p className="text-xs text-cyan-400 flex items-center gap-1.5 mt-1 font-medium">
+                <Clock className="w-3.5 h-3.5" />
+                <span>{activeHotelDetails.distanceToCICC}</span>
+              </p>
+            </div>
+
+            <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-2 text-xs">
+              <div className="flex justify-between border-b border-slate-800 pb-2">
+                <span className="text-slate-400">Official Nightly Rate:</span>
+                <span className="text-amber-400 font-extrabold font-mono">{activeHotelDetails.pricePerNight}</span>
+              </div>
+              {activeHotelDetails.contactPerson && (
+                <div className="flex justify-between border-b border-slate-800 pb-2">
+                  <span className="text-slate-400">Accredited Contact:</span>
+                  <span className="text-slate-200 font-medium">{activeHotelDetails.contactPerson}</span>
+                </div>
+              )}
+              <div className="flex justify-between border-b border-slate-800 pb-2">
+                <span className="text-slate-400">Reservations Phone:</span>
+                <a href={`tel:${activeHotelDetails.phone}`} className="text-emerald-400 font-mono hover:underline">
+                  {activeHotelDetails.phone}
+                </a>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-400">Direct Email:</span>
+                <a href={`mailto:${activeHotelDetails.email}`} className="text-cyan-400 truncate max-w-[220px] hover:underline">
+                  {activeHotelDetails.email}
+                </a>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 pt-2">
+              <button
+                onClick={() => {
+                  const h = activeHotelDetails;
+                  setActiveHotelDetails(null);
+                  handleBookingClick(h);
+                }}
+                className="flex-1 py-3 px-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-extrabold text-xs shadow-gold-glow cursor-pointer transition flex items-center justify-center gap-2"
+              >
+                <Lock className="w-4 h-4" />
+                <span>Book with Escrow Protection</span>
+              </button>
+              <button
+                onClick={() => setActiveHotelDetails(null)}
+                className="py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs cursor-pointer transition"
+              >
+                Close
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
