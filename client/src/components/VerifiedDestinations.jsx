@@ -149,7 +149,7 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
               {/* Image Container */}
               <div className="relative h-60 w-full overflow-hidden bg-slate-950">
                 <img
-                  src={dest.image}
+                  src={dest.imageUrl || dest.image}
                   alt={dest.name}
                   onError={(e) => {
                     if (dest.fallbackImage && e.target.src !== dest.fallbackImage) {

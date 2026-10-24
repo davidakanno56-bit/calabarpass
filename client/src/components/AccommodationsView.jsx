@@ -292,7 +292,7 @@ export default function AccommodationsView({ onBookHotel }) {
             {/* Image Header with Real URLs */}
             <div className="relative h-48 w-full overflow-hidden bg-slate-950">
               <img
-                src={hotel.imageUrl}
+                src={hotel.imageUrl || hotel.image}
                 alt={hotel.name}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 loading="lazy"
@@ -398,7 +398,7 @@ export default function AccommodationsView({ onBookHotel }) {
           <div className="relative w-full max-w-lg bg-[#0f1523] border border-amber-500/40 rounded-3xl p-6 shadow-2xl text-slate-100 space-y-5">
             <div className="relative h-44 rounded-2xl overflow-hidden">
               <img
-                src={activeHotelDetails.imageUrl}
+                src={activeHotelDetails.imageUrl || activeHotelDetails.image}
                 alt={activeHotelDetails.name}
                 className="w-full h-full object-cover"
               />

@@ -54,21 +54,25 @@ export default function HotelCard({ hotel, onBookHotel }) {
     });
   };
 
+  const images = (Array.isArray(hotel?.images) && hotel.images.length > 0)
+    ? hotel.images
+    : [hotel?.imageUrl || hotel?.image].filter(Boolean);
+
   const handlePrevImg = (e) => {
     e.stopPropagation();
-    setCurrentImgIdx((prev) => (prev === 0 ? hotel.images.length - 1 : prev - 1));
+    setCurrentImgIdx((prev) => (prev === 0 ? images.length - 1 : prev - 1));
   };
 
   const handleNextImg = (e) => {
     e.stopPropagation();
-    setCurrentImgIdx((prev) => (prev === hotel.images.length - 1 ? 0 : prev + 1));
+    setCurrentImgIdx((prev) => (prev === images.length - 1 ? 0 : prev + 1));
   };
 
   const handleImgError = (idx) => {
     setFailedImages((prev) => ({ ...prev, [idx]: true }));
   };
 
-  const currentImageUrl = hotel.images[currentImgIdx] || hotel.images[0];
+  const currentImageUrl = images[currentImgIdx] || images[0] || hotel?.imageUrl || hotel?.image;
   const isCurrentImgFailed = failedImages[currentImgIdx];
 
   return (
@@ -116,7 +120,7 @@ export default function HotelCard({ hotel, onBookHotel }) {
             </div>
           ) : (
             <img
-              src={currentImageUrl}
+              src={hotel.imageUrl || hotel.image}
               alt={`${hotel.name} - ${IMAGE_LABELS[currentImgIdx] || 'Angle'}`}
               onError={() => handleImgError(currentImgIdx)}
               className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
@@ -171,7 +175,7 @@ export default function HotelCard({ hotel, onBookHotel }) {
               {IMAGE_LABELS[currentImgIdx] || `View ${currentImgIdx + 1}`}
             </span>
             <span className="px-2 py-0.5 rounded-md bg-black/80 backdrop-blur-md border border-white/15 text-slate-300">
-              {currentImgIdx + 1} / {hotel.images.length}
+              {currentImgIdx + 1} / {images.length || 1}
             </span>
           </div>
 
@@ -180,7 +184,7 @@ export default function HotelCard({ hotel, onBookHotel }) {
             className="absolute bottom-2.5 left-3 right-3 flex items-center gap-1.5 z-20 preserve-3d"
             style={{ transform: "translateZ(25px)" }}
           >
-            {hotel.images.map((_, idx) => {
+            {images.map((_, idx) => {
               const isSelected = idx === currentImgIdx;
               return (
                 <button

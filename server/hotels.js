@@ -128,15 +128,15 @@ export const HOTELS = [
     "ciccDistance": "12 minutes to CICC",
     "description": "Ultra-exclusive serviced apartments equipped with full chef kitchens, living lounges, smart automated access, and private secure parking for long/short executive stays.",
     "amenities": ["Fully Fitted Kitchen", "Living Room & Dining", "24/7 Power & Inverter", "Automated Smart Lock", "Armed Guard Patrol"],
-    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTfPemPYUT-N862L9esuP2cF_GlDcnQKAODwTGmNF9Sg&s=10",
-    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTfPemPYUT-N862L9esuP2cF_GlDcnQKAODwTGmNF9Sg&s=10",
+    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPKs5WY0H_iHF_tSBLN-oPL5_Gg6whfmMkx5dAnnvaJA&s=10",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPKs5WY0H_iHF_tSBLN-oPL5_Gg6whfmMkx5dAnnvaJA&s=10",
     "contact": {
       "person": "Daniel Francis",
       "email": "pearlsuitehotels@yahoo.com",
       "phone": "+234 913 737 3249"
     },
     "images": [
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTfPemPYUT-N862L9esuP2cF_GlDcnQKAODwTGmNF9Sg&s=10",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPKs5WY0H_iHF_tSBLN-oPL5_Gg6whfmMkx5dAnnvaJA&s=10",
       "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=1200&q=80"

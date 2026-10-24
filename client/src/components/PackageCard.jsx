@@ -123,16 +123,10 @@ export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
             </div>
           ) : (
             <img
-              src={pkg.image || pkg.imageUrl}
+              src={pkg.imageUrl || pkg.image}
               alt={pkg.name || pkg.title}
-              onError={(e) => {
-                if (pkg.imageUrl && e.target.src !== pkg.imageUrl) {
-                  e.target.src = pkg.imageUrl;
-                } else if (!e.target.src.includes("placeholder.jpg")) {
-                  e.target.src = "/assets/placeholder.jpg";
-                } else {
-                  setImgError(true);
-                }
+              onError={() => {
+                setImgError(true);
               }}
               className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
               loading="lazy"
