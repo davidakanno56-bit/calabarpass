@@ -1079,8 +1079,8 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
                 onClick={() => setPortalView(prev => prev === "admin" ? "terminal" : "admin")}
                 className={`flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer border ${
                   portalView === "admin"
-                    ? "bg-amber-500 text-black border-amber-400 shadow-gold-glow"
-                    : "bg-slate-900 hover:bg-slate-800 text-amber-300 border-amber-500/30"
+                    ? "bg-stateCyan text-white border-sky-400 shadow-md shadow-stateCyan/20"
+                    : "bg-slate-900 hover:bg-slate-800 text-stateCyan border-stateCyan/30"
                 }`}
                 title="Toggle Pending Merchant Approvals Queue"
               >
@@ -1133,7 +1133,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
                 onClick={() => setVendorCategoryFilter(cat.id)}
                 className={`px-2 py-0.5 rounded-md text-[10px] font-semibold whitespace-nowrap transition cursor-pointer ${
                   vendorCategoryFilter === cat.id
-                    ? "bg-amber-500 text-black font-bold"
+                    ? "bg-stateCyan text-white font-bold"
                     : "bg-slate-800/80 text-slate-400 hover:text-white"
                 }`}
               >
@@ -1797,7 +1797,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
                   disabled={operatorLoading}
                   className={`flex-1 py-2.5 px-4 rounded-xl font-bold text-xs transition cursor-pointer flex items-center justify-center gap-2 ${
                     operatorModal.type === "clear"
-                      ? "bg-amber-500 hover:bg-amber-400 text-black shadow-gold-glow"
+                      ? "bg-stateCyan hover:bg-sky-500 text-white shadow-md shadow-stateCyan/20"
                       : "bg-rose-600 hover:bg-rose-500 text-white shadow-lg shadow-rose-900/30"
                   } disabled:opacity-50 disabled:cursor-not-allowed`}
                 >

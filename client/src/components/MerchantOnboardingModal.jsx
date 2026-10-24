@@ -193,11 +193,11 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
           <div>
             {/* Header Clearance Badge */}
             <div className="flex items-center gap-2 mb-3">
-              <div className="w-10 h-10 rounded-2xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400">
+              <div className="w-10 h-10 rounded-2xl bg-stateCyan/20 border border-stateCyan/30 flex items-center justify-center text-stateCyan">
                 <Building2 className="w-5 h-5" />
               </div>
               <div>
-                <div className="flex items-center gap-1.5 text-[11px] font-extrabold uppercase tracking-widest text-amber-400">
+                <div className="flex items-center gap-1.5 text-[11px] font-extrabold uppercase tracking-widest text-stateCyan">
                   <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
                   <span>Cross River State Ministry of Tourism Clearinghouse</span>
                 </div>
@@ -212,7 +212,7 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
               <button
                 type="button"
                 onClick={handlePresetFill}
-                className="px-2.5 py-1 rounded-lg bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 font-bold text-[10px] uppercase tracking-wider transition border border-amber-500/30 cursor-pointer whitespace-nowrap"
+                className="px-2.5 py-1 rounded-lg bg-stateCyan/15 hover:bg-stateCyan/25 text-stateCyan font-bold text-[10px] uppercase tracking-wider transition border border-stateCyan/30 cursor-pointer whitespace-nowrap"
               >
                 Auto-Fill Sample
               </button>
@@ -240,12 +240,12 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
                         onClick={() => handleCategorySelect(cat.id)}
                         className={`flex flex-col items-start p-2.5 rounded-xl border text-left transition cursor-pointer ${
                           isSelected
-                            ? "bg-amber-500/15 border-amber-400 text-amber-300 shadow-sm shadow-amber-500/20"
+                            ? "bg-stateCyan/15 border-sky-400 text-stateCyan shadow-sm shadow-stateCyan/20"
                             : "bg-slate-900/80 border-slate-800 text-slate-400 hover:text-white hover:border-slate-700"
                         }`}
                       >
                         <div className="flex items-center gap-1.5 w-full">
-                          <Icon className={`w-3.5 h-3.5 ${isSelected ? "text-amber-400" : "text-slate-400"}`} />
+                          <Icon className={`w-3.5 h-3.5 ${isSelected ? "text-stateCyan" : "text-slate-400"}`} />
                           <span className="font-bold text-[11px] truncate text-white">{cat.label}</span>
                         </div>
                         <span className="text-[9px] font-mono text-slate-500 mt-1">{cat.codePrefix}</span>
@@ -390,7 +390,7 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full sm:flex-1 flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-black font-extrabold text-xs sm:text-sm shadow-gold-glow transition-all disabled:opacity-50 cursor-pointer"
+                  className="w-full sm:flex-1 flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-stateCyan hover:bg-sky-500 text-white font-extrabold text-xs sm:text-sm shadow-lg shadow-stateCyan/25 transition-all disabled:opacity-50 cursor-pointer"
                 >
                   {isSubmitting ? (
                     <>
@@ -478,7 +478,7 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
               <button
                 type="button"
                 onClick={handleProceedToTerminal}
-                className="w-full sm:flex-1 flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-extrabold text-xs shadow-gold-glow transition cursor-pointer"
+                className="w-full sm:flex-1 flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-stateCyan hover:bg-sky-500 text-white font-extrabold text-xs shadow-lg shadow-stateCyan/25 transition cursor-pointer"
               >
                 <Building2 className="w-4 h-4" />
                 <span>Enter Private Terminal Now</span>

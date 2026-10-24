@@ -134,12 +134,12 @@ export default function Navbar({
                   onClick={() => handleCategoryClick(cat.id)}
                   className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
                     isSelected
-                      ? "bg-amber-500 text-black font-extrabold shadow-sm shadow-amber-500/30 scale-[1.02]"
+                      ? "bg-stateCyan text-white font-extrabold shadow-sm shadow-stateCyan/30 scale-[1.02]"
                       : "text-slate-300 hover:text-white hover:bg-slate-800/80"
                   }`}
                   title={`${cat.label} - ${cat.subLabel}`}
                 >
-                  <Icon className={`w-3.5 h-3.5 ${isSelected ? "text-black" : "text-amber-400"}`} />
+                  <Icon className={`w-3.5 h-3.5 ${isSelected ? "text-white" : "text-stateCyan"}`} />
                   <span>{cat.label}</span>
                 </button>
               );
@@ -153,12 +153,12 @@ export default function Navbar({
               onClick={() => setActiveTab("shield")}
               className={`hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all border cursor-pointer ${
                 activeTab === "shield"
-                  ? "bg-amber-500/20 text-amber-300 border-amber-500/60"
+                  ? "bg-stateCyan/20 text-stateCyan border-stateCyan/60"
                   : "bg-slate-900/60 text-slate-300 border-slate-800 hover:text-white hover:bg-slate-800"
               }`}
               title="Surge & Scam Shield Directory"
             >
-              <ShieldAlert className="w-3.5 h-3.5 text-amber-400" />
+              <ShieldAlert className="w-3.5 h-3.5 text-stateCyan" />
               <span className="hidden md:inline">Scam Shield</span>
             </button>
 
@@ -166,10 +166,10 @@ export default function Navbar({
             {onOpenOnboarding && (
               <button
                 onClick={onOpenOnboarding}
-                className="hidden xl:flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all border border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 cursor-pointer shadow-sm"
+                className="hidden xl:flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all border border-stateCyan/30 bg-stateCyan/10 hover:bg-stateCyan/20 text-stateCyan cursor-pointer shadow-sm"
                 title="Register Merchant Terminal & Get Access Code"
               >
-                <Building2 className="w-3.5 h-3.5 text-amber-400" />
+                <Building2 className="w-3.5 h-3.5 text-stateCyan" />
                 <span>Onboard</span>
               </button>
             )}
@@ -179,15 +179,15 @@ export default function Navbar({
               onClick={handleVendorClick}
               className={`flex items-center gap-2 px-3 sm:px-3.5 py-2 rounded-xl text-xs font-bold transition-all border cursor-pointer ${
                 activeTab === "vendor"
-                  ? "bg-gradient-to-r from-amber-500 to-amber-600 text-black border-amber-400 shadow-gold-glow"
-                  : "bg-slate-900 text-amber-400 border-amber-500/40 hover:bg-amber-500/10 hover:border-amber-400"
+                  ? "bg-stateCyan text-white border-sky-400 shadow-md shadow-stateCyan/30"
+                  : "bg-slate-900 text-stateCyan border-stateCyan/40 hover:bg-stateCyan/10 hover:border-stateCyan"
               }`}
               title="Merchant Settlement Portal & Check-In PIN Redemption (Requires Access Code)"
             >
               <Building2 className="w-4 h-4" />
               <span className="whitespace-nowrap">Vendor Portal</span>
               {!isVendorAuthenticated && (
-                <Lock className="w-3 h-3 text-amber-400/80 opacity-80" />
+                <Lock className="w-3 h-3 text-stateCyan/80 opacity-80" />
               )}
             </button>
 
@@ -226,11 +226,11 @@ export default function Navbar({
                 onClick={() => handleCategoryClick(cat.id)}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg whitespace-nowrap font-bold text-xs transition-all cursor-pointer ${
                   isSelected
-                    ? "bg-amber-500 text-black shadow-sm"
+                    ? "bg-stateCyan text-white shadow-sm"
                     : "text-slate-300 bg-slate-900 border border-slate-800"
                 }`}
               >
-                <Icon className={`w-3.5 h-3.5 ${isSelected ? "text-black" : "text-amber-400"}`} />
+                <Icon className={`w-3.5 h-3.5 ${isSelected ? "text-white" : "text-stateCyan"}`} />
                 <span>{cat.shortLabel}</span>
               </button>
             );
@@ -240,7 +240,7 @@ export default function Navbar({
             onClick={() => setActiveTab("shield")}
             className={`px-3 py-1.5 rounded-lg whitespace-nowrap font-bold text-xs transition-all cursor-pointer ${
               activeTab === "shield"
-                ? "bg-amber-500 text-black"
+                ? "bg-stateCyan text-white"
                 : "text-slate-400 bg-slate-900 border border-slate-800"
             }`}
           >
@@ -250,7 +250,7 @@ export default function Navbar({
           {onOpenOnboarding && (
             <button
               onClick={onOpenOnboarding}
-              className="flex items-center gap-1 px-3 py-1.5 rounded-lg whitespace-nowrap font-bold text-xs transition-all cursor-pointer text-amber-300 bg-amber-500/10 border border-amber-500/30"
+              className="flex items-center gap-1 px-3 py-1.5 rounded-lg whitespace-nowrap font-bold text-xs transition-all cursor-pointer text-stateCyan bg-stateCyan/10 border border-stateCyan/30"
               title="Onboard Merchant"
             >
               <span>+ Onboard</span>
@@ -261,13 +261,13 @@ export default function Navbar({
             onClick={handleVendorClick}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg whitespace-nowrap font-bold text-xs transition-all cursor-pointer ${
               activeTab === "vendor"
-                ? "bg-amber-500 text-black"
-                : "text-amber-300 bg-slate-900 border border-amber-500/30"
+                ? "bg-stateCyan text-white"
+                : "text-stateCyan bg-slate-900 border border-stateCyan/30"
             }`}
           >
             <span>Vendor Portal</span>
             {!isVendorAuthenticated && (
-              <Lock className="w-3 h-3 text-amber-400/80" />
+              <Lock className="w-3 h-3 text-stateCyan/80" />
             )}
           </button>
         </div>

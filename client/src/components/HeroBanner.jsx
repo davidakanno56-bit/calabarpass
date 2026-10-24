@@ -60,7 +60,7 @@ export default function HeroBanner({ setActiveTab, onSelectCategory, escrowStats
   return (
     <div className="relative overflow-hidden pt-8 pb-16 lg:pt-14 lg:pb-24 border-b border-slate-800/80">
       {/* Dynamic Background Glows */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[350px] bg-amber-500/10 blur-[130px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[350px] bg-stateCyan/10 blur-[130px] rounded-full pointer-events-none" />
       <div className="absolute top-1/3 right-10 w-[400px] h-[300px] bg-emerald-500/10 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -88,7 +88,7 @@ export default function HeroBanner({ setActiveTab, onSelectCategory, escrowStats
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
               <button
                 onClick={() => handleCategoryJump("all")}
-                className="flex items-center gap-2.5 px-7 py-3.5 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-black font-bold text-base shadow-gold-glow hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
+                className="flex items-center gap-2.5 px-7 py-3.5 rounded-xl bg-stateCyan hover:bg-sky-500 text-white font-bold text-base shadow-lg shadow-stateCyan/25 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
               >
                 <span>Explore Verified 365 Architecture</span>
                 <ArrowRight className="w-5 h-5" />
@@ -107,9 +107,9 @@ export default function HeroBanner({ setActiveTab, onSelectCategory, escrowStats
                   setActiveTab("shield");
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
-                className="flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-white font-semibold text-base border border-slate-700/80 hover:border-amber-500/50 transition-all cursor-pointer"
+                className="flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-white font-semibold text-base border border-slate-700/80 hover:border-stateCyan/50 transition-all cursor-pointer"
               >
-                <ShieldCheck className="w-5 h-5 text-amber-400" />
+                <ShieldCheck className="w-5 h-5 text-stateCyan" />
                 <span>Fair Rates & Scam Shield</span>
               </button>
             </div>
@@ -264,7 +264,7 @@ export default function HeroBanner({ setActiveTab, onSelectCategory, escrowStats
 
         {/* Escrow Protection Proof Badges */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 max-w-5xl mx-auto">
-          <div className="glass-panel p-4 rounded-2xl text-left border-slate-800/80 hover:border-amber-500/30 transition-colors">
+          <div className="glass-panel p-4 rounded-2xl text-left border-slate-800/80 hover:border-stateCyan/30 transition-colors">
             <div className="flex items-center gap-2 text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-1">
               <Shield className="w-4 h-4" />
               <span>Anti-Scam Vault</span>
@@ -273,8 +273,8 @@ export default function HeroBanner({ setActiveTab, onSelectCategory, escrowStats
             <p className="text-xs text-slate-400 mt-0.5">Vendors get paid only upon physical check-in</p>
           </div>
 
-          <div className="glass-panel p-4 rounded-2xl text-left border-slate-800/80 hover:border-amber-500/30 transition-colors">
-            <div className="flex items-center gap-2 text-amber-400 text-xs font-semibold uppercase tracking-wider mb-1">
+          <div className="glass-panel p-4 rounded-2xl text-left border-slate-800/80 hover:border-stateCyan/30 transition-colors">
+            <div className="flex items-center gap-2 text-stateCyan text-xs font-semibold uppercase tracking-wider mb-1">
               <Key className="w-4 h-4" />
               <span>6-Digit PIN</span>
             </div>
@@ -282,7 +282,7 @@ export default function HeroBanner({ setActiveTab, onSelectCategory, escrowStats
             <p className="text-xs text-slate-400 mt-0.5">Physical voucher verification on Marian Road</p>
           </div>
 
-          <div className="glass-panel p-4 rounded-2xl text-left border-slate-800/80 hover:border-amber-500/30 transition-colors">
+          <div className="glass-panel p-4 rounded-2xl text-left border-slate-800/80 hover:border-stateCyan/30 transition-colors">
             <div className="flex items-center gap-2 text-purple-400 text-xs font-semibold uppercase tracking-wider mb-1">
               <CheckCircle className="w-4 h-4" />
               <span>Fair Pricing</span>
@@ -291,7 +291,7 @@ export default function HeroBanner({ setActiveTab, onSelectCategory, escrowStats
             <p className="text-xs text-slate-400 mt-0.5">Direct price cap against scalper extortion</p>
           </div>
 
-          <div className="glass-panel p-4 rounded-2xl text-left border-slate-800/80 hover:border-amber-500/30 transition-colors">
+          <div className="glass-panel p-4 rounded-2xl text-left border-slate-800/80 hover:border-stateCyan/30 transition-colors">
             <div className="flex items-center gap-2 text-sky-400 text-xs font-semibold uppercase tracking-wider mb-1">
               <Lock className="w-4 h-4" />
               <span>Paystack Live</span>

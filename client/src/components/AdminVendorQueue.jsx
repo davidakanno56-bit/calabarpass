@@ -106,7 +106,7 @@ export default function AdminVendorQueue({ onApprovalSuccess }) {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-5">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold mb-2">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-stateCyan/10 border border-stateCyan/30 text-stateCyan text-xs font-semibold mb-2">
             <Clock className="w-3.5 h-3.5" />
             <span>Cross River State Clearinghouse Moderation</span>
           </div>
@@ -119,7 +119,7 @@ export default function AdminVendorQueue({ onApprovalSuccess }) {
         </div>
 
         <div className="flex items-center gap-3">
-          <span className="px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-xs font-bold font-mono text-amber-300">
+          <span className="px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-xs font-bold font-mono text-stateCyan">
             {pendingVendors.length} In Queue
           </span>
           <button
@@ -192,7 +192,7 @@ export default function AdminVendorQueue({ onApprovalSuccess }) {
                     <h3 className="font-bold text-lg text-white">
                       {vendor.business_name || vendor.businessName}
                     </h3>
-                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-500/15 text-amber-300 border border-amber-500/30">
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-stateCyan/15 text-stateCyan border border-stateCyan/30">
                       {vendor.category}
                     </span>
                     <span className="px-2 py-0.5 rounded text-[10px] font-mono text-slate-400 bg-slate-900 border border-slate-700">
@@ -202,7 +202,7 @@ export default function AdminVendorQueue({ onApprovalSuccess }) {
 
                   <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-400">
                     <span className="flex items-center gap-1 text-slate-300">
-                      <Phone className="w-3.5 h-3.5 text-amber-400" />
+                      <Phone className="w-3.5 h-3.5 text-stateCyan" />
                       <span>{vendor.phone}</span>
                     </span>
                     <span className="flex items-center gap-1 text-slate-300">

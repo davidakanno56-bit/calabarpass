@@ -80,7 +80,7 @@ export default function FairPriceTracker() {
               onClick={() => setCategoryFilter(cat)}
               className={`px-3 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${
                 categoryFilter === cat
-                  ? "bg-amber-500 text-black font-bold shadow-gold-glow"
+                  ? "bg-stateCyan text-white font-bold shadow-md shadow-stateCyan/20"
                   : "bg-slate-900 text-slate-400 hover:text-white border border-slate-800"
               }`}
             >
@@ -216,7 +216,7 @@ export default function FairPriceTracker() {
               href="https://www.google.com/maps/search/?api=1&query=SPAR+Calabar+Mall+Cultural+Centre+Complex+Calabar" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs transition duration-200 shadow-lg shadow-amber-500/20"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-stateCyan hover:bg-sky-500 text-white font-bold text-xs transition duration-200 shadow-lg shadow-stateCyan/25 cursor-pointer"
             >
               <span>📍 View Exact Location on Google Maps</span>
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

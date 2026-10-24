@@ -192,7 +192,7 @@ export default function HotelCard({ hotel, onBookHotel }) {
                   }}
                   className={`flex-1 py-1 px-1.5 rounded-md text-[10px] font-semibold transition-all backdrop-blur-md flex items-center justify-center truncate ${
                     isSelected
-                      ? "bg-amber-500 text-black font-bold shadow-sm shadow-amber-500/50 border border-amber-400"
+                      ? "bg-stateCyan text-white font-bold shadow-sm shadow-stateCyan/50 border border-sky-400"
                       : "bg-black/65 text-slate-300 hover:bg-black/85 hover:text-white border border-white/15"
                   }`}
                 >
@@ -267,7 +267,7 @@ export default function HotelCard({ hotel, onBookHotel }) {
             <button
               type="button"
               onClick={() => onBookHotel(hotel)}
-              className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-bold text-sm shadow-gold-glow hover:scale-105 active:scale-95 transition-all whitespace-nowrap"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-stateCyan hover:bg-sky-500 text-white font-bold text-sm shadow-lg shadow-stateCyan/25 hover:scale-105 active:scale-95 transition-all whitespace-nowrap cursor-pointer"
             >
               <Lock className="w-4 h-4" />
               <span>Book via Escrow</span>

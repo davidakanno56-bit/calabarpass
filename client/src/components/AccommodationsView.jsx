@@ -272,7 +272,7 @@ export default function AccommodationsView({ onBookHotel }) {
               onClick={() => setSelectedRating(opt)}
               className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                 selectedRating === opt
-                  ? "bg-amber-500 text-black shadow-md shadow-amber-500/20"
+                  ? "bg-stateCyan text-white shadow-md shadow-stateCyan/20"
                   : "bg-slate-900 text-slate-300 hover:bg-slate-800 border border-slate-800"
               }`}
             >
@@ -410,7 +410,7 @@ export default function AccommodationsView({ onBookHotel }) {
                 ✕
               </button>
               <div className="absolute bottom-3 left-3">
-                <span className="px-2.5 py-1 rounded-md bg-amber-500 text-black font-extrabold text-xs">
+                <span className="px-2.5 py-1 rounded-md bg-stateCyan text-white font-extrabold text-xs">
                   {activeHotelDetails.rating}
                 </span>
               </div>
@@ -458,7 +458,7 @@ export default function AccommodationsView({ onBookHotel }) {
                   setActiveHotelDetails(null);
                   handleBookingClick(h);
                 }}
-                className="flex-1 py-3 px-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-extrabold text-xs shadow-gold-glow cursor-pointer transition flex items-center justify-center gap-2"
+                className="flex-1 py-3 px-4 rounded-xl bg-stateCyan hover:bg-sky-500 text-white font-extrabold text-xs shadow-lg shadow-stateCyan/20 cursor-pointer transition flex items-center justify-center gap-2"
               >
                 <Lock className="w-4 h-4" />
                 <span>Book with Escrow Protection</span>

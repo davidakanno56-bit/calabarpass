@@ -276,7 +276,7 @@ export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
                 <button
                   type="button"
                   onClick={() => onViewPackage(pkg)}
-                  className="flex items-center gap-2 rounded-xl border border-slate-700 px-4 py-2.5 text-sm font-bold text-slate-200 transition hover:border-amber-500/50 hover:text-amber-300"
+                  className="flex items-center gap-2 rounded-xl border border-slate-700 px-4 py-2.5 text-sm font-bold text-slate-200 transition hover:border-stateCyan/50 hover:text-stateCyan cursor-pointer"
                 >
                   <span>View Package</span>
                   <ArrowRight className="w-4 h-4" />
@@ -285,7 +285,7 @@ export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
               <button
                 type="button"
                 onClick={() => onSelectPackage(pkg)}
-                className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 px-5 py-2.5 text-sm font-bold text-black shadow-gold-glow transition-all hover:scale-105 hover:from-amber-400 hover:to-amber-500 active:scale-95"
+                className="flex items-center gap-2 rounded-xl bg-stateCyan hover:bg-sky-500 px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-stateCyan/25 transition-all hover:scale-105 active:scale-95 cursor-pointer"
               >
                 <span>Book via Escrow</span>
                 <ArrowRight className="w-4 h-4" />

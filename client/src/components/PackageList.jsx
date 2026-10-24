@@ -324,7 +324,7 @@ export default function PackageList({
               setSubCategory("All");
               setSearchQuery("");
             }}
-            className="mt-4 px-4 py-2 rounded-xl bg-amber-500 text-black text-xs font-bold hover:bg-amber-400 transition"
+            className="mt-4 px-4 py-2 rounded-xl bg-stateCyan text-white text-xs font-bold hover:bg-sky-500 transition shadow-sm cursor-pointer"
           >
             Reset Filters
           </button>
@@ -349,7 +349,7 @@ export default function PackageList({
 
           <button
             onClick={onOpenShield}
-            className="flex items-center gap-2 px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold text-sm shadow-gold-glow hover:scale-105 active:scale-95 transition-all shrink-0 cursor-pointer"
+            className="flex items-center gap-2 px-6 py-3 rounded-xl bg-stateCyan hover:bg-sky-500 text-white font-bold text-sm shadow-lg shadow-stateCyan/25 hover:scale-105 active:scale-95 transition-all shrink-0 cursor-pointer"
           >
             <ShieldCheck className="w-4 h-4" />
             <span>View Surge & Scam Shield</span>

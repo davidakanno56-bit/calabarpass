@@ -503,7 +503,7 @@ export default function PaystackCheckoutModal({
             <button
               onClick={handlePaystackCheckout}
               disabled={loading}
-              className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-black font-extrabold text-base shadow-gold-glow flex items-center justify-center gap-2 hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 cursor-pointer"
+              className="w-full py-3.5 px-6 rounded-xl bg-stateCyan hover:bg-sky-500 text-white font-extrabold text-base shadow-lg shadow-stateCyan/25 flex items-center justify-center gap-2 hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 cursor-pointer"
             >
               {loading ? (
                 <>

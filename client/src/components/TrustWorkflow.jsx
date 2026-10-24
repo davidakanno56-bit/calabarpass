@@ -9,10 +9,10 @@ export default function TrustWorkflow() {
       headline: "Find Verified Destinations & Packages",
       description: "Explore curated Cross River destinations—from Obudu Mountain Resort to Carnival Calabar—with transparent expected prices and verified operator credentials.",
       icon: Compass,
-      color: "from-amber-500 to-amber-600",
-      accentBorder: "border-amber-500/30",
+      color: "from-stateCyan to-sky-600",
+      accentBorder: "border-stateCyan/30",
       pillText: "Verified Catalog",
-      pillColor: "text-amber-400 bg-amber-500/10 border-amber-500/30"
+      pillColor: "text-stateCyan bg-stateCyan/10 border-stateCyan/30"
     },
     {
       number: "02",

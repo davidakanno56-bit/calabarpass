@@ -187,7 +187,7 @@ export default function CalabarDiningMapGuide() {
     <section className="bg-[#070b11] py-16 sm:py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8 max-w-3xl">
-          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-amber-500/20 bg-amber-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-amber-400">
+          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-stateCyan/20 bg-stateCyan/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-stateCyan">
             <Utensils className="h-3.5 w-3.5" />
             Calabar lifestyle & street guide
           </div>
@@ -231,7 +231,7 @@ export default function CalabarDiningMapGuide() {
                     aria-pressed={selectedCategory === category}
                     className={`rounded-full border px-3.5 py-2 text-xs font-semibold transition ${
                       selectedCategory === category
-                        ? "border-amber-400 bg-amber-400 text-slate-950"
+                        ? "border-sky-400 bg-stateCyan text-white"
                         : "border-slate-800 bg-slate-900/60 text-slate-300 hover:border-slate-600 hover:text-white"
                     }`}
                   >
@@ -276,7 +276,7 @@ export default function CalabarDiningMapGuide() {
                         aria-pressed={isSelected}
                         className={`shrink-0 rounded-xl p-2.5 transition ${
                           isSelected
-                            ? "bg-amber-400 text-slate-950"
+                            ? "bg-stateCyan text-white"
                             : "bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white"
                         }`}
                       >
@@ -288,7 +288,7 @@ export default function CalabarDiningMapGuide() {
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={() => setSelectedSpotId(spot.id)}
-                      className="mt-4 inline-flex items-center gap-2 rounded-lg border border-amber-500/30 px-3 py-2 text-xs font-bold text-amber-400 transition hover:bg-amber-500/10"
+                      className="mt-4 inline-flex items-center gap-2 rounded-lg border border-stateCyan/30 px-3 py-2 text-xs font-bold text-stateCyan transition hover:bg-stateCyan/10"
                     >
                       <Navigation className="h-3.5 w-3.5" />
                       Navigate
@@ -357,9 +357,9 @@ export default function CalabarDiningMapGuide() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-disabled={!navigationUrl}
-                className={`flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3.5 text-sm font-extrabold transition ${
+                className={`flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3.5 text-sm font-extrabold transition cursor-pointer ${
                   navigationUrl
-                    ? "bg-amber-400 text-slate-950 shadow-lg shadow-amber-950/30 hover:bg-amber-300"
+                    ? "bg-stateCyan text-white shadow-lg shadow-stateCyan/25 hover:bg-sky-500"
                     : "pointer-events-none bg-slate-800 text-slate-500"
                 }`}
               >

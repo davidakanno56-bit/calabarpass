@@ -123,7 +123,7 @@ export const CalendarPicker = ({ selectedDate, onChange, className = "" }) => {
                 onClick={() => onChange(chip.date)}
                 className={`text-xs px-2.5 py-1.5 rounded-lg border transition-all flex items-center gap-1.5 ${
                   isSelected
-                    ? 'bg-amber-500 text-slate-950 font-semibold border-amber-400 shadow-sm shadow-amber-500/30'
+                    ? 'bg-stateCyan text-white font-semibold border-sky-400 shadow-sm shadow-stateCyan/30'
                     : 'bg-slate-800/80 text-slate-300 border-slate-700/70 hover:bg-slate-750 hover:border-slate-600'
                 }`}
               >

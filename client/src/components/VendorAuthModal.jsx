@@ -111,11 +111,11 @@ export default function VendorAuthModal({ isOpen, onClose, onSuccess, onOpenOnbo
 
         {/* Security Badge */}
         <div className="flex items-center gap-2 mb-4">
-          <div className="w-10 h-10 rounded-2xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400">
+          <div className="w-10 h-10 rounded-2xl bg-stateCyan/20 border border-stateCyan/30 flex items-center justify-center text-stateCyan">
             <LockKeyhole className="w-5 h-5" />
           </div>
           <div>
-            <div className="flex items-center gap-1.5 text-[11px] font-extrabold uppercase tracking-widest text-amber-400">
+            <div className="flex items-center gap-1.5 text-[11px] font-extrabold uppercase tracking-widest text-stateCyan">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
               <span>Cross River Tourism Clearinghouse</span>
             </div>
@@ -134,15 +134,15 @@ export default function VendorAuthModal({ isOpen, onClose, onSuccess, onOpenOnbo
         {/* Quick Demo Hint */}
         <div className="mt-4 p-3 rounded-2xl bg-slate-900/90 border border-slate-800 text-xs text-slate-300 flex items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <KeyRound className="w-4 h-4 text-amber-400 shrink-0" />
+            <KeyRound className="w-4 h-4 text-stateCyan shrink-0" />
             <span className="text-[11px]">
-              Demo Terminal Code: <strong className="font-mono text-amber-300 tracking-wider">CALABAR2026</strong>
+              Demo Terminal Code: <strong className="font-mono text-stateCyan tracking-wider">CALABAR2026</strong>
             </span>
           </div>
           <button
             type="button"
             onClick={() => handleQuickDemoFill("CALABAR2026")}
-            className="px-2.5 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 font-bold text-[10px] uppercase tracking-wider transition border border-amber-500/30 cursor-pointer"
+            className="px-2.5 py-1 rounded-lg bg-stateCyan/20 hover:bg-stateCyan/30 text-stateCyan font-bold text-[10px] uppercase tracking-wider transition border border-stateCyan/30 cursor-pointer"
           >
             Auto-Fill
           </button>
@@ -198,7 +198,7 @@ export default function VendorAuthModal({ isOpen, onClose, onSuccess, onOpenOnbo
             <button
               type="submit"
               disabled={isVerifying || isSuccess}
-              className="w-full sm:flex-1 flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-black font-extrabold text-xs sm:text-sm shadow-gold-glow transition-all disabled:opacity-50 cursor-pointer"
+              className="w-full sm:flex-1 flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-stateCyan hover:bg-sky-500 text-white font-extrabold text-xs sm:text-sm shadow-lg shadow-stateCyan/25 transition-all disabled:opacity-50 cursor-pointer"
             >
               {isVerifying ? (
                 <>
@@ -238,7 +238,7 @@ export default function VendorAuthModal({ isOpen, onClose, onSuccess, onOpenOnbo
                 onClose?.();
                 onOpenOnboarding?.();
               }}
-              className="text-xs text-amber-400 hover:text-amber-300 font-bold inline-flex items-center gap-1.5 cursor-pointer transition py-1 px-3 rounded-lg hover:bg-amber-500/10"
+              className="text-xs text-stateCyan hover:text-sky-300 font-bold inline-flex items-center gap-1.5 cursor-pointer transition py-1 px-3 rounded-lg hover:bg-stateCyan/10"
             >
               <Building2 className="w-3.5 h-3.5" />
               <span>New Merchant? Register Terminal & Get Access Code</span>

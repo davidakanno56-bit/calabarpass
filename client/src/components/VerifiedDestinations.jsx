@@ -114,8 +114,8 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
       {/* Section Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold uppercase tracking-wider mb-3">
-            <Compass className="w-3.5 h-3.5 text-amber-400" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-stateCyan/10 border border-stateCyan/30 text-stateCyan text-xs font-bold uppercase tracking-wider mb-3">
+            <Compass className="w-3.5 h-3.5 text-stateCyan" />
             <span>Cross River Tourism Identity</span>
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-heading text-white">
@@ -227,7 +227,7 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
                   <button
                     type="button"
                     onClick={() => handleDestinationClick(dest)}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs shadow-gold-glow hover:scale-[1.03] active:scale-[0.98] transition-all cursor-pointer shrink-0"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-stateCyan hover:bg-sky-500 text-white font-bold text-xs shadow-lg shadow-stateCyan/25 hover:scale-[1.03] active:scale-[0.98] transition-all cursor-pointer shrink-0"
                   >
                     <span>View Package</span>
                     <ArrowRight className="w-3.5 h-3.5" />

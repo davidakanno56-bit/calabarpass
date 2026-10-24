@@ -279,9 +279,9 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0b0f17] text-slate-100 selection:bg-amber-500 selection:text-black">
-      <div className="bg-gradient-to-r from-amber-600 via-amber-500 to-emerald-600 py-1.5 px-4 text-center text-black font-extrabold text-xs tracking-wide no-print flex items-center justify-center gap-2 shadow-sm">
-        <ShieldCheck className="w-4 h-4 text-black shrink-0" />
+    <div className="min-h-screen flex flex-col bg-[#0b0f17] text-slate-100 selection:bg-stateCyan selection:text-white">
+      <div className="bg-gradient-to-r from-stateBlue via-stateCyan to-stateGreen py-1.5 px-4 text-center text-white font-extrabold text-xs tracking-wide no-print flex items-center justify-center gap-2 shadow-sm">
+        <ShieldCheck className="w-4 h-4 text-white shrink-0" />
         <span>OFFICIAL CROSS RIVER STATE 365-DAY TOURISM CLEARINGHOUSE & ANTI-FRAUD ESCROW SYSTEM • 100% BUYER PROTECTION</span>
       </div>
 
@@ -354,7 +354,7 @@ export default function App() {
               />
             ) : (
               <div className="py-20 px-4 max-w-xl mx-auto text-center space-y-6">
-                <div className="w-16 h-16 rounded-3xl bg-amber-500/20 border border-amber-500/40 text-amber-400 flex items-center justify-center mx-auto shadow-gold-glow">
+                <div className="w-16 h-16 rounded-3xl bg-stateCyan/20 border border-stateCyan/40 text-stateCyan flex items-center justify-center mx-auto shadow-lg shadow-stateCyan/20">
                   <Lock className="w-8 h-8" />
                 </div>
                 <h2 className="text-2xl sm:text-3xl font-extrabold text-white">Merchant Settlement Terminal Locked</h2>
@@ -364,13 +364,13 @@ export default function App() {
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
                   <button
                     onClick={() => setShowVendorAuthModal(true)}
-                    className="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-extrabold text-sm shadow-gold-glow transition cursor-pointer"
+                    className="px-6 py-3 rounded-xl bg-stateCyan hover:bg-sky-500 text-white font-extrabold text-sm shadow-lg shadow-stateCyan/25 transition cursor-pointer"
                   >
                     Enter Vendor Access Code
                   </button>
                   <button
                     onClick={() => setShowOnboardingModal(true)}
-                    className="px-5 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-amber-300 font-bold text-sm border border-amber-500/30 transition cursor-pointer"
+                    className="px-5 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-stateCyan font-bold text-sm border border-stateCyan/30 transition cursor-pointer"
                   >
                     + Register Merchant Terminal
                   </button>
@@ -461,16 +461,16 @@ export default function App() {
             <div>
               <div className="font-bold text-white uppercase tracking-wider mb-3">365-Day Escrow Passes</div>
               <ul className="space-y-2">
-                <li><button onClick={() => { handleTabChange("accommodations"); window.scrollTo({ top: 0, behavior: "smooth" }); }} className="hover:text-amber-400 cursor-pointer">Verified Accommodations</button></li>
-                <li><button onClick={() => { handleTabChange("packages"); window.scrollTo({ top: 500, behavior: "smooth" }); }} className="hover:text-amber-400 cursor-pointer">Obudu Mountain Expedition</button></li>
+                <li><button onClick={() => { handleTabChange("accommodations"); window.scrollTo({ top: 0, behavior: "smooth" }); }} className="hover:text-stateCyan cursor-pointer">Verified Accommodations</button></li>
+                <li><button onClick={() => { handleTabChange("packages"); window.scrollTo({ top: 500, behavior: "smooth" }); }} className="hover:text-stateCyan cursor-pointer">Obudu Mountain Expedition</button></li>
               </ul>
             </div>
 
             <div>
               <div className="font-bold text-white uppercase tracking-wider mb-3">Roles & Portals</div>
               <ul className="space-y-2">
-                <li><button onClick={handleOpenVendorPortal} className="hover:text-amber-400 text-amber-300 font-semibold cursor-pointer">Merchant Portal & PIN Redemption ↗</button></li>
-                <li><button onClick={() => handleTabChange("shield")} className="hover:text-amber-400 cursor-pointer">Surge Predictor</button></li>
+                <li><button onClick={handleOpenVendorPortal} className="hover:text-stateCyan text-stateCyan font-semibold cursor-pointer">Merchant Portal & PIN Redemption ↗</button></li>
+                <li><button onClick={() => handleTabChange("shield")} className="hover:text-stateCyan cursor-pointer">Surge Predictor</button></li>
               </ul>
             </div>
 
