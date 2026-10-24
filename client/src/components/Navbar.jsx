@@ -101,13 +101,13 @@ export default function Navbar({
             className="flex items-center gap-2.5 sm:gap-3 cursor-pointer group shrink-0"
             title="CalabarPass Home"
           >
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-tr from-amber-500 via-amber-400 to-emerald-400 flex items-center justify-center shadow-gold-glow group-hover:scale-105 transition-transform">
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-tr from-stateBlue via-stateCyan to-stateGreen flex items-center justify-center shadow-lg shadow-stateCyan/25 group-hover:scale-105 transition-transform">
               <span className="text-xl sm:text-2xl">🌴</span>
             </div>
             <div>
               <div className="flex items-center gap-1.5 sm:gap-2">
                 <span className="text-xl sm:text-2xl font-extrabold tracking-tight font-heading text-white">
-                  Calabar<span className="gold-gradient-text">Pass</span>
+                  Calabar<span className="text-stateCyan">Pass</span>
                 </span>
                 <span className="text-[9px] sm:text-[10px] uppercase font-bold tracking-widest px-1.5 sm:px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
                   365 DAYS

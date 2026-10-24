@@ -76,7 +76,7 @@ export default function HeroBanner({ setActiveTab, onSelectCategory, escrowStats
             {/* Main Headline */}
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-heading tracking-tight text-white leading-[1.15]">
               Experience Cross River State With{" "}
-              <span className="gold-gradient-text">Zero Scam Risk</span>
+              <span className="text-stateCyan">Zero Scam Risk</span>
             </h1>
 
             {/* Subheading */}
@@ -134,14 +134,14 @@ export default function HeroBanner({ setActiveTab, onSelectCategory, escrowStats
                     : "transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)",
                   willChange: "transform"
                 }}
-                className="relative rounded-3xl p-6 border-2 border-amber-500/60 bg-gradient-to-br from-slate-950 via-[#131b2e] to-slate-950 shadow-2xl shadow-amber-500/20 cursor-grab active:cursor-grabbing preserve-3d overflow-hidden holographic-card"
+                className="relative rounded-3xl p-6 border-2 border-stateCyan/60 bg-gradient-to-br from-slate-950 via-[#131b2e] to-slate-950 shadow-2xl shadow-stateCyan/20 cursor-grab active:cursor-grabbing preserve-3d overflow-hidden holographic-card"
               >
                 {/* 3D Specular Glare */}
                 <div
                   className="absolute inset-0 pointer-events-none rounded-3xl z-40 transition-opacity duration-300"
                   style={{
                     opacity: passTilt.glareOpacity,
-                    background: `radial-gradient(circle 280px at ${passTilt.glareX}% ${passTilt.glareY}%, rgba(255, 255, 255, 0.4) 0%, rgba(245, 158, 11, 0.2) 35%, transparent 70%)`
+                    background: `radial-gradient(circle 280px at ${passTilt.glareX}% ${passTilt.glareY}%, rgba(255, 255, 255, 0.4) 0%, rgba(2, 132, 199, 0.2) 35%, transparent 70%)`
                   }}
                 />
 
@@ -153,15 +153,15 @@ export default function HeroBanner({ setActiveTab, onSelectCategory, escrowStats
 
                 {/* Card Header */}
                 <div
-                  className="flex items-center justify-between gap-2 border-b border-amber-500/30 pb-4 mb-5 preserve-3d"
+                  className="flex items-center justify-between gap-2 border-b border-stateCyan/30 pb-4 mb-5 preserve-3d"
                   style={{ transform: "translateZ(30px)" }}
                 >
                   <div className="flex items-center gap-2.5">
-                    <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-500 to-emerald-400 flex items-center justify-center text-black font-black text-lg shadow-gold-glow">
+                    <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-stateBlue via-stateCyan to-stateGreen flex items-center justify-center text-black font-black text-lg shadow-lg shadow-stateCyan/25">
                       🌴
                     </div>
                     <div>
-                      <div className="text-[10px] uppercase font-black tracking-widest text-amber-400">
+                      <div className="text-[10px] uppercase font-black tracking-widest text-stateCyan">
                         Cross River State
                       </div>
                       <div className="text-sm font-extrabold font-heading text-white tracking-wide">
@@ -194,8 +194,8 @@ export default function HeroBanner({ setActiveTab, onSelectCategory, escrowStats
                   </div>
 
                   {/* Holographic Seal Badge */}
-                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-black/60 border border-amber-500/40 text-amber-300 text-[10px] font-bold">
-                    <Award className="w-3.5 h-3.5 text-amber-400" />
+                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-black/60 border border-stateCyan/40 text-stateCyan text-[10px] font-bold">
+                    <Award className="w-3.5 h-3.5 text-stateCyan" />
                     <span>ANTI-SCAM SHIELD</span>
                   </div>
                 </div>
@@ -228,7 +228,7 @@ export default function HeroBanner({ setActiveTab, onSelectCategory, escrowStats
                       <div className="text-[9px] uppercase font-bold text-slate-400 tracking-wider">
                         PIN Escrow Protection
                       </div>
-                      <div className="font-mono font-bold text-amber-400">
+                      <div className="font-mono font-bold text-stateCyan">
                         6-Digit Secured
                       </div>
                     </div>
@@ -241,7 +241,7 @@ export default function HeroBanner({ setActiveTab, onSelectCategory, escrowStats
                   style={{ transform: "translateZ(20px)" }}
                 >
                   <div className="flex items-center gap-1.5 text-slate-300">
-                    <QrCode className="w-4 h-4 text-amber-400" />
+                    <QrCode className="w-4 h-4 text-stateCyan" />
                     <span>CP-2026-NFC-ESCROW</span>
                   </div>
                   <div className="text-emerald-400 font-bold flex items-center gap-1">
@@ -252,7 +252,7 @@ export default function HeroBanner({ setActiveTab, onSelectCategory, escrowStats
 
                 {/* Interactive hint */}
                 <div
-                  className="text-center text-[10px] text-amber-400/80 mt-3 pt-2 border-t border-amber-500/10 preserve-3d"
+                  className="text-center text-[10px] text-stateCyan/80 mt-3 pt-2 border-t border-stateCyan/20 preserve-3d"
                   style={{ transform: "translateZ(15px)" }}
                 >
                   ✨ Hover & move cursor to test 3D holographic tilt
