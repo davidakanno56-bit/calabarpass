@@ -36,7 +36,7 @@ const expectedHotelIds = [
 for (const id of expectedHotelIds) {
   const hotel = officialAfSnetHotels.find(h => h.id === id);
   assert(!!hotel, `Hotel "${id}" must exist in officialAfSnetHotels`);
-  assert(hotel.imageUrl && hotel.imageUrl.startsWith("https://images.unsplash.com/"), `Hotel ${id} must have real Unsplash URL`);
+  assert(hotel.imageUrl && (hotel.imageUrl.startsWith("https://images.unsplash.com/") || hotel.imageUrl.startsWith("https://encrypted-tbn0.gstatic.com/")), `Hotel ${id} must have real verified photography URL`);
   assert(hotel.pricePerNight && hotel.pricePerNight.startsWith("₦"), `Hotel ${id} must have formatted pricePerNight`);
   assert(hotel.rating && hotel.rating.includes("star"), `Hotel ${id} must have star rating string`);
   assert(hotel.distanceToCICC && hotel.distanceToCICC.includes("minutes to CICC"), `Hotel ${id} must specify distanceToCICC`);

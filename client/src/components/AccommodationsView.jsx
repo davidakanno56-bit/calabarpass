@@ -33,8 +33,8 @@ export const officialAfSnetHotels = [
       phone: "+234 812 369 6019"
     },
     category: "Accommodations",
-    imageUrl: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
-    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80"
+    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAwVnsSkmTO1ClW-M2DnmDyHltxWiiEFFdOp3Z4RnnWA&s=10",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAwVnsSkmTO1ClW-M2DnmDyHltxWiiEFFdOp3Z4RnnWA&s=10"
   },
   {
     id: "monty-suites",
@@ -53,8 +53,8 @@ export const officialAfSnetHotels = [
       phone: "+234 803 646 1074"
     },
     category: "Accommodations",
-    imageUrl: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80",
-    image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80"
+    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSIxcGYu2svKaf10OUqbth0s5q5ao0K1VtjdF3qUveiQ&s=10",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSIxcGYu2svKaf10OUqbth0s5q5ao0K1VtjdF3qUveiQ&s=10"
   },
   {
     id: "channel-view",
@@ -73,8 +73,8 @@ export const officialAfSnetHotels = [
       phone: "+234 803 974 2044"
     },
     category: "Accommodations",
-    imageUrl: "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=80",
-    image: "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=80"
+    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKsY-oDblH1L4sU6PTj3CLyj_PBzrhVKUoR0tFDUxpzA&s=10",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKsY-oDblH1L4sU6PTj3CLyj_PBzrhVKUoR0tFDUxpzA&s=10"
   },
   {
     id: "gemba-hotel",
@@ -93,8 +93,8 @@ export const officialAfSnetHotels = [
       phone: "+234 902 222 2094"
     },
     category: "Accommodations",
-    imageUrl: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1200&q=80",
-    image: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1200&q=80"
+    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqu1RrJFlGV4JNi27w61TlICZ53QFD9kZ2faptfUT_Gw&s=10",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqu1RrJFlGV4JNi27w61TlICZ53QFD9kZ2faptfUT_Gw&s=10"
   },
   {
     id: "hogis-royale",
@@ -113,8 +113,8 @@ export const officialAfSnetHotels = [
       phone: "+234 703 934 2262"
     },
     category: "Accommodations",
-    imageUrl: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=80",
-    image: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=80"
+    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPKs5WY0H_iHF_tSBLN-oPL5_Gg6whfmMkx5dAnnvaJA&s=10",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPKs5WY0H_iHF_tSBLN-oPL5_Gg6whfmMkx5dAnnvaJA&s=10"
   },
   {
     id: "pearl-suites",
@@ -133,8 +133,8 @@ export const officialAfSnetHotels = [
       phone: "+234 913 737 3249"
     },
     category: "Accommodations",
-    imageUrl: "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?auto=format&fit=crop&w=1200&q=80",
-    image: "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?auto=format&fit=crop&w=1200&q=80"
+    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFrlVdeMYISQYCoZ6ng7laiIphKFYGsxhNwYqyhzo-KA&s=10",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFrlVdeMYISQYCoZ6ng7laiIphKFYGsxhNwYqyhzo-KA&s=10"
   },
   {
     id: "ug-wis",
@@ -153,8 +153,8 @@ export const officialAfSnetHotels = [
       phone: "+234 803 966 0825"
     },
     category: "Accommodations",
-    imageUrl: "https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=1200&q=80",
-    image: "https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=1200&q=80"
+    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrCoU1I6RSJq24Bu1cUdIMTJdityQLP5R5fqH4nZn1lQ&s=10",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrCoU1I6RSJq24Bu1cUdIMTJdityQLP5R5fqH4nZn1lQ&s=10"
   },
   {
     id: "de-grand",
@@ -173,8 +173,8 @@ export const officialAfSnetHotels = [
       phone: "+234 803 834 5856"
     },
     category: "Accommodations",
-    imageUrl: "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?auto=format&fit=crop&w=1200&q=80",
-    image: "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?auto=format&fit=crop&w=1200&q=80"
+    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwb1aI1LphamqXx_BkWBLr7veOle8PmW0XSQhwuQ2gzQ&s=10",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwb1aI1LphamqXx_BkWBLr7veOle8PmW0XSQhwuQ2gzQ&s=10"
   }
 ];
 
