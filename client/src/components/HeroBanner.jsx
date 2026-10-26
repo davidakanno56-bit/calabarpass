@@ -59,7 +59,20 @@ export default function HeroBanner({ setActiveTab, onSelectCategory, escrowStats
   };
 
   return (
-    <div className="relative overflow-hidden pt-8 pb-16 lg:pt-14 lg:pb-24 border-b border-slate-800/80">
+    <div className="relative overflow-hidden pt-8 pb-16 lg:pt-14 lg:pb-24 border-b border-slate-800/80 bg-slate-950/90">
+      {/* 1. Atmospheric Calabar Cityscape & Greenery Aerial Backdrop */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <img 
+          src="/assets/calabar-cityscape-aerial.jpg" 
+          alt="Calabar Cityscape & Waterways Aerial View" 
+          className="w-full h-full object-cover object-center scale-105 opacity-30 filter saturate-[1.1] contrast-[1.15]"
+        />
+        {/* Deep blue/cyan gradient overlay and backdrop blur */}
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/85 via-[#071322]/80 to-slate-950/95 backdrop-blur-md" />
+        {/* Subtle radial vignette & StateCyan ambient depth */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-stateCyan/15 via-transparent to-slate-950/90" />
+      </div>
+
       {/* Dynamic Background Glows */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[350px] bg-stateCyan/10 blur-[130px] rounded-full pointer-events-none" />
       <div className="absolute top-1/3 right-10 w-[400px] h-[300px] bg-emerald-500/10 blur-[120px] rounded-full pointer-events-none" />
@@ -68,20 +81,28 @@ export default function HeroBanner({ setActiveTab, onSelectCategory, escrowStats
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Left Column: Core Value Proposition */}
           <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-            {/* Bureau Endorsement Pill */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 text-xs font-semibold shadow-emerald-glow">
-              <Shield className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Cross River State Tourism Bureau • Official 365-Day Escrow Platform</span>
+            {/* Bureau Endorsement & CP Monogram Pill */}
+            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-slate-900/90 border border-stateCyan/40 text-slate-200 text-xs font-medium backdrop-blur-md shadow-lg shadow-black/40">
+              <img 
+                src="/assets/calabarpass-monogram.svg" 
+                alt="CalabarPass CP Monogram" 
+                className="w-5 h-5 object-contain drop-shadow"
+              />
+              <span className="text-white font-semibold font-sans tracking-tight">CalabarPass</span>
+              <span className="text-slate-500">•</span>
+              <span className="text-stateCyan font-medium font-sans">Cross River State Tourism Bureau</span>
+              <span className="hidden sm:inline text-slate-500">•</span>
+              <span className="hidden sm:inline text-emerald-400 font-semibold font-sans">Official 365-Day Escrow Platform</span>
             </div>
 
             {/* Main Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-heading tracking-tight text-white leading-[1.15]">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-sans tracking-tight text-white leading-[1.15] drop-shadow-sm">
               Experience Cross River State With{" "}
               <span className="text-stateCyan">Zero Scam Risk</span>
             </h1>
 
             {/* Subheading */}
-            <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal tracking-tight">
+            <p className="text-base sm:text-lg text-slate-200 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal font-sans tracking-tight drop-shadow-sm">
               Cross River State's official 365-day tourism clearinghouse, fair-price directory, and anti-fraud escrow platform. Book Obudu Mountain Resort expeditions, Agbokim Waterfalls canopy walks, Marina Resort river cruises, Drill Monkey Ranch safaris, Leboku New Yam Festival, and Carnival Calabar band kits with zero extortion risk and complete escrow protection.
             </p>
 
@@ -158,14 +179,18 @@ export default function HeroBanner({ setActiveTab, onSelectCategory, escrowStats
                   style={{ transform: "translateZ(30px)" }}
                 >
                   <div className="flex items-center gap-2.5">
-                    <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-stateBlue via-stateCyan to-stateGreen flex items-center justify-center text-black font-black text-lg shadow-lg shadow-stateCyan/25">
-                      🌴
+                    <div className="w-9 h-9 flex items-center justify-center shrink-0">
+                      <img 
+                        src="/assets/calabarpass-monogram.svg" 
+                        alt="CalabarPass CP Monogram" 
+                        className="w-9 h-9 object-contain drop-shadow-md"
+                      />
                     </div>
                     <div>
-                      <div className="text-[10px] uppercase font-black tracking-widest text-stateCyan">
+                      <div className="text-[10px] uppercase font-bold tracking-widest text-stateCyan font-sans">
                         Cross River State
                       </div>
-                      <div className="text-sm font-extrabold font-heading text-white tracking-wide">
+                      <div className="text-sm font-extrabold font-sans text-white tracking-wide">
                         CalabarPass VIP Protocol
                       </div>
                     </div>
@@ -264,41 +289,41 @@ export default function HeroBanner({ setActiveTab, onSelectCategory, escrowStats
         </div>
 
         {/* Escrow Protection Proof Badges */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 max-w-5xl mx-auto">
-          <div className="glass-panel p-4 rounded-2xl text-left border-slate-800/80 hover:border-stateCyan/30 transition-colors">
-            <div className="flex items-center gap-2 text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-1">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 max-w-5xl mx-auto pt-6">
+          <div className="glass-panel p-4 rounded-2xl text-left border-slate-800/80 hover:border-stateCyan/40 transition-colors shadow-lg shadow-black/20">
+            <div className="flex items-center gap-2 text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-1 font-sans">
               <Shield className="w-4 h-4" />
               <span>Anti-Scam Vault</span>
             </div>
-            <div className="text-xl sm:text-2xl font-bold font-heading text-white">₦0 Upfront</div>
-            <p className="text-xs text-slate-400 mt-0.5">Vendors get paid only upon physical check-in</p>
+            <div className="text-xl sm:text-2xl font-bold font-sans tracking-tight text-white">₦0 Upfront</div>
+            <p className="text-xs text-slate-400 mt-0.5 font-sans">Vendors get paid only upon physical check-in</p>
           </div>
 
-          <div className="glass-panel p-4 rounded-2xl text-left border-slate-800/80 hover:border-stateCyan/30 transition-colors">
-            <div className="flex items-center gap-2 text-stateCyan text-xs font-semibold uppercase tracking-wider mb-1">
+          <div className="glass-panel p-4 rounded-2xl text-left border-slate-800/80 hover:border-stateCyan/40 transition-colors shadow-lg shadow-black/20">
+            <div className="flex items-center gap-2 text-stateCyan text-xs font-semibold uppercase tracking-wider mb-1 font-sans">
               <Key className="w-4 h-4" />
               <span>6-Digit PIN</span>
             </div>
-            <div className="text-xl sm:text-2xl font-bold font-heading text-white">Secret Code</div>
-            <p className="text-xs text-slate-400 mt-0.5">Physical voucher verification on Marian Road</p>
+            <div className="text-xl sm:text-2xl font-bold font-sans tracking-tight text-white">Secret Code</div>
+            <p className="text-xs text-slate-400 mt-0.5 font-sans">Physical voucher verification on Marian Road</p>
           </div>
 
-          <div className="glass-panel p-4 rounded-2xl text-left border-slate-800/80 hover:border-stateCyan/30 transition-colors">
-            <div className="flex items-center gap-2 text-purple-400 text-xs font-semibold uppercase tracking-wider mb-1">
+          <div className="glass-panel p-4 rounded-2xl text-left border-slate-800/80 hover:border-stateCyan/40 transition-colors shadow-lg shadow-black/20">
+            <div className="flex items-center gap-2 text-purple-400 text-xs font-semibold uppercase tracking-wider mb-1 font-sans">
               <CheckCircle className="w-4 h-4" />
               <span>Fair Pricing</span>
             </div>
-            <div className="text-xl sm:text-2xl font-bold font-heading text-white">Save Up To 45%</div>
-            <p className="text-xs text-slate-400 mt-0.5">Direct price cap against scalper extortion</p>
+            <div className="text-xl sm:text-2xl font-bold font-sans tracking-tight text-white">Save Up To 45%</div>
+            <p className="text-xs text-slate-400 mt-0.5 font-sans">Direct price cap against scalper extortion</p>
           </div>
 
-          <div className="glass-panel p-4 rounded-2xl text-left border-slate-800/80 hover:border-stateCyan/30 transition-colors">
-            <div className="flex items-center gap-2 text-sky-400 text-xs font-semibold uppercase tracking-wider mb-1">
+          <div className="glass-panel p-4 rounded-2xl text-left border-slate-800/80 hover:border-stateCyan/40 transition-colors shadow-lg shadow-black/20">
+            <div className="flex items-center gap-2 text-sky-400 text-xs font-semibold uppercase tracking-wider mb-1 font-sans">
               <Lock className="w-4 h-4" />
               <span>Paystack Live</span>
             </div>
-            <div className="text-xl sm:text-2xl font-bold font-heading text-white">Bank Grade</div>
-            <p className="text-xs text-slate-400 mt-0.5">Encrypted card & bank transfer checkout</p>
+            <div className="text-xl sm:text-2xl font-bold font-sans tracking-tight text-white">Bank Grade</div>
+            <p className="text-xs text-slate-400 mt-0.5 font-sans">Encrypted card & bank transfer checkout</p>
           </div>
         </div>
       </div>
