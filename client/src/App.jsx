@@ -5,6 +5,7 @@ import PackageList from "./components/PackageList.jsx";
 import CalabarDiningMapGuide from "./components/CalabarDiningMapGuide.jsx";
 import VerifiedDestinations from "./components/VerifiedDestinations.jsx";
 import TourismVideoSection from "./components/TourismVideoSection.jsx";
+import LiveCRBCBroadcast from "./components/LiveCRBCBroadcast.jsx";
 import { PackageGridSkeleton, EscrowTableSkeleton } from "./components/SkeletonLoader.jsx";
 import { fetchWithSWR } from "./utils/cache.js";
 import { PACKAGES as INITIAL_PACKAGES } from "./data/packages.js";
@@ -307,17 +308,20 @@ export default function App() {
             />
 
             {/* 1. Main Homepage View (activeCategory === "all"):
-                Remove generic product listings, hotel cards, and category previews from immediately below hero.
-                Replace with immersive Cross River State Tourism Video Tour + interactive map destination section. */}
+                Immersive Tourism Video Tour + Live CRBC Carnival Broadcast Feed + interactive map destination section. */}
             {activeCategory === "all" ? (
               <>
                 <TourismVideoSection onSelectCategory={handleCategoryChange} />
+                <LiveCRBCBroadcast onSelectCategory={handleCategoryChange} />
                 <CalabarDiningMapGuide />
               </>
             ) : (
               /* 2. Specific Category Views (restricted solely to respective category views and navigation tabs):
-                  Displays category-specific packages, accommodations, dining guide, or verified destinations. */
+                  Displays category-specific packages, accommodations, dining guide, live CRBC broadcast, or verified destinations. */
               <>
+                {activeCategory === "carnival-culture" && (
+                  <LiveCRBCBroadcast onSelectCategory={handleCategoryChange} />
+                )}
                 <PackageList
                   packages={packages}
                   dynamicCards={dynamicVendorCards}
