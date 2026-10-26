@@ -119,10 +119,10 @@ export default function PackageList({
             <ShieldCheck className="w-4 h-4 text-emerald-400" />
             <span>Cross River 365-Day Commercial & Tourism Architecture</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold font-heading text-white">
+          <h2 className="text-3xl sm:text-4xl font-bold font-heading text-white tracking-tight">
             Official State Escrow & Pass Directory
           </h2>
-          <p className="text-sm sm:text-base text-slate-400 mt-2 max-w-3xl leading-relaxed">
+          <p className="text-sm sm:text-base text-slate-400 mt-2 max-w-3xl leading-relaxed tracking-tight">
             Operating 365 days a year across Cross River State. Explore verified executive accommodations, rainforest eco-sites, authentic dining spots, Ministry of Commerce trade fair booths, and official Carnival Calabar passes.
           </p>
         </div>

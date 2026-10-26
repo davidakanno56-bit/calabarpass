@@ -199,7 +199,7 @@ export default function CalabarDiningMapGuide() {
             <Utensils className="h-3.5 w-3.5" />
             Calabar lifestyle & street guide
           </div>
-          <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
             Find your next Calabar destination
           </h2>
           <p className="mt-3 text-sm leading-6 text-slate-400 sm:text-base">
@@ -357,7 +357,7 @@ export default function CalabarDiningMapGuide() {
                     <span>Verified Spot</span>
                   </span>
                 </div>
-                <h4 className="text-lg font-extrabold text-white sm:text-xl">
+                <h4 className="text-lg font-bold tracking-tight text-white sm:text-xl">
                   {selectedSpot.name}
                 </h4>
                 <div className="mt-1.5 flex items-center gap-1.5 text-xs font-semibold text-amber-400">

@@ -75,13 +75,13 @@ export default function HeroBanner({ setActiveTab, onSelectCategory, escrowStats
             </div>
 
             {/* Main Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-heading tracking-tight text-white leading-[1.15]">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-heading tracking-tight text-white leading-[1.15]">
               Experience Cross River State With{" "}
               <span className="text-stateCyan">Zero Scam Risk</span>
             </h1>
 
             {/* Subheading */}
-            <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-light">
+            <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal tracking-tight">
               Cross River State's official 365-day tourism clearinghouse, fair-price directory, and anti-fraud escrow platform. Book Obudu Mountain Resort expeditions, Agbokim Waterfalls canopy walks, Marina Resort river cruises, Drill Monkey Ranch safaris, Leboku New Yam Festival, and Carnival Calabar band kits with zero extortion risk and complete escrow protection.
             </p>
 
@@ -89,7 +89,7 @@ export default function HeroBanner({ setActiveTab, onSelectCategory, escrowStats
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
               <button
                 onClick={() => handleCategoryJump("all")}
-                className="flex items-center gap-2.5 px-7 py-3.5 rounded-xl bg-stateCyan hover:bg-sky-500 text-white font-bold text-base shadow-lg shadow-stateCyan/25 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
+                className="flex items-center gap-2.5 px-7 py-3.5 rounded-xl bg-stateCyan hover:bg-sky-500 text-white font-semibold tracking-tight text-base shadow-lg shadow-stateCyan/25 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
               >
                 <span>Experience Calabar City Tour</span>
                 <ArrowRight className="w-5 h-5" />
@@ -97,7 +97,7 @@ export default function HeroBanner({ setActiveTab, onSelectCategory, escrowStats
 
               <button
                 onClick={() => handleCategoryJump("accommodations")}
-                className="flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-emerald-300 hover:text-emerald-200 font-semibold text-base border border-emerald-500/40 hover:border-emerald-500/70 transition-all shadow-sm shadow-emerald-500/10 cursor-pointer"
+                className="flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-emerald-300 hover:text-emerald-200 font-semibold tracking-tight text-base border border-emerald-500/40 hover:border-emerald-500/70 transition-all shadow-sm shadow-emerald-500/10 cursor-pointer"
               >
                 <BedDouble className="w-5 h-5 text-emerald-400" />
                 <span>Verified Accommodations ({HOTELS?.length || 5} Stays)</span>
@@ -108,7 +108,7 @@ export default function HeroBanner({ setActiveTab, onSelectCategory, escrowStats
                   setActiveTab("shield");
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
-                className="flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-white font-semibold text-base border border-slate-700/80 hover:border-stateCyan/50 transition-all cursor-pointer"
+                className="flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-white font-medium tracking-tight text-base border border-slate-700/80 hover:border-stateCyan/50 transition-all cursor-pointer"
               >
                 <ShieldCheck className="w-5 h-5 text-stateCyan" />
                 <span>Fair Rates & Scam Shield</span>

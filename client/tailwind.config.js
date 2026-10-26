@@ -31,7 +31,18 @@ export default {
         }
       },
       fontFamily: {
-        sans: ['Inter', 'Plus Jakarta Sans', 'system-ui', '-apple-system', 'sans-serif'],
+        sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'],
+        heading: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+      },
+      letterSpacing: {
+        tighter: '-0.04em',
+        tight: '-0.025em',
+        snug: '-0.015em',
+        normal: '-0.01em',
+        wide: '0.025em',
+        wider: '0.06em',
+        widest: '0.12em',
       },
       boxShadow: {
         'gold-glow': '0 0 25px -5px rgba(245, 158, 11, 0.3)',

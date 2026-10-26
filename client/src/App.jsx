@@ -467,13 +467,21 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             <div className="space-y-3">
-              <div className="flex items-center gap-2">
-                <span className="text-2xl">🌴</span>
-                <span className="text-xl font-extrabold font-heading text-white">
-                  Calabar<span className="gold-gradient-text">Pass</span>
+              <div className="flex items-center gap-2.5">
+                <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#08182B] border border-cyan-500/30 shadow-sm shrink-0">
+                  <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-4.5 h-4.5">
+                    <rect x="2" y="2" width="32" height="32" rx="8" fill="#08182B" stroke="#0284C7" strokeWidth="1.2" />
+                    <path d="M10 25V14C10 11.7909 11.7909 10 14 10H22C24.2091 10 26 11.7909 26 14V25" stroke="#38BDF8" strokeWidth="2.2" strokeLinecap="round" />
+                    <path d="M14 25V18C14 16.8954 14.8954 16 16 16H20C21.1046 16 22 16.8954 22 18V25" stroke="#0284C7" strokeWidth="1.8" strokeLinecap="round" />
+                    <circle cx="18" cy="13" r="1.8" fill="#38BDF8" />
+                    <line x1="8" y1="25" x2="28" y2="25" stroke="#38BDF8" strokeWidth="2" strokeLinecap="round" />
+                  </svg>
+                </div>
+                <span className="text-lg font-bold tracking-tight font-heading text-white">
+                  Calabar<span className="text-stateCyan font-extrabold">Pass</span>
                 </span>
               </div>
-              <p className="text-slate-400 text-xs leading-relaxed">
+              <p className="text-slate-400 text-xs leading-relaxed tracking-tight">
                 The premier verified 365-day booking escrow clearinghouse and fair-price directory for Cross River State.
               </p>
             </div>

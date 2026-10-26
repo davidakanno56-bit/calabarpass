@@ -77,11 +77,11 @@ export default function TourismVideoSection({ onSelectCategory }) {
           <span>Official Cross River Tourism Showcase • 4K Experience</span>
         </div>
 
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-heading text-white tracking-tight">
-          Experience Calabar: <span className="gold-gradient-text">City Drive & Tourism Tour</span>
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-heading text-white tracking-tight">
+          Experience Calabar: <span className="gold-gradient-text font-bold">City Drive & Tourism Tour</span>
         </h2>
 
-        <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-light max-w-2xl mx-auto">
+        <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal tracking-tight max-w-2xl mx-auto">
           Take an immersive visual drive through Nigeria's cleanest, greenest capital. Discover iconic palm-lined boulevards, historic roundabouts, vibrant commercial corridors, and waterfront heritage before browsing our verified clearinghouse categories.
         </p>
       </div>

@@ -133,12 +133,12 @@ export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
 
             {/* Business/Venue Name in Bold Text + Physical Location */}
             <div className="space-y-1.5">
-              <h3 className="text-2xl sm:text-3xl font-extrabold font-heading text-white tracking-tight group-hover:text-amber-400 transition-colors">
+              <h3 className="text-2xl sm:text-3xl font-bold font-heading text-white tracking-tight group-hover:text-amber-400 transition-colors">
                 {pkg.name || pkg.title}
               </h3>
-              <div className="flex items-center gap-2 text-sm text-amber-400 font-bold">
+              <div className="flex items-center gap-2 text-sm text-amber-400 font-semibold tracking-tight">
                 <MapPin className="w-4 h-4 text-amber-400 shrink-0" />
-                <span className="font-semibold text-slate-200">{pkg.location || pkg.corridor || "Calabar, Cross River State"}</span>
+                <span className="font-medium text-slate-200">{pkg.location || pkg.corridor || "Calabar, Cross River State"}</span>
               </div>
             </div>
 
@@ -299,14 +299,14 @@ export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
             style={{ transform: "translateZ(35px)" }}
           >
             <div>
-              <div className="text-xs text-slate-400 mb-0.5">Verified Fair Price</div>
+              <div className="text-xs text-slate-400 mb-0.5 tracking-tight">Verified Fair Price</div>
               <div className="flex items-baseline gap-2">
-                <span className="text-2xl sm:text-3xl font-extrabold font-heading text-white">
+                <span className="text-2xl sm:text-3xl font-semibold tracking-tight font-heading text-white">
                   ₦{pkg.priceNGN.toLocaleString()}
                 </span>
               </div>
               {savings > 0 && (
-                <div className="text-[11px] text-emerald-400 font-semibold">
+                <div className="text-[11px] text-emerald-400 font-medium tracking-tight">
                   Save ₦{savings.toLocaleString()} vs surge (₦
                   {pkg.streetSurgePrice.toLocaleString()})
                 </div>
@@ -321,7 +321,7 @@ export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={(e) => e.stopPropagation()}
-                  className="inline-flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-stateCyan hover:text-white text-xs font-bold border border-stateCyan/30 transition-all cursor-pointer"
+                  className="inline-flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-stateCyan hover:text-white text-xs font-semibold tracking-tight border border-stateCyan/30 transition-all cursor-pointer"
                   title="View on Google Maps"
                 >
                   <Navigation className="w-3.5 h-3.5" />
@@ -337,7 +337,7 @@ export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={(e) => e.stopPropagation()}
-                  className="inline-flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-[#34D186] hover:bg-[#2EB875] text-slate-950 text-xs font-extrabold shadow-md shadow-emerald-950/40 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                  className="inline-flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-[#34D186] hover:bg-[#2EB875] text-slate-950 text-xs font-bold tracking-tight shadow-md shadow-emerald-950/40 transition-all hover:scale-105 active:scale-95 cursor-pointer"
                   title="Hail a ride via Bolt in Calabar"
                 >
                   <Car className="w-3.5 h-3.5 text-slate-950" />
@@ -349,7 +349,7 @@ export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
               <button
                 type="button"
                 onClick={() => (onViewPackage || onSelectPackage)?.(pkg)}
-                className="flex items-center gap-2 rounded-xl bg-stateCyan hover:bg-sky-500 px-4 py-2.5 text-xs sm:text-sm font-bold text-white shadow-lg shadow-stateCyan/25 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                className="flex items-center gap-2 rounded-xl bg-stateCyan hover:bg-sky-500 px-4 py-2.5 text-xs sm:text-sm font-semibold tracking-tight text-white shadow-lg shadow-stateCyan/25 transition-all hover:scale-105 active:scale-95 cursor-pointer"
               >
                 <span>View Package</span>
                 <ArrowRight className="w-4 h-4" />

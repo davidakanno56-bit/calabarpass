@@ -95,26 +95,38 @@ export default function Navbar({
     <header className="sticky top-0 z-40 w-full border-b border-slate-800/80 bg-[#0b0f17]/95 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20 gap-2 sm:gap-4">
-          {/* Logo & Brand */}
+          {/* Logo & Brand: Sleek Minimalist Vector Mark */}
           <div 
             onClick={handleLogoClick} 
-            className="flex items-center gap-2.5 sm:gap-3 cursor-pointer group shrink-0"
+            className="flex items-center gap-3 cursor-pointer group shrink-0"
             title="CalabarPass Home"
           >
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-tr from-stateBlue via-stateCyan to-stateGreen flex items-center justify-center shadow-lg shadow-stateCyan/25 group-hover:scale-105 transition-transform">
-              <span className="text-xl sm:text-2xl">🌴</span>
+            <div className="relative flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-[#08182B] border border-cyan-500/30 shadow-md shadow-cyan-950/40 group-hover:border-stateCyan group-hover:shadow-cyan-500/20 transition-all shrink-0">
+              <svg 
+                viewBox="0 0 36 36" 
+                fill="none" 
+                xmlns="http://www.w3.org/2000/svg" 
+                className="w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-300 group-hover:scale-105"
+              >
+                {/* Precision geometric gateway frame & clearinghouse portal */}
+                <rect x="2" y="2" width="32" height="32" rx="8" fill="#08182B" stroke="#0284C7" strokeWidth="1.2" />
+                <path d="M10 25V14C10 11.7909 11.7909 10 14 10H22C24.2091 10 26 11.7909 26 14V25" stroke="#38BDF8" strokeWidth="2.2" strokeLinecap="round" />
+                <path d="M14 25V18C14 16.8954 14.8954 16 16 16H20C21.1046 16 22 16.8954 22 18V25" stroke="#0284C7" strokeWidth="1.8" strokeLinecap="round" />
+                <circle cx="18" cy="13" r="1.8" fill="#38BDF8" />
+                <line x1="8" y1="25" x2="28" y2="25" stroke="#38BDF8" strokeWidth="2" strokeLinecap="round" />
+              </svg>
             </div>
             <div>
-              <div className="flex items-center gap-1.5 sm:gap-2">
-                <span className="text-xl sm:text-2xl font-extrabold tracking-tight font-heading text-white">
-                  Calabar<span className="text-stateCyan">Pass</span>
+              <div className="flex items-center gap-2">
+                <span className="text-xl sm:text-2xl font-bold tracking-tight font-heading text-white">
+                  Calabar<span className="text-stateCyan font-extrabold">Pass</span>
                 </span>
-                <span className="text-[9px] sm:text-[10px] uppercase font-bold tracking-widest px-1.5 sm:px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
-                  365 DAYS
+                <span className="text-[9px] sm:text-[10px] uppercase font-semibold tracking-wider px-2 py-0.5 rounded-md bg-slate-900 text-slate-300 border border-slate-700/80">
+                  365 CLEARINGHOUSE
                 </span>
               </div>
-              <p className="text-[11px] text-slate-400 hidden xl:block">
-                Cross River 365-Day Commercial & Tourism Clearinghouse
+              <p className="text-[11px] text-slate-400 font-normal tracking-tight hidden xl:block">
+                Cross River State Verified Tourism & Commercial Platform
               </p>
             </div>
           </div>
@@ -122,7 +134,7 @@ export default function Navbar({
           {/* Navigation Tabs - The 5 Distinct Categories */}
           <nav 
             aria-label="365-Day Commercial and Tourism Categories"
-            className="hidden lg:flex items-center gap-1 bg-slate-900/90 p-1.5 rounded-2xl border border-slate-800"
+            className="hidden lg:flex items-center gap-1 bg-slate-900/80 p-1 rounded-xl border border-slate-800/90"
           >
             {NAV_CATEGORIES.map((cat) => {
               const Icon = cat.icon;
@@ -132,10 +144,10 @@ export default function Navbar({
                 <button
                   key={cat.id}
                   onClick={() => handleCategoryClick(cat.id)}
-                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
+                  className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs tracking-tight transition-all cursor-pointer whitespace-nowrap ${
                     isSelected
-                      ? "bg-stateCyan text-white font-extrabold shadow-sm shadow-stateCyan/30 scale-[1.02]"
-                      : "text-slate-300 hover:text-white hover:bg-slate-800/80"
+                      ? "bg-stateCyan text-white font-semibold shadow-sm shadow-stateCyan/25"
+                      : "text-slate-300 hover:text-white hover:bg-slate-800/70 font-medium"
                   }`}
                   title={`${cat.label} - ${cat.subLabel}`}
                 >

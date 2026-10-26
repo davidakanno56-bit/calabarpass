@@ -153,7 +153,7 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
             <Compass className="w-3.5 h-3.5 text-stateCyan" />
             <span>Cross River Tourism Identity</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-heading text-white">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight font-heading text-white">
             Explore Verified Cross River
           </h2>
           <p className="text-sm sm:text-base text-slate-400 mt-2 max-w-2xl leading-relaxed">
@@ -221,12 +221,12 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
               <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                 <div className="space-y-2">
                   <div className="flex items-start justify-between gap-2">
-                    <h3 className="text-xl font-bold font-heading text-white group-hover:text-amber-400 transition-colors">
+                    <h3 className="text-xl font-semibold tracking-tight font-heading text-white group-hover:text-amber-400 transition-colors">
                       {dest.name}
                     </h3>
                   </div>
 
-                  <p className="text-xs text-amber-400 font-semibold tracking-wide">
+                  <p className="text-xs text-amber-400 font-medium tracking-tight">
                     {dest.tagline}
                   </p>
 
@@ -250,10 +250,10 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
                 {/* Bottom Pricing & CTA */}
                 <div className="pt-4 border-t border-slate-800/80 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
                   <div>
-                    <span className="text-[10px] uppercase font-bold text-slate-500 block">
+                    <span className="text-[10px] uppercase font-semibold tracking-wider text-slate-500 block">
                       Estimated Budget
                     </span>
-                    <span className="text-base sm:text-lg font-black font-heading text-white">
+                    <span className="text-base sm:text-lg font-semibold tracking-tight font-heading text-white">
                       {dest.priceIndicator}
                     </span>
                   </div>
@@ -263,7 +263,7 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
                       href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${dest.name} ${dest.location}`)}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 px-2.5 py-2 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-stateCyan hover:text-white text-xs font-bold border border-stateCyan/30 transition-all cursor-pointer"
+                      className="inline-flex items-center gap-1 px-2.5 py-2 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-stateCyan hover:text-white text-xs font-semibold tracking-tight border border-stateCyan/30 transition-all cursor-pointer"
                       title={`View ${dest.name} on Google Maps`}
                     >
                       <Navigation className="w-3.5 h-3.5" />
@@ -275,7 +275,7 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
                       href="https://bolt.eu/"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#34D186] hover:bg-[#2EB875] text-slate-950 text-xs font-extrabold shadow-md shadow-emerald-950/40 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                      className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#34D186] hover:bg-[#2EB875] text-slate-950 text-xs font-bold tracking-tight shadow-md shadow-emerald-950/40 transition-all hover:scale-105 active:scale-95 cursor-pointer"
                       title={`Hail a ride via Bolt to ${dest.name} in Calabar`}
                     >
                       <Car className="w-3.5 h-3.5 text-slate-950" />
@@ -286,7 +286,7 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
                     <button
                       type="button"
                       onClick={() => handleDestinationClick(dest)}
-                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-stateCyan hover:bg-sky-500 text-white font-bold text-xs shadow-lg shadow-stateCyan/25 hover:scale-[1.03] active:scale-[0.98] transition-all cursor-pointer shrink-0"
+                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-stateCyan hover:bg-sky-500 text-white font-semibold text-xs tracking-tight shadow-lg shadow-stateCyan/25 hover:scale-[1.03] active:scale-[0.98] transition-all cursor-pointer shrink-0"
                     >
                       <span>View Package</span>
                       <ArrowRight className="w-3.5 h-3.5" />

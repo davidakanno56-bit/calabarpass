@@ -212,11 +212,11 @@ export default function HotelCard({ hotel, onBookHotel }) {
           {/* Title, Rating & Location */}
           <div style={{ transform: "translateZ(25px)" }} className="preserve-3d">
             <div className="flex items-start justify-between gap-2 mb-1.5">
-              <h3 className="text-xl font-bold font-heading text-white group-hover:text-amber-400 transition-colors">
+              <h3 className="text-xl font-semibold tracking-tight font-heading text-white group-hover:text-amber-400 transition-colors">
                 {hotel.name}
               </h3>
               {/* Rating */}
-              <div className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-bold shrink-0">
+              <div className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold shrink-0">
                 <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                 <span>{hotel.rating}</span>
                 <span className="text-[10px] text-slate-400 font-normal">({hotel.reviewCount})</span>
@@ -260,7 +260,7 @@ export default function HotelCard({ hotel, onBookHotel }) {
           >
             <div>
               <div className="text-xs text-slate-400 mb-0.5">Indicative Nightly Rate</div>
-              <div className="text-2xl font-extrabold font-heading text-white">
+              <div className="text-2xl font-semibold tracking-tight font-heading text-white">
                 {hotel.priceRange}
               </div>
               <div className="text-[11px] text-amber-400/90 font-medium mt-1 leading-snug">
@@ -271,7 +271,7 @@ export default function HotelCard({ hotel, onBookHotel }) {
             <button
               type="button"
               onClick={() => onBookHotel(hotel)}
-              className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-stateCyan hover:bg-sky-500 text-white font-bold text-sm shadow-lg shadow-stateCyan/25 hover:scale-105 active:scale-95 transition-all whitespace-nowrap cursor-pointer"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-stateCyan hover:bg-sky-500 text-white font-semibold text-sm tracking-tight shadow-lg shadow-stateCyan/25 hover:scale-105 active:scale-95 transition-all whitespace-nowrap cursor-pointer"
             >
               <span>View Package</span>
               <ArrowRight className="w-4 h-4" />
