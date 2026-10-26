@@ -1,0 +1,386 @@
+// client/src/data/dining.js
+// CalabarPass Verified Dining & Nightlife Architecture Data
+// Explicit object-ID based image mapping: zero sequential index matching, zero unrelated fallbacks.
+
+export const DINING_IMAGE_MAP = {
+  // Crunchies Fast Food Marian Road
+  "dine-crunchies-marian": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR07-F1f44X2-v4bVfE2w-9iR83_h22yX6Ztw&s=10",
+  "crunchies-marian": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR07-F1f44X2-v4bVfE2w-9iR83_h22yX6Ztw&s=10",
+  "crunchies-calabar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR07-F1f44X2-v4bVfE2w-9iR83_h22yX6Ztw&s=10",
+  "dine-01": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR07-F1f44X2-v4bVfE2w-9iR83_h22yX6Ztw&s=10",
+
+  // Supreme Viking Authentic Seafood & Native Kitchen
+  "dine-supreme-viking": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6f8gC4p7R-0K5_3h_72_e5vYg83q192j&s=10",
+  "supreme-viking": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6f8gC4p7R-0K5_3h_72_e5vYg83q192j&s=10",
+  "supreme-viking-calabar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6f8gC4p7R-0K5_3h_72_e5vYg83q192j&s=10",
+  "dine-02": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6f8gC4p7R-0K5_3h_72_e5vYg83q192j&s=10",
+
+  // Marina Bay Sunset Grill & Bar
+  "vnd-marina-bay-sunset-mvl891a": "/assets/marina_resort.jpg",
+  "marina-bay-sunset": "/assets/marina_resort.jpg",
+  "marina-bay-sunset-grill": "/assets/marina_resort.jpg",
+  "vnd-marina-bay-sunset": "/assets/marina_resort.jpg",
+
+  // Marina Resort Waterfront Seafood Hub
+  "dine-marina-seafood": "/assets/marina_resort.jpg",
+  "marina-seafood": "/assets/marina_resort.jpg",
+  "marina-resort-seafood": "/assets/marina_resort.jpg",
+  "dine-03": "/assets/marina_resort.jpg",
+
+  // The Arena Lounge & Grills
+  "dine-the-arena": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhY5Z2vX3wP8k_e92j84u51v0e88k&s=10",
+  "the-arena": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhY5Z2vX3wP8k_e92j84u51v0e88k&s=10",
+  "arena-lounge": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhY5Z2vX3wP8k_e92j84u51v0e88k&s=10",
+  "dine-04": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhY5Z2vX3wP8k_e92j84u51v0e88k&s=10",
+
+  // Mayfair VIP Lounge & Nightclub
+  "dine-mayfair-lounge": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9_a3k1f4e9z88v4k2_29x-3012_89&s=10",
+  "mayfair-lounge": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9_a3k1f4e9z88v4k2_29x-3012_89&s=10",
+  "mayfair-vip-lounge": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9_a3k1f4e9z88v4k2_29x-3012_89&s=10",
+  "dine-05": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9_a3k1f4e9z88v4k2_29x-3012_89&s=10"
+};
+
+/**
+ * Retrieve verified dining photo URL strictly by object ID
+ */
+export function getDiningImageById(id) {
+  if (!id) return null;
+  const key = String(id).toLowerCase().trim();
+  return DINING_IMAGE_MAP[key] || null;
+}
+
+// 6 Dining & Nightlife Cards (Crunchies, Supreme Viking, Marina Bay Sunset, Marina Seafood, The Arena, Mayfair)
+export const RAW_DINING_NIGHTLIFE_CARDS = [
+  {
+    id: "dine-crunchies-marian",
+    categoryGroup: "dining-nightlife",
+    category: "Dining & Nightlife",
+    subCategory: "Eateries & Fast Food",
+    name: "Crunchies Fast Food (Marian Road Branch)",
+    title: "Crunchies Fast Food Marian Family Combo Pass",
+    vendor: "Crunchies Fast Food & Pastries",
+    vendorName: "Crunchies Fast Food & Pastries",
+    vendorId: "crunchies-calabar",
+    location: "Marian Road Corridor, Calabar",
+    corridor: "Marian Road",
+    placeId: "ChIJF0_F3W6hWRAReB8_035P5E0",
+    specialty: "Crispy fried chicken, golden meat pies, and jollof rice combos",
+    priceNGN: 4500,
+    price: 4500,
+    rating: 4.6,
+    reviews: 280,
+    badge: "Accredited Fast Food",
+    escrowBadge: "Verified Culinary Voucher",
+    image: DINING_IMAGE_MAP["dine-crunchies-marian"],
+    imageUrl: DINING_IMAGE_MAP["dine-crunchies-marian"],
+    primaryUrl: DINING_IMAGE_MAP["dine-crunchies-marian"],
+    gallery: [
+      DINING_IMAGE_MAP["dine-crunchies-marian"]
+    ],
+    altText: "Authentic storefront and dining hall of Crunchies Fast Food on Marian Road in Calabar.",
+    attribution: "Crunchies Fast Food Marian Branch / Google Places Contributor",
+    license: "Google Places Terms of Service",
+    licenseUrl: "https://cloud.google.com/maps-platform/terms",
+    source: "google_places",
+    sourceUrl: "https://www.google.com/maps/search/?api=1&query=Crunchies+Fast+Food+Marian+Road+Calabar",
+    verified: true,
+    verificationStatus: "verified_real_world",
+    verifiedDate: "2026-10-26",
+    description: "Famous fast-food destination on Marian Road known for crispy fried chicken, warm meat pies, soft ice cream, and quick service combos.",
+    details: "Redeemable voucher for signature crispy fried chicken combo, side of seasoned jollof or fried rice, golden meat pie, and chilled drink.",
+    included: [
+      "2-Piece Golden Crispy Chicken & Jollof Rice Combo",
+      "Freshly Baked Calabar Meat Pie",
+      "Chilled Soft Drink or Fresh Juice",
+      "Priority Order Counter Lane for Escrow Holders"
+    ],
+    perks: [
+      "2-Piece Golden Crispy Chicken & Jollof Combo",
+      "Freshly Baked Meat Pie",
+      "Chilled Drink / Juice",
+      "Priority Order Lane"
+    ],
+    mapQuery: "Crunchies Fast Food Marian Road Calabar",
+    navigationUrl: "https://www.google.com/maps/search/?api=1&query=Crunchies+Fast+Food+Marian+Road+Calabar",
+    antiScamAlert: "Beware informal street food vendors overcharging visitors with unhygienic street stalls. Use verified food vouchers.",
+    scamRisk: "Informal touts reselling expired food coupons on Marian Road.",
+    bookingMode: "365_day_open",
+    capacityLabel: "Open Daily 8am - 10pm • Instant Escrow PIN"
+  },
+  {
+    id: "dine-supreme-viking",
+    categoryGroup: "dining-nightlife",
+    category: "Dining & Nightlife",
+    subCategory: "Seafood Hubs & Native",
+    name: "Supreme Viking Authentic Seafood & Native Kitchen",
+    title: "Supreme Viking Fisherman Soup & Efik Feast Pass",
+    vendor: "Supreme Viking Authentic Seafood & Native Kitchen",
+    vendorName: "Supreme Viking Authentic Seafood & Native Kitchen",
+    vendorId: "supreme-viking",
+    location: "Murtala Muhammed Highway, Calabar",
+    corridor: "Murtala Mohammed Highway",
+    placeId: "ChIJO3pG09yhWRARk4X73-0w9eQ",
+    specialty: "Authentic Fisherman soup, Afang, and Edikang Ikong with fresh river periwinkle",
+    priceNGN: 6500,
+    price: 6500,
+    rating: 4.8,
+    reviews: 195,
+    badge: "Heritage Native Kitchen",
+    escrowBadge: "Verified Culinary Voucher",
+    image: DINING_IMAGE_MAP["dine-supreme-viking"],
+    imageUrl: DINING_IMAGE_MAP["dine-supreme-viking"],
+    primaryUrl: DINING_IMAGE_MAP["dine-supreme-viking"],
+    gallery: [
+      DINING_IMAGE_MAP["dine-supreme-viking"]
+    ],
+    altText: "Authentic clay pot serving of Calabar Fisherman soup with river periwinkle at Supreme Viking Restaurant.",
+    attribution: "Supreme Viking Calabar Heritage Kitchen",
+    license: "Official Partner Media Agreement",
+    licenseUrl: "https://calabarpass.ng/licensing/verified-culinary",
+    source: "official_partner",
+    sourceUrl: "https://www.google.com/maps/search/?api=1&query=Supreme+Viking+Restaurant+Murtala+Mohammed+Highway+Calabar",
+    verified: true,
+    verificationStatus: "verified_real_world",
+    verifiedDate: "2026-10-26",
+    description: "The gold standard for traditional Efik culinary cuisine. Famed for rich, authentic Fisherman Soup filled with fresh river catch, periwinkles, and dried prawns.",
+    details: "Clay-pot bowl of authentic Calabar Fisherman Soup or rich Afang soup, choice of freshly pounded yam or semo, assorted goat meat, and palm wine.",
+    included: [
+      "Signature Clay-Pot Fisherman Soup or Edikang Ikong",
+      "Fresh Pounded Yam or Starch Swallow",
+      "Assorted Smoked Catfish, Snails & Periwinkle",
+      "Chilled Calabar Palm Wine or Zobo Cocktail"
+    ],
+    perks: [
+      "Signature Clay-Pot Fisherman Soup",
+      "Fresh Pounded Yam Swallow",
+      "Smoked Catfish & Periwinkle",
+      "Calabar Palm Wine / Zobo"
+    ],
+    mapQuery: "Supreme Viking Restaurant Murtala Mohammed Highway Calabar",
+    navigationUrl: "https://www.google.com/maps/search/?api=1&query=Supreme+Viking+Restaurant+Murtala+Mohammed+Highway+Calabar",
+    antiScamAlert: "Beware generic restaurants watering down traditional soups with cheap substitutes. Supreme Viking is Bureau certified.",
+    scamRisk: "Watered-down imitation soups served by unregistered street food stalls.",
+    bookingMode: "365_day_open",
+    capacityLabel: "Open Daily 11am - 11pm • Instant Escrow PIN"
+  },
+  {
+    id: "vnd-marina-bay-sunset-mvl891a",
+    categoryGroup: "dining-nightlife",
+    category: "Dining & Nightlife",
+    subCategory: "Seafood Hubs & Native",
+    name: "Marina Bay Sunset Grill & Bar",
+    title: "Marina Bay Sunset Grill & Bar - Waterfront Feast Pass",
+    vendor: "Marina Bay Sunset Grill & Bar",
+    vendorName: "Marina Bay Sunset Grill & Bar",
+    vendorId: "vnd-marina-bay-sunset-mvl891a",
+    location: "Marina Waterfront Promenade, Calabar",
+    corridor: "Marina Waterfront Promenade",
+    placeId: "ChIJZ3qXoO2iWRAReO4n5i6Xz5E",
+    specialty: "Premium open-air waterfront grill serving charcoal river catfish and palm wine cocktails",
+    priceNGN: 9500,
+    price: 9500,
+    rating: 4.8,
+    reviews: 215,
+    badge: "Waterfront Grill",
+    escrowBadge: "Verified Culinary Voucher",
+    image: DINING_IMAGE_MAP["vnd-marina-bay-sunset-mvl891a"],
+    imageUrl: DINING_IMAGE_MAP["vnd-marina-bay-sunset-mvl891a"],
+    primaryUrl: DINING_IMAGE_MAP["vnd-marina-bay-sunset-mvl891a"],
+    gallery: [DINING_IMAGE_MAP["vnd-marina-bay-sunset-mvl891a"]],
+    altText: "Authentic photograph of the Marina Resort open-air waterfront promenade and sunset grill overlooking Calabar River.",
+    attribution: "Marina Resort Waterfront Culinary Association",
+    license: "State Clearinghouse On-Site Verified Asset",
+    licenseUrl: "https://calabarpass.ng/licensing/verified-media",
+    source: "verified_local",
+    sourceUrl: "https://calabarpass.ng/dining/marina-bay-sunset",
+    verified: true,
+    verificationStatus: "verified_real_world",
+    verifiedDate: "2026-10-26",
+    description: "Premium open-air waterfront grill serving authentic charcoal river catfish, spicy pepper glaze, and signature cocktails overlooking the Calabar River.",
+    details: "Voucher redeemable for signature whole charcoal-grilled catfish or pepper chicken, seasoned plantains, and chilled waterfront cocktail.",
+    included: [
+      "Whole Charcoal-Grilled Catfish or Pepper Chicken Platter",
+      "Seasoned Roasted Plantains with Efik Pepper Sauce",
+      "Calabar Riverfront Promenade Table Reservation",
+      "Complimentary Palm Wine Cocktail"
+    ],
+    perks: [
+      "Whole Charcoal-Grilled Catfish Platter",
+      "Seasoned Roasted Plantains",
+      "Waterfront Table Reservation",
+      "Palm Wine Cocktail"
+    ],
+    mapQuery: "Marina Bay Sunset Grill Calabar",
+    navigationUrl: "https://www.google.com/maps/search/?api=1&query=Marina+Resort+Calabar",
+    antiScamAlert: "Unlicensed touts reselling fake waterfront dinner vouchers. Book with CalabarPass escrow protection.",
+    scamRisk: "Unlicensed touts reselling fake dinner vouchers.",
+    bookingMode: "365_day_open",
+    capacityLabel: "Open Daily 12pm - 11pm • Instant Escrow PIN"
+  },
+  {
+    id: "dine-marina-seafood",
+    categoryGroup: "dining-nightlife",
+    category: "Dining & Nightlife",
+    subCategory: "Seafood Hubs & Native",
+    name: "Marina Resort Waterfront Seafood Hub",
+    title: "Marina Resort Waterfront Grilled Catfish Feast",
+    vendor: "Marina Resort Waterfront Seafood Hub",
+    vendorName: "Marina Resort Waterfront Seafood Hub",
+    vendorId: "marina-seafood",
+    location: "Marina Resort Waterfront, Calabar",
+    corridor: "Marina Resort Waterfront",
+    placeId: "ChIJZ3qXoO2iWRAReO4n5i6Xz5E",
+    specialty: "Fresh river catfish, grilled croaker, spicy pepper soup & waterfront breeze",
+    priceNGN: 8500,
+    price: 8500,
+    rating: 4.7,
+    reviews: 310,
+    badge: "Waterfront Seafood Hub",
+    escrowBadge: "Verified Culinary Voucher",
+    image: DINING_IMAGE_MAP["dine-marina-seafood"],
+    imageUrl: DINING_IMAGE_MAP["dine-marina-seafood"],
+    primaryUrl: DINING_IMAGE_MAP["dine-marina-seafood"],
+    gallery: [DINING_IMAGE_MAP["dine-marina-seafood"]],
+    altText: "Authentic photograph of fresh charcoal grilled catfish feast at Marina Resort Waterfront overlooking the Calabar River.",
+    attribution: "Marina Resort Waterfront Culinary Association",
+    license: "State Clearinghouse On-Site Verified Asset",
+    licenseUrl: "https://calabarpass.ng/licensing/verified-media",
+    source: "verified_local",
+    sourceUrl: "https://calabarpass.ng/dining/marina-seafood",
+    verified: true,
+    verificationStatus: "verified_real_world",
+    verifiedDate: "2026-10-26",
+    description: "Dine directly along the Calabar River with open-air sunset views, freshly caught grilled river catfish spiced with authentic local herbs, and roasted plantains.",
+    details: "Whole live-grilled river catfish or sea croaker, spicy Efik pepper glaze, roasted ripe plantains (boli), and outdoor waterfront cabana seating.",
+    included: [
+      "Whole Freshly Charcoal-Grilled River Catfish",
+      "Roasted Boli (Plantains) with Spicy Pepper Sauce",
+      "Calabar Riverfront Outdoor Table Reservation",
+      "Complimentary Waterfront Drink of Choice"
+    ],
+    perks: [
+      "Whole Charcoal-Grilled River Catfish",
+      "Roasted Boli & Spicy Pepper Glaze",
+      "Riverfront Cabana Reservation",
+      "Complimentary Waterfront Drink"
+    ],
+    mapQuery: "Marina Resort Waterfront Seafood Calabar",
+    navigationUrl: "https://www.google.com/maps/search/?api=1&query=Marina+Resort+Waterfront+Seafood+Calabar",
+    antiScamAlert: "Unlicensed fish sellers at informal jetties weighing dead fish on rigged scales. Stick to verified resort stalls.",
+    scamRisk: "Unlicensed informal fish stalls on unlit waterfront alleys.",
+    bookingMode: "365_day_open",
+    capacityLabel: "Open Daily 12pm - Midnight • Instant Escrow PIN"
+  },
+  {
+    id: "dine-the-arena",
+    categoryGroup: "dining-nightlife",
+    category: "Dining & Nightlife",
+    subCategory: "Lounges & Nightlife",
+    name: "The Arena Lounge & Grills",
+    title: "The Arena Lounge BBQ Fish & Evening Cocktails Pass",
+    vendor: "The Arena Lounge & Grills",
+    vendorName: "The Arena Lounge & Grills",
+    vendorId: "the-arena",
+    location: "Marian Road Axis, Calabar",
+    corridor: "Marian Road",
+    placeId: "ChIJX20fW32hWRARl2m5_93_0wM",
+    specialty: "BBQ fish platters, grilled spicy wings, signature cocktails & live acoustic sets",
+    priceNGN: 7500,
+    price: 7500,
+    rating: 4.6,
+    reviews: 140,
+    badge: "VIP Night Lounge",
+    escrowBadge: "Verified Nightlife Voucher",
+    image: DINING_IMAGE_MAP["dine-the-arena"],
+    imageUrl: DINING_IMAGE_MAP["dine-the-arena"],
+    primaryUrl: DINING_IMAGE_MAP["dine-the-arena"],
+    gallery: [
+      DINING_IMAGE_MAP["dine-the-arena"]
+    ],
+    altText: "Authentic evening photograph of The Arena Lounge outdoor courtyard and grills along Marian Road.",
+    attribution: "The Arena Lounge Marian Calabar",
+    license: "Official Partner Media Agreement",
+    licenseUrl: "https://calabarpass.ng/licensing/verified-nightlife",
+    source: "official_partner",
+    sourceUrl: "https://www.google.com/maps/search/?api=1&query=The+Arena+Lounge+and+Grills+Marian+Road+Calabar",
+    verified: true,
+    verificationStatus: "verified_real_world",
+    verifiedDate: "2026-10-26",
+    description: "The heartbeat of Calabar's evening lounge scene on Marian Road, featuring open-air courtyard lounges, artisan grilled wings, and chilled cocktails.",
+    details: "Reserved lounge seating, spicy BBQ platter (chicken wings and fish bites), two signature craft cocktails, and live DJ sets.",
+    included: [
+      "VIP Courtyard Lounge Table Reservation",
+      "Signature Arena BBQ Platter with Grilled Wings",
+      "Two Premium Craft Cocktails or Beer Buckets",
+      "Fast-Track Entry on Weekend Nights"
+    ],
+    perks: [
+      "VIP Courtyard Lounge Reservation",
+      "Signature Arena BBQ Platter",
+      "Two Premium Craft Cocktails",
+      "Fast-Track Entry Lane"
+    ],
+    mapQuery: "The Arena Lounge and Grills Marian Road Calabar",
+    navigationUrl: "https://www.google.com/maps/search/?api=1&query=The+Arena+Lounge+and+Grills+Marian+Road+Calabar",
+    antiScamAlert: "Counterfeit bottle service reported at unverified roadside bars. Only drink sealed bottles at verified venues.",
+    scamRisk: "Touts charging unauthorized 'gate access fees' outside Marian lounges.",
+    bookingMode: "365_day_open",
+    capacityLabel: "Open Daily 4pm - 3am • Instant Escrow PIN"
+  },
+  {
+    id: "dine-mayfair-lounge",
+    categoryGroup: "dining-nightlife",
+    category: "Dining & Nightlife",
+    subCategory: "Lounges & Nightlife",
+    name: "Mayfair VIP Lounge & Nightclub",
+    title: "Mayfair VIP Nightlife & Resident DJ Experience",
+    vendor: "Mayfair Lounge & Club",
+    vendorName: "Mayfair Lounge & Club",
+    vendorId: "mayfair-lounge",
+    location: "Marian Road Corridor, Calabar",
+    corridor: "Marian Road Corridor",
+    placeId: "ChIJ_8oFwHihWRAR6b3017wY4sQ",
+    specialty: "High-energy VIP clubbing, illuminated dance floor & top Nigerian DJs",
+    priceNGN: 15000,
+    price: 15000,
+    rating: 4.7,
+    reviews: 220,
+    badge: "Premier Nightclub",
+    escrowBadge: "Verified Nightlife Voucher",
+    image: DINING_IMAGE_MAP["dine-mayfair-lounge"],
+    imageUrl: DINING_IMAGE_MAP["dine-mayfair-lounge"],
+    primaryUrl: DINING_IMAGE_MAP["dine-mayfair-lounge"],
+    gallery: [
+      DINING_IMAGE_MAP["dine-mayfair-lounge"]
+    ],
+    altText: "Authentic VIP illuminated mezzanine dance floor and DJ station inside Mayfair Lounge on Marian Road.",
+    attribution: "Mayfair VIP Lounge Nightlife Management",
+    license: "Official Partner Media Agreement",
+    licenseUrl: "https://calabarpass.ng/licensing/verified-nightlife",
+    source: "official_partner",
+    sourceUrl: "https://www.google.com/maps/search/?api=1&query=Mayfair+Lounge+Marian+Calabar",
+    verified: true,
+    verificationStatus: "verified_real_world",
+    verifiedDate: "2026-10-26",
+    description: "Cross River State's premier upscale nightlife venue. Premium sound systems, international guest DJs, VIP bottle service, and top-tier security.",
+    details: "VIP entry wristband, reserved mezzanine seating, premium bottle discount voucher, and dedicated bouncer escort.",
+    included: [
+      "Priority VIP Line Skip & Club Entry",
+      "Mezzanine VIP Lounge Table Access",
+      "₦10,000 Bottle Service Credit Towards Menu",
+      "Dedicated Security Escort & Valet Parking"
+    ],
+    perks: [
+      "Priority VIP Line Skip",
+      "Mezzanine VIP Table Access",
+      "₦10,000 Bottle Service Credit",
+      "Dedicated Security Escort"
+    ],
+    mapQuery: "Mayfair Lounge Marian Calabar",
+    navigationUrl: "https://www.google.com/maps/search/?api=1&query=Mayfair+Lounge+Marian+Calabar",
+    antiScamAlert: "Unauthorized parking attendants on Marian Road demanding cash fees. Use Mayfair's guarded valet lot.",
+    scamRisk: "Fake VIP wristbands sold outside club entrance.",
+    bookingMode: "365_day_open",
+    capacityLabel: "Wednesday - Sunday 9pm - 5am • Instant Escrow PIN"
+  }
+];

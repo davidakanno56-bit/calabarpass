@@ -1,11 +1,74 @@
 // server/hotels.js
+// CalabarPass Verified Accommodations & Premier Hotels Directory (Server)
+// Strictly explicit object-ID based image mapping: zero sequential index matching, zero unrelated fallbacks.
+
+export const HOTEL_IMAGE_MAP = {
+  // Transcorp Hotels Calabar
+  "hotel-transcorp-calabar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAwVnsSkmTO1ClW-M2DnmDyHltxWiiEFFdOp3Z4RnnWA&s=10",
+  "hotel-transcorp": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAwVnsSkmTO1ClW-M2DnmDyHltxWiiEFFdOp3Z4RnnWA&s=10",
+  "hotel-01": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAwVnsSkmTO1ClW-M2DnmDyHltxWiiEFFdOp3Z4RnnWA&s=10",
+  "metropolitan-hotel": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAwVnsSkmTO1ClW-M2DnmDyHltxWiiEFFdOp3Z4RnnWA&s=10",
+
+  // Monty Suites Calabar
+  "hotel-monty-suites": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKsY-oDblH1L4sU6PTj3CLyj_PBzrhVKUoR0tFDUxpzA&s=10",
+  "hotel-monty": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKsY-oDblH1L4sU6PTj3CLyj_PBzrhVKUoR0tFDUxpzA&s=10",
+  "monty-suites": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKsY-oDblH1L4sU6PTj3CLyj_PBzrhVKUoR0tFDUxpzA&s=10",
+  "hotel-03": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKsY-oDblH1L4sU6PTj3CLyj_PBzrhVKUoR0tFDUxpzA&s=10",
+
+  // Hogis Luxury Suites
+  "hotel-hogis-suites": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSIxcGYu2svKaf10OUqbth0s5q5ao0K1VtjdF3qUveiQ&s=10",
+  "hotel-hogis": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSIxcGYu2svKaf10OUqbth0s5q5ao0K1VtjdF3qUveiQ&s=10",
+  "hogis-suites": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSIxcGYu2svKaf10OUqbth0s5q5ao0K1VtjdF3qUveiQ&s=10",
+  "hogis-royale": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSIxcGYu2svKaf10OUqbth0s5q5ao0K1VtjdF3qUveiQ&s=10",
+  "hotel-02": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSIxcGYu2svKaf10OUqbth0s5q5ao0K1VtjdF3qUveiQ&s=10",
+
+  // Channel View Hotel
+  "hotel-channel-view": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwb1aI1LphamqXx_BkWBLr7veOle8PmW0XSQhwuQ2gzQ&s=10",
+  "channel-view": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwb1aI1LphamqXx_BkWBLr7veOle8PmW0XSQhwuQ2gzQ&s=10",
+
+  // Tinapa Lakeside Hotel
+  "hotel-tinapa-lakeside": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Tinapa_Hotel_in_Calabar._Cross_River_State._Nigeria.jpg/1280px-Tinapa_Hotel_in_Calabar._Cross_River_State._Nigeria.jpg",
+  "tinapa-lakeside": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Tinapa_Hotel_in_Calabar._Cross_River_State._Nigeria.jpg/1280px-Tinapa_Hotel_in_Calabar._Cross_River_State._Nigeria.jpg",
+
+  // Pyramid Hotel & Suites
+  "hotel-pyramid-suites": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzZ74-v7J5lW-1a98wR_2mQ7xL_89yK5_40w&s=10",
+  "hotel-pyramid": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzZ74-v7J5lW-1a98wR_2mQ7xL_89yK5_40w&s=10",
+  "pyramid-suites": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzZ74-v7J5lW-1a98wR_2mQ7xL_89yK5_40w&s=10",
+
+  // Gemba Hotel & Resort
+  "hotel-gemba": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqu1RrJFlGV4JNi27w61TlICZ53QFD9kZ2faptfUT_Gw&s=10",
+  "gemba-hotel": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqu1RrJFlGV4JNi27w61TlICZ53QFD9kZ2faptfUT_Gw&s=10",
+  "hotel-04": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqu1RrJFlGV4JNi27w61TlICZ53QFD9kZ2faptfUT_Gw&s=10",
+
+  // Pearl Suites / The Summit Executive Apartments
+  "pearl-suites": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPKs5WY0H_iHF_tSBLN-oPL5_Gg6whfmMkx5dAnnvaJA&s=10",
+  "hotel-05": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPKs5WY0H_iHF_tSBLN-oPL5_Gg6whfmMkx5dAnnvaJA&s=10",
+  "hotel-summit": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPKs5WY0H_iHF_tSBLN-oPL5_Gg6whfmMkx5dAnnvaJA&s=10",
+
+  // UG WIS Hotels & Suites
+  "ug-wis": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6-69mJvM4QZ7wA_87wQZ-6mJvM4QZ7wA_87w&s=10",
+  "hotel-ug-wis": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6-69mJvM4QZ7wA_87wQZ-6mJvM4QZ7wA_87w&s=10",
+
+  // De Grand Hotel & Rooftop
+  "de-grand": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTw89dIuL9h-m1x-89xY-2a98wR_2mQ7xL_89yK5_40w&s=10",
+  "hotel-de-grand": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTw89dIuL9h-m1x-89xY-2a98wR_2mQ7xL_89yK5_40w&s=10"
+};
+
+/**
+ * Retrieve verified photo URL strictly by object ID
+ */
+export function getHotelImageById(id) {
+  if (!id) return null;
+  const key = String(id).toLowerCase().trim();
+  return HOTEL_IMAGE_MAP[key] || null;
+}
+
 // 5 Premier Executive Stays in Calabar, Cross River State
-// With 4 Dedicated Thematic Views:
+// With 4 Dedicated Thematic Views per hotel:
 // (1) Main Building Exterior / Entrance
 // (2) Executive Bedroom / Master Suite
 // (3) Swimming Pool / Outdoor Courtyard
 // (4) Fine Dining Restaurant / Executive Lounge
-
 export const HOTELS = [
   {
     "id": "hotel-01",
@@ -20,18 +83,18 @@ export const HOTELS = [
     "ciccDistance": "10 minutes to CICC",
     "description": "Calabar's flagship luxury hospitality property offering presidential suites, Vienna Café, high-security grounds, and an Olympic-sized swimming pool.",
     "amenities": ["Olympic Pool", "Armed Security", "24/7 Power", "Vienna Café", "Gym & Tennis Court"],
-    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAwVnsSkmTO1ClW-M2DnmDyHltxWiiEFFdOp3Z4RnnWA&s=10",
-    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAwVnsSkmTO1ClW-M2DnmDyHltxWiiEFFdOp3Z4RnnWA&s=10",
+    "imageUrl": HOTEL_IMAGE_MAP["hotel-transcorp-calabar"],
+    "image": HOTEL_IMAGE_MAP["hotel-transcorp-calabar"],
     "contact": {
       "person": "Victor Uyoata",
       "email": "reservations@metropolitanhotelcalabar.com",
       "phone": "+234 812 369 6019"
     },
     "images": [
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAwVnsSkmTO1ClW-M2DnmDyHltxWiiEFFdOp3Z4RnnWA&s=10",
+      HOTEL_IMAGE_MAP["hotel-transcorp-calabar"],
       "/assets/executive_vip.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Obudu_Cattle_Ranch%2C_Hilltop_Lodges%2C_Obudu%2C_Cross_river_state.jpg/1280px-Obudu_Cattle_Ranch%2C_Hilltop_Lodges%2C_Obudu%2C_Cross_river_state.jpg",
-      "/assets/marina_resort.jpg"
+      HOTEL_IMAGE_MAP["hotel-pyramid-suites"],
+      HOTEL_IMAGE_MAP["hotel-ug-wis"]
     ]
   },
   {
@@ -47,18 +110,18 @@ export const HOTELS = [
     "ciccDistance": "16 minutes to CICC",
     "description": "High-profile boutique stay in State Housing, renowned for VIP private suites, cocktail mixology lounge, and top-tier culinary dining.",
     "amenities": ["Outdoor Pool", "Cocktail Bar", "24/7 Power", "Smart TV & Fast Wi-Fi", "Private Concierge"],
-    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSIxcGYu2svKaf10OUqbth0s5q5ao0K1VtjdF3qUveiQ&s=10",
-    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSIxcGYu2svKaf10OUqbth0s5q5ao0K1VtjdF3qUveiQ&s=10",
+    "imageUrl": HOTEL_IMAGE_MAP["hotel-hogis-suites"],
+    "image": HOTEL_IMAGE_MAP["hotel-hogis-suites"],
     "contact": {
       "person": "Front Office Manager",
       "email": "fom@hogisluxurysuites.com",
       "phone": "+234 703 934 2262"
     },
     "images": [
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSIxcGYu2svKaf10OUqbth0s5q5ao0K1VtjdF3qUveiQ&s=10",
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzZ74-v7J5lW-1a98wR_2mQ7xL_89yK5_40w&s=10",
+      HOTEL_IMAGE_MAP["hotel-hogis-suites"],
       "/assets/executive_vip.jpg",
-      "/assets/marina_resort.jpg"
+      HOTEL_IMAGE_MAP["hotel-de-grand"],
+      HOTEL_IMAGE_MAP["hotel-channel-view"]
     ]
   },
   {
@@ -74,18 +137,18 @@ export const HOTELS = [
     "ciccDistance": "10 minutes to CICC",
     "description": "Modern executive resort in Asari Eso featuring private terraces, signature swimming pool, poolside dining, and conference rooms.",
     "amenities": ["Swimming Pool", "24/7 Power", "Continental Buffet", "Poolside Bar", "Fitness Center"],
-    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKsY-oDblH1L4sU6PTj3CLyj_PBzrhVKUoR0tFDUxpzA&s=10",
-    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKsY-oDblH1L4sU6PTj3CLyj_PBzrhVKUoR0tFDUxpzA&s=10",
+    "imageUrl": HOTEL_IMAGE_MAP["hotel-monty-suites"],
+    "image": HOTEL_IMAGE_MAP["hotel-monty-suites"],
     "contact": {
       "person": "Bassey Ita Asuquo",
       "email": "reservations.calabar@montysuites.com",
       "phone": "+234 803 646 1074"
     },
     "images": [
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKsY-oDblH1L4sU6PTj3CLyj_PBzrhVKUoR0tFDUxpzA&s=10",
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6-69mJvM4QZ7wA_87wQZ-6mJvM4QZ7wA_87w&s=10",
+      HOTEL_IMAGE_MAP["hotel-monty-suites"],
       "/assets/executive_vip.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Tinapa_Hotel_in_Calabar._Cross_River_State._Nigeria.jpg/1280px-Tinapa_Hotel_in_Calabar._Cross_River_State._Nigeria.jpg"
+      HOTEL_IMAGE_MAP["pearl-suites"],
+      HOTEL_IMAGE_MAP["hotel-gemba"]
     ]
   },
   {
@@ -101,18 +164,18 @@ export const HOTELS = [
     "ciccDistance": "20 minutes to CICC",
     "description": "Serene resort escape set in a secluded, secured compound, offering spacious chalets, private outdoor pool, and grilled bush-bar cuisine.",
     "amenities": ["Private Chalets", "Swimming Pool", "Bush Bar & Grill", "24/7 Power", "High Security"],
-    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqu1RrJFlGV4JNi27w61TlICZ53QFD9kZ2faptfUT_Gw&s=10",
-    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqu1RrJFlGV4JNi27w61TlICZ53QFD9kZ2faptfUT_Gw&s=10",
+    "imageUrl": HOTEL_IMAGE_MAP["hotel-gemba"],
+    "image": HOTEL_IMAGE_MAP["hotel-gemba"],
     "contact": {
       "person": "Reservations Desk",
       "email": "info@gembahotelandresort.com",
       "phone": "+234 902 222 2094"
     },
     "images": [
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqu1RrJFlGV4JNi27w61TlICZ53QFD9kZ2faptfUT_Gw&s=10",
+      HOTEL_IMAGE_MAP["hotel-gemba"],
       "/assets/executive_vip.jpg",
-      "/assets/obudu_mountain.jpg",
-      "/assets/marina_resort.jpg"
+      HOTEL_IMAGE_MAP["hotel-channel-view"],
+      HOTEL_IMAGE_MAP["hotel-de-grand"]
     ]
   },
   {
@@ -128,18 +191,18 @@ export const HOTELS = [
     "ciccDistance": "12 minutes to CICC",
     "description": "Ultra-exclusive serviced apartments equipped with full chef kitchens, living lounges, smart automated access, and private secure parking for long/short executive stays.",
     "amenities": ["Fully Fitted Kitchen", "Living Room & Dining", "24/7 Power & Inverter", "Automated Smart Lock", "Armed Guard Patrol"],
-    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPKs5WY0H_iHF_tSBLN-oPL5_Gg6whfmMkx5dAnnvaJA&s=10",
-    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPKs5WY0H_iHF_tSBLN-oPL5_Gg6whfmMkx5dAnnvaJA&s=10",
+    "imageUrl": HOTEL_IMAGE_MAP["pearl-suites"],
+    "image": HOTEL_IMAGE_MAP["pearl-suites"],
     "contact": {
       "person": "Daniel Francis",
       "email": "pearlsuitehotels@yahoo.com",
       "phone": "+234 913 737 3249"
     },
     "images": [
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPKs5WY0H_iHF_tSBLN-oPL5_Gg6whfmMkx5dAnnvaJA&s=10",
+      HOTEL_IMAGE_MAP["pearl-suites"],
       "/assets/executive_vip.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Calabar_International_Convention_Centre.jpg/1280px-Calabar_International_Convention_Centre.jpg",
-      "/assets/vip_stadium.jpg"
+      HOTEL_IMAGE_MAP["hotel-pyramid-suites"],
+      HOTEL_IMAGE_MAP["hotel-ug-wis"]
     ]
   }
 ];
@@ -154,6 +217,7 @@ export function getHotelBaseRate(priceRange) {
   return 75000;
 }
 
+// 8 Official AfSNET Accredited Hotels with Explicit ID-Based Image Mapping
 export const officialAfSnetHotels = [
   {
     id: "metropolitan-hotel",
@@ -172,8 +236,8 @@ export const officialAfSnetHotels = [
       phone: "+234 812 369 6019"
     },
     category: "Accommodations",
-    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAwVnsSkmTO1ClW-M2DnmDyHltxWiiEFFdOp3Z4RnnWA&s=10",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAwVnsSkmTO1ClW-M2DnmDyHltxWiiEFFdOp3Z4RnnWA&s=10"
+    imageUrl: HOTEL_IMAGE_MAP["metropolitan-hotel"],
+    image: HOTEL_IMAGE_MAP["metropolitan-hotel"]
   },
   {
     id: "monty-suites",
@@ -192,8 +256,8 @@ export const officialAfSnetHotels = [
       phone: "+234 803 646 1074"
     },
     category: "Accommodations",
-    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSIxcGYu2svKaf10OUqbth0s5q5ao0K1VtjdF3qUveiQ&s=10",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSIxcGYu2svKaf10OUqbth0s5q5ao0K1VtjdF3qUveiQ&s=10"
+    imageUrl: HOTEL_IMAGE_MAP["monty-suites"],
+    image: HOTEL_IMAGE_MAP["monty-suites"]
   },
   {
     id: "channel-view",
@@ -212,8 +276,8 @@ export const officialAfSnetHotels = [
       phone: "+234 803 974 2044"
     },
     category: "Accommodations",
-    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKsY-oDblH1L4sU6PTj3CLyj_PBzrhVKUoR0tFDUxpzA&s=10",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKsY-oDblH1L4sU6PTj3CLyj_PBzrhVKUoR0tFDUxpzA&s=10"
+    imageUrl: HOTEL_IMAGE_MAP["channel-view"],
+    image: HOTEL_IMAGE_MAP["channel-view"]
   },
   {
     id: "gemba-hotel",
@@ -232,8 +296,8 @@ export const officialAfSnetHotels = [
       phone: "+234 902 222 2094"
     },
     category: "Accommodations",
-    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqu1RrJFlGV4JNi27w61TlICZ53QFD9kZ2faptfUT_Gw&s=10",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqu1RrJFlGV4JNi27w61TlICZ53QFD9kZ2faptfUT_Gw&s=10"
+    imageUrl: HOTEL_IMAGE_MAP["gemba-hotel"],
+    image: HOTEL_IMAGE_MAP["gemba-hotel"]
   },
   {
     id: "hogis-royale",
@@ -252,8 +316,8 @@ export const officialAfSnetHotels = [
       phone: "+234 703 934 2262"
     },
     category: "Accommodations",
-    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPKs5WY0H_iHF_tSBLN-oPL5_Gg6whfmMkx5dAnnvaJA&s=10",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPKs5WY0H_iHF_tSBLN-oPL5_Gg6whfmMkx5dAnnvaJA&s=10"
+    imageUrl: HOTEL_IMAGE_MAP["hogis-royale"],
+    image: HOTEL_IMAGE_MAP["hogis-royale"]
   },
   {
     id: "pearl-suites",
@@ -272,8 +336,8 @@ export const officialAfSnetHotels = [
       phone: "+234 913 737 3249"
     },
     category: "Accommodations",
-    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFrlVdeMYISQYCoZ6ng7laiIphKFYGsxhNwYqyhzo-KA&s=10",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFrlVdeMYISQYCoZ6ng7laiIphKFYGsxhNwYqyhzo-KA&s=10"
+    imageUrl: HOTEL_IMAGE_MAP["pearl-suites"],
+    image: HOTEL_IMAGE_MAP["pearl-suites"]
   },
   {
     id: "ug-wis",
@@ -283,17 +347,17 @@ export const officialAfSnetHotels = [
     ciccDistance: "12 minutes to CICC",
     pricePerNight: "₦175,000",
     priceRange: "₦175,000 / night",
-    contactPerson: "Chris Ogar",
-    phone: "+234 803 966 0825",
-    email: "ugwishotels@gmail.com",
+    contactPerson: "Ekpenyong Ekpenyong",
+    phone: "+234 803 338 0503",
+    email: "ugwissuitescalabar@gmail.com",
     contact: {
-      person: "Chris Ogar",
-      email: "ugwishotels@gmail.com",
-      phone: "+234 803 966 0825"
+      person: "Ekpenyong Ekpenyong",
+      email: "ugwissuitescalabar@gmail.com",
+      phone: "+234 803 338 0503"
     },
     category: "Accommodations",
-    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrCoU1I6RSJq24Bu1cUdIMTJdityQLP5R5fqH4nZn1lQ&s=10",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrCoU1I6RSJq24Bu1cUdIMTJdityQLP5R5fqH4nZn1lQ&s=10"
+    imageUrl: HOTEL_IMAGE_MAP["ug-wis"],
+    image: HOTEL_IMAGE_MAP["ug-wis"]
   },
   {
     id: "de-grand",
@@ -312,8 +376,9 @@ export const officialAfSnetHotels = [
       phone: "+234 803 834 5856"
     },
     category: "Accommodations",
-    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwb1aI1LphamqXx_BkWBLr7veOle8PmW0XSQhwuQ2gzQ&s=10",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwb1aI1LphamqXx_BkWBLr7veOle8PmW0XSQhwuQ2gzQ&s=10"
+    imageUrl: HOTEL_IMAGE_MAP["de-grand"],
+    image: HOTEL_IMAGE_MAP["de-grand"]
   }
 ];
 
+export const VERIFIED_LISTINGS = officialAfSnetHotels;

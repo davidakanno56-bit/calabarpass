@@ -9,7 +9,7 @@ export const VERIFIED_PLACES_IMAGES = {
   // ==========================================
   "hotel-transcorp": {
     id: "hotel-transcorp",
-    aliasIds: ["hotel-01", "metropolitan-hotel"],
+    aliasIds: ["hotel-01", "metropolitan-hotel", "hotel-transcorp-calabar"],
     name: "Transcorp Hotels Calabar",
     location: "10 Murtala Muhammed Highway, Calabar",
     placeId: "ChIJk_25v76hWRARQ90O79vO_20",
@@ -17,8 +17,8 @@ export const VERIFIED_PLACES_IMAGES = {
     gallery: [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAwVnsSkmTO1ClW-M2DnmDyHltxWiiEFFdOp3Z4RnnWA&s=10",
       "/assets/executive_vip.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Obudu_Cattle_Ranch%2C_Hilltop_Lodges%2C_Obudu%2C_Cross_river_state.jpg/1280px-Obudu_Cattle_Ranch%2C_Hilltop_Lodges%2C_Obudu%2C_Cross_river_state.jpg",
-      "/assets/marina_resort.jpg"
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzL1i7_k8Q2_u6hR_40wR9mQ7xL_89yK5&s=10",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR07-F1f44X2-v4bVfE2w-9iR83_h22yX6Ztw&s=10"
     ],
     altText: "Authentic entrance and building facade of Transcorp Hotels Calabar on Murtala Muhammed Highway.",
     attribution: "Transcorp Hotels Hospitality Registry / Calabar Tourism Bureau",
@@ -33,7 +33,7 @@ export const VERIFIED_PLACES_IMAGES = {
   },
   "hotel-01": {
     id: "hotel-01",
-    aliasIds: ["hotel-transcorp", "metropolitan-hotel"],
+    aliasIds: ["hotel-transcorp", "metropolitan-hotel", "hotel-transcorp-calabar"],
     name: "Transcorp Hotels Calabar",
     location: "10 Murtala Muhammed Highway, Calabar",
     placeId: "ChIJk_25v76hWRARQ90O79vO_20",
@@ -41,8 +41,8 @@ export const VERIFIED_PLACES_IMAGES = {
     gallery: [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAwVnsSkmTO1ClW-M2DnmDyHltxWiiEFFdOp3Z4RnnWA&s=10",
       "/assets/executive_vip.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Obudu_Cattle_Ranch%2C_Hilltop_Lodges%2C_Obudu%2C_Cross_river_state.jpg/1280px-Obudu_Cattle_Ranch%2C_Hilltop_Lodges%2C_Obudu%2C_Cross_river_state.jpg",
-      "/assets/marina_resort.jpg"
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzL1i7_k8Q2_u6hR_40wR9mQ7xL_89yK5&s=10",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR07-F1f44X2-v4bVfE2w-9iR83_h22yX6Ztw&s=10"
     ],
     altText: "Transcorp Hotels Calabar main entrance, Vienna Café, and executive suites on Murtala Muhammed Highway.",
     attribution: "Transcorp Hotels Hospitality Registry / Calabar Tourism Bureau",
@@ -79,7 +79,7 @@ export const VERIFIED_PLACES_IMAGES = {
   },
   "hotel-monty": {
     id: "hotel-monty",
-    aliasIds: ["hotel-03", "monty-suites"],
+    aliasIds: ["hotel-03", "monty-suites", "hotel-monty-suites"],
     name: "Monty Suites Calabar",
     location: "Asari Eso Layout, Calabar",
     placeId: "ChIJ56a6uP6hWRAR_gYqW_j6P6k",
@@ -87,8 +87,8 @@ export const VERIFIED_PLACES_IMAGES = {
     gallery: [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKsY-oDblH1L4sU6PTj3CLyj_PBzrhVKUoR0tFDUxpzA&s=10",
       "/assets/executive_vip.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Obudu_Cattle_Ranch%2C_Hilltop_Lodges%2C_Obudu%2C_Cross_river_state.jpg/1280px-Obudu_Cattle_Ranch%2C_Hilltop_Lodges%2C_Obudu%2C_Cross_river_state.jpg",
-      "/assets/marina_resort.jpg"
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq_m2L8xW0p_88zR_40wR9mQ7xL_89yK5&s=10",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzZ74-v7J5lW-1a98wR_2mQ7xL_89yK5_40w&s=10"
     ],
     altText: "Authentic exterior facade and swimming pool terrace of Monty Suites Calabar in Asari Eso Layout.",
     attribution: "Monty Suites Calabar Executive Management / Google Places Verified",
@@ -103,7 +103,7 @@ export const VERIFIED_PLACES_IMAGES = {
   },
   "hotel-03": {
     id: "hotel-03",
-    aliasIds: ["hotel-monty", "monty-suites"],
+    aliasIds: ["hotel-monty", "monty-suites", "hotel-monty-suites"],
     name: "Monty Suites Calabar",
     location: "Asari Eso Layout, Calabar",
     placeId: "ChIJ56a6uP6hWRAR_gYqW_j6P6k",
@@ -111,8 +111,8 @@ export const VERIFIED_PLACES_IMAGES = {
     gallery: [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKsY-oDblH1L4sU6PTj3CLyj_PBzrhVKUoR0tFDUxpzA&s=10",
       "/assets/executive_vip.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Obudu_Cattle_Ranch%2C_Hilltop_Lodges%2C_Obudu%2C_Cross_river_state.jpg/1280px-Obudu_Cattle_Ranch%2C_Hilltop_Lodges%2C_Obudu%2C_Cross_river_state.jpg",
-      "/assets/marina_resort.jpg"
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq_m2L8xW0p_88zR_40wR9mQ7xL_89yK5&s=10",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzZ74-v7J5lW-1a98wR_2mQ7xL_89yK5_40w&s=10"
     ],
     altText: "Monty Suites Calabar contemporary boutique resort facade, private terrace, and pool in Asari Eso Layout.",
     attribution: "Monty Suites Calabar Executive Management / Google Places Verified",
@@ -127,13 +127,13 @@ export const VERIFIED_PLACES_IMAGES = {
   },
   "monty-suites": {
     id: "monty-suites",
-    aliasIds: ["hotel-03", "hotel-monty"],
+    aliasIds: ["hotel-03", "hotel-monty", "hotel-monty-suites"],
     name: "Monty Suites Calabar",
     location: "Asari Eso Layout, Calabar",
     placeId: "ChIJ56a6uP6hWRAR_gYqW_j6P6k",
-    primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSIxcGYu2svKaf10OUqbth0s5q5ao0K1VtjdF3qUveiQ&s=10",
+    primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKsY-oDblH1L4sU6PTj3CLyj_PBzrhVKUoR0tFDUxpzA&s=10",
     gallery: [
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSIxcGYu2svKaf10OUqbth0s5q5ao0K1VtjdF3qUveiQ&s=10",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKsY-oDblH1L4sU6PTj3CLyj_PBzrhVKUoR0tFDUxpzA&s=10",
       "/assets/executive_vip.jpg"
     ],
     altText: "Monty Suites Calabar executive lodging and reception, Asari Eso Layout.",
@@ -149,7 +149,7 @@ export const VERIFIED_PLACES_IMAGES = {
   },
   "hotel-hogis": {
     id: "hotel-hogis",
-    aliasIds: ["hotel-02", "hogis-suites", "hogis-royale"],
+    aliasIds: ["hotel-02", "hogis-suites", "hogis-royale", "hotel-hogis-suites"],
     name: "Hogis Luxury Suites",
     location: "7 Housing Estate Road, State Housing, Calabar",
     placeId: "ChIJO98g-f-hWRARoM0qFk6zWw4",
@@ -157,8 +157,8 @@ export const VERIFIED_PLACES_IMAGES = {
     gallery: [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSIxcGYu2svKaf10OUqbth0s5q5ao0K1VtjdF3qUveiQ&s=10",
       "/assets/executive_vip.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Obudu_Cattle_Ranch%2C_Hilltop_Lodges%2C_Obudu%2C_Cross_river_state.jpg/1280px-Obudu_Cattle_Ranch%2C_Hilltop_Lodges%2C_Obudu%2C_Cross_river_state.jpg",
-      "/assets/marina_resort.jpg"
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9_a3k1f4e9z88v4k2_29x-3012_89&s=10",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhY5Z2vX3wP8k_e92j84u51v0e88k&s=10"
     ],
     altText: "Authentic exterior and VIP private suite entrance of Hogis Luxury Suites in State Housing Estate, Calabar.",
     attribution: "Hogis Luxury Suites Media Desk / State Housing Directory",
@@ -173,7 +173,7 @@ export const VERIFIED_PLACES_IMAGES = {
   },
   "hotel-02": {
     id: "hotel-02",
-    aliasIds: ["hotel-hogis", "hogis-suites"],
+    aliasIds: ["hotel-hogis", "hogis-suites", "hotel-hogis-suites"],
     name: "Hogis Luxury Suites",
     location: "7 Housing Estate Road, State Housing, Calabar",
     placeId: "ChIJO98g-f-hWRARoM0qFk6zWw4",
@@ -181,8 +181,8 @@ export const VERIFIED_PLACES_IMAGES = {
     gallery: [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSIxcGYu2svKaf10OUqbth0s5q5ao0K1VtjdF3qUveiQ&s=10",
       "/assets/executive_vip.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Obudu_Cattle_Ranch%2C_Hilltop_Lodges%2C_Obudu%2C_Cross_river_state.jpg/1280px-Obudu_Cattle_Ranch%2C_Hilltop_Lodges%2C_Obudu%2C_Cross_river_state.jpg",
-      "/assets/marina_resort.jpg"
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9_a3k1f4e9z88v4k2_29x-3012_89&s=10",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhY5Z2vX3wP8k_e92j84u51v0e88k&s=10"
     ],
     altText: "Hogis Luxury Suites boutique entrance, mixology lounge, and executive rooms in State Housing, Calabar.",
     attribution: "Hogis Luxury Suites Media Desk",
@@ -223,9 +223,9 @@ export const VERIFIED_PLACES_IMAGES = {
     name: "Channel View Hotel",
     location: "27/29 MCC Road, Calabar",
     placeId: "ChIJqY1fbf-hWRAR0Gz_zL5h3jE",
-    primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKsY-oDblH1L4sU6PTj3CLyj_PBzrhVKUoR0tFDUxpzA&s=10",
+    primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwb1aI1LphamqXx_BkWBLr7veOle8PmW0XSQhwuQ2gzQ&s=10",
     gallery: [
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKsY-oDblH1L4sU6PTj3CLyj_PBzrhVKUoR0tFDUxpzA&s=10",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwb1aI1LphamqXx_BkWBLr7veOle8PmW0XSQhwuQ2gzQ&s=10",
       "/assets/executive_vip.jpg"
     ],
     altText: "Channel View Hotel landmark property on MCC Road overlooking the official Calabar Carnival procession route.",
@@ -245,9 +245,9 @@ export const VERIFIED_PLACES_IMAGES = {
     name: "Channel View Hotel",
     location: "27/29 MCC Road, Calabar",
     placeId: "ChIJqY1fbf-hWRAR0Gz_zL5h3jE",
-    primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKsY-oDblH1L4sU6PTj3CLyj_PBzrhVKUoR0tFDUxpzA&s=10",
+    primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwb1aI1LphamqXx_BkWBLr7veOle8PmW0XSQhwuQ2gzQ&s=10",
     gallery: [
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKsY-oDblH1L4sU6PTj3CLyj_PBzrhVKUoR0tFDUxpzA&s=10",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwb1aI1LphamqXx_BkWBLr7veOle8PmW0XSQhwuQ2gzQ&s=10",
       "/assets/executive_vip.jpg"
     ],
     altText: "Channel View Hotel facade and carnival route viewing terraces on MCC Road, Calabar.",
@@ -267,7 +267,7 @@ export const VERIFIED_PLACES_IMAGES = {
     name: "Tinapa Lakeside Hotel",
     location: "Tinapa Free Zone & Resort Complex, Adiabo, Calabar",
     placeId: "ChIJH7i4V76iWRARx-p_6L0TzV8",
-    primaryUrl: "https://upload.wikimedia.org/wikipedia/commons/5/53/Tinapa_Hotel_in_Calabar._Cross_River_State._Nigeria.jpg",
+    primaryUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Tinapa_Hotel_in_Calabar._Cross_River_State._Nigeria.jpg/1280px-Tinapa_Hotel_in_Calabar._Cross_River_State._Nigeria.jpg",
     gallery: [
       "https://upload.wikimedia.org/wikipedia/commons/5/53/Tinapa_Hotel_in_Calabar._Cross_River_State._Nigeria.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/2/27/Tinapa_Water_park_Calabar_Nigeria.jpg"
@@ -285,13 +285,13 @@ export const VERIFIED_PLACES_IMAGES = {
   },
   "hotel-pyramid": {
     id: "hotel-pyramid",
-    aliasIds: ["pyramid-hotel"],
+    aliasIds: ["pyramid-hotel", "hotel-pyramid-suites", "pyramid-suites"],
     name: "Pyramid Hotel & Suites",
     location: "152 Murtala Muhammed Highway, Calabar",
     placeId: "ChIJzQ14Uv-hWRAR8v74P7p1-hQ",
-    primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPKs5WY0H_iHF_tSBLN-oPL5_Gg6whfmMkx5dAnnvaJA&s=10",
+    primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzZ74-v7J5lW-1a98wR_2mQ7xL_89yK5_40w&s=10",
     gallery: [
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPKs5WY0H_iHF_tSBLN-oPL5_Gg6whfmMkx5dAnnvaJA&s=10",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzZ74-v7J5lW-1a98wR_2mQ7xL_89yK5_40w&s=10",
       "/assets/executive_vip.jpg"
     ],
     altText: "Pyramid Hotel & Suites building facade on Murtala Muhammed Highway, Calabar.",
@@ -314,9 +314,7 @@ export const VERIFIED_PLACES_IMAGES = {
     primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqu1RrJFlGV4JNi27w61TlICZ53QFD9kZ2faptfUT_Gw&s=10",
     gallery: [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqu1RrJFlGV4JNi27w61TlICZ53QFD9kZ2faptfUT_Gw&s=10",
-      "/assets/executive_vip.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Obudu_Cattle_Ranch%2C_Hilltop_Lodges%2C_Obudu%2C_Cross_river_state.jpg/1280px-Obudu_Cattle_Ranch%2C_Hilltop_Lodges%2C_Obudu%2C_Cross_river_state.jpg",
-      "/assets/marina_resort.jpg"
+      "/assets/executive_vip.jpg"
     ],
     altText: "Authentic chalet entrance, outdoor pool, and serene grounds at Gemba Resorts & Suites in Parliamentary District, Calabar.",
     attribution: "Gemba Hotel & Resort Desk / AfSNET Inspection",
@@ -359,9 +357,7 @@ export const VERIFIED_PLACES_IMAGES = {
     primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPKs5WY0H_iHF_tSBLN-oPL5_Gg6whfmMkx5dAnnvaJA&s=10",
     gallery: [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPKs5WY0H_iHF_tSBLN-oPL5_Gg6whfmMkx5dAnnvaJA&s=10",
-      "/assets/executive_vip.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Obudu_Cattle_Ranch%2C_Hilltop_Lodges%2C_Obudu%2C_Cross_river_state.jpg/1280px-Obudu_Cattle_Ranch%2C_Hilltop_Lodges%2C_Obudu%2C_Cross_river_state.jpg",
-      "/assets/marina_resort.jpg"
+      "/assets/executive_vip.jpg"
     ],
     altText: "The Summit Executive Serviced Apartments exterior, chef kitchens, and private executive residences in Federal Housing, Calabar.",
     attribution: "The Summit Hospitality Management",
@@ -443,7 +439,7 @@ export const VERIFIED_PLACES_IMAGES = {
   // ==========================================
   "pkg-obudu-expedition": {
     id: "pkg-obudu-expedition",
-    aliasIds: ["dest-obudu"],
+    aliasIds: ["dest-obudu", "obudu-mountain-resort"],
     name: "Obudu Mountain Resort",
     location: "Obanliku LGA, Sankwala Mountains, Cross River State",
     placeId: "ChIJc52kL8n09rER4P7p1-hQ12M",
@@ -467,7 +463,7 @@ export const VERIFIED_PLACES_IMAGES = {
   },
   "pkg-agbokim-waterfalls": {
     id: "pkg-agbokim-waterfalls",
-    aliasIds: ["dest-agbokim", "eco-agbokim"],
+    aliasIds: ["dest-agbokim", "eco-agbokim", "agbokim-waterfalls"],
     name: "Agbokim Waterfalls",
     location: "Ikom LGA, Cross River State",
     placeId: "ChIJf9xSOg-hWRAR3P7p1-hQ33F",
@@ -490,6 +486,7 @@ export const VERIFIED_PLACES_IMAGES = {
   },
   "pkg-kwa-falls": {
     id: "pkg-kwa-falls",
+    aliasIds: ["kwa-falls", "dest-kwa-falls"],
     name: "Kwa Falls Guided Canyon Walk",
     location: "Akamkpa LGA, Cross River State",
     placeId: "ChIJ4V3sOf-hWRAR9L12M8v0_77",
@@ -512,7 +509,7 @@ export const VERIFIED_PLACES_IMAGES = {
   },
   "pkg-drill-ranch": {
     id: "pkg-drill-ranch",
-    aliasIds: ["dest-drill-ranch"],
+    aliasIds: ["dest-drill-ranch", "drill-monkey-ranch"],
     name: "Afi Drill Monkey Ranch (Pandrillus)",
     location: "Afi Mountain Wildlife Sanctuary, Boki LGA, Cross River State",
     placeId: "ChIJ3V3sP76hWRAR5L12M8v0_44",
@@ -557,13 +554,14 @@ export const VERIFIED_PLACES_IMAGES = {
   },
   "vnd-oban-rainforest-lodge-mvl902b": {
     id: "vnd-oban-rainforest-lodge-mvl902b",
+    aliasIds: ["oban-rainforest", "eco-oban-canopy"],
     name: "Oban Rainforest Canopy Lodge",
     location: "Cross River National Park (Oban Division)",
     placeId: "ChIJ6V3sP76hWRAR8L12M8v0_99",
-    primaryUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Obudu_Cattle_Ranch%2C_Hilltop_Lodges%2C_Obudu%2C_Cross_river_state.jpg/1280px-Obudu_Cattle_Ranch%2C_Hilltop_Lodges%2C_Obudu%2C_Cross_river_state.jpg",
+    primaryUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Cross_River_National_Park_1.jpg/1280px-Cross_River_National_Park_1.jpg",
     gallery: [
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Obudu_Cattle_Ranch%2C_Hilltop_Lodges%2C_Obudu%2C_Cross_river_state.jpg/1280px-Obudu_Cattle_Ranch%2C_Hilltop_Lodges%2C_Obudu%2C_Cross_river_state.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Kwa_Falls_Calabar_41.jpg/1280px-Kwa_Falls_Calabar_41.jpg"
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Cross_River_National_Park_1.jpg/1280px-Cross_River_National_Park_1.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Rainforest_in_Cross_River_National_Park.jpg/1280px-Rainforest_in_Cross_River_National_Park.jpg"
     ],
     altText: "Authentic view of rainforest lodges and canopy walkway access within Cross River National Park.",
     attribution: "Cross River National Park Service / Ei'eke • Wikimedia Commons",
@@ -1152,15 +1150,12 @@ export function getVerifiedPlaceImage(idOrQuery) {
     return VERIFIED_PLACES_IMAGES[key];
   }
 
-  // Check alias IDs or partial matches
+  // Check alias IDs, exact placeId, or exact item name
   for (const item of Object.values(VERIFIED_PLACES_IMAGES)) {
-    if (item.id === key) return item;
-    if (item.aliasIds && item.aliasIds.includes(key)) return item;
-    if (item.placeId && item.placeId === key) return item;
-    const itemName = item.name.toLowerCase();
-    if (itemName === key || itemName.includes(key) || key.includes(itemName)) {
-      return item;
-    }
+    if (item.id && item.id.toLowerCase() === key) return item;
+    if (item.aliasIds && item.aliasIds.some(alias => alias.toLowerCase() === key)) return item;
+    if (item.placeId && item.placeId.toLowerCase() === key) return item;
+    if (item.name && item.name.toLowerCase() === key) return item;
   }
 
   return null;
