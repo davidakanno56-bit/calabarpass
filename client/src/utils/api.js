@@ -511,8 +511,8 @@ const SEED_PENDING_MERCHANTS = [
     location: "Marina Waterfront Promenade, Calabar",
     priceNGN: 9500,
     status: "pending",
-    imageUrl: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80",
-    image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80",
+    imageUrl: "/assets/marina_resort.jpg",
+    image: "/assets/marina_resort.jpg",
     createdAt: new Date(Date.now() - 3600000 * 6).toISOString()
   },
   {
@@ -527,8 +527,8 @@ const SEED_PENDING_MERCHANTS = [
     location: "Cross River National Park (Oban Division)",
     priceNGN: 42000,
     status: "pending",
-    imageUrl: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80",
-    image: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Rainforest_in_Cross_River_National_Park.jpg/1280px-Rainforest_in_Cross_River_National_Park.jpg",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Rainforest_in_Cross_River_National_Park.jpg/1280px-Rainforest_in_Cross_River_National_Park.jpg",
     createdAt: new Date(Date.now() - 3600000 * 12).toISOString()
   }
 ];
@@ -1082,7 +1082,7 @@ export function handleLocalEscrowFallback(endpoint, payload = null, method = "GE
     const bank = bankPayoutDetails || bankAccount || "Access Bank ****4102";
     const tel = phone || phoneNumber || "+234 800 000 0000";
     const mail = (email || contactEmail || `${slug}@merchant.calabarpass.ng`).trim();
-    const img = logoUrl || image || "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80";
+    const img = logoUrl || image || "/assets/executive_vip.jpg";
     const loc = location || corridor || "Calabar Municipality, Cross River State";
     const rate = Number(priceNGN || price || 35000);
 

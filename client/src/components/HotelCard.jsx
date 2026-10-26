@@ -120,7 +120,7 @@ export default function HotelCard({ hotel, onBookHotel }) {
             </div>
           ) : (
             <img
-              src={hotel.imageUrl || hotel.image}
+              src={images[currentImgIdx] || hotel.imageUrl || hotel.image}
               alt={`${hotel.name} - ${IMAGE_LABELS[currentImgIdx] || 'Angle'}`}
               onError={() => handleImgError(currentImgIdx)}
               className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"

@@ -14,6 +14,7 @@ import {
   ChevronRight,
   Sparkles
 } from "lucide-react";
+import VerifiedImage from "./VerifiedImage.jsx";
 
 export const officialAfSnetHotels = [
   {
@@ -291,13 +292,17 @@ export default function AccommodationsView({ onBookHotel }) {
           >
             {/* Image Header with Real URLs */}
             <div className="relative h-48 w-full overflow-hidden bg-slate-950">
-              <img
+              <VerifiedImage
+                item={hotel}
                 src={hotel.imageUrl || hotel.image}
                 alt={hotel.name}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                loading="lazy"
+                aspectRatio="h-48"
+                rounded="rounded-none"
+                showBadge={false}
+                showAttribution={true}
+                allowGallery={false}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent pointer-events-none" />
               
               <div className="absolute top-3 left-3 flex items-center gap-1.5">
                 <span className="inline-flex items-center gap-1 rounded-full bg-emerald-950/80 border border-emerald-400/40 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-emerald-300 backdrop-blur-sm">
@@ -397,12 +402,17 @@ export default function AccommodationsView({ onBookHotel }) {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn">
           <div className="relative w-full max-w-lg bg-[#0f1523] border border-amber-500/40 rounded-3xl p-6 shadow-2xl text-slate-100 space-y-5">
             <div className="relative h-44 rounded-2xl overflow-hidden">
-              <img
+              <VerifiedImage
+                item={activeHotelDetails}
                 src={activeHotelDetails.imageUrl || activeHotelDetails.image}
                 alt={activeHotelDetails.name}
-                className="w-full h-full object-cover"
+                aspectRatio="h-44"
+                rounded="rounded-2xl"
+                showBadge={true}
+                showAttribution={true}
+                allowGallery={false}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent pointer-events-none" />
               <button
                 onClick={() => setActiveHotelDetails(null)}
                 className="absolute top-3 right-3 p-2 rounded-full bg-slate-950/80 text-slate-300 hover:text-white cursor-pointer"

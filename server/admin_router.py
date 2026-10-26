@@ -41,8 +41,8 @@ async def get_pending_merchants():
             "phone": "+234 803 111 8822",
             "email": "manager@marinabaysunset.com",
             "bankPayoutDetails": "Zenith Bank - 1092837190",
-            "imageUrl": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80",
-            "image": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80",
+            "imageUrl": "/assets/marina_resort.jpg",
+            "image": "/assets/marina_resort.jpg",
             "status": "pending"
         },
         {
@@ -52,8 +52,8 @@ async def get_pending_merchants():
             "phone": "+234 814 220 3311",
             "email": "bookings@obanrainforest.org",
             "bankPayoutDetails": "Access Bank - 9028172635",
-            "imageUrl": "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80",
-            "image": "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80",
+            "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Rainforest_in_Cross_River_National_Park.jpg/1280px-Rainforest_in_Cross_River_National_Park.jpg",
+            "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Rainforest_in_Cross_River_National_Park.jpg/1280px-Rainforest_in_Cross_River_National_Park.jpg",
             "status": "pending"
         }
     ]

@@ -5,7 +5,10 @@ import {
   MapPin,
   ShieldCheck,
   X,
+  ExternalLink
 } from "lucide-react";
+import VerifiedImage from "./VerifiedImage.jsx";
+import { resolvePlaceImage } from "../utils/imageService.js";
 
 const INCLUDED_ITEMS = {
   "pkg-seagull-pass": [
@@ -43,22 +46,17 @@ const INCLUDED_ITEMS = {
 };
 
 const HERO_IMAGES = {
-  "pkg-seagull-pass":
-    "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1400&q=85",
-  "pkg-drill-ranch":
-    "https://images.unsplash.com/photo-1540573133985-87b6da6d54a9?auto=format&fit=crop&w=1400&q=85",
-  "pkg-obudu-expedition":
-    "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1400&q=85",
-  "pkg-marina-cruise":
-    "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1400&q=85",
-  "pkg-agbokim-waterfalls":
-    "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=1400&q=85",
-  "pkg-kwa-falls":
-    "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=1400&q=85",
+  "pkg-seagull-pass": "/assets/seagull_band.jpg",
+  "pkg-drill-ranch": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Drill_Monkey.jpg/1280px-Drill_Monkey.jpg",
+  "pkg-obudu-expedition": "/assets/obudu_mountain.jpg",
+  "pkg-marina-cruise": "/assets/marina_resort.jpg",
+  "pkg-agbokim-waterfalls": "/assets/agbokim_waterfalls.jpg",
+  "pkg-kwa-falls": "/assets/kwa_falls.jpg",
 };
 
 export default function PackageDetailsModal({ pkg, onClose, onBookNow }) {
-  const preferredImage = HERO_IMAGES[pkg?.id] || pkg?.image || pkg?.imageUrl || "";
+  const meta = resolvePlaceImage(pkg);
+  const preferredImage = HERO_IMAGES[pkg?.id] || meta?.primaryUrl || pkg?.image || pkg?.imageUrl || "";
   const [imageSrc, setImageSrc] = useState(preferredImage);
   const includedItems =
     INCLUDED_ITEMS[pkg?.id] ||
@@ -102,24 +100,18 @@ export default function PackageDetailsModal({ pkg, onClose, onBookNow }) {
         className="my-auto w-full max-w-3xl overflow-hidden rounded-3xl border border-slate-700 bg-[#0B0F17] shadow-2xl shadow-black/60"
       >
         <div className="relative h-56 bg-slate-950 sm:h-72">
-          {imageSrc && (
-            <img
-              src={imageSrc}
-              alt={packageName}
-              onError={() => {
-                const fallback = pkg.imageUrl || pkg.image || preferredImage;
-                if (fallback && fallback !== imageSrc) setImageSrc(fallback);
-                else setImageSrc("");
-              }}
-              className="h-full w-full object-cover"
-            />
-          )}
-          {!imageSrc && (
-            <div className="flex h-full items-center justify-center bg-gradient-to-br from-emerald-950 to-slate-950 text-emerald-300">
-              <MapPin className="h-10 w-10" />
-            </div>
-          )}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F17] via-[#0B0F17]/20 to-black/30" />
+          <VerifiedImage
+            item={pkg}
+            src={imageSrc}
+            alt={packageName}
+            aspectRatio="h-56 sm:h-72"
+            rounded="rounded-none"
+            showBadge={true}
+            badgePosition="top-left"
+            showAttribution={true}
+            allowGallery={true}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F17] via-[#0B0F17]/20 to-black/30 pointer-events-none" />
           <button
             type="button"
             onClick={onClose}

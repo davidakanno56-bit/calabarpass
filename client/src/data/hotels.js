@@ -29,9 +29,9 @@ export const HOTELS = [
     },
     "images": [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAwVnsSkmTO1ClW-M2DnmDyHltxWiiEFFdOp3Z4RnnWA&s=10",
-      "https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=1200&q=80"
+      "/assets/executive_vip.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Obudu_Cattle_Ranch%2C_Hilltop_Lodges%2C_Obudu%2C_Cross_river_state.jpg/1280px-Obudu_Cattle_Ranch%2C_Hilltop_Lodges%2C_Obudu%2C_Cross_river_state.jpg",
+      "/assets/marina_resort.jpg"
     ]
   },
   {
@@ -56,9 +56,9 @@ export const HOTELS = [
     },
     "images": [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSIxcGYu2svKaf10OUqbth0s5q5ao0K1VtjdF3qUveiQ&s=10",
-      "https://images.unsplash.com/photo-1563911302283-d2bc129e7570?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?auto=format&fit=crop&w=1200&q=80"
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzZ74-v7J5lW-1a98wR_2mQ7xL_89yK5_40w&s=10",
+      "/assets/executive_vip.jpg",
+      "/assets/marina_resort.jpg"
     ]
   },
   {
@@ -83,9 +83,9 @@ export const HOTELS = [
     },
     "images": [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKsY-oDblH1L4sU6PTj3CLyj_PBzrhVKUoR0tFDUxpzA&s=10",
-      "https://images.unsplash.com/photo-1595576508898-0ad5c879a061?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=1200&q=80"
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6-69mJvM4QZ7wA_87wQZ-6mJvM4QZ7wA_87w&s=10",
+      "/assets/executive_vip.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Tinapa_Hotel_in_Calabar._Cross_River_State._Nigeria.jpg/1280px-Tinapa_Hotel_in_Calabar._Cross_River_State._Nigeria.jpg"
     ]
   },
   {
@@ -110,9 +110,9 @@ export const HOTELS = [
     },
     "images": [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqu1RrJFlGV4JNi27w61TlICZ53QFD9kZ2faptfUT_Gw&s=10",
-      "https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80"
+      "/assets/executive_vip.jpg",
+      "/assets/obudu_mountain.jpg",
+      "/assets/marina_resort.jpg"
     ]
   },
   {
@@ -137,9 +137,9 @@ export const HOTELS = [
     },
     "images": [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPKs5WY0H_iHF_tSBLN-oPL5_Gg6whfmMkx5dAnnvaJA&s=10",
-      "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=1200&q=80"
+      "/assets/executive_vip.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Calabar_International_Convention_Centre.jpg/1280px-Calabar_International_Convention_Centre.jpg",
+      "/assets/vip_stadium.jpg"
     ]
   }
 ];

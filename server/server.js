@@ -9,6 +9,7 @@ import { fileURLToPath } from "url";
 import { escrowStore } from "./store.js";
 import { initializeTransaction, verifyTransaction, releaseEscrowFunds } from "./paystack.js";
 import { getAiConciergeResponse, FAIR_PRICES, SCAM_ADVISORIES } from "./aiPricing.js";
+import { imageService } from "./imageService.js";
 
 dotenv.config();
 
@@ -69,6 +70,83 @@ app.get("/api/hotels/:id", (req, res) => {
       return res.status(404).json({ success: false, error: "Hotel not found" });
     }
     res.json({ success: true, hotel });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// 2d. Real-World Image Integration Service Endpoints
+// Returns the entire registry of authentic place photographs
+app.get("/api/images/catalog", (req, res) => {
+  try {
+    const catalog = imageService.getAllCatalog();
+    res.json({ success: true, catalog });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// Resolves a single authentic image via registry, Google Places, Wikimedia Commons, or neutral fallback
+app.get("/api/images/resolve", async (req, res) => {
+  try {
+    const image = await imageService.resolveImage(req.query);
+    res.json({ success: true, image });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// Securely proxies Google Places Photo using server-side API key (never exposes key to frontend)
+app.get("/api/images/google-photo", async (req, res) => {
+  try {
+    const { photo_reference, maxwidth = 1200 } = req.query;
+    const apiKey = process.env.GOOGLE_PLACES_API_KEY || process.env.GOOGLE_MAPS_API_KEY;
+    if (!apiKey) {
+      return res.status(503).json({
+        success: false,
+        error: "Google Places API key is not configured in .env on server."
+      });
+    }
+    if (!photo_reference) {
+      return res.status(400).json({ success: false, error: "photo_reference query parameter required" });
+    }
+    const googleUrl = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=${maxwidth}&photo_reference=${encodeURIComponent(photo_reference)}&key=${apiKey}`;
+    const photoRes = await fetch(googleUrl);
+    if (!photoRes.ok) {
+      return res.status(photoRes.status).send("Failed to retrieve Google Places photo");
+    }
+    const contentType = photoRes.headers.get("content-type") || "image/jpeg";
+    res.setHeader("Content-Type", contentType);
+    res.setHeader("Cache-Control", "public, max-age=86400"); // 24h caching
+    const arrayBuffer = await photoRes.arrayBuffer();
+    res.send(Buffer.from(arrayBuffer));
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Real-world image audit stats (verification percentage, sources, breakdown)
+app.get("/api/images/stats", (req, res) => {
+  try {
+    const stats = imageService.getAuditStats();
+    res.json({ success: true, stats });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// Administrator or Merchant authentic image override
+app.post("/api/images/override", (req, res) => {
+  try {
+    const { id, data, accessCode } = req.body;
+    if (!id || !data) {
+      return res.status(400).json({ success: false, error: "id and data payload are required" });
+    }
+    const result = imageService.setOverride(id, data, accessCode);
+    if (!result.success) {
+      return res.status(403).json(result);
+    }
+    res.json(result);
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }

@@ -1,0 +1,67 @@
+{
+  "test-override-venue": {
+    "id": "test-override-venue",
+    "name": "test-override-venue",
+    "primaryUrl": "/assets/cicc_expo_hall.jpg",
+    "gallery": [
+      "/assets/cicc_expo_hall.jpg"
+    ],
+    "altText": "Authentic verified photograph of test-override-venue",
+    "caption": "Calabar Convention Hall Test Verified View",
+    "attribution": "Merchant Verified On-Site Upload",
+    "license": "Official Partner Rights",
+    "licenseUrl": "https://calabarpass.ng/licensing/verified-media",
+    "source": "official_venue_verified",
+    "sourceUrl": null,
+    "placeId": null,
+    "verified": true,
+    "overrideApplied": true,
+    "verificationStatus": "verified_real_world",
+    "verifiedDate": "2026-10-26",
+    "updatedBy": "CAL-ADMIN-2026"
+  },
+  "hotel-transcorp": {
+    "id": "hotel-transcorp",
+    "aliasIds": [
+      "hotel-01",
+      "metropolitan-hotel"
+    ],
+    "name": "Transcorp Hotels Calabar",
+    "location": "10 Murtala Muhammed Highway, Calabar",
+    "placeId": "ChIJk_25v76hWRARQ90O79vO_20",
+    "primaryUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAwVnsSkmTO1ClW-M2DnmDyHltxWiiEFFdOp3Z4RnnWA&s=10",
+    "gallery": [
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAwVnsSkmTO1ClW-M2DnmDyHltxWiiEFFdOp3Z4RnnWA&s=10",
+      "/assets/executive_vip.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Obudu_Cattle_Ranch%2C_Hilltop_Lodges%2C_Obudu%2C_Cross_river_state.jpg/1280px-Obudu_Cattle_Ranch%2C_Hilltop_Lodges%2C_Obudu%2C_Cross_river_state.jpg",
+      "/assets/marina_resort.jpg"
+    ],
+    "altText": "Authentic entrance and building facade of Transcorp Hotels Calabar on Murtala Muhammed Highway.",
+    "attribution": "Transcorp Hotels Hospitality Registry / Calabar Tourism Bureau",
+    "license": "Official Partner Media Agreement",
+    "licenseUrl": "https://calabarpass.ng/licensing/verified-hospitality",
+    "source": "official_partner",
+    "sourceUrl": "https://www.transcorphotels.com/transcorp-hotels-calabar",
+    "verified": true,
+    "verificationStatus": "verified_real_world",
+    "verifiedDate": "2026-10-26",
+    "category": "Accommodations"
+  },
+  "nonexistent-place-xyz": {
+    "id": "nonexistent-place-xyz",
+    "name": "Listing",
+    "primaryUrl": "/assets/neutral_placeholder.svg",
+    "gallery": [],
+    "altText": "Photo not yet available for this listing. Awaiting authentic on-site photograph verification.",
+    "attribution": "CalabarPass Verification Desk",
+    "license": "State Clearinghouse Standard",
+    "licenseUrl": "https://calabarpass.ng/verification-standards",
+    "source": "unverified",
+    "sourceUrl": null,
+    "verified": false,
+    "isNeutralFallback": true,
+    "verificationStatus": "photo_not_available",
+    "verifiedDate": null,
+    "message": "Photo not yet available — Awaiting authentic on-site verification"
+  }
+}

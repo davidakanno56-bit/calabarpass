@@ -1,0 +1,23 @@
+{
+  "test-override-venue": {
+    "id": "test-override-venue",
+    "name": "test-override-venue",
+    "primaryUrl": "/assets/cicc_expo_hall.jpg",
+    "gallery": [
+      "/assets/cicc_expo_hall.jpg"
+    ],
+    "altText": "Authentic verified photograph of test-override-venue",
+    "caption": "Calabar Convention Hall Test Verified View",
+    "attribution": "Merchant Verified On-Site Upload",
+    "license": "Official Partner Rights",
+    "licenseUrl": "https://calabarpass.ng/licensing/verified-media",
+    "source": "official_venue_verified",
+    "sourceUrl": null,
+    "placeId": null,
+    "verified": true,
+    "overrideApplied": true,
+    "verificationStatus": "verified_real_world",
+    "verifiedDate": "2026-10-26",
+    "updatedBy": "CAL-ADMIN-2026"
+  }
+}

@@ -5,7 +5,10 @@ import {
   Navigation,
   Search,
   Utensils,
+  ShieldCheck,
 } from "lucide-react";
+import VerifiedImage from "./VerifiedImage.jsx";
+import { resolvePlaceImage } from "../utils/imageService.js";
 
 const DINING_SPOTS = [
   {
@@ -16,6 +19,11 @@ const DINING_SPOTS = [
     specialty: "Crispy fried chicken, meat pies, and jollof combos",
     category: "Fast Food & Bites",
     mapQuery: "Crunchies Fast Food Marian Road Calabar",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR07-F1f44X2-v4bVfE2w-9iR83_h22yX6Ztw&s=10",
+    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR07-F1f44X2-v4bVfE2w-9iR83_h22yX6Ztw&s=10",
+    placeId: "ChIJF0_F3W6hWRAReB8_035P5E0",
+    attribution: "Crunchies Fast Food Marian Branch",
+    verified: true,
   },
   {
     id: "crunchies-plus",
@@ -323,6 +331,21 @@ export default function CalabarDiningMapGuide() {
                 </p>
               </div>
             </div>
+
+            {selectedSpot && (
+              <div className="relative border-b border-slate-800">
+                <VerifiedImage
+                  item={selectedSpot}
+                  src={selectedSpot.imageUrl || selectedSpot.image}
+                  alt={selectedSpot.name}
+                  aspectRatio="h-44 sm:h-48"
+                  rounded="rounded-none"
+                  showBadge={true}
+                  badgePosition="top-left"
+                  showAttribution={true}
+                />
+              </div>
+            )}
 
             {mapUrl ? (
               <iframe

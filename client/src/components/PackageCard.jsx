@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import { ShieldCheck, MapPin, Check, ArrowRight, ShieldAlert, Trees, Leaf, Sparkles } from "lucide-react";
+import VerifiedImage from "./VerifiedImage.jsx";
 
 export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
   const savings = pkg.streetSurgePrice ? pkg.streetSurgePrice - pkg.priceNGN : 0;
@@ -85,54 +86,17 @@ export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
           className="relative h-56 w-full overflow-hidden bg-slate-950 preserve-3d"
           style={{ transform: "translateZ(15px)" }}
         >
-          {imgError ? (
-            <div
-              className={`w-full h-full flex flex-col items-center justify-center p-6 text-center border-b ${
-                pkg.tourType === "carnival" || pkg.category === "Carnival"
-                  ? "bg-gradient-to-br from-amber-950/90 via-slate-900 to-rose-950/70 border-amber-500/20"
-                  : "bg-gradient-to-br from-emerald-950 via-slate-900 to-teal-950/70 border-emerald-500/20"
-              }`}
-            >
-              <div
-                className={`w-14 h-14 rounded-2xl border flex items-center justify-center mb-2 ${
-                  pkg.tourType === "carnival" || pkg.category === "Carnival"
-                    ? "bg-amber-500/20 border-amber-500/40 text-amber-400 shadow-gold-glow"
-                    : "bg-emerald-500/20 border-emerald-500/40 text-emerald-400 shadow-emerald-glow"
-                }`}
-              >
-                {pkg.tourType === "carnival" || pkg.category === "Carnival" ? (
-                  <Sparkles className="w-7 h-7" />
-                ) : (
-                  <Trees className="w-7 h-7" />
-                )}
-              </div>
-              <span
-                className={`text-xs font-bold uppercase tracking-wider ${
-                  pkg.tourType === "carnival" || pkg.category === "Carnival"
-                    ? "text-amber-300"
-                    : "text-emerald-300"
-                }`}
-              >
-                {pkg.tourType === "carnival" || pkg.category === "Carnival"
-                  ? "Carnival Calabar Experience"
-                  : "Cross River Eco-Tourism & Heritage"}
-              </span>
-              <span className="text-[11px] text-slate-400 mt-1 max-w-xs truncate">
-                {pkg.name || pkg.title}
-              </span>
-            </div>
-          ) : (
-            <img
-              src={pkg.imageUrl || pkg.image}
-              alt={pkg.name || pkg.title}
-              onError={() => {
-                setImgError(true);
-              }}
-              className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
-              loading="lazy"
-            />
-          )}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0b0f17] via-transparent to-black/40 pointer-events-none" />
+          <VerifiedImage
+            item={pkg}
+            src={pkg.imageUrl || pkg.image}
+            alt={pkg.name || pkg.title}
+            aspectRatio="h-56"
+            rounded="rounded-none"
+            showBadge={true}
+            badgePosition="bottom-left"
+            showAttribution={true}
+            allowGallery={false}
+          />
 
           {/* Category & Season Badges with High 3D Depth */}
           <div

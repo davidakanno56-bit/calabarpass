@@ -29,7 +29,7 @@ const CATEGORIES = [
     subLabel: "Hotels, Resorts, Suites",
     codePrefix: "CAL-HTL-XXXX",
     icon: BedDouble,
-    defaultImage: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80"
+    defaultImage: "/assets/executive_vip.jpg"
   },
   {
     id: "eco-sites",
@@ -37,7 +37,7 @@ const CATEGORIES = [
     subLabel: "Sanctuaries, Falls, Rainforests",
     codePrefix: "CAL-ECO-XXXX",
     icon: Trees,
-    defaultImage: "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=1200&q=80"
+    defaultImage: "/assets/obudu_mountain.jpg"
   },
   {
     id: "dining-nightlife",
@@ -45,7 +45,7 @@ const CATEGORIES = [
     subLabel: "Eateries, Seafood Hubs, Lounges",
     codePrefix: "CAL-EAT-XXXX",
     icon: Utensils,
-    defaultImage: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1200&q=80"
+    defaultImage: "/assets/marina_resort.jpg"
   },
   {
     id: "trade-expo",
@@ -53,7 +53,7 @@ const CATEGORIES = [
     subLabel: "Trade Fair Booths, Industrial Passes",
     codePrefix: "CAL-TRD-XXXX",
     icon: Briefcase,
-    defaultImage: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1200&q=80"
+    defaultImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Calabar_International_Convention_Centre.jpg/1280px-Calabar_International_Convention_Centre.jpg"
   },
   {
     id: "carnival-culture",
@@ -61,7 +61,7 @@ const CATEGORIES = [
     subLabel: "Band Secretariats, Festival Passes",
     codePrefix: "CAL-CUL-XXXX",
     icon: Flame,
-    defaultImage: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80"
+    defaultImage: "/assets/seagull_band.jpg"
   }
 ];
 
@@ -109,7 +109,7 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
       phone: "+234 803 772 1904",
       email: "reservations@royalefiksuites.com",
       location: "Marian Road / State Housing Estate, Calabar",
-      logoUrl: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80",
+      logoUrl: "/assets/executive_vip.jpg",
       priceNGN: 65000,
       description: "Premier executive boutique suites with 24/7 security, private balcony views, and authentic Efik breakfast."
     });

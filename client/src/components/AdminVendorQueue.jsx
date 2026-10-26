@@ -13,6 +13,7 @@ import {
   Inbox
 } from "lucide-react";
 import { handleLocalEscrowFallback } from "../utils/api.js";
+import VerifiedImage from "./VerifiedImage.jsx";
 
 export default function AdminVendorQueue({ onApprovalSuccess }) {
   const [pendingVendors, setPendingVendors] = useState([]);
@@ -180,12 +181,17 @@ export default function AdminVendorQueue({ onApprovalSuccess }) {
             >
               <div className="flex items-start gap-4 flex-1">
                 {(vendor.imageUrl || vendor.image) && (
-                  <img
-                    src={vendor.imageUrl || vendor.image}
-                    alt={vendor.business_name || vendor.businessName}
-                    className="w-20 h-20 rounded-xl object-cover border border-slate-700/80 shadow-md shrink-0 hidden sm:block"
-                    onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                  />
+                  <div className="w-20 h-20 rounded-xl overflow-hidden shrink-0 hidden sm:block border border-slate-700/80 shadow-md">
+                    <VerifiedImage
+                      item={vendor}
+                      src={vendor.imageUrl || vendor.image}
+                      alt={vendor.business_name || vendor.businessName}
+                      aspectRatio="w-20 h-20"
+                      rounded="rounded-xl"
+                      showBadge={false}
+                      showAttribution={false}
+                    />
+                  </div>
                 )}
                 <div className="space-y-1.5 flex-1">
                   <div className="flex flex-wrap items-center gap-2.5">

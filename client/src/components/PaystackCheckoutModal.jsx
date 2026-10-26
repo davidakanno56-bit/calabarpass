@@ -4,6 +4,7 @@ import { CalendarPicker } from "./CalendarPicker.jsx";
 import { loadPaystackScript } from "../utils/paystackLoader.js";
 import { getHotelBaseRate } from "../data/hotels.js";
 import { handleLocalEscrowFallback } from "../utils/api.js";
+import VerifiedImage from "./VerifiedImage.jsx";
 
 export default function PaystackCheckoutModal({
   pkg,
@@ -385,14 +386,17 @@ export default function PaystackCheckoutModal({
 
           {/* Package or Hotel Summary Box */}
           <div className="p-4 rounded-2xl bg-slate-950/70 border border-slate-800/90 flex gap-4 items-center">
-            <img
-              src={displayImage}
-              alt={itemName}
-              className="w-16 h-16 rounded-xl object-cover shrink-0"
-              onError={(e) => {
-                if (pkg?.images && pkg.images[1]) e.target.src = pkg.images[1];
-              }}
-            />
+            <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0">
+              <VerifiedImage
+                item={pkg}
+                src={displayImage}
+                alt={itemName}
+                aspectRatio="w-16 h-16"
+                rounded="rounded-xl"
+                showBadge={false}
+                showAttribution={false}
+              />
+            </div>
             <div className="flex-1 min-w-0">
               <div className="text-xs text-amber-400 font-bold uppercase tracking-wider">{pkg.category}</div>
               <div className="font-bold text-sm text-white truncate">{itemName}</div>
