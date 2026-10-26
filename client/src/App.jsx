@@ -6,6 +6,7 @@ import CalabarDiningMapGuide from "./components/CalabarDiningMapGuide.jsx";
 import VerifiedDestinations from "./components/VerifiedDestinations.jsx";
 import TourismVideoSection from "./components/TourismVideoSection.jsx";
 import LiveCRBCBroadcast from "./components/LiveCRBCBroadcast.jsx";
+import CarnivalVideoShowcase from "./components/CarnivalVideoShowcase.jsx";
 import { PackageGridSkeleton, EscrowTableSkeleton } from "./components/SkeletonLoader.jsx";
 import { fetchWithSWR } from "./utils/cache.js";
 import { PACKAGES as INITIAL_PACKAGES } from "./data/packages.js";
@@ -320,7 +321,10 @@ export default function App() {
                   Displays category-specific packages, accommodations, dining guide, live CRBC broadcast, or verified destinations. */
               <>
                 {activeCategory === "carnival-culture" && (
-                  <LiveCRBCBroadcast onSelectCategory={handleCategoryChange} />
+                  <>
+                    <CarnivalVideoShowcase />
+                    <LiveCRBCBroadcast onSelectCategory={handleCategoryChange} />
+                  </>
                 )}
                 <PackageList
                   packages={packages}

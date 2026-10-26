@@ -7,13 +7,14 @@ import {
   ShieldAlert, 
   Trees, 
   Leaf, 
-  Sparkles,
-  Utensils,
-  Briefcase,
-  Navigation,
-  ArrowUpRight,
-  ExternalLink,
-  Car
+  Sparkles, 
+  Utensils, 
+  Briefcase, 
+  Flame,
+  Navigation, 
+  ArrowUpRight, 
+  ExternalLink, 
+  Car 
 } from "lucide-react";
 import VerifiedImage from "./VerifiedImage.jsx";
 
@@ -24,9 +25,10 @@ export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
 
   const isDining = pkg?.categoryGroup === "dining-nightlife" || pkg?.category === "Dining & Nightlife";
   const isTrade = pkg?.categoryGroup === "trade-expo" || pkg?.category === "Trade & Expo Hub";
-  const isDiningOrTrade = isDining || isTrade;
-  const isDestination = pkg?.categoryGroup === "eco-sites" || pkg?.category === "Eco-Sites & Heritage" || pkg?.categoryGroup === "carnival-culture" || pkg?.category === "Carnival & Culture";
-  const hasRideOption = isDining || isDestination;
+  const isCarnival = pkg?.categoryGroup === "carnival-culture" || pkg?.category === "Carnival & Culture";
+  const isTextOnlyCard = isDining || isTrade || isCarnival;
+  const isDestination = pkg?.categoryGroup === "eco-sites" || pkg?.category === "Eco-Sites & Heritage" || isCarnival;
+  const hasRideOption = isDining || isDestination || isCarnival;
 
   const [tilt, setTilt] = useState({
     rotX: 0,
@@ -81,6 +83,7 @@ export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
         ref={cardRef}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
+        onClick={() => (onViewPackage || onSelectPackage)?.(pkg)}
         style={{
           transform: `perspective(1000px) rotateX(${tilt.rotX.toFixed(2)}deg) rotateY(${tilt.rotY.toFixed(2)}deg) scale3d(${
             tilt.isHovered ? 1.02 : 1
@@ -102,13 +105,15 @@ export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
           }}
         />
 
-        {/* 1. Header Area: For Dining & Trade Expo -> Text-Only Venue Header (Zero Image Rendering) */}
-        {isDiningOrTrade ? (
+        {/* 1. Header Area: For Dining, Trade Expo & Carnival -> Text-Only Venue Header (Zero Image Rendering) */}
+        {isTextOnlyCard ? (
           <div
             className={`relative p-6 border-b border-slate-800/80 preserve-3d flex flex-col justify-between min-h-[11.5rem] ${
               isDining
                 ? "bg-gradient-to-br from-amber-950/40 via-slate-900/90 to-slate-950 border-amber-500/20"
-                : "bg-gradient-to-br from-cyan-950/40 via-slate-900/90 to-slate-950 border-cyan-500/20"
+                : isTrade
+                ? "bg-gradient-to-br from-cyan-950/40 via-slate-900/90 to-slate-950 border-cyan-500/20"
+                : "bg-gradient-to-br from-rose-950/40 via-slate-900/90 to-slate-950 border-rose-500/20"
             }`}
             style={{ transform: "translateZ(18px)" }}
           >
@@ -118,20 +123,22 @@ export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
                 className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border shadow-md ${
                   isDining
                     ? "bg-amber-950/80 text-amber-300 border-amber-500/40"
-                    : "bg-cyan-950/80 text-cyan-300 border-cyan-500/40"
+                    : isTrade
+                    ? "bg-cyan-950/80 text-cyan-300 border-cyan-500/40"
+                    : "bg-rose-950/80 text-rose-300 border-rose-500/40"
                 }`}
               >
-                {isDining ? <Utensils className="w-3.5 h-3.5" /> : <Briefcase className="w-3.5 h-3.5" />}
+                {isDining ? <Utensils className="w-3.5 h-3.5" /> : isTrade ? <Briefcase className="w-3.5 h-3.5" /> : <Flame className="w-3.5 h-3.5" />}
                 <span>{pkg.subCategory || pkg.category}</span>
               </span>
 
               <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-950/85 text-emerald-300 border border-emerald-500/40 shadow-md">
                 <ShieldCheck className="w-3.5 h-3.5" />
-                <span>{pkg.badge || pkg.escrowBadge || "Verified Venue"}</span>
+                <span>{pkg.badge || pkg.escrowBadge || (isCarnival ? "Verified Cultural Pass" : "Verified Venue")}</span>
               </span>
             </div>
 
-            {/* Business/Venue Name in Bold Text + Physical Location */}
+            {/* Business/Venue/Band Name in Bold Text + Physical Location */}
             <div className="space-y-1.5">
               <h3 className="text-2xl sm:text-3xl font-bold font-heading text-white tracking-tight group-hover:text-amber-400 transition-colors">
                 {pkg.name || pkg.title}
@@ -149,12 +156,12 @@ export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
                 <span>{pkg.capacityLabel || "Open Daily • 365-Day Escrow Check-In"}</span>
               </div>
               <span className="text-slate-500 text-[10px] font-mono uppercase tracking-wider">
-                {isDining ? "Culinary Guide" : "Commercial Hub"}
+                {isDining ? "Culinary Guide" : isTrade ? "Commercial Hub" : "Carnival & Cultural Guide"}
               </span>
             </div>
           </div>
         ) : (
-          /* 2. For Accommodations, Eco-Sites, Carnival: VerifiedImage container with 3D Depth */
+          /* 2. For Accommodations & Eco-Sites: VerifiedImage container with 3D Depth */
           <div
             className="relative h-56 w-full overflow-hidden bg-slate-950 preserve-3d"
             style={{ transform: "translateZ(15px)" }}
@@ -223,8 +230,8 @@ export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
 
         {/* Content Container */}
         <div className="p-6 flex-1 flex flex-col preserve-3d">
-          {/* Metadata for non-dining/trade cards (already in header for dining/trade) */}
-          {!isDiningOrTrade && (
+          {/* Metadata for non-text-only cards (already in header for dining/trade/carnival) */}
+          {!isTextOnlyCard && (
             <div style={{ transform: "translateZ(25px)" }} className="preserve-3d">
               <h3 className="text-xl font-bold font-heading text-white group-hover:text-amber-400 transition-colors mb-2">
                 {pkg.name || pkg.title}
@@ -251,7 +258,7 @@ export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
             <p className="text-sm text-slate-300 leading-relaxed">
               {pkg.details || pkg.description}
             </p>
-            {pkg.specialty && (
+            {isDining && pkg.specialty && (
               <p className="text-xs text-amber-300/90 mt-2 font-medium">
                 <span className="text-slate-400 font-bold uppercase tracking-wider text-[10px] block">House Specialty:</span>
                 {pkg.specialty}
@@ -259,8 +266,8 @@ export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
             )}
           </div>
 
-          {/* Included Perks with 3D Depth */}
-          {pkg.perks && pkg.perks.length > 0 && (
+          {/* Included Perks with 3D Depth (omitted for carnival cards) */}
+          {!isCarnival && pkg.perks && pkg.perks.length > 0 && (
             <div
               className="mb-5 space-y-2 preserve-3d"
               style={{ transform: "translateZ(20px)" }}
@@ -279,8 +286,8 @@ export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
             </div>
           )}
 
-          {/* Scam Warning & Surge Alert */}
-          {pkg.scamRisk && (
+          {/* Scam Warning & Surge Alert (omitted for carnival cards) */}
+          {!isCarnival && pkg.scamRisk && (
             <div
               className="mt-auto mb-5 p-3 rounded-xl bg-rose-950/30 border border-rose-500/20 text-xs text-rose-300 flex items-start gap-2 preserve-3d"
               style={{ transform: "translateZ(18px)" }}
@@ -294,68 +301,104 @@ export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
           )}
 
           {/* Price & Action Row with Prominent 3D Elevation */}
-          <div
-            className="pt-4 border-t border-slate-800/80 flex flex-col sm:flex-row sm:items-end justify-between gap-4 preserve-3d"
-            style={{ transform: "translateZ(35px)" }}
-          >
-            <div>
-              <div className="text-xs text-slate-400 mb-0.5 tracking-tight">Verified Fair Price</div>
-              <div className="flex items-baseline gap-2">
-                <span className="text-2xl sm:text-3xl font-semibold tracking-tight font-heading text-white">
-                  ₦{pkg.priceNGN.toLocaleString()}
-                </span>
-              </div>
-              {savings > 0 && (
-                <div className="text-[11px] text-emerald-400 font-medium tracking-tight">
-                  Save ₦{savings.toLocaleString()} vs surge (₦
-                  {pkg.streetSurgePrice.toLocaleString()})
-                </div>
-              )}
-            </div>
-
-            <div className="flex flex-wrap items-center gap-2 justify-end">
-              {/* Map Navigation Link for Dining & Destination cards */}
-              {hasRideOption && (
-                <a
-                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${pkg.name || pkg.title} ${pkg.location || "Calabar"}`)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                  className="inline-flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-stateCyan hover:text-white text-xs font-semibold tracking-tight border border-stateCyan/30 transition-all cursor-pointer"
-                  title="View on Google Maps"
-                >
-                  <Navigation className="w-3.5 h-3.5" />
-                  <span>Map</span>
-                  <ArrowUpRight className="w-3 h-3" />
-                </a>
-              )}
+          {isCarnival ? (
+            /* Carnival & Culture Cards: Display only bold titles, locations, descriptions, map links, and "Order Ride via Bolt" buttons */
+            <div
+              className="pt-4 border-t border-slate-800/80 flex flex-wrap items-center gap-2 justify-end preserve-3d mt-auto"
+              style={{ transform: "translateZ(35px)" }}
+            >
+              {/* Map Navigation Link */}
+              <a
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${pkg.name || pkg.title} ${pkg.location || "Calabar"}`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-stateCyan hover:text-white text-xs font-semibold tracking-tight border border-stateCyan/30 transition-all cursor-pointer"
+                title="View on Google Maps"
+              >
+                <Navigation className="w-3.5 h-3.5" />
+                <span>Map</span>
+                <ArrowUpRight className="w-3 h-3" />
+              </a>
 
               {/* Order Ride via Bolt Button */}
-              {hasRideOption && (
-                <a
-                  href="https://bolt.eu/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                  className="inline-flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-[#34D186] hover:bg-[#2EB875] text-slate-950 text-xs font-bold tracking-tight shadow-md shadow-emerald-950/40 transition-all hover:scale-105 active:scale-95 cursor-pointer"
-                  title="Hail a ride via Bolt in Calabar"
-                >
-                  <Car className="w-3.5 h-3.5 text-slate-950" />
-                  <span>Order Ride via Bolt</span>
-                  <ExternalLink className="w-3 h-3 text-slate-950" />
-                </a>
-              )}
-
-              <button
-                type="button"
-                onClick={() => (onViewPackage || onSelectPackage)?.(pkg)}
-                className="flex items-center gap-2 rounded-xl bg-stateCyan hover:bg-sky-500 px-4 py-2.5 text-xs sm:text-sm font-semibold tracking-tight text-white shadow-lg shadow-stateCyan/25 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+              <a
+                href="https://bolt.eu/"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#34D186] hover:bg-[#2EB875] text-slate-950 text-xs font-bold tracking-tight shadow-md shadow-emerald-950/40 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                title="Hail a ride via Bolt in Calabar"
               >
-                <span>View Package</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
+                <Car className="w-3.5 h-3.5 text-slate-950" />
+                <span>Order Ride via Bolt</span>
+                <ExternalLink className="w-3 h-3 text-slate-950" />
+              </a>
             </div>
-          </div>
+          ) : (
+            <div
+              className="pt-4 border-t border-slate-800/80 flex flex-col sm:flex-row sm:items-end justify-between gap-4 preserve-3d mt-auto"
+              style={{ transform: "translateZ(35px)" }}
+            >
+              <div>
+                <div className="text-xs text-slate-400 mb-0.5 tracking-tight">Verified Fair Price</div>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-2xl sm:text-3xl font-semibold tracking-tight font-heading text-white">
+                    ₦{pkg.priceNGN.toLocaleString()}
+                  </span>
+                </div>
+                {savings > 0 && (
+                  <div className="text-[11px] text-emerald-400 font-medium tracking-tight">
+                    Save ₦{savings.toLocaleString()} vs surge (₦
+                    {pkg.streetSurgePrice.toLocaleString()})
+                  </div>
+                )}
+              </div>
+
+              <div className="flex flex-wrap items-center gap-2 justify-end">
+                {/* Map Navigation Link for Dining & Destination cards */}
+                {hasRideOption && (
+                  <a
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${pkg.name || pkg.title} ${pkg.location || "Calabar"}`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="inline-flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-stateCyan hover:text-white text-xs font-semibold tracking-tight border border-stateCyan/30 transition-all cursor-pointer"
+                    title="View on Google Maps"
+                  >
+                    <Navigation className="w-3.5 h-3.5" />
+                    <span>Map</span>
+                    <ArrowUpRight className="w-3 h-3" />
+                  </a>
+                )}
+
+                {/* Order Ride via Bolt Button */}
+                {hasRideOption && (
+                  <a
+                    href="https://bolt.eu/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="inline-flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-[#34D186] hover:bg-[#2EB875] text-slate-950 text-xs font-bold tracking-tight shadow-md shadow-emerald-950/40 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                    title="Hail a ride via Bolt in Calabar"
+                  >
+                    <Car className="w-3.5 h-3.5 text-slate-950" />
+                    <span>Order Ride via Bolt</span>
+                    <ExternalLink className="w-3 h-3 text-slate-950" />
+                  </a>
+                )}
+
+                <button
+                  type="button"
+                  onClick={() => (onViewPackage || onSelectPackage)?.(pkg)}
+                  className="flex items-center gap-2 rounded-xl bg-stateCyan hover:bg-sky-500 px-4 py-2.5 text-xs sm:text-sm font-semibold tracking-tight text-white shadow-lg shadow-stateCyan/25 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                >
+                  <span>View Package</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

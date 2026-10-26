@@ -1,61 +1,26 @@
-import React, { useState } from "react";
+import React from "react";
 import { 
   Radio, 
   Tv, 
-  Flame, 
   ShieldCheck, 
-  Users, 
-  Volume2, 
-  VolumeX, 
-  Maximize2, 
-  Sparkles, 
-  MapPin, 
-  ArrowRight,
-  Clock
+  ExternalLink,
+  Users
 } from "lucide-react";
 
 export default function LiveCRBCBroadcast({ onSelectCategory }) {
-  const [activeFeed, setActiveFeed] = useState("main");
-
-  const BROADCAST_FEEDS = [
-    {
-      id: "main",
-      label: "Main Broadcast (Studio 1)",
-      corridor: "Full Route & Stadium Feed",
-      quality: "1080p 60fps",
-      embedUrl: "https://www.youtube.com/embed/xMRcchK2tv8?modestbranding=1&rel=0&showinfo=0&controls=1&playsinline=1"
-    },
-    {
-      id: "marian",
-      label: "Cam 2: Marian Road Strip",
-      corridor: "Street Masquerade & Floats",
-      quality: "1080p 60fps",
-      embedUrl: "https://www.youtube.com/embed/xMRcchK2tv8?modestbranding=1&rel=0&showinfo=0&controls=1&playsinline=1&start=120"
-    },
-    {
-      id: "stadium",
-      label: "Cam 3: Stadium Grandstand",
-      corridor: "Band Adjudication & VIP Area",
-      quality: "1080p 60fps",
-      embedUrl: "https://www.youtube.com/embed/xMRcchK2tv8?modestbranding=1&rel=0&showinfo=0&controls=1&playsinline=1&start=240"
-    }
-  ];
-
-  const currentFeed = BROADCAST_FEEDS.find(f => f.id === activeFeed) || BROADCAST_FEEDS[0];
-
   return (
-    <section id="live-crbc-broadcast" className="py-14 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-20">
-      {/* Container with Premium Dark Glassmorphism */}
-      <div className="glass-panel rounded-3xl p-5 sm:p-7 lg:p-9 border border-slate-800/90 bg-gradient-to-b from-[#0B1528]/95 via-slate-950 to-[#070b11] shadow-2xl shadow-black/80 relative overflow-hidden">
+    <section id="live-crbc-broadcast" className="py-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-20">
+      {/* High-End Clean CTA Banner with Premium Dark Glassmorphism */}
+      <div className="glass-panel rounded-3xl p-6 sm:p-8 border border-slate-800/90 bg-gradient-to-r from-[#0B1528]/95 via-slate-950 to-[#070b11] shadow-2xl shadow-black/80 relative overflow-hidden">
         {/* Ambient atmospheric red & cyan glow highlights */}
-        <div className="absolute -top-32 -left-32 w-96 h-96 bg-rose-600/10 blur-[130px] rounded-full pointer-events-none" />
-        <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-stateCyan/10 blur-[130px] rounded-full pointer-events-none" />
+        <div className="absolute -top-24 -left-24 w-80 h-80 bg-rose-600/10 blur-[110px] rounded-full pointer-events-none" />
+        <div className="absolute -bottom-24 -right-24 w-80 h-80 bg-stateCyan/10 blur-[110px] rounded-full pointer-events-none" />
 
-        {/* Header with Live Indicator Badge */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-800/80 mb-6">
-          <div className="space-y-2">
+        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+          {/* Left Content Area */}
+          <div className="space-y-3 max-w-3xl">
+            {/* Badges Row with Pulsing Live Indicator */}
             <div className="flex flex-wrap items-center gap-2.5">
-              {/* Pulsing Live Badge */}
               <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-950/80 border border-rose-500/50 text-rose-300 text-xs font-semibold tracking-tight shadow-md shadow-rose-950/50">
                 <span className="relative flex h-2.5 w-2.5">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
@@ -75,97 +40,39 @@ export default function LiveCRBCBroadcast({ onSelectCategory }) {
               </span>
             </div>
 
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold font-heading text-white tracking-tight">
-              CRBC Live Transmission: <span className="text-rose-400">Carnival Calabar Coverage</span>
+            {/* Banner Heading */}
+            <h2 className="text-2xl sm:text-3xl font-bold font-heading text-white tracking-tight">
+              Cross River Broadcasting Corporation <span className="text-rose-400">(CRBC Live)</span>
             </h2>
+
+            {/* Official Metadata */}
+            <div className="space-y-1">
+              <p className="text-xs sm:text-sm font-semibold text-slate-200 tracking-tight flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>
+                  Official Media Partner: Cross River Broadcasting Corporation (CRBC) — Real-Time Carnival Calabar & Cultural Parade Transmission.
+                </span>
+              </p>
+              <p className="text-[11px] sm:text-xs text-slate-400 font-normal leading-relaxed tracking-tight">
+                Direct live transmission of Carnival Calabar 12km street parades, Bikers Carnival, Band Adjudication, and state cultural coverage from Calabar studios.
+              </p>
+            </div>
           </div>
 
-          {/* Real-time viewer stats */}
-          <div className="flex items-center gap-3 self-start md:self-auto bg-slate-900/90 border border-slate-800 p-2 sm:p-2.5 rounded-2xl">
-            <div className="w-9 h-9 rounded-xl bg-rose-950/80 border border-rose-500/40 text-rose-400 flex items-center justify-center shrink-0">
-              <Users className="w-4 h-4" />
-            </div>
-            <div>
-              <div className="text-xs text-slate-400 font-medium tracking-tight">Live Global Audience</div>
-              <div className="text-sm sm:text-base font-bold font-mono text-white flex items-center gap-1.5">
-                <span>31,840 Watching</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Camera Angles / Feed Selectors */}
-        <div className="flex flex-wrap items-center gap-2 mb-4">
-          <span className="text-xs text-slate-400 font-semibold tracking-tight mr-1 flex items-center gap-1">
-            <Radio className="w-3.5 h-3.5 text-stateCyan" />
-            <span>Select Transmission Cam:</span>
-          </span>
-          {BROADCAST_FEEDS.map((feed) => (
-            <button
-              key={feed.id}
-              type="button"
-              onClick={() => setActiveFeed(feed.id)}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold tracking-tight transition-all cursor-pointer ${
-                activeFeed === feed.id
-                  ? "bg-rose-950/90 text-rose-300 border border-rose-500/60 shadow-sm shadow-rose-950"
-                  : "bg-slate-900/80 text-slate-300 hover:text-white hover:bg-slate-800 border border-slate-800"
-              }`}
+          {/* Right Action: Clean CTA Button */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
+            <a
+              href="https://crbc.gov.ng/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-2xl bg-gradient-to-r from-rose-600 via-rose-500 to-amber-500 hover:from-rose-500 hover:to-amber-400 text-white font-bold text-sm tracking-tight shadow-xl shadow-rose-950/60 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+              title="Watch official CRBC Live Channel"
             >
-              <span className={`w-1.5 h-1.5 rounded-full ${activeFeed === feed.id ? "bg-rose-400 animate-ping" : "bg-slate-500"}`} />
-              <span>{feed.label}</span>
-            </button>
-          ))}
-        </div>
-
-        {/* 16:9 Responsive Video Player Container for Live Stream */}
-        <div className="relative aspect-video w-full rounded-2xl overflow-hidden border border-slate-700/80 shadow-2xl bg-black">
-          <iframe
-            key={currentFeed.id}
-            src={currentFeed.embedUrl}
-            title="CRBC Live Broadcast: Carnival Calabar & Cultural Transmission"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-            loading="lazy"
-            className="w-full h-full border-0 absolute inset-0"
-          />
-
-          {/* On-Screen Watermark-Free Feed Badge */}
-          <div className="absolute top-3.5 left-3.5 z-20 pointer-events-none flex items-center gap-2">
-            <div className="px-2.5 py-1 rounded-lg bg-black/80 backdrop-blur-md border border-white/15 text-[11px] font-bold text-white flex items-center gap-1.5 shadow-md">
-              <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
-              <span>CRBC HD FEED</span>
-            </div>
-            <div className="px-2 py-1 rounded-lg bg-black/70 backdrop-blur-md border border-white/10 text-[10px] font-mono text-slate-300 hidden sm:block">
-              {currentFeed.quality}
-            </div>
+              <Tv className="w-4 h-4 text-white shrink-0" />
+              <span>Tune in to CRBC Live Channel</span>
+              <ExternalLink className="w-4 h-4 text-white shrink-0" />
+            </a>
           </div>
-        </div>
-
-        {/* Clean Official Metadata Underneath */}
-        <div className="mt-5 pt-4 border-t border-slate-800/80 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <div className="space-y-1">
-            <p className="text-xs sm:text-sm font-semibold text-slate-200 tracking-tight flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span>
-                Official Media Partner: Cross River Broadcasting Corporation (CRBC) — Real-Time Carnival Calabar & Cultural Parade Transmission.
-              </span>
-            </p>
-            <p className="text-[11px] text-slate-400 font-normal tracking-tight">
-              Broadcasting 365-day state cultural events, annual Carnival Calabar 12km street parades, Bikers Carnival, and Leboku New Yam Festival live from Calabar studios.
-            </p>
-          </div>
-
-          {/* Action button to explore Carnival passes */}
-          <button
-            type="button"
-            onClick={() => onSelectCategory && onSelectCategory("carnival-culture")}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-rose-600 to-amber-600 hover:from-rose-500 hover:to-amber-500 text-white font-semibold text-xs tracking-tight shadow-md shadow-rose-950/40 transition-all hover:scale-105 active:scale-95 cursor-pointer shrink-0"
-          >
-            <Flame className="w-3.5 h-3.5 text-amber-200" />
-            <span>Book Carnival Band Passes</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </button>
         </div>
       </div>
     </section>
