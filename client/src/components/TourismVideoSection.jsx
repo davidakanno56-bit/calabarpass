@@ -117,10 +117,10 @@ export default function TourismVideoSection({ onSelectCategory }) {
           </div>
         </div>
 
-        {/* 16:9 Responsive Video Player Container */}
+        {/* 16:9 Responsive Video Player Container with clean masking and watermark suppression */}
         <div className="relative aspect-video w-full rounded-2xl overflow-hidden border border-slate-700/70 shadow-2xl bg-black">
           <iframe
-            src="https://www.youtube.com/embed/ojpbNjj-waw?rel=0&modestbranding=1&playsinline=1"
+            src="https://www.youtube.com/embed/xMRcchK2tv8?modestbranding=1&rel=0&showinfo=0&controls=1&iv_load_policy=3&playsinline=1"
             title="Experience Calabar: City Drive & Tourism Tour"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
