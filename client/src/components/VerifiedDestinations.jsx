@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { ShieldCheck, MapPin, ArrowRight, Sparkles, Compass, Eye, Mountain, Waves, Landmark, Trees, Flame } from "lucide-react";
+import { ShieldCheck, MapPin, ArrowRight, Sparkles, Compass, Eye, Mountain, Waves, Landmark, Trees, Flame, Navigation, ArrowUpRight, ExternalLink, Car } from "lucide-react";
 import VerifiedImage from "./VerifiedImage.jsx";
 
 export const DESTINATIONS = [
@@ -249,7 +248,7 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
                 </div>
 
                 {/* Bottom Pricing & CTA */}
-                <div className="pt-4 border-t border-slate-800/80 flex items-center justify-between gap-3">
+                <div className="pt-4 border-t border-slate-800/80 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
                   <div>
                     <span className="text-[10px] uppercase font-bold text-slate-500 block">
                       Estimated Budget
@@ -259,14 +258,40 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
                     </span>
                   </div>
 
-                  <button
-                    type="button"
-                    onClick={() => handleDestinationClick(dest)}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-stateCyan hover:bg-sky-500 text-white font-bold text-xs shadow-lg shadow-stateCyan/25 hover:scale-[1.03] active:scale-[0.98] transition-all cursor-pointer shrink-0"
-                  >
-                    <span>View Package</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <a
+                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${dest.name} ${dest.location}`)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 px-2.5 py-2 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-stateCyan hover:text-white text-xs font-bold border border-stateCyan/30 transition-all cursor-pointer"
+                      title={`View ${dest.name} on Google Maps`}
+                    >
+                      <Navigation className="w-3.5 h-3.5" />
+                      <span>Map</span>
+                      <ArrowUpRight className="w-3 h-3" />
+                    </a>
+
+                    <a
+                      href="https://bolt.eu/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#34D186] hover:bg-[#2EB875] text-slate-950 text-xs font-extrabold shadow-md shadow-emerald-950/40 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                      title={`Hail a ride via Bolt to ${dest.name} in Calabar`}
+                    >
+                      <Car className="w-3.5 h-3.5 text-slate-950" />
+                      <span>Order Ride via Bolt</span>
+                      <ExternalLink className="w-3 h-3 text-slate-950" />
+                    </a>
+
+                    <button
+                      type="button"
+                      onClick={() => handleDestinationClick(dest)}
+                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-stateCyan hover:bg-sky-500 text-white font-bold text-xs shadow-lg shadow-stateCyan/25 hover:scale-[1.03] active:scale-[0.98] transition-all cursor-pointer shrink-0"
+                    >
+                      <span>View Package</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

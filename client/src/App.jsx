@@ -314,7 +314,9 @@ export default function App() {
               onViewPackage={(pkg) => setPackageForDetails(pkg)}
               onOpenShield={() => handleTabChange("shield")}
             />
-            <CalabarDiningMapGuide />
+            {(activeCategory === "all" || activeCategory === "dining-nightlife") && (
+              <CalabarDiningMapGuide />
+            )}
             <VerifiedDestinations
               packages={packages}
               onViewPackage={(item) => setPackageForDetails(item)}

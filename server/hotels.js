@@ -10,10 +10,10 @@ export const HOTEL_IMAGE_MAP = {
   "metropolitan-hotel": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAwVnsSkmTO1ClW-M2DnmDyHltxWiiEFFdOp3Z4RnnWA&s=10",
 
   // Monty Suites Calabar
-  "hotel-monty-suites": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKsY-oDblH1L4sU6PTj3CLyj_PBzrhVKUoR0tFDUxpzA&s=10",
-  "hotel-monty": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKsY-oDblH1L4sU6PTj3CLyj_PBzrhVKUoR0tFDUxpzA&s=10",
-  "monty-suites": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKsY-oDblH1L4sU6PTj3CLyj_PBzrhVKUoR0tFDUxpzA&s=10",
-  "hotel-03": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKsY-oDblH1L4sU6PTj3CLyj_PBzrhVKUoR0tFDUxpzA&s=10",
+  "hotel-monty-suites": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDmDjojoRR0BHuBC4KMzoGLJx5t-IEoVRo4N0KIK6gRQ&s=10",
+  "hotel-monty": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDmDjojoRR0BHuBC4KMzoGLJx5t-IEoVRo4N0KIK6gRQ&s=10",
+  "monty-suites": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDmDjojoRR0BHuBC4KMzoGLJx5t-IEoVRo4N0KIK6gRQ&s=10",
+  "hotel-03": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDmDjojoRR0BHuBC4KMzoGLJx5t-IEoVRo4N0KIK6gRQ&s=10",
 
   // Hogis Luxury Suites
   "hotel-hogis-suites": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSIxcGYu2svKaf10OUqbth0s5q5ao0K1VtjdF3qUveiQ&s=10",
@@ -23,17 +23,17 @@ export const HOTEL_IMAGE_MAP = {
   "hotel-02": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSIxcGYu2svKaf10OUqbth0s5q5ao0K1VtjdF3qUveiQ&s=10",
 
   // Channel View Hotel
-  "hotel-channel-view": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwb1aI1LphamqXx_BkWBLr7veOle8PmW0XSQhwuQ2gzQ&s=10",
-  "channel-view": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwb1aI1LphamqXx_BkWBLr7veOle8PmW0XSQhwuQ2gzQ&s=10",
+  "hotel-channel-view": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbZDbxLimOVAUUuaqu1xa39Ooipf6Q3EkGtcfk1Q_8vw&s=10",
+  "channel-view": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbZDbxLimOVAUUuaqu1xa39Ooipf6Q3EkGtcfk1Q_8vw&s=10",
 
   // Tinapa Lakeside Hotel
-  "hotel-tinapa-lakeside": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Tinapa_Hotel_in_Calabar._Cross_River_State._Nigeria.jpg/1280px-Tinapa_Hotel_in_Calabar._Cross_River_State._Nigeria.jpg",
-  "tinapa-lakeside": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Tinapa_Hotel_in_Calabar._Cross_River_State._Nigeria.jpg/1280px-Tinapa_Hotel_in_Calabar._Cross_River_State._Nigeria.jpg",
+  "hotel-tinapa-lakeside": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQV6IQbkEbxnX9r1rd1o9DLtOqhu4T2HPP4-YFZLKciuQ&s=10",
+  "tinapa-lakeside": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQV6IQbkEbxnX9r1rd1o9DLtOqhu4T2HPP4-YFZLKciuQ&s=10",
 
   // Pyramid Hotel & Suites
-  "hotel-pyramid-suites": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzZ74-v7J5lW-1a98wR_2mQ7xL_89yK5_40w&s=10",
-  "hotel-pyramid": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzZ74-v7J5lW-1a98wR_2mQ7xL_89yK5_40w&s=10",
-  "pyramid-suites": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzZ74-v7J5lW-1a98wR_2mQ7xL_89yK5_40w&s=10",
+  "hotel-pyramid-suites": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSefv3ycS9OWSUG_UX9KLoMtmW2OItm8y8SIPrZOFWZFw&s=10",
+  "hotel-pyramid": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSefv3ycS9OWSUG_UX9KLoMtmW2OItm8y8SIPrZOFWZFw&s=10",
+  "pyramid-suites": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSefv3ycS9OWSUG_UX9KLoMtmW2OItm8y8SIPrZOFWZFw&s=10",
 
   // Gemba Hotel & Resort
   "hotel-gemba": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqu1RrJFlGV4JNi27w61TlICZ53QFD9kZ2faptfUT_Gw&s=10",

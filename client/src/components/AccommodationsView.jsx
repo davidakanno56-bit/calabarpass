@@ -55,8 +55,8 @@ export const officialAfSnetHotels = [
       phone: "+234 803 646 1074"
     },
     category: "Accommodations",
-    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKsY-oDblH1L4sU6PTj3CLyj_PBzrhVKUoR0tFDUxpzA&s=10",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKsY-oDblH1L4sU6PTj3CLyj_PBzrhVKUoR0tFDUxpzA&s=10"
+    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDmDjojoRR0BHuBC4KMzoGLJx5t-IEoVRo4N0KIK6gRQ&s=10",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDmDjojoRR0BHuBC4KMzoGLJx5t-IEoVRo4N0KIK6gRQ&s=10"
   },
   {
     id: "channel-view",
@@ -75,8 +75,8 @@ export const officialAfSnetHotels = [
       phone: "+234 803 974 2044"
     },
     category: "Accommodations",
-    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwb1aI1LphamqXx_BkWBLr7veOle8PmW0XSQhwuQ2gzQ&s=10",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwb1aI1LphamqXx_BkWBLr7veOle8PmW0XSQhwuQ2gzQ&s=10"
+    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbZDbxLimOVAUUuaqu1xa39Ooipf6Q3EkGtcfk1Q_8vw&s=10",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbZDbxLimOVAUUuaqu1xa39Ooipf6Q3EkGtcfk1Q_8vw&s=10"
   },
   {
     id: "gemba-hotel",

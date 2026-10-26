@@ -83,12 +83,12 @@ export const VERIFIED_PLACES_IMAGES = {
     name: "Monty Suites Calabar",
     location: "Asari Eso Layout, Calabar",
     placeId: "ChIJ56a6uP6hWRAR_gYqW_j6P6k",
-    primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKsY-oDblH1L4sU6PTj3CLyj_PBzrhVKUoR0tFDUxpzA&s=10",
+    primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDmDjojoRR0BHuBC4KMzoGLJx5t-IEoVRo4N0KIK6gRQ&s=10",
     gallery: [
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKsY-oDblH1L4sU6PTj3CLyj_PBzrhVKUoR0tFDUxpzA&s=10",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDmDjojoRR0BHuBC4KMzoGLJx5t-IEoVRo4N0KIK6gRQ&s=10",
       "/assets/executive_vip.jpg",
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq_m2L8xW0p_88zR_40wR9mQ7xL_89yK5&s=10",
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzZ74-v7J5lW-1a98wR_2mQ7xL_89yK5_40w&s=10"
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSefv3ycS9OWSUG_UX9KLoMtmW2OItm8y8SIPrZOFWZFw&s=10"
     ],
     altText: "Authentic exterior facade and swimming pool terrace of Monty Suites Calabar in Asari Eso Layout.",
     attribution: "Monty Suites Calabar Executive Management / Google Places Verified",
@@ -107,12 +107,12 @@ export const VERIFIED_PLACES_IMAGES = {
     name: "Monty Suites Calabar",
     location: "Asari Eso Layout, Calabar",
     placeId: "ChIJ56a6uP6hWRAR_gYqW_j6P6k",
-    primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKsY-oDblH1L4sU6PTj3CLyj_PBzrhVKUoR0tFDUxpzA&s=10",
+    primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDmDjojoRR0BHuBC4KMzoGLJx5t-IEoVRo4N0KIK6gRQ&s=10",
     gallery: [
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKsY-oDblH1L4sU6PTj3CLyj_PBzrhVKUoR0tFDUxpzA&s=10",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDmDjojoRR0BHuBC4KMzoGLJx5t-IEoVRo4N0KIK6gRQ&s=10",
       "/assets/executive_vip.jpg",
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq_m2L8xW0p_88zR_40wR9mQ7xL_89yK5&s=10",
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzZ74-v7J5lW-1a98wR_2mQ7xL_89yK5_40w&s=10"
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSefv3ycS9OWSUG_UX9KLoMtmW2OItm8y8SIPrZOFWZFw&s=10"
     ],
     altText: "Monty Suites Calabar contemporary boutique resort facade, private terrace, and pool in Asari Eso Layout.",
     attribution: "Monty Suites Calabar Executive Management / Google Places Verified",
@@ -131,9 +131,9 @@ export const VERIFIED_PLACES_IMAGES = {
     name: "Monty Suites Calabar",
     location: "Asari Eso Layout, Calabar",
     placeId: "ChIJ56a6uP6hWRAR_gYqW_j6P6k",
-    primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKsY-oDblH1L4sU6PTj3CLyj_PBzrhVKUoR0tFDUxpzA&s=10",
+    primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDmDjojoRR0BHuBC4KMzoGLJx5t-IEoVRo4N0KIK6gRQ&s=10",
     gallery: [
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKsY-oDblH1L4sU6PTj3CLyj_PBzrhVKUoR0tFDUxpzA&s=10",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDmDjojoRR0BHuBC4KMzoGLJx5t-IEoVRo4N0KIK6gRQ&s=10",
       "/assets/executive_vip.jpg"
     ],
     altText: "Monty Suites Calabar executive lodging and reception, Asari Eso Layout.",
@@ -223,9 +223,9 @@ export const VERIFIED_PLACES_IMAGES = {
     name: "Channel View Hotel",
     location: "27/29 MCC Road, Calabar",
     placeId: "ChIJqY1fbf-hWRAR0Gz_zL5h3jE",
-    primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwb1aI1LphamqXx_BkWBLr7veOle8PmW0XSQhwuQ2gzQ&s=10",
+    primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbZDbxLimOVAUUuaqu1xa39Ooipf6Q3EkGtcfk1Q_8vw&s=10",
     gallery: [
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwb1aI1LphamqXx_BkWBLr7veOle8PmW0XSQhwuQ2gzQ&s=10",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbZDbxLimOVAUUuaqu1xa39Ooipf6Q3EkGtcfk1Q_8vw&s=10",
       "/assets/executive_vip.jpg"
     ],
     altText: "Channel View Hotel landmark property on MCC Road overlooking the official Calabar Carnival procession route.",
@@ -245,9 +245,9 @@ export const VERIFIED_PLACES_IMAGES = {
     name: "Channel View Hotel",
     location: "27/29 MCC Road, Calabar",
     placeId: "ChIJqY1fbf-hWRAR0Gz_zL5h3jE",
-    primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwb1aI1LphamqXx_BkWBLr7veOle8PmW0XSQhwuQ2gzQ&s=10",
+    primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbZDbxLimOVAUUuaqu1xa39Ooipf6Q3EkGtcfk1Q_8vw&s=10",
     gallery: [
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwb1aI1LphamqXx_BkWBLr7veOle8PmW0XSQhwuQ2gzQ&s=10",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbZDbxLimOVAUUuaqu1xa39Ooipf6Q3EkGtcfk1Q_8vw&s=10",
       "/assets/executive_vip.jpg"
     ],
     altText: "Channel View Hotel facade and carnival route viewing terraces on MCC Road, Calabar.",
@@ -267,9 +267,9 @@ export const VERIFIED_PLACES_IMAGES = {
     name: "Tinapa Lakeside Hotel",
     location: "Tinapa Free Zone & Resort Complex, Adiabo, Calabar",
     placeId: "ChIJH7i4V76iWRARx-p_6L0TzV8",
-    primaryUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Tinapa_Hotel_in_Calabar._Cross_River_State._Nigeria.jpg/1280px-Tinapa_Hotel_in_Calabar._Cross_River_State._Nigeria.jpg",
+    primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQV6IQbkEbxnX9r1rd1o9DLtOqhu4T2HPP4-YFZLKciuQ&s=10",
     gallery: [
-      "https://upload.wikimedia.org/wikipedia/commons/5/53/Tinapa_Hotel_in_Calabar._Cross_River_State._Nigeria.jpg",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQV6IQbkEbxnX9r1rd1o9DLtOqhu4T2HPP4-YFZLKciuQ&s=10",
       "https://upload.wikimedia.org/wikipedia/commons/2/27/Tinapa_Water_park_Calabar_Nigeria.jpg"
     ],
     altText: "Authentic photograph of the Tinapa Lakeside Hotel and resort buildings situated beside the lake in Tinapa Free Zone, Calabar.",
@@ -289,9 +289,9 @@ export const VERIFIED_PLACES_IMAGES = {
     name: "Pyramid Hotel & Suites",
     location: "152 Murtala Muhammed Highway, Calabar",
     placeId: "ChIJzQ14Uv-hWRAR8v74P7p1-hQ",
-    primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzZ74-v7J5lW-1a98wR_2mQ7xL_89yK5_40w&s=10",
+    primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSefv3ycS9OWSUG_UX9KLoMtmW2OItm8y8SIPrZOFWZFw&s=10",
     gallery: [
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzZ74-v7J5lW-1a98wR_2mQ7xL_89yK5_40w&s=10",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSefv3ycS9OWSUG_UX9KLoMtmW2OItm8y8SIPrZOFWZFw&s=10",
       "/assets/executive_vip.jpg"
     ],
     altText: "Pyramid Hotel & Suites building facade on Murtala Muhammed Highway, Calabar.",
@@ -417,9 +417,9 @@ export const VERIFIED_PLACES_IMAGES = {
     name: "De Grand Hotel & Rooftop",
     location: "Murtala Muhammed Highway / State Housing, Calabar",
     placeId: "ChIJk43zOf-hWRAR7v66Q1n08pM",
-    primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwb1aI1LphamqXx_BkWBLr7veOle8PmW0XSQhwuQ2gzQ&s=10",
+    primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbZDbxLimOVAUUuaqu1xa39Ooipf6Q3EkGtcfk1Q_8vw&s=10",
     gallery: [
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwb1aI1LphamqXx_BkWBLr7veOle8PmW0XSQhwuQ2gzQ&s=10",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbZDbxLimOVAUUuaqu1xa39Ooipf6Q3EkGtcfk1Q_8vw&s=10",
       "/assets/executive_vip.jpg"
     ],
     altText: "De Grand Hotel & Rooftop building exterior and rooftop lounge view in Calabar.",
@@ -584,9 +584,9 @@ export const VERIFIED_PLACES_IMAGES = {
     name: "Crunchies Fast Food (Marian Road Branch)",
     location: "Marian Road Corridor, Calabar",
     placeId: "ChIJ-zF6uP6hWRAR2gYqW_j6P6k",
-    primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwb1aI1LphamqXx_BkWBLr7veOle8PmW0XSQhwuQ2gzQ&s=10",
+    primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbZDbxLimOVAUUuaqu1xa39Ooipf6Q3EkGtcfk1Q_8vw&s=10",
     gallery: [
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwb1aI1LphamqXx_BkWBLr7veOle8PmW0XSQhwuQ2gzQ&s=10",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbZDbxLimOVAUUuaqu1xa39Ooipf6Q3EkGtcfk1Q_8vw&s=10",
       "/assets/executive_vip.jpg"
     ],
     altText: "Crunchies Fast Food restaurant facade, golden fried chicken, and pastries counter on Marian Road, Calabar.",
@@ -752,7 +752,7 @@ export const VERIFIED_PLACES_IMAGES = {
     name: "Captain Cook Bakery & Restaurant",
     location: "Marian Road / State Housing Junction, Calabar",
     placeId: "ChIJ55F6uP6hWRAR7gYqW_j6P11",
-    primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwb1aI1LphamqXx_BkWBLr7veOle8PmW0XSQhwuQ2gzQ&s=10",
+    primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbZDbxLimOVAUUuaqu1xa39Ooipf6Q3EkGtcfk1Q_8vw&s=10",
     altText: "Captain Cook Bakery & Restaurant storefront and pastry display on Marian Road.",
     attribution: "Captain Cook Calabar Desk / Google Places Verified",
     license: "Official Partner Media Agreement",
