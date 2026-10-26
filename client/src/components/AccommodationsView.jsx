@@ -12,6 +12,7 @@ import {
   Clock,
   ExternalLink,
   ChevronRight,
+  ArrowRight,
   Sparkles
 } from "lucide-react";
 import VerifiedImage from "./VerifiedImage.jsx";
@@ -364,20 +365,14 @@ export default function AccommodationsView({ onBookHotel }) {
               </div>
 
               {/* Action Buttons */}
-              <div className="mt-auto pt-2 flex items-center gap-2">
+              <div className="mt-auto pt-2">
                 <button
-                  onClick={() => handleBookingClick(hotel)}
-                  className="flex-1 py-2.5 px-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-extrabold text-xs transition shadow-md shadow-amber-500/10 cursor-pointer flex items-center justify-center gap-1.5"
-                >
-                  <Lock className="w-3.5 h-3.5" />
-                  <span>Reserve with Escrow</span>
-                </button>
-                <button
+                  type="button"
                   onClick={() => setActiveHotelDetails(hotel)}
-                  className="p-2.5 rounded-xl border border-slate-700 bg-slate-800/60 hover:bg-slate-800 text-slate-300 hover:text-white text-xs transition cursor-pointer"
-                  title="View Verified Details"
+                  className="w-full py-2.5 px-4 rounded-xl bg-stateCyan hover:bg-sky-500 text-white font-bold text-xs shadow-md shadow-stateCyan/20 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer flex items-center justify-center gap-1.5"
                 >
-                  <ExternalLink className="w-4 h-4" />
+                  <span>View Package</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
             </div>

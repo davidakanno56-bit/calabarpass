@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { ShieldCheck, MapPin, Star, ChevronLeft, ChevronRight, ArrowRight, Building2, Check, Lock, Sparkles, Image as ImageIcon } from "lucide-react";
+import { ShieldCheck, MapPin, Star, ChevronLeft, ChevronRight, ArrowRight, Building2, Check, Sparkles, Image as ImageIcon } from "lucide-react";
 
 const IMAGE_LABELS = [
   "Main Building Exterior / Entrance",
@@ -273,8 +273,7 @@ export default function HotelCard({ hotel, onBookHotel }) {
               onClick={() => onBookHotel(hotel)}
               className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-stateCyan hover:bg-sky-500 text-white font-bold text-sm shadow-lg shadow-stateCyan/25 hover:scale-105 active:scale-95 transition-all whitespace-nowrap cursor-pointer"
             >
-              <Lock className="w-4 h-4" />
-              <span>Book via Escrow</span>
+              <span>View Package</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>

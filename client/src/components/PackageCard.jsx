@@ -229,23 +229,13 @@ export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
               )}
             </div>
 
-            <div className="flex flex-wrap justify-end gap-2">
-              {onViewPackage && (
-                <button
-                  type="button"
-                  onClick={() => onViewPackage(pkg)}
-                  className="flex items-center gap-2 rounded-xl border border-slate-700 px-4 py-2.5 text-sm font-bold text-slate-200 transition hover:border-stateCyan/50 hover:text-stateCyan cursor-pointer"
-                >
-                  <span>View Package</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              )}
+            <div className="flex justify-end">
               <button
                 type="button"
-                onClick={() => onSelectPackage(pkg)}
+                onClick={() => (onViewPackage || onSelectPackage)?.(pkg)}
                 className="flex items-center gap-2 rounded-xl bg-stateCyan hover:bg-sky-500 px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-stateCyan/25 transition-all hover:scale-105 active:scale-95 cursor-pointer"
               >
-                <span>Book via Escrow</span>
+                <span>View Package</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
