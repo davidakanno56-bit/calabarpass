@@ -70,17 +70,10 @@ export default function Navbar({
     if (onSelectCategory) {
       onSelectCategory(catId);
     }
-    if (activeTab !== "packages") {
+    if (activeTab !== "packages" && activeTab !== "home") {
       setActiveTab("packages");
     }
-    const scrollToCatalog = () => {
-      const el = document.getElementById("directory-catalog");
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    };
-    scrollToCatalog();
-    setTimeout(scrollToCatalog, 60);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleLogoClick = () => {
@@ -138,7 +131,7 @@ export default function Navbar({
           >
             {NAV_CATEGORIES.map((cat) => {
               const Icon = cat.icon;
-              const isSelected = activeTab === "packages" && activeCategory === cat.id;
+              const isSelected = (activeTab === "packages" || activeTab === "home") && activeCategory === cat.id;
 
               return (
                 <button

@@ -11,24 +11,23 @@ import {
   Utensils, 
   Briefcase, 
   Flame,
+  BedDouble,
   Navigation, 
   ArrowUpRight, 
   ExternalLink, 
   Car 
 } from "lucide-react";
-import VerifiedImage from "./VerifiedImage.jsx";
 
 export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
   const savings = pkg.streetSurgePrice ? pkg.streetSurgePrice - pkg.priceNGN : 0;
   const cardRef = useRef(null);
-  const [imgError, setImgError] = useState(false);
 
   const isDining = pkg?.categoryGroup === "dining-nightlife" || pkg?.category === "Dining & Nightlife";
   const isTrade = pkg?.categoryGroup === "trade-expo" || pkg?.category === "Trade & Expo Hub";
   const isCarnival = pkg?.categoryGroup === "carnival-culture" || pkg?.category === "Carnival & Culture";
-  const isTextOnlyCard = isDining || isTrade || isCarnival;
-  const isDestination = pkg?.categoryGroup === "eco-sites" || pkg?.category === "Eco-Sites & Heritage" || isCarnival;
-  const hasRideOption = isDining || isDestination || isCarnival;
+  const isEco = pkg?.categoryGroup === "eco-sites" || pkg?.category === "Eco-Sites & Heritage";
+  const isAccommodations = pkg?.categoryGroup === "accommodations" || pkg?.category === "Accommodations";
+  const hasRideOption = true;
 
   const [tilt, setTilt] = useState({
     rotX: 0,
@@ -77,6 +76,46 @@ export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
     });
   };
 
+  const CategoryIcon = isDining 
+    ? Utensils 
+    : isTrade 
+    ? Briefcase 
+    : isCarnival 
+    ? Flame 
+    : isEco 
+    ? Trees 
+    : BedDouble;
+
+  const headerGradient = isDining
+    ? "bg-gradient-to-br from-amber-950/40 via-slate-900/90 to-slate-950 border-amber-500/20"
+    : isTrade
+    ? "bg-gradient-to-br from-cyan-950/40 via-slate-900/90 to-slate-950 border-cyan-500/20"
+    : isCarnival
+    ? "bg-gradient-to-br from-rose-950/40 via-slate-900/90 to-slate-950 border-rose-500/20"
+    : isEco
+    ? "bg-gradient-to-br from-emerald-950/40 via-slate-900/90 to-slate-950 border-emerald-500/20"
+    : "bg-gradient-to-br from-blue-950/40 via-slate-900/90 to-slate-950 border-blue-500/20";
+
+  const badgeColor = isDining
+    ? "bg-amber-950/80 text-amber-300 border-amber-500/40"
+    : isTrade
+    ? "bg-cyan-950/80 text-cyan-300 border-cyan-500/40"
+    : isCarnival
+    ? "bg-rose-950/80 text-rose-300 border-rose-500/40"
+    : isEco
+    ? "bg-emerald-950/80 text-emerald-300 border-emerald-500/40"
+    : "bg-blue-950/80 text-blue-300 border-blue-500/40";
+
+  const categoryGuideLabel = isDining
+    ? "Culinary Guide"
+    : isTrade
+    ? "Commercial Hub"
+    : isCarnival
+    ? "Carnival & Cultural Guide"
+    : isEco
+    ? "Eco-Sites & Heritage Guide"
+    : "Accommodations Guide";
+
   return (
     <div className="perspective-1000 w-full">
       <div
@@ -105,155 +144,56 @@ export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
           }}
         />
 
-        {/* 1. Header Area: For Dining, Trade Expo & Carnival -> Text-Only Venue Header (Zero Image Rendering) */}
-        {isTextOnlyCard ? (
-          <div
-            className={`relative p-6 border-b border-slate-800/80 preserve-3d flex flex-col justify-between min-h-[11.5rem] ${
-              isDining
-                ? "bg-gradient-to-br from-amber-950/40 via-slate-900/90 to-slate-950 border-amber-500/20"
-                : isTrade
-                ? "bg-gradient-to-br from-cyan-950/40 via-slate-900/90 to-slate-950 border-cyan-500/20"
-                : "bg-gradient-to-br from-rose-950/40 via-slate-900/90 to-slate-950 border-rose-500/20"
-            }`}
-            style={{ transform: "translateZ(18px)" }}
-          >
-            {/* Top Badge Row */}
-            <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-              <span
-                className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border shadow-md ${
-                  isDining
-                    ? "bg-amber-950/80 text-amber-300 border-amber-500/40"
-                    : isTrade
-                    ? "bg-cyan-950/80 text-cyan-300 border-cyan-500/40"
-                    : "bg-rose-950/80 text-rose-300 border-rose-500/40"
-                }`}
-              >
-                {isDining ? <Utensils className="w-3.5 h-3.5" /> : isTrade ? <Briefcase className="w-3.5 h-3.5" /> : <Flame className="w-3.5 h-3.5" />}
-                <span>{pkg.subCategory || pkg.category}</span>
+        {/* 1. Header Area: Text-Only Venue Header (Zero Image Placeholders / Broken Frames) */}
+        <div
+          className={`relative p-6 border-b border-slate-800/80 preserve-3d flex flex-col justify-between min-h-[11.5rem] ${headerGradient}`}
+          style={{ transform: "translateZ(18px)" }}
+        >
+          {/* Top Badge Row */}
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <span
+              className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border shadow-md ${badgeColor}`}
+            >
+              <CategoryIcon className="w-3.5 h-3.5" />
+              <span>{pkg.subCategory || pkg.category}</span>
+            </span>
+
+            <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-950/85 text-emerald-300 border border-emerald-500/40 shadow-md">
+              <ShieldCheck className="w-3.5 h-3.5" />
+              <span>
+                {pkg.badge || pkg.escrowBadge || (isCarnival ? "Verified Cultural Pass" : isEco ? "Verified Nature Wonder" : "Verified Venue")}
               </span>
+            </span>
+          </div>
 
-              <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-950/85 text-emerald-300 border border-emerald-500/40 shadow-md">
-                <ShieldCheck className="w-3.5 h-3.5" />
-                <span>{pkg.badge || pkg.escrowBadge || (isCarnival ? "Verified Cultural Pass" : "Verified Venue")}</span>
-              </span>
-            </div>
-
-            {/* Business/Venue/Band Name in Bold Text + Physical Location */}
-            <div className="space-y-1.5">
-              <h3 className="text-2xl sm:text-3xl font-bold font-heading text-white tracking-tight group-hover:text-amber-400 transition-colors">
-                {pkg.name || pkg.title}
-              </h3>
-              <div className="flex items-center gap-2 text-sm text-amber-400 font-semibold tracking-tight">
-                <MapPin className="w-4 h-4 text-amber-400 shrink-0" />
-                <span className="font-medium text-slate-200">{pkg.location || pkg.corridor || "Calabar, Cross River State"}</span>
-              </div>
-            </div>
-
-            {/* Verification Guarantee Tag */}
-            <div className="mt-3 flex items-center justify-between text-xs font-semibold text-emerald-400">
-              <div className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span>{pkg.capacityLabel || "Open Daily • 365-Day Escrow Check-In"}</span>
-              </div>
-              <span className="text-slate-500 text-[10px] font-mono uppercase tracking-wider">
-                {isDining ? "Culinary Guide" : isTrade ? "Commercial Hub" : "Carnival & Cultural Guide"}
+          {/* Business / Venue / Band / Site Name in Bold Text + Physical Location */}
+          <div className="space-y-1.5">
+            <h3 className="text-2xl sm:text-3xl font-bold font-heading text-white tracking-tight group-hover:text-amber-400 transition-colors">
+              {pkg.name || pkg.title}
+            </h3>
+            <div className="flex items-center gap-2 text-sm text-amber-400 font-semibold tracking-tight">
+              <MapPin className="w-4 h-4 text-amber-400 shrink-0" />
+              <span className="font-medium text-slate-200">
+                {pkg.location || pkg.corridor || "Calabar, Cross River State"}
               </span>
             </div>
           </div>
-        ) : (
-          /* 2. For Accommodations & Eco-Sites: VerifiedImage container with 3D Depth */
-          <div
-            className="relative h-56 w-full overflow-hidden bg-slate-950 preserve-3d"
-            style={{ transform: "translateZ(15px)" }}
-          >
-            <VerifiedImage
-              item={pkg}
-              src={pkg.imageUrl || pkg.image}
-              alt={pkg.name || pkg.title}
-              aspectRatio="h-56"
-              rounded="rounded-none"
-              showBadge={true}
-              badgePosition="bottom-left"
-              showAttribution={true}
-              allowGallery={false}
-            />
 
-            {/* Category & Season Badges with High 3D Depth */}
-            <div
-              className="absolute top-4 left-4 flex flex-col gap-1.5 items-start z-10 preserve-3d"
-              style={{ transform: "translateZ(30px)" }}
-            >
-              <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-black/85 backdrop-blur-md text-amber-400 border border-amber-500/30 shadow-md">
-                {pkg.category}
-              </span>
-              {pkg.season && (
-                <span
-                  className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wide backdrop-blur-md border shadow-md ${
-                    pkg.tourType === "carnival"
-                      ? "bg-amber-950/90 text-amber-300 border-amber-500/40"
-                      : "bg-emerald-950/90 text-emerald-300 border-emerald-500/40"
-                  }`}
-                >
-                  {pkg.tourType === "carnival" ? "🎉 " : "🌿 "}
-                  {pkg.season}
-                </span>
-              )}
-            </div>
-
-            {/* Escrow Endorsement Badge with 3D Pop */}
-            <div
-              className="absolute top-4 right-4 z-10 preserve-3d"
-              style={{ transform: "translateZ(30px)" }}
-            >
-              <span
-                className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold backdrop-blur-md border shadow-md ${
-                  pkg.badge === "Executive Verified" || pkg.escrowBadge === "Executive Verified"
-                    ? "bg-amber-950/90 text-amber-300 border-amber-500/60 shadow-gold-glow"
-                    : "bg-emerald-950/85 text-emerald-300 border-emerald-500/40"
-                }`}
-              >
-                <ShieldCheck className="w-3.5 h-3.5" />
-                <span>{pkg.badge || pkg.escrowBadge || "Escrow Protected"}</span>
-              </span>
-            </div>
-
-            {/* 365-Day Unlimited Booking Guarantee Badge */}
-            <div
-              className="absolute bottom-3 right-4 text-xs font-semibold px-3 py-1 rounded-lg bg-black/85 text-emerald-300 border border-emerald-500/30 backdrop-blur-sm z-10 preserve-3d flex items-center gap-1.5 shadow-md"
-              style={{ transform: "translateZ(20px)" }}
-            >
+          {/* Verification Guarantee Tag */}
+          <div className="mt-3 flex items-center justify-between text-xs font-semibold text-emerald-400">
+            <div className="flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-              <span>{pkg.capacityLabel || "Open Daily • 365-Day Booking"}</span>
+              <span>{pkg.capacityLabel || "Open Daily • 365-Day Escrow Check-In"}</span>
             </div>
+            <span className="text-slate-500 text-[10px] font-mono uppercase tracking-wider">
+              {categoryGuideLabel}
+            </span>
           </div>
-        )}
+        </div>
 
-        {/* Content Container */}
+        {/* 2. Content Container: Description, Specialty, and Action Buttons */}
         <div className="p-6 flex-1 flex flex-col preserve-3d">
-          {/* Metadata for non-text-only cards (already in header for dining/trade/carnival) */}
-          {!isTextOnlyCard && (
-            <div style={{ transform: "translateZ(25px)" }} className="preserve-3d">
-              <h3 className="text-xl font-bold font-heading text-white group-hover:text-amber-400 transition-colors mb-2">
-                {pkg.name || pkg.title}
-              </h3>
-
-              {/* Location & Vendor */}
-              <div className="space-y-1.5 text-xs text-slate-400 mb-4">
-                <div className="flex items-center gap-1.5">
-                  <MapPin className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-                  <span className="truncate">{pkg.location}</span>
-                </div>
-                <div className="flex items-center gap-1.5 text-slate-300">
-                  <span className="text-slate-500">Vendor:</span>
-                  <span className="font-semibold text-emerald-400 truncate">
-                    {pkg.vendor || pkg.vendorName}
-                  </span>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Description */}
+          {/* Detailed Description */}
           <div style={{ transform: "translateZ(20px)" }} className="preserve-3d mb-4">
             <p className="text-sm text-slate-300 leading-relaxed">
               {pkg.details || pkg.description}
@@ -266,7 +206,7 @@ export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
             )}
           </div>
 
-          {/* Included Perks with 3D Depth (omitted for carnival cards) */}
+          {/* Included Perks (omitted for carnival cards) */}
           {!isCarnival && pkg.perks && pkg.perks.length > 0 && (
             <div
               className="mb-5 space-y-2 preserve-3d"
@@ -300,9 +240,9 @@ export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
             </div>
           )}
 
-          {/* Price & Action Row with Prominent 3D Elevation */}
+          {/* Action Row */}
           {isCarnival ? (
-            /* Carnival & Culture Cards: Display only bold titles, locations, descriptions, map links, and "Order Ride via Bolt" buttons */
+            /* Carnival & Culture Cards: Strictly bold titles, locations, descriptions, map links, and "Order Ride via Bolt" buttons */
             <div
               className="pt-4 border-t border-slate-800/80 flex flex-wrap items-center gap-2 justify-end preserve-3d mt-auto"
               style={{ transform: "translateZ(35px)" }}
@@ -356,37 +296,33 @@ export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
               </div>
 
               <div className="flex flex-wrap items-center gap-2 justify-end">
-                {/* Map Navigation Link for Dining & Destination cards */}
-                {hasRideOption && (
-                  <a
-                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${pkg.name || pkg.title} ${pkg.location || "Calabar"}`)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="inline-flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-stateCyan hover:text-white text-xs font-semibold tracking-tight border border-stateCyan/30 transition-all cursor-pointer"
-                    title="View on Google Maps"
-                  >
-                    <Navigation className="w-3.5 h-3.5" />
-                    <span>Map</span>
-                    <ArrowUpRight className="w-3 h-3" />
-                  </a>
-                )}
+                {/* Map Navigation Link */}
+                <a
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${pkg.name || pkg.title} ${pkg.location || "Calabar"}`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="inline-flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-stateCyan hover:text-white text-xs font-semibold tracking-tight border border-stateCyan/30 transition-all cursor-pointer"
+                  title="View on Google Maps"
+                >
+                  <Navigation className="w-3.5 h-3.5" />
+                  <span>Map</span>
+                  <ArrowUpRight className="w-3 h-3" />
+                </a>
 
                 {/* Order Ride via Bolt Button */}
-                {hasRideOption && (
-                  <a
-                    href="https://bolt.eu/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="inline-flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-[#34D186] hover:bg-[#2EB875] text-slate-950 text-xs font-bold tracking-tight shadow-md shadow-emerald-950/40 transition-all hover:scale-105 active:scale-95 cursor-pointer"
-                    title="Hail a ride via Bolt in Calabar"
-                  >
-                    <Car className="w-3.5 h-3.5 text-slate-950" />
-                    <span>Order Ride via Bolt</span>
-                    <ExternalLink className="w-3 h-3 text-slate-950" />
-                  </a>
-                )}
+                <a
+                  href="https://bolt.eu/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="inline-flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-[#34D186] hover:bg-[#2EB875] text-slate-950 text-xs font-bold tracking-tight shadow-md shadow-emerald-950/40 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                  title="Hail a ride via Bolt in Calabar"
+                >
+                  <Car className="w-3.5 h-3.5 text-slate-950" />
+                  <span>Order Ride via Bolt</span>
+                  <ExternalLink className="w-3 h-3 text-slate-950" />
+                </a>
 
                 <button
                   type="button"

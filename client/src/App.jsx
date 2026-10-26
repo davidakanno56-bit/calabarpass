@@ -6,7 +6,6 @@ import CalabarDiningMapGuide from "./components/CalabarDiningMapGuide.jsx";
 import VerifiedDestinations from "./components/VerifiedDestinations.jsx";
 import TourismVideoSection from "./components/TourismVideoSection.jsx";
 import LiveCRBCBroadcast from "./components/LiveCRBCBroadcast.jsx";
-import CarnivalVideoShowcase from "./components/CarnivalVideoShowcase.jsx";
 import { PackageGridSkeleton, EscrowTableSkeleton } from "./components/SkeletonLoader.jsx";
 import { fetchWithSWR } from "./utils/cache.js";
 import { PACKAGES as INITIAL_PACKAGES } from "./data/packages.js";
@@ -144,20 +143,17 @@ export default function App() {
     }
   };
 
+  const isHomeView = (activeTab === "home" || activeTab === "packages") && (activeCategory === "all" || !activeCategory);
+
   const handleCategoryChange = (category) => {
     setActiveCategory(category);
-    if (activeTab !== "packages") {
+    if (activeTab !== "packages" && activeTab !== "home") {
       setActiveTabState("packages");
       if (typeof window !== "undefined") {
         window.history.pushState(null, "", `/${category}`);
       }
     }
-    setTimeout(() => {
-      const el = document.getElementById("directory-catalog");
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    }, 50);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   useEffect(() => {
@@ -300,32 +296,33 @@ export default function App() {
       />
 
       <main className="flex-1">
-        {activeTab === "packages" && (
+        {/* 1. Main Homepage View (activeTab === 'home' or default landing with activeCategory === 'all'):
+            Cross River State tour video and hero elements render ONLY here */}
+        {isHomeView && (
           <>
             <HeroBanner
               setActiveTab={handleTabChange}
               onSelectCategory={handleCategoryChange}
               escrowStats={escrowStats}
             />
+            <TourismVideoSection onSelectCategory={handleCategoryChange} />
+            <LiveCRBCBroadcast onSelectCategory={handleCategoryChange} />
+            <CalabarDiningMapGuide />
+          </>
+        )}
 
-            {/* 1. Main Homepage View (activeCategory === "all"):
-                Immersive Tourism Video Tour + Live CRBC Carnival Broadcast Feed + interactive map destination section. */}
-            {activeCategory === "all" ? (
-              <>
-                <TourismVideoSection onSelectCategory={handleCategoryChange} />
-                <LiveCRBCBroadcast onSelectCategory={handleCategoryChange} />
-                <CalabarDiningMapGuide />
-              </>
+        {/* 2. Sub-Tabs & Category Views (Accommodations, Eco-Sites & Heritage, Dining & Nightlife, Trade & Expo Hub, Carnival & Culture):
+            Video banner and hero elements are completely hidden/removed */}
+        {!isHomeView && (activeTab === "packages" || activeTab === "home") && (
+          <div className="pt-4">
+            {activeCategory === "accommodations" ? (
+              <Suspense fallback={<div className="p-12 text-center text-slate-400">Loading Calabar Executive Accommodations...</div>}>
+                <AccommodationsView
+                  onBookHotel={(hotel) => setSelectedPackage(hotel)}
+                />
+              </Suspense>
             ) : (
-              /* 2. Specific Category Views (restricted solely to respective category views and navigation tabs):
-                  Displays category-specific packages, accommodations, dining guide, live CRBC broadcast, or verified destinations. */
               <>
-                {activeCategory === "carnival-culture" && (
-                  <>
-                    <CarnivalVideoShowcase />
-                    <LiveCRBCBroadcast onSelectCategory={handleCategoryChange} />
-                  </>
-                )}
                 <PackageList
                   packages={packages}
                   dynamicCards={dynamicVendorCards}
@@ -347,7 +344,7 @@ export default function App() {
                 )}
               </>
             )}
-          </>
+          </div>
         )}
 
         {activeTab === "accommodations" && (
