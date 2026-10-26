@@ -88,38 +88,30 @@ export default function Navbar({
     <header className="sticky top-0 z-40 w-full border-b border-slate-800/80 bg-[#0b0f17]/95 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20 gap-2 sm:gap-4">
-          {/* Logo & Brand: Sleek Minimalist Vector Mark */}
+          {/* Logo & Brand: Professional Interlocking CP Monogram & Typography */}
           <div 
             onClick={handleLogoClick} 
             className="flex items-center gap-3 cursor-pointer group shrink-0"
             title="CalabarPass Home"
           >
-            <div className="relative flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-[#08182B] border border-cyan-500/30 shadow-md shadow-cyan-950/40 group-hover:border-stateCyan group-hover:shadow-cyan-500/20 transition-all shrink-0">
-              <svg 
-                viewBox="0 0 36 36" 
-                fill="none" 
-                xmlns="http://www.w3.org/2000/svg" 
-                className="w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-300 group-hover:scale-105"
-              >
-                {/* Precision geometric gateway frame & clearinghouse portal */}
-                <rect x="2" y="2" width="32" height="32" rx="8" fill="#08182B" stroke="#0284C7" strokeWidth="1.2" />
-                <path d="M10 25V14C10 11.7909 11.7909 10 14 10H22C24.2091 10 26 11.7909 26 14V25" stroke="#38BDF8" strokeWidth="2.2" strokeLinecap="round" />
-                <path d="M14 25V18C14 16.8954 14.8954 16 16 16H20C21.1046 16 22 16.8954 22 18V25" stroke="#0284C7" strokeWidth="1.8" strokeLinecap="round" />
-                <circle cx="18" cy="13" r="1.8" fill="#38BDF8" />
-                <line x1="8" y1="25" x2="28" y2="25" stroke="#38BDF8" strokeWidth="2" strokeLinecap="round" />
-              </svg>
+            <div className="relative flex items-center justify-center shrink-0">
+              <img 
+                src="/assets/calabarpass-monogram.svg" 
+                alt="CalabarPass Interlocking CP Monogram" 
+                className="w-10 h-10 sm:w-11 sm:h-11 object-contain transition-transform duration-300 group-hover:scale-105 drop-shadow-md"
+              />
             </div>
-            <div>
+            <div className="flex flex-col justify-center">
               <div className="flex items-center gap-2">
-                <span className="text-xl sm:text-2xl font-bold tracking-tight font-heading text-white">
+                <span className="text-xl sm:text-2xl font-bold tracking-tight font-sans text-white">
                   Calabar<span className="text-stateCyan font-extrabold">Pass</span>
                 </span>
-                <span className="text-[9px] sm:text-[10px] uppercase font-semibold tracking-wider px-2 py-0.5 rounded-md bg-slate-900 text-slate-300 border border-slate-700/80">
-                  365 CLEARINGHOUSE
+                <span className="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-stateCyan/10 text-stateCyan border border-stateCyan/30 shadow-sm whitespace-nowrap">
+                  365 DAYS
                 </span>
               </div>
-              <p className="text-[11px] text-slate-400 font-normal tracking-tight hidden xl:block">
-                Cross River State Verified Tourism & Commercial Platform
+              <p className="text-[10px] sm:text-[11px] font-sans font-medium text-stateCyan tracking-tight hidden sm:block lg:hidden xl:block">
+                Cross River State Verfied Tourism & Commercial Platform
               </p>
             </div>
           </div>
