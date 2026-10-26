@@ -50,7 +50,8 @@ export default function HeroBanner({ setActiveTab, onSelectCategory, escrowStats
       setActiveTab("packages");
     }
     setTimeout(() => {
-      const el = document.getElementById("directory-catalog");
+      const targetId = catId === "all" ? "experience-calabar-tour" : "directory-catalog";
+      const el = document.getElementById(targetId) || document.getElementById("experience-calabar-tour") || document.getElementById("directory-catalog");
       if (el) {
         el.scrollIntoView({ behavior: "smooth", block: "start" });
       }
@@ -90,7 +91,7 @@ export default function HeroBanner({ setActiveTab, onSelectCategory, escrowStats
                 onClick={() => handleCategoryJump("all")}
                 className="flex items-center gap-2.5 px-7 py-3.5 rounded-xl bg-stateCyan hover:bg-sky-500 text-white font-bold text-base shadow-lg shadow-stateCyan/25 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
               >
-                <span>Explore Verified 365 Architecture</span>
+                <span>Experience Calabar City Tour</span>
                 <ArrowRight className="w-5 h-5" />
               </button>
 

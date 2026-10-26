@@ -4,6 +4,7 @@ import HeroBanner from "./components/HeroBanner.jsx";
 import PackageList from "./components/PackageList.jsx";
 import CalabarDiningMapGuide from "./components/CalabarDiningMapGuide.jsx";
 import VerifiedDestinations from "./components/VerifiedDestinations.jsx";
+import TourismVideoSection from "./components/TourismVideoSection.jsx";
 import { PackageGridSkeleton, EscrowTableSkeleton } from "./components/SkeletonLoader.jsx";
 import { fetchWithSWR } from "./utils/cache.js";
 import { PACKAGES as INITIAL_PACKAGES } from "./data/packages.js";
@@ -304,23 +305,40 @@ export default function App() {
               onSelectCategory={handleCategoryChange}
               escrowStats={escrowStats}
             />
-            <PackageList
-              packages={packages}
-              dynamicCards={dynamicVendorCards}
-              activeCategory={activeCategory}
-              onSelectCategory={handleCategoryChange}
-              isLoading={loadingPackages && packages.length === 0}
-              onSelectPackage={(pkg) => setSelectedPackage(pkg)}
-              onViewPackage={(pkg) => setPackageForDetails(pkg)}
-              onOpenShield={() => handleTabChange("shield")}
-            />
-            {(activeCategory === "all" || activeCategory === "dining-nightlife") && (
-              <CalabarDiningMapGuide />
+
+            {/* 1. Main Homepage View (activeCategory === "all"):
+                Remove generic product listings, hotel cards, and category previews from immediately below hero.
+                Replace with immersive Cross River State Tourism Video Tour + interactive map destination section. */}
+            {activeCategory === "all" ? (
+              <>
+                <TourismVideoSection onSelectCategory={handleCategoryChange} />
+                <CalabarDiningMapGuide />
+              </>
+            ) : (
+              /* 2. Specific Category Views (restricted solely to respective category views and navigation tabs):
+                  Displays category-specific packages, accommodations, dining guide, or verified destinations. */
+              <>
+                <PackageList
+                  packages={packages}
+                  dynamicCards={dynamicVendorCards}
+                  activeCategory={activeCategory}
+                  onSelectCategory={handleCategoryChange}
+                  isLoading={loadingPackages && packages.length === 0}
+                  onSelectPackage={(pkg) => setSelectedPackage(pkg)}
+                  onViewPackage={(pkg) => setPackageForDetails(pkg)}
+                  onOpenShield={() => handleTabChange("shield")}
+                />
+                {activeCategory === "dining-nightlife" && (
+                  <CalabarDiningMapGuide />
+                )}
+                {activeCategory === "eco-sites" && (
+                  <VerifiedDestinations
+                    packages={packages}
+                    onViewPackage={(item) => setPackageForDetails(item)}
+                  />
+                )}
+              </>
             )}
-            <VerifiedDestinations
-              packages={packages}
-              onViewPackage={(item) => setPackageForDetails(item)}
-            />
           </>
         )}
 

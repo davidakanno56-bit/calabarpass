@@ -192,7 +192,7 @@ export default function CalabarDiningMapGuide() {
     : null;
 
   return (
-    <section className="bg-[#070b11] py-16 sm:py-20">
+    <section id="calabar-destination-map" className="bg-[#070b11] py-16 sm:py-20 scroll-mt-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8 max-w-3xl">
           <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-stateCyan/20 bg-stateCyan/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-stateCyan">
