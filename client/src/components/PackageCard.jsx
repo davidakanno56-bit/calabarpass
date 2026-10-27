@@ -310,19 +310,21 @@ export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
                   <ArrowUpRight className="w-3 h-3" />
                 </a>
 
-                {/* Order Ride via Bolt Button */}
-                <a
-                  href="https://bolt.eu/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                  className="inline-flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-[#34D186] hover:bg-[#2EB875] text-slate-950 text-xs font-bold tracking-tight shadow-md shadow-emerald-950/40 transition-all hover:scale-105 active:scale-95 cursor-pointer"
-                  title="Hail a ride via Bolt in Calabar"
-                >
-                  <Car className="w-3.5 h-3.5 text-slate-950" />
-                  <span>Order Ride via Bolt</span>
-                  <ExternalLink className="w-3 h-3 text-slate-950" />
-                </a>
+                {/* Order Ride via Bolt Button - Active ONLY on Dining & Nightlife and Trade & Expo Hub (and Carnival handled above) */}
+                {(isDining || isTrade) && (
+                  <a
+                    href="https://bolt.eu/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="inline-flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-[#34D186] hover:bg-[#2EB875] text-slate-950 text-xs font-bold tracking-tight shadow-md shadow-emerald-950/40 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                    title="Hail a ride via Bolt in Calabar"
+                  >
+                    <Car className="w-3.5 h-3.5 text-slate-950" />
+                    <span>Order Ride via Bolt</span>
+                    <ExternalLink className="w-3 h-3 text-slate-950" />
+                  </a>
+                )}
 
                 <button
                   type="button"

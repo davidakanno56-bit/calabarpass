@@ -300,7 +300,7 @@ export default function AccommodationsView({ onBookHotel }) {
                 aspectRatio="h-48"
                 rounded="rounded-none"
                 showBadge={false}
-                showAttribution={true}
+                showAttribution={false}
                 allowGallery={false}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent pointer-events-none" />
@@ -404,7 +404,7 @@ export default function AccommodationsView({ onBookHotel }) {
                 aspectRatio="h-44"
                 rounded="rounded-2xl"
                 showBadge={true}
-                showAttribution={true}
+                showAttribution={false}
                 allowGallery={false}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent pointer-events-none" />

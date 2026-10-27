@@ -5,7 +5,7 @@
 // attribution popover, multi-angle gallery carousel, and clean branded "Photo not yet available" fallback.
 
 import React, { useState, useEffect } from "react";
-import { ShieldCheck, CameraOff, Info, ExternalLink, ChevronLeft, ChevronRight, CheckCircle2 } from "lucide-react";
+import { ShieldCheck, CameraOff, ExternalLink, ChevronLeft, ChevronRight, CheckCircle2 } from "lucide-react";
 import { resolvePlaceImage, getNeutralFallback } from "../utils/imageService.js";
 
 export default function VerifiedImage({
@@ -16,7 +16,7 @@ export default function VerifiedImage({
   containerClassName = "",
   aspectRatio = "aspect-[16/10]",
   showBadge = true,
-  showAttribution = true,
+  showAttribution = false,
   allowGallery = false,
   badgePosition = "top-left", // "top-left", "top-right", "bottom-left", "bottom-right"
   rounded = "rounded-xl"
@@ -137,24 +137,6 @@ export default function VerifiedImage({
             >
               <CheckCircle2 className="w-3 h-3 text-emerald-400 shrink-0" />
               <span>Verified Calabar Photo</span>
-            </div>
-          )}
-
-          {/* 5. Attribution Info Button */}
-          {showAttribution && imageMeta?.attribution && (
-            <div className="absolute bottom-3 right-3 z-20">
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setShowAttributionModal(!showAttributionModal);
-                }}
-                title="View photo attribution & license"
-                className="p-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-850 text-slate-300 hover:text-white border border-slate-700/60 backdrop-blur-md transition-colors text-xs flex items-center gap-1 shadow-md"
-              >
-                <Info className="w-3.5 h-3.5 text-amber-400" />
-                <span className="text-[10px] hidden sm:inline font-mono">Credit</span>
-              </button>
             </div>
           )}
 

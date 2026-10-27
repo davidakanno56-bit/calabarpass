@@ -1,4 +1,4 @@
-import { ShieldCheck, MapPin, ArrowRight, Sparkles, Compass, Eye, Mountain, Waves, Landmark, Trees, Flame, Navigation, ArrowUpRight, ExternalLink, Car } from "lucide-react";
+import { ShieldCheck, MapPin, ArrowRight, Sparkles, Compass, Eye, Mountain, Waves, Landmark, Trees, Flame, Navigation, ArrowUpRight } from "lucide-react";
 import VerifiedImage from "./VerifiedImage.jsx";
 
 export const DESTINATIONS = [
@@ -255,18 +255,6 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
                       <Navigation className="w-3.5 h-3.5" />
                       <span>Map</span>
                       <ArrowUpRight className="w-3 h-3" />
-                    </a>
-
-                    <a
-                      href="https://bolt.eu/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#34D186] hover:bg-[#2EB875] text-slate-950 text-xs font-bold tracking-tight shadow-md shadow-emerald-950/40 transition-all hover:scale-105 active:scale-95 cursor-pointer"
-                      title={`Hail a ride via Bolt to ${dest.name} in Calabar`}
-                    >
-                      <Car className="w-3.5 h-3.5 text-slate-950" />
-                      <span>Order Ride via Bolt</span>
-                      <ExternalLink className="w-3 h-3 text-slate-950" />
                     </a>
 
                     <button
