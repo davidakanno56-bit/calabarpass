@@ -12,7 +12,7 @@ import {
   Moon,
   ChevronDown,
   ChevronUp,
-  Sparkles
+  User
 } from "lucide-react";
 import { useTheme } from "../context/ThemeContext.jsx";
 import CategoryMegaMenu from "./CategoryMegaMenu.jsx";
@@ -35,7 +35,7 @@ export const NAV_CATEGORIES = [
   {
     id: "dining-nightlife",
     label: "Dining & Nightlife",
-    shortLabel: "Dining",
+    shortLabel: "Dining & Nightlife",
     subLabel: "Eateries, Seafood, Lounges",
     icon: Utensils
   },
@@ -49,7 +49,7 @@ export const NAV_CATEGORIES = [
   {
     id: "carnival-culture",
     label: "Carnival & Culture",
-    shortLabel: "Carnival",
+    shortLabel: "Carnival & Culture",
     subLabel: "Band Passes & Festival Tickets",
     icon: Flame
   }
@@ -79,7 +79,6 @@ export default function Navbar({
   };
 
   const handleCategoryClick = (catId) => {
-    // If clicking the currently open mega-menu category, toggle it
     if (isMegaMenuOpen && megaMenuCategory === catId) {
       setIsMegaMenuOpen(false);
     } else {
@@ -103,7 +102,6 @@ export default function Navbar({
     if (activeTab !== "packages" && activeTab !== "home") {
       setActiveTab("packages");
     }
-    // Smooth scroll to the package listing section
     setTimeout(() => {
       const target = document.getElementById("package-listing-section") || document.getElementById("packages-grid");
       if (target) {
@@ -122,10 +120,11 @@ export default function Navbar({
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-slate-200/90 dark:border-slate-800/80 bg-white/95 dark:bg-[#0b0f17]/95 backdrop-blur-md transition-colors duration-200">
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20 gap-2 sm:gap-4">
-          {/* Logo & Brand: Professional Interlocking CP Monogram & Typography */}
+    <header className="sticky top-0 z-40 w-full border-b border-slate-200/90 dark:border-slate-800/80 bg-white/95 dark:bg-[#0b0f17]/95 backdrop-blur-md transition-colors duration-200 shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Row 1: Top Navigation Bar (Logo on Left, Clean Utility Actions on Right) */}
+        <div className="flex items-center justify-between h-16 sm:h-18 gap-3 sm:gap-4 border-b border-slate-100 dark:border-slate-800/60">
+          {/* Left side: Clean CalabarPass logo and brand mark */}
           <div 
             onClick={handleLogoClick} 
             className="flex items-center gap-3 cursor-pointer group shrink-0"
@@ -134,8 +133,8 @@ export default function Navbar({
             <div className="relative flex items-center justify-center shrink-0">
               <img 
                 src="/assets/calabarpass-monogram.svg" 
-                alt="CalabarPass Interlocking CP Monogram" 
-                className="w-10 h-10 sm:w-11 sm:h-11 object-contain transition-transform duration-300 group-hover:scale-105 drop-shadow-md"
+                alt="CalabarPass Monogram" 
+                className="w-9 h-9 sm:w-10 sm:h-10 object-contain transition-transform duration-300 group-hover:scale-105 drop-shadow-md"
               />
             </div>
             <div className="flex flex-col justify-center">
@@ -143,53 +142,19 @@ export default function Navbar({
                 <span className="text-xl sm:text-2xl font-bold tracking-tight font-sans text-slate-900 dark:text-white">
                   Calabar<span className="text-stateCyan font-extrabold">Pass</span>
                 </span>
-                <span className="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-stateCyan/10 text-stateCyan border border-stateCyan/30 shadow-sm whitespace-nowrap">
+                <span className="text-[9px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-stateCyan/10 text-stateCyan border border-stateCyan/30 whitespace-nowrap hidden sm:inline-block">
                   365 DAYS
                 </span>
               </div>
-              <p className="text-[10px] sm:text-[11px] font-sans font-medium text-stateCyan tracking-tight hidden sm:block lg:hidden xl:block">
-                Cross River State Verified Tourism & Commercial Clearinghouse
+              <p className="text-[10px] font-sans font-medium text-stateCyan tracking-tight hidden lg:block">
+                Cross River State Tourism & Commercial Clearinghouse
               </p>
             </div>
           </div>
 
-          {/* Navigation Tabs - The 5 Distinct Categories with Mega-Menu Trigger */}
-          <nav 
-            aria-label="365-Day Commercial and Tourism Categories"
-            className="hidden lg:flex items-center gap-1 bg-slate-100/90 dark:bg-slate-900/80 p-1 rounded-2xl border border-slate-200 dark:border-slate-800/90 shadow-sm"
-          >
-            {NAV_CATEGORIES.map((cat) => {
-              const Icon = cat.icon;
-              const isSelected = (activeTab === "packages" || activeTab === "home") && activeCategory === cat.id;
-              const isDrawerActive = isMegaMenuOpen && megaMenuCategory === cat.id;
-
-              return (
-                <button
-                  key={cat.id}
-                  data-mega-trigger={cat.id}
-                  onClick={() => handleCategoryClick(cat.id)}
-                  className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs tracking-tight transition-all cursor-pointer whitespace-nowrap font-medium ${
-                    isSelected
-                      ? "bg-stateCyan text-white font-semibold shadow-sm shadow-stateCyan/25"
-                      : "text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800/80"
-                  }`}
-                  title={`${cat.label} - Click to open filter drawer`}
-                >
-                  <Icon className={`w-3.5 h-3.5 ${isSelected ? "text-white" : "text-stateCyan"}`} />
-                  <span>{cat.label}</span>
-                  {isDrawerActive ? (
-                    <ChevronUp className="w-3 h-3 opacity-80" />
-                  ) : (
-                    <ChevronDown className="w-3 h-3 opacity-50" />
-                  )}
-                </button>
-              );
-            })}
-          </nav>
-
-          {/* Right Header Controls: Theme Toggle, Scam Shield, Vendor Portal, Escrow Badge */}
+          {/* Right side: Clean utility actions arranged neatly in a single row without any duplication */}
           <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
-            {/* Light / Dark Mode Toggle Switch */}
+            {/* 1. Theme Toggle */}
             <button
               onClick={toggleTheme}
               type="button"
@@ -210,149 +175,101 @@ export default function Navbar({
               )}
             </button>
 
-            {/* Surge & Scam Shield Quick Link */}
+            {/* 2. List Property / Vendor Portal */}
+            <button
+              onClick={handleVendorClick}
+              className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-2 rounded-xl text-xs font-semibold tracking-tight transition-all border cursor-pointer hover:scale-[1.02] active:scale-95 ${
+                activeTab === "vendor"
+                  ? "bg-stateCyan text-white border-stateCyan shadow-md shadow-stateCyan/25"
+                  : "bg-slate-100/90 dark:bg-slate-900 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-800 hover:border-stateCyan/40 hover:bg-white dark:hover:bg-slate-800"
+              }`}
+              title="List Property / Open Merchant Terminal"
+            >
+              <Building2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-stateCyan shrink-0" />
+              <span className="whitespace-nowrap hidden sm:inline">List Property / Vendor Portal</span>
+              <span className="whitespace-nowrap sm:hidden">List Property</span>
+              {!isVendorAuthenticated && (
+                <Lock className="w-3 h-3 text-slate-400 opacity-70 shrink-0" />
+              )}
+            </button>
+
+            {/* 3. Scam Shield Vault */}
             <button
               onClick={() => {
                 setIsMegaMenuOpen(false);
                 setActiveTab("shield");
+                window.scrollTo({ top: 0, behavior: "smooth" });
               }}
-              className={`hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all border cursor-pointer ${
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold tracking-tight transition-all border cursor-pointer hover:scale-[1.02] active:scale-95 ${
                 activeTab === "shield"
-                  ? "bg-stateCyan/20 text-stateCyan border-stateCyan/60"
-                  : "bg-slate-100/80 dark:bg-slate-900/60 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800 hover:text-stateCyan hover:bg-white dark:hover:bg-slate-800"
+                  ? "bg-stateCyan text-white border-stateCyan shadow-md shadow-stateCyan/25"
+                  : "bg-slate-100/90 dark:bg-slate-900 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-800 hover:border-stateCyan/40 hover:bg-white dark:hover:bg-slate-800"
               }`}
-              title="Surge & Scam Shield Directory"
+              title="Cross River Fair-Price Index & Scam Shield Vault"
             >
-              <ShieldAlert className="w-3.5 h-3.5 text-stateCyan" />
-              <span className="hidden md:inline">Scam Shield</span>
+              <ShieldAlert className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-500 shrink-0" />
+              <span className="whitespace-nowrap hidden sm:inline">Scam Shield Vault</span>
+              <span className="whitespace-nowrap sm:hidden">Shield</span>
             </button>
 
-            {/* Onboard Merchant */}
-            {onOpenOnboarding && (
-              <button
-                onClick={() => {
-                  setIsMegaMenuOpen(false);
-                  onOpenOnboarding();
-                }}
-                className="hidden xl:flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all border border-stateCyan/30 bg-stateCyan/10 hover:bg-stateCyan/20 text-stateCyan cursor-pointer shadow-sm hover:scale-[1.02] active:scale-95"
-                title="Register Merchant Terminal & Get Access Code"
-              >
-                <Building2 className="w-3.5 h-3.5 text-stateCyan" />
-                <span>Onboard</span>
-              </button>
-            )}
-
-            {/* Vendor Portal Terminal Access */}
-            <button
-              onClick={handleVendorClick}
-              className={`flex items-center gap-2 px-3 sm:px-3.5 py-2 rounded-xl text-xs font-bold transition-all border cursor-pointer hover:scale-[1.02] active:scale-95 ${
-                activeTab === "vendor"
-                  ? "bg-stateCyan text-white border-sky-400 shadow-md shadow-stateCyan/30"
-                  : "bg-slate-100/80 dark:bg-slate-900 text-stateCyan border-stateCyan/30 hover:bg-stateCyan/10 hover:border-stateCyan"
-              }`}
-              title="Merchant Settlement Portal & Check-In PIN Redemption (Requires Access Code)"
-            >
-              <Building2 className="w-4 h-4" />
-              <span className="hidden sm:inline whitespace-nowrap">Vendor Portal</span><span className="sm:hidden whitespace-nowrap">Vendor</span>
-              {!isVendorAuthenticated && (
-                <Lock className="w-3 h-3 text-stateCyan/80 opacity-80" />
-              )}
-            </button>
-
-            {/* Escrow Protected Live Badge */}
+            {/* 4. User Profile / Escrow Login */}
             <button
               onClick={() => {
                 setIsMegaMenuOpen(false);
                 setActiveTab("escrow");
+                window.scrollTo({ top: 0, behavior: "smooth" });
               }}
-              className={`flex items-center gap-2 px-2.5 sm:px-3 py-2 rounded-full border text-[11px] sm:text-xs font-semibold cursor-pointer transition-all hover:scale-[1.02] active:scale-95 ${
+              className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-2 rounded-xl text-xs font-bold tracking-tight transition-all border cursor-pointer hover:scale-[1.02] active:scale-95 ${
                 activeTab === "escrow"
-                  ? "bg-emerald-500/25 text-emerald-700 dark:text-emerald-200 border-emerald-500 shadow-emerald-glow"
-                  : "bg-emerald-500/10 dark:bg-emerald-950/60 border-emerald-500/30 text-emerald-700 dark:text-emerald-300 hover:border-emerald-500/60"
+                  ? "bg-emerald-500 text-white border-emerald-500 shadow-emerald-glow"
+                  : "bg-emerald-500/10 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border-emerald-500/30 hover:border-emerald-500/60"
               }`}
-              title="100% Escrow Vault & Buyer Protection"
+              title="Escrow Account & Buyer Protection"
             >
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-              </span>
-              <span className="hidden sm:inline font-bold">100% Escrow Protected</span>
-              <span className="sm:hidden font-mono font-bold">Escrow</span>
+              <div className="relative flex items-center justify-center">
+                <User className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+                <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              </div>
+              <span className="whitespace-nowrap hidden sm:inline">User Profile / Login</span>
+              <span className="whitespace-nowrap sm:hidden font-mono">Login</span>
             </button>
           </div>
         </div>
 
-        {/* Mobile Navigation Bar - Scrollable 5 Distinct Categories + Utilities */}
-        <div 
-          aria-label="Mobile Navigation Categories"
-          className="flex lg:hidden overflow-x-auto py-2.5 gap-2 border-t border-slate-200 dark:border-slate-800/80 text-xs scrollbar-none no-scrollbar -mx-3 px-3 sm:-mx-6 sm:px-6 touch-pan-x"
-        >
-          {NAV_CATEGORIES.map((cat) => {
-            const Icon = cat.icon;
-            const isSelected = activeTab === "packages" && activeCategory === cat.id;
-            const isDrawerActive = isMegaMenuOpen && megaMenuCategory === cat.id;
-
-            return (
-              <button
-                key={cat.id}
-                onClick={() => handleCategoryClick(cat.id)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl whitespace-nowrap font-bold text-xs transition-all cursor-pointer ${
-                  isSelected
-                    ? "bg-stateCyan text-white shadow-sm"
-                    : "text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800"
-                }`}
-              >
-                <Icon className={`w-3.5 h-3.5 ${isSelected ? "text-white" : "text-stateCyan"}`} />
-                <span>{cat.shortLabel}</span>
-                {isDrawerActive ? (
-                  <ChevronUp className="w-3 h-3 opacity-80" />
-                ) : (
-                  <ChevronDown className="w-3 h-3 opacity-50" />
-                )}
-              </button>
-            );
-          })}
-
-          <button
-            onClick={() => {
-              setIsMegaMenuOpen(false);
-              setActiveTab("shield");
-            }}
-            className={`px-3 py-1.5 rounded-xl whitespace-nowrap font-bold text-xs transition-all cursor-pointer ${
-              activeTab === "shield"
-                ? "bg-stateCyan text-white"
-                : "text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800"
-            }`}
+        {/* Row 2: Unified Booking.com-Style Horizontal Category Bar */}
+        <div className="py-2.5 overflow-x-auto scrollbar-none no-scrollbar touch-pan-x -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+          <nav 
+            aria-label="Cross River State Tourism & Commerce Sectors"
+            className="flex items-center gap-2 min-w-max"
           >
-            Scam Shield
-          </button>
+            {NAV_CATEGORIES.map((cat) => {
+              const Icon = cat.icon;
+              const isSelected = (activeTab === "packages" || activeTab === "home") && activeCategory === cat.id;
+              const isDrawerActive = isMegaMenuOpen && megaMenuCategory === cat.id;
 
-          {onOpenOnboarding && (
-            <button
-              onClick={() => {
-                setIsMegaMenuOpen(false);
-                onOpenOnboarding();
-              }}
-              className="flex items-center gap-1 px-3 py-1.5 rounded-xl whitespace-nowrap font-bold text-xs transition-all cursor-pointer text-stateCyan bg-stateCyan/10 border border-stateCyan/30"
-              title="Onboard Merchant"
-            >
-              <span>+ Onboard</span>
-            </button>
-          )}
-
-          <button
-            onClick={handleVendorClick}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl whitespace-nowrap font-bold text-xs transition-all cursor-pointer ${
-              activeTab === "vendor"
-                ? "bg-stateCyan text-white"
-                : "text-stateCyan bg-slate-100 dark:bg-slate-900 border border-stateCyan/30"
-            }`}
-          >
-            <span>Vendor</span>
-            {!isVendorAuthenticated && (
-              <Lock className="w-3 h-3 text-stateCyan/80" />
-            )}
-          </button>
+              return (
+                <button
+                  key={cat.id}
+                  data-mega-trigger={cat.id}
+                  onClick={() => handleCategoryClick(cat.id)}
+                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold tracking-tight transition-all cursor-pointer whitespace-nowrap border ${
+                    isSelected
+                      ? "bg-stateCyan text-white border-stateCyan shadow-sm shadow-stateCyan/25"
+                      : "bg-slate-100/80 dark:bg-slate-900/80 text-slate-700 dark:text-slate-300 border-slate-200/90 dark:border-slate-800/90 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800"
+                  }`}
+                  title={`${cat.label} - Click to filter directory & view corridors`}
+                >
+                  <Icon className={`w-4 h-4 shrink-0 ${isSelected ? "text-white" : "text-stateCyan"}`} />
+                  <span>{cat.label}</span>
+                  {isDrawerActive ? (
+                    <ChevronUp className="w-3 h-3 opacity-80 shrink-0" />
+                  ) : (
+                    <ChevronDown className="w-3 h-3 opacity-50 shrink-0" />
+                  )}
+                </button>
+              );
+            })}
+          </nav>
         </div>
       </div>
 

@@ -353,13 +353,10 @@ export default function PackageList({
             </p>
           </div>
 
-          <button
-            onClick={onOpenShield}
-            className="flex items-center gap-2 px-6 py-3 rounded-xl bg-stateCyan hover:bg-sky-500 text-white font-bold text-sm shadow-lg shadow-stateCyan/25 hover:scale-105 active:scale-95 transition-all shrink-0 cursor-pointer"
-          >
-            <ShieldCheck className="w-4 h-4" />
-            <span>View Surge & Scam Shield</span>
-          </button>
+          <div className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-xs font-semibold shrink-0 shadow-sm">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="text-slate-700 dark:text-slate-300">Verified by Cross River Escrow Protocol</span>
+          </div>
         </div>
       </div>
     </section>

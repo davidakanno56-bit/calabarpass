@@ -124,16 +124,7 @@ export default function HeroBanner({ setActiveTab, onSelectCategory, escrowStats
                 <span>Verified Accommodations ({HOTELS?.length || 5} Stays)</span>
               </button>
 
-              <button
-                onClick={() => {
-                  setActiveTab("shield");
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }}
-                className="w-full sm:w-auto flex items-center justify-center gap-2.5 px-5 py-3 sm:px-6 sm:py-3.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-white font-medium tracking-tight text-sm sm:text-base border border-slate-700/80 hover:border-stateCyan/50 transition-all cursor-pointer"
-              >
-                <ShieldCheck className="w-5 h-5 text-stateCyan" />
-                <span>Fair Rates & Scam Shield</span>
-              </button>
+
             </div>
           </div>
 
