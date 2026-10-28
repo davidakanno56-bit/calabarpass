@@ -285,10 +285,11 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 dark:bg-[#090d16] dark:text-slate-100 selection:bg-stateCyan selection:text-white transition-colors duration-200">
-      <div className="bg-gradient-to-r from-stateBlue via-stateCyan to-stateGreen py-1.5 px-4 text-center text-white font-extrabold text-xs tracking-wide no-print flex items-center justify-center gap-2 shadow-sm">
-        <ShieldCheck className="w-4 h-4 text-white shrink-0" />
-        <span>OFFICIAL CROSS RIVER STATE 365-DAY TOURISM CLEARINGHOUSE & ANTI-FRAUD ESCROW SYSTEM • 100% BUYER PROTECTION</span>
+    <div className="min-h-screen w-full max-w-[100vw] overflow-x-hidden flex flex-col bg-slate-50 text-slate-900 dark:bg-[#090d16] dark:text-slate-100 selection:bg-stateCyan selection:text-white transition-colors duration-200 relative">
+      <div className="bg-gradient-to-r from-stateBlue via-stateCyan to-stateGreen py-1.5 px-3 sm:px-4 text-center text-white font-extrabold text-[11px] sm:text-xs tracking-wide no-print flex items-center justify-center gap-1.5 sm:gap-2 shadow-sm">
+        <ShieldCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white shrink-0" />
+        <span className="hidden sm:inline">OFFICIAL CROSS RIVER STATE 365-DAY TOURISM CLEARINGHOUSE & ANTI-FRAUD ESCROW SYSTEM • 100% BUYER PROTECTION</span>
+        <span className="sm:hidden truncate">OFFICIAL CROSS RIVER 365-DAY ESCROW CLEARINGHOUSE</span>
       </div>
 
       <Navbar
@@ -302,7 +303,7 @@ export default function App() {
         escrowStats={escrowStats}
       />
 
-      <main className="flex-1">
+      <main className="flex-1 w-full max-w-full overflow-x-hidden">
         {/* 1. Main Homepage View (activeTab === 'home' or default landing with activeCategory === 'all'):
             Cross River State tour video and hero elements render ONLY here */}
         {isHomeView && (

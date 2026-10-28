@@ -253,7 +253,7 @@ export default function Navbar({
               title="Merchant Settlement Portal & Check-In PIN Redemption (Requires Access Code)"
             >
               <Building2 className="w-4 h-4" />
-              <span className="whitespace-nowrap">Vendor Portal</span>
+              <span className="hidden sm:inline whitespace-nowrap">Vendor Portal</span><span className="sm:hidden whitespace-nowrap">Vendor</span>
               {!isVendorAuthenticated && (
                 <Lock className="w-3 h-3 text-stateCyan/80 opacity-80" />
               )}
@@ -285,7 +285,7 @@ export default function Navbar({
         {/* Mobile Navigation Bar - Scrollable 5 Distinct Categories + Utilities */}
         <div 
           aria-label="Mobile Navigation Categories"
-          className="flex lg:hidden overflow-x-auto py-2.5 gap-2 border-t border-slate-200 dark:border-slate-800/80 text-xs scrollbar-none"
+          className="flex lg:hidden overflow-x-auto py-2.5 gap-2 border-t border-slate-200 dark:border-slate-800/80 text-xs scrollbar-none no-scrollbar -mx-3 px-3 sm:-mx-6 sm:px-6 touch-pan-x"
         >
           {NAV_CATEGORIES.map((cat) => {
             const Icon = cat.icon;

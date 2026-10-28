@@ -150,8 +150,8 @@ export default function PackageList({
       </div>
 
       {/* Main 5-Category Tabs Bar (Booking.com & eBay enterprise standard) */}
-      <div className="mb-6 p-2 rounded-2xl bg-white dark:bg-slate-900/90 border border-slate-200/90 dark:border-slate-800 flex flex-wrap gap-2 items-center justify-between shadow-sm">
-        <div className="flex flex-wrap gap-2 w-full xl:w-auto">
+      <div className="mb-6 p-2.5 rounded-2xl bg-white dark:bg-slate-900/90 border border-slate-200/90 dark:border-slate-800 flex flex-col xl:flex-row gap-3 items-stretch xl:items-center justify-between shadow-sm">
+        <div className="flex items-center gap-2 w-full xl:w-auto overflow-x-auto scrollbar-none no-scrollbar -mx-1 px-1 touch-pan-x flex-nowrap xl:flex-wrap pb-1 xl:pb-0">
           {/* "All" Tab */}
           <button
             onClick={() => handleCategoryChange("all")}
@@ -307,7 +307,7 @@ export default function PackageList({
       {isLoading ? (
         <PackageGridSkeleton count={6} />
       ) : filteredCards.length > 0 ? (
-        <div id="packages-grid" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 mb-12">
+        <div id="packages-grid" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-12">
           {filteredCards.map(card => (
             <PackageCard
               key={card.id}

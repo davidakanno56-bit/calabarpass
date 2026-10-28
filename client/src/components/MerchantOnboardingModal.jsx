@@ -175,7 +175,7 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md overflow-y-auto animate-fadeIn">
       <div 
-        className="relative w-full max-w-xl bg-[#0d131f] border border-amber-500/40 rounded-3xl p-6 sm:p-8 shadow-2xl shadow-amber-500/10 text-slate-100 my-8"
+        className="relative w-full max-w-xl bg-[#0d131f] border border-amber-500/40 rounded-3xl p-5 sm:p-8 shadow-2xl shadow-amber-500/10 text-slate-100 my-auto max-h-[90vh] overflow-y-auto"
         role="dialog"
         aria-modal="true"
         aria-labelledby="onboarding-modal-title"

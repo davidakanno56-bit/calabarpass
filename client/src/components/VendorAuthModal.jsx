@@ -93,9 +93,9 @@ export default function VendorAuthModal({ isOpen, onClose, onSuccess, onOpenOnbo
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md animate-fadeIn overflow-y-auto">
       <div 
-        className="relative w-full max-w-md bg-[#0f1523] border border-amber-500/40 rounded-3xl p-6 sm:p-8 shadow-2xl shadow-amber-500/10 text-slate-100"
+        className="relative w-full max-w-md bg-[#0f1523] border border-amber-500/40 rounded-3xl p-5 sm:p-8 shadow-2xl shadow-amber-500/10 text-slate-100 my-auto max-h-[90vh] overflow-y-auto"
         role="dialog"
         aria-modal="true"
         aria-labelledby="vendor-auth-title"

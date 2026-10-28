@@ -82,7 +82,7 @@ export default function HeroBanner({ setActiveTab, onSelectCategory, escrowStats
           {/* Left Column: Core Value Proposition */}
           <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
             {/* Bureau Endorsement & CP Monogram Pill */}
-            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-slate-900/90 border border-stateCyan/40 text-slate-200 text-xs font-medium backdrop-blur-md shadow-lg shadow-black/40">
+            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-slate-900/90 border border-stateCyan/40 text-slate-200 text-xs font-medium backdrop-blur-md shadow-lg shadow-black/40 max-w-full flex-wrap justify-center lg:justify-start">
               <img 
                 src="/assets/calabarpass-monogram.svg" 
                 alt="CalabarPass CP Monogram" 
@@ -96,7 +96,7 @@ export default function HeroBanner({ setActiveTab, onSelectCategory, escrowStats
             </div>
 
             {/* Main Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-sans tracking-tight text-white leading-[1.15] drop-shadow-sm">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold font-sans tracking-tight text-white leading-[1.15] drop-shadow-sm">
               Experience Cross River State With{" "}
               <span className="text-stateCyan">Zero Scam Risk</span>
             </h1>
@@ -107,10 +107,10 @@ export default function HeroBanner({ setActiveTab, onSelectCategory, escrowStats
             </p>
 
             {/* CTAs */}
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4 pt-2 w-full">
               <button
                 onClick={() => handleCategoryJump("all")}
-                className="flex items-center gap-2.5 px-7 py-3.5 rounded-xl bg-stateCyan hover:bg-sky-500 text-white font-semibold tracking-tight text-base shadow-lg shadow-stateCyan/25 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
+                className="w-full sm:w-auto flex items-center justify-center gap-2.5 px-5 py-3 sm:px-7 sm:py-3.5 rounded-xl bg-stateCyan hover:bg-sky-500 text-white font-semibold tracking-tight text-sm sm:text-base shadow-lg shadow-stateCyan/25 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
               >
                 <span>Experience Calabar City Tour</span>
                 <ArrowRight className="w-5 h-5" />
@@ -118,7 +118,7 @@ export default function HeroBanner({ setActiveTab, onSelectCategory, escrowStats
 
               <button
                 onClick={() => handleCategoryJump("accommodations")}
-                className="flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-emerald-300 hover:text-emerald-200 font-semibold tracking-tight text-base border border-emerald-500/40 hover:border-emerald-500/70 transition-all shadow-sm shadow-emerald-500/10 cursor-pointer"
+                className="w-full sm:w-auto flex items-center justify-center gap-2.5 px-5 py-3 sm:px-6 sm:py-3.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-emerald-300 hover:text-emerald-200 font-semibold tracking-tight text-sm sm:text-base border border-emerald-500/40 hover:border-emerald-500/70 transition-all shadow-sm shadow-emerald-500/10 cursor-pointer"
               >
                 <BedDouble className="w-5 h-5 text-emerald-400" />
                 <span>Verified Accommodations ({HOTELS?.length || 5} Stays)</span>
@@ -129,7 +129,7 @@ export default function HeroBanner({ setActiveTab, onSelectCategory, escrowStats
                   setActiveTab("shield");
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
-                className="flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-white font-medium tracking-tight text-base border border-slate-700/80 hover:border-stateCyan/50 transition-all cursor-pointer"
+                className="w-full sm:w-auto flex items-center justify-center gap-2.5 px-5 py-3 sm:px-6 sm:py-3.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-white font-medium tracking-tight text-sm sm:text-base border border-slate-700/80 hover:border-stateCyan/50 transition-all cursor-pointer"
               >
                 <ShieldCheck className="w-5 h-5 text-stateCyan" />
                 <span>Fair Rates & Scam Shield</span>
@@ -138,9 +138,9 @@ export default function HeroBanner({ setActiveTab, onSelectCategory, escrowStats
           </div>
 
           {/* Right Column: 3D Floating Metallic VIP Escrow Pass */}
-          <div className="lg:col-span-5 flex justify-center perspective-1200 py-6">
+          <div className="lg:col-span-5 flex justify-center perspective-1200 py-4 sm:py-6 w-full overflow-hidden">
             <div
-              className={`w-full max-w-sm ${!passTilt.isHovered ? "animate-float-pass" : ""}`}
+              className={`w-full max-w-[320px] sm:max-w-sm ${!passTilt.isHovered ? "animate-float-pass" : ""}`}
             >
               <div
                 ref={passRef}
@@ -289,7 +289,7 @@ export default function HeroBanner({ setActiveTab, onSelectCategory, escrowStats
         </div>
 
         {/* Escrow Protection Proof Badges */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 max-w-5xl mx-auto pt-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 max-w-5xl mx-auto pt-6">
           <div className="glass-panel p-4 rounded-2xl text-left border-slate-800/80 hover:border-stateCyan/40 transition-colors shadow-lg shadow-black/20">
             <div className="flex items-center gap-2 text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-1 font-sans">
               <Shield className="w-4 h-4" />

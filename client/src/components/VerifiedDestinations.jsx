@@ -185,7 +185,7 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
       </div>
 
       {/* Destination Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         {DESTINATIONS.map((dest, index) => {
           const IconComponent = dest.icon;
 
@@ -193,7 +193,7 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
             <div
               key={dest.id}
               className={`group rounded-3xl overflow-hidden glass-panel border border-slate-200 dark:border-slate-800 hover:border-emerald-500/40 dark:hover:border-amber-500/40 transition-all duration-300 flex flex-col hover:shadow-xl dark:hover:shadow-2xl dark:hover:shadow-amber-500/10 ${
-                index === 4 ? "md:col-span-2 lg:col-span-1" : ""
+                index === 4 ? "sm:col-span-2 lg:col-span-1" : ""
               }`}
             >
               {/* Text-Only Destination Header (Zero Broken Media Frames) */}

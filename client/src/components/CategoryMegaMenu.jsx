@@ -208,7 +208,7 @@ export default function CategoryMegaMenu({
       ref={menuRef}
       role="region"
       aria-label={`${details.label} Category Mega Menu`}
-      className="absolute top-full left-0 right-0 z-50 bg-white/95 dark:bg-[#0c121e]/98 backdrop-blur-2xl border-b border-slate-200/90 dark:border-slate-800 shadow-2xl transition-all duration-300 animate-in fade-in slide-in-from-top-2"
+      className="absolute top-full left-0 right-0 z-50 bg-white/95 dark:bg-[#0c121e]/98 backdrop-blur-2xl border-b border-slate-200/90 dark:border-slate-800 shadow-2xl transition-all duration-300 animate-in fade-in slide-in-from-top-2 max-h-[85vh] overflow-y-auto overscroll-contain"
     >
       {/* Decorative Brand Top Glow Line */}
       <div className="h-0.5 w-full bg-gradient-to-r from-stateBlue via-stateCyan to-stateGreen" />
@@ -236,7 +236,7 @@ export default function CategoryMegaMenu({
             </div>
           </div>
 
-          <div className="flex items-center gap-2 self-end sm:self-center">
+          <div className="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
             <button
               onClick={handleExploreAll}
               className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold tracking-tight text-white bg-stateCyan hover:bg-sky-500 shadow-md shadow-stateCyan/20 transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"

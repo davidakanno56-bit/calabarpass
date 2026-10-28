@@ -66,7 +66,7 @@ export default function TrustWorkflow() {
       </div>
 
       {/* 4-Step Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 relative">
         {steps.map((step, idx) => {
           const Icon = step.icon;
           return (
@@ -117,7 +117,7 @@ export default function TrustWorkflow() {
       </div>
 
       {/* End-to-End Pipeline Summary Bar (Judges Visual) */}
-      <div className="mt-8 p-4 rounded-2xl bg-white dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800/80 shadow-md dark:shadow-none overflow-x-auto scrollbar-none">
+      <div className="mt-8 p-4 rounded-2xl bg-white dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800/80 shadow-md dark:shadow-none overflow-x-auto scrollbar-none no-scrollbar touch-pan-x -mx-2 px-4 sm:mx-0 sm:px-4">
         <div className="flex items-center justify-between min-w-[760px] text-xs font-mono font-bold text-slate-400">
           <span className="text-amber-400">TOURIST</span>
           <span className="text-slate-600">→</span>

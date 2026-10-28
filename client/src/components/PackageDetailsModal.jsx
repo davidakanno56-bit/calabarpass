@@ -88,7 +88,7 @@ export default function PackageDetailsModal({ pkg, onClose, onBookNow }) {
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto bg-black/75 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto bg-black/75 p-3 sm:p-4 backdrop-blur-sm"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) onClose();
       }}
@@ -97,7 +97,7 @@ export default function PackageDetailsModal({ pkg, onClose, onBookNow }) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="package-details-title"
-        className="my-auto w-full max-w-3xl overflow-hidden rounded-3xl border border-slate-700 bg-[#0B0F17] shadow-2xl shadow-black/60"
+        className="my-auto w-full max-w-3xl overflow-hidden rounded-3xl border border-slate-700 bg-[#0B0F17] shadow-2xl shadow-black/60 max-h-[90vh] overflow-y-auto"
       >
         <div className="relative h-56 bg-slate-950 sm:h-72">
           <VerifiedImage

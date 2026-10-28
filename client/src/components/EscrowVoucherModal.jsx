@@ -316,8 +316,8 @@ export default function EscrowVoucherModal({ transaction: initialTx, onClose, on
   const isFrozen = transaction.status === "ESCROW_FROZEN_DISPUTE";
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md overflow-y-auto">
-      <div className="relative w-full max-w-2xl bg-[#121826] border border-amber-500/40 rounded-3xl shadow-2xl overflow-hidden my-8 print:border-none print:shadow-none print:bg-white print:text-black">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md overflow-y-auto">
+      <div className="relative w-full max-w-2xl bg-[#121826] border border-amber-500/40 rounded-3xl shadow-2xl overflow-hidden my-auto max-h-[90vh] overflow-y-auto print:border-none print:shadow-none print:bg-white print:text-black">
         {/* Top Gold Ribbon */}
         <div className="h-2 bg-gradient-to-r from-amber-500 via-emerald-400 to-amber-500 no-print" />
 

@@ -73,7 +73,7 @@ export default function FairPriceTracker() {
           />
         </div>
 
-        <div className="flex flex-wrap gap-1.5 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0">
+        <div className="flex flex-nowrap sm:flex-wrap gap-1.5 w-full sm:w-auto overflow-x-auto scrollbar-none no-scrollbar pb-1 sm:pb-0 touch-pan-x -mx-1 px-1 sm:mx-0 sm:px-0">
           {categories.map((cat) => (
             <button
               key={cat}
@@ -91,7 +91,7 @@ export default function FairPriceTracker() {
       </div>
 
       {/* Fair Price Table Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 max-w-5xl mx-auto">
         {filteredPrices.map((item, index) => (
           <div
             key={index}
@@ -236,7 +236,7 @@ export default function FairPriceTracker() {
           <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">Direct alerts issued by the Cross River State Tourism Bureau</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {scamAdvisories.map((advisory, idx) => (
             <div
               key={idx}

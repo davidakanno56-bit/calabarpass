@@ -339,7 +339,7 @@ export default function AccommodationsView({ onBookHotel }) {
       </div>
 
       {/* Grid of Verified AfSNET Hotels */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         {filteredHotels.map((hotel) => (
           <article
             key={hotel.id}
@@ -448,8 +448,8 @@ export default function AccommodationsView({ onBookHotel }) {
 
       {/* Hotel Quick Details Modal */}
       {activeHotelDetails && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn">
-          <div className="relative w-full max-w-lg bg-white dark:bg-[#0f1523] border border-slate-200 dark:border-amber-500/40 rounded-3xl p-6 shadow-2xl text-slate-900 dark:text-slate-100 space-y-5">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md animate-fadeIn overflow-y-auto">
+          <div className="relative w-full max-w-lg bg-white dark:bg-[#0f1523] border border-slate-200 dark:border-amber-500/40 rounded-3xl p-5 sm:p-6 shadow-2xl text-slate-900 dark:text-slate-100 space-y-4 sm:space-y-5 my-auto max-h-[90vh] overflow-y-auto">
             <div className="relative h-44 rounded-2xl overflow-hidden">
               <VerifiedImage
                 item={activeHotelDetails}

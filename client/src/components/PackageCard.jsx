@@ -243,7 +243,7 @@ export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
           {isCarnival ? (
             /* Carnival & Culture Cards: Strictly bold titles, locations, descriptions, map links, and "Order Ride via Bolt" buttons */
             <div
-              className="pt-4 border-t border-slate-200 dark:border-slate-800/80 flex flex-wrap items-center gap-2 justify-end preserve-3d mt-auto"
+              className="pt-4 border-t border-slate-200 dark:border-slate-800/80 flex flex-wrap items-center gap-2 w-full justify-start sm:justify-end preserve-3d mt-auto"
               style={{ transform: "translateZ(35px)" }}
             >
               {/* Map Navigation Link */}
@@ -293,7 +293,7 @@ export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
                 )}
               </div>
 
-              <div className="flex flex-wrap items-center gap-2 justify-end">
+              <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto justify-start sm:justify-end">
                 {/* Map Navigation Link */}
                 <a
                   href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${pkg.name || pkg.title} ${pkg.location || "Calabar"}`)}`}
@@ -327,7 +327,7 @@ export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
                 <button
                   type="button"
                   onClick={() => (onViewPackage || onSelectPackage)?.(pkg)}
-                  className="flex items-center gap-2 rounded-xl bg-stateCyan hover:bg-sky-500 px-4 py-2.5 text-xs sm:text-sm font-semibold tracking-tight text-white shadow-md shadow-stateCyan/25 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                  className="flex-1 sm:flex-initial flex items-center justify-center gap-2 rounded-xl bg-stateCyan hover:bg-sky-500 px-4 py-2.5 text-xs sm:text-sm font-semibold tracking-tight text-white shadow-md shadow-stateCyan/25 transition-all hover:scale-105 active:scale-95 cursor-pointer"
                 >
                   <span>View Package</span>
                   <ArrowRight className="w-4 h-4" />
