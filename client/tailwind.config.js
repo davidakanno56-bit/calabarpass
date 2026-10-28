@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'class',
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -13,12 +14,33 @@ export default {
           dark: '#061729',
           light: '#1E3A8A',
         },
-        stateCyan: '#0284C7',   // Accent Sky Blue for QR & Links
-        stateGreen: '#10B981',  // Escrow & Tax Success Green
-        stateBg: '#F8FAFC',     // Clean Off-White Background
+        stateCyan: {
+          DEFAULT: '#0284C7', // Accent Sky Blue for QR & Links
+          light: '#38BDF8',
+          dark: '#0369A1',
+        },
+        stateGreen: {
+          DEFAULT: '#10B981', // Escrow & Tax Success Green
+          emerald: '#059669', // Cross River Forest Canopy
+          light: '#34D399',
+          dark: '#047857',
+        },
+        stateGold: {
+          DEFAULT: '#F59E0B', // Royal Cultural Gold
+          light: '#FBBF24',
+          dark: '#D97706',
+        },
+        stateBg: {
+          light: '#F8FAFC',   // Clean Off-White Background
+          cardLight: '#FFFFFF',
+          cardSubtle: '#F1F5F9',
+          borderLight: '#E2E8F0',
+          textMainLight: '#0F172A',
+          textMutedLight: '#64748B',
+        },
         calabar: {
-          bg: "#0b0f17",
-          card: "#121826",
+          bg: "#090d16",
+          card: "#111827",
           cardHover: "#182235",
           border: "#1e293b",
           gold: "#f59e0b",
@@ -47,6 +69,9 @@ export default {
       boxShadow: {
         'gold-glow': '0 0 25px -5px rgba(245, 158, 11, 0.3)',
         'emerald-glow': '0 0 25px -5px rgba(16, 185, 129, 0.3)',
+        'cyan-glow': '0 0 25px -5px rgba(2, 132, 199, 0.3)',
+        'card-light': '0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05)',
+        'card-hover': '0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04)',
       },
       animation: {
         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',

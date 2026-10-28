@@ -145,7 +145,14 @@ export default function App() {
 
   const isHomeView = (activeTab === "home" || activeTab === "packages") && (activeCategory === "all" || !activeCategory);
 
-  const handleCategoryChange = (category) => {
+  const [initialSearchQuery, setInitialSearchQuery] = useState("");
+
+  const handleCategoryChange = (category, query = "") => {
+    if (query) {
+      setInitialSearchQuery(query);
+    } else {
+      setInitialSearchQuery("");
+    }
     setActiveCategory(category);
     if (activeTab !== "packages" && activeTab !== "home") {
       setActiveTabState("packages");
@@ -278,7 +285,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0b0f17] text-slate-100 selection:bg-stateCyan selection:text-white">
+    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 dark:bg-[#090d16] dark:text-slate-100 selection:bg-stateCyan selection:text-white transition-colors duration-200">
       <div className="bg-gradient-to-r from-stateBlue via-stateCyan to-stateGreen py-1.5 px-4 text-center text-white font-extrabold text-xs tracking-wide no-print flex items-center justify-center gap-2 shadow-sm">
         <ShieldCheck className="w-4 h-4 text-white shrink-0" />
         <span>OFFICIAL CROSS RIVER STATE 365-DAY TOURISM CLEARINGHOUSE & ANTI-FRAUD ESCROW SYSTEM • 100% BUYER PROTECTION</span>
@@ -327,6 +334,7 @@ export default function App() {
                   packages={packages}
                   dynamicCards={dynamicVendorCards}
                   activeCategory={activeCategory}
+                  initialSearchQuery={initialSearchQuery}
                   onSelectCategory={handleCategoryChange}
                   isLoading={loadingPackages && packages.length === 0}
                   onSelectPackage={(pkg) => setSelectedPackage(pkg)}

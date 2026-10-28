@@ -91,7 +91,7 @@ export default function HotelCard({ hotel, onBookHotel }) {
             : "transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)",
           willChange: "transform"
         }}
-        className="glass-panel rounded-3xl overflow-hidden flex flex-col border border-white/10 hover:border-amber-500/40 relative group cursor-pointer shadow-xl hover:shadow-2xl hover:shadow-amber-500/10 backdrop-blur-xl bg-slate-900/80"
+        className="glass-panel rounded-3xl overflow-hidden flex flex-col border border-slate-200 dark:border-white/10 hover:border-amber-500/40 relative group cursor-pointer shadow-xl hover:shadow-2xl hover:shadow-amber-500/10 backdrop-blur-xl bg-white dark:bg-slate-900/80"
       >
         {/* Specular Glare Overlay */}
         <div
@@ -212,7 +212,7 @@ export default function HotelCard({ hotel, onBookHotel }) {
           {/* Title, Rating & Location */}
           <div style={{ transform: "translateZ(25px)" }} className="preserve-3d">
             <div className="flex items-start justify-between gap-2 mb-1.5">
-              <h3 className="text-xl font-semibold tracking-tight font-heading text-white group-hover:text-amber-400 transition-colors">
+              <h3 className="text-xl font-semibold tracking-tight font-heading text-slate-900 dark:text-white group-hover:text-amber-500 dark:group-hover:text-amber-400 transition-colors">
                 {hotel.name}
               </h3>
               {/* Rating */}
@@ -224,13 +224,13 @@ export default function HotelCard({ hotel, onBookHotel }) {
             </div>
 
             {/* Location Area */}
-            <div className="flex items-center gap-1.5 text-xs text-slate-400 mb-3">
+            <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 mb-3">
               <MapPin className="w-3.5 h-3.5 text-amber-400 shrink-0" />
               <span className="truncate">{hotel.area}</span>
             </div>
 
             {/* Description */}
-            <p className="text-sm text-slate-300 leading-relaxed mb-4 line-clamp-2">
+            <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4 line-clamp-2">
               {hotel.description}
             </p>
           </div>
@@ -244,7 +244,7 @@ export default function HotelCard({ hotel, onBookHotel }) {
               {hotel.amenities.map((amenity, idx) => (
                 <span
                   key={idx}
-                  className="px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700/70 text-[11px] font-medium text-slate-300 flex items-center gap-1"
+                  className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/70 text-[11px] font-medium text-slate-700 dark:text-slate-300 flex items-center gap-1"
                 >
                   <Check className="w-3 h-3 text-emerald-400" />
                   <span>{amenity}</span>
@@ -255,12 +255,12 @@ export default function HotelCard({ hotel, onBookHotel }) {
 
           {/* Pricing & Compliance Note with 3D Pop */}
           <div
-            className="pt-4 border-t border-slate-800/80 mt-auto flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 preserve-3d"
+            className="pt-4 border-t border-slate-200 dark:border-slate-800/80 mt-auto flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 preserve-3d"
             style={{ transform: "translateZ(35px)" }}
           >
             <div>
-              <div className="text-xs text-slate-400 mb-0.5">Indicative Nightly Rate</div>
-              <div className="text-2xl font-semibold tracking-tight font-heading text-white">
+              <div className="text-xs text-slate-500 dark:text-slate-400 mb-0.5">Indicative Nightly Rate</div>
+              <div className="text-2xl font-semibold tracking-tight font-heading text-slate-900 dark:text-white">
                 {hotel.priceRange}
               </div>
               <div className="text-[11px] text-amber-400/90 font-medium mt-1 leading-snug">

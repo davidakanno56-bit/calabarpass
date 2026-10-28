@@ -1,4 +1,19 @@
-import { ShieldCheck, MapPin, ArrowRight, Sparkles, Compass, Eye, Mountain, Waves, Landmark, Trees, Flame, Navigation, ArrowUpRight } from "lucide-react";
+import React from "react";
+import { 
+  ShieldCheck, 
+  MapPin, 
+  ArrowRight, 
+  Sparkles, 
+  Compass, 
+  Eye, 
+  Mountain, 
+  Waves, 
+  Landmark, 
+  Trees, 
+  Flame, 
+  Navigation, 
+  ArrowUpRight 
+} from "lucide-react";
 import VerifiedImage from "./VerifiedImage.jsx";
 
 export const DESTINATIONS = [
@@ -145,7 +160,7 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
   };
 
   return (
-    <section id="verified-cross-river" className="py-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-slate-800/80">
+    <section id="verified-cross-river" className="py-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-slate-200 dark:border-slate-800/80">
       {/* Section Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
         <div>
@@ -153,17 +168,17 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
             <Compass className="w-3.5 h-3.5 text-stateCyan" />
             <span>Cross River Tourism Identity</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight font-heading text-white">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight font-heading text-slate-900 dark:text-white">
             Explore Verified Cross River
           </h2>
-          <p className="text-sm sm:text-base text-slate-400 mt-2 max-w-2xl leading-relaxed">
+          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 mt-2 max-w-2xl leading-relaxed">
             Discover legendary mountain plateaus, rainforest waterfalls, historic waterways, and vibrant cultural celebrations—all shielded by verified operator credentials and digital vouchers.
           </p>
         </div>
 
-        <div className="flex items-center gap-2 self-start md:self-auto bg-slate-900/80 p-1 rounded-xl border border-slate-800 text-xs font-semibold">
-          <span className="px-3 py-1.5 text-emerald-400 font-mono flex items-center gap-1.5">
-            <ShieldCheck className="w-4 h-4 text-emerald-400" />
+        <div className="flex items-center gap-2 self-start md:self-auto bg-white dark:bg-slate-900/80 p-1.5 rounded-2xl border border-slate-200 dark:border-slate-800 text-xs font-semibold shadow-sm">
+          <span className="px-3 py-1.5 text-emerald-600 dark:text-emerald-400 font-mono flex items-center gap-1.5 font-bold">
+            <ShieldCheck className="w-4 h-4 text-emerald-500" />
             <span>5 Verified Destinations</span>
           </span>
         </div>
@@ -177,46 +192,46 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
           return (
             <div
               key={dest.id}
-              className={`group rounded-3xl overflow-hidden glass-panel border border-slate-800 hover:border-amber-500/40 transition-all duration-300 flex flex-col hover:shadow-2xl hover:shadow-amber-500/10 ${
+              className={`group rounded-3xl overflow-hidden glass-panel border border-slate-200 dark:border-slate-800 hover:border-emerald-500/40 dark:hover:border-amber-500/40 transition-all duration-300 flex flex-col hover:shadow-xl dark:hover:shadow-2xl dark:hover:shadow-amber-500/10 ${
                 index === 4 ? "md:col-span-2 lg:col-span-1" : ""
               }`}
             >
               {/* Text-Only Destination Header (Zero Broken Media Frames) */}
-              <div className="relative p-6 border-b border-slate-800/80 bg-gradient-to-br from-emerald-950/40 via-slate-900/90 to-slate-950 flex flex-col justify-between min-h-[9.5rem]">
+              <div className="relative p-6 border-b border-slate-200 dark:border-slate-800/80 bg-gradient-to-br from-emerald-50 via-white to-emerald-50/40 dark:from-emerald-950/40 dark:via-slate-900/90 dark:to-slate-950 flex flex-col justify-between min-h-[9.5rem]">
                 {/* Top Badges */}
                 <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 shadow-md">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 border-emerald-300 dark:bg-emerald-950/80 dark:text-emerald-300 dark:border-emerald-500/40 shadow-sm">
                     <IconComponent className="w-3.5 h-3.5" />
                     <span>{dest.category}</span>
                   </span>
 
-                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-950/90 text-emerald-300 border border-emerald-500/40 shadow-md">
-                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 border-emerald-300 dark:bg-emerald-950/90 dark:text-emerald-300 dark:border-emerald-500/40 shadow-sm">
+                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                     <span>{dest.badge}</span>
                   </span>
                 </div>
 
                 {/* Destination Name & Physical Location */}
                 <div className="space-y-1.5">
-                  <h3 className="text-2xl font-bold font-heading text-white tracking-tight group-hover:text-amber-400 transition-colors">
+                  <h3 className="text-2xl font-bold font-heading text-slate-900 dark:text-white tracking-tight group-hover:text-emerald-600 dark:group-hover:text-amber-400 transition-colors">
                     {dest.name}
                   </h3>
-                  <div className="flex items-center gap-2 text-sm text-amber-400 font-semibold tracking-tight">
-                    <MapPin className="w-4 h-4 text-amber-400 shrink-0" />
-                    <span className="font-medium text-slate-200">{dest.location}</span>
+                  <div className="flex items-center gap-2 text-sm text-amber-600 dark:text-amber-400 font-semibold tracking-tight">
+                    <MapPin className="w-4 h-4 shrink-0" />
+                    <span className="font-medium text-slate-700 dark:text-slate-200">{dest.location}</span>
                   </div>
                 </div>
               </div>
 
               {/* Card Body */}
-              <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
+              <div className="p-6 flex-1 flex flex-col justify-between space-y-4 bg-white/70 dark:bg-transparent">
                 <div className="space-y-2">
 
-                  <p className="text-xs text-amber-400 font-medium tracking-tight">
+                  <p className="text-xs text-amber-600 dark:text-amber-400 font-semibold tracking-tight">
                     {dest.tagline}
                   </p>
 
-                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed line-clamp-3">
+                  <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-3">
                     {dest.description}
                   </p>
 
@@ -225,7 +240,7 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
                     {dest.highlights.map((h, idx) => (
                       <span
                         key={idx}
-                        className="px-2 py-0.5 rounded-md text-[10px] font-medium bg-slate-900/90 text-slate-400 border border-slate-800"
+                        className="px-2 py-0.5 rounded-md text-[10px] font-medium bg-slate-100 dark:bg-slate-900/90 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-800"
                       >
                         {h}
                       </span>
@@ -234,12 +249,12 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
                 </div>
 
                 {/* Bottom Pricing & CTA */}
-                <div className="pt-4 border-t border-slate-800/80 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+                <div className="pt-4 border-t border-slate-200 dark:border-slate-800/80 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
                   <div>
                     <span className="text-[10px] uppercase font-semibold tracking-wider text-slate-500 block">
                       Estimated Budget
                     </span>
-                    <span className="text-base sm:text-lg font-semibold tracking-tight font-heading text-white">
+                    <span className="text-base sm:text-lg font-bold tracking-tight font-heading text-slate-900 dark:text-white">
                       {dest.priceIndicator}
                     </span>
                   </div>
@@ -249,7 +264,7 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
                       href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${dest.name} ${dest.location}`)}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 px-2.5 py-2 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-stateCyan hover:text-white text-xs font-semibold tracking-tight border border-stateCyan/30 transition-all cursor-pointer"
+                      className="inline-flex items-center gap-1 px-2.5 py-2 rounded-xl bg-slate-100 dark:bg-slate-800/90 hover:bg-slate-200 dark:hover:bg-slate-700 text-stateCyan hover:text-sky-600 dark:hover:text-white text-xs font-semibold tracking-tight border border-stateCyan/30 transition-all cursor-pointer shadow-sm"
                       title={`View ${dest.name} on Google Maps`}
                     >
                       <Navigation className="w-3.5 h-3.5" />
@@ -260,7 +275,7 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
                     <button
                       type="button"
                       onClick={() => handleDestinationClick(dest)}
-                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-stateCyan hover:bg-sky-500 text-white font-semibold text-xs tracking-tight shadow-lg shadow-stateCyan/25 hover:scale-[1.03] active:scale-[0.98] transition-all cursor-pointer shrink-0"
+                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-stateCyan hover:bg-sky-500 text-white font-semibold text-xs tracking-tight shadow-md shadow-stateCyan/25 hover:scale-[1.03] active:scale-[0.98] transition-all cursor-pointer shrink-0"
                     >
                       <span>View Package</span>
                       <ArrowRight className="w-3.5 h-3.5" />

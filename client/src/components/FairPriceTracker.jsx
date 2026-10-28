@@ -52,10 +52,10 @@ export default function FairPriceTracker() {
           <ShieldCheck className="w-3.5 h-3.5" />
           <span>Cross River State Fair-Price Index</span>
         </div>
-        <h2 className="text-3xl sm:text-4xl font-extrabold font-heading text-white">
+        <h2 className="text-3xl sm:text-4xl font-extrabold font-heading text-slate-900 dark:text-white">
           December Surge Predictor & Anti-Scam Shield
         </h2>
-        <p className="text-sm text-slate-400 mt-2">
+        <p className="text-sm text-slate-600 dark:text-slate-400 mt-2">
           Compare verified baseline prices against peak December surge price gouging and avoid street scalper fraud across Calabar.
         </p>
       </div>
@@ -69,7 +69,7 @@ export default function FairPriceTracker() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search e.g. Airport cab, Suya, Hotel..."
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs placeholder-slate-500 focus:outline-none focus:border-amber-500"
+            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-xs placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-amber-500"
           />
         </div>
 
@@ -81,7 +81,7 @@ export default function FairPriceTracker() {
               className={`px-3 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${
                 categoryFilter === cat
                   ? "bg-stateCyan text-white font-bold shadow-md shadow-stateCyan/20"
-                  : "bg-slate-900 text-slate-400 hover:text-white border border-slate-800"
+                  : "bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-800"
               }`}
             >
               {cat}
@@ -95,11 +95,11 @@ export default function FairPriceTracker() {
         {filteredPrices.map((item, index) => (
           <div
             key={index}
-            className="glass-panel p-6 rounded-2xl border-slate-800 hover:border-amber-500/40 transition-colors flex flex-col justify-between"
+            className="glass-panel p-6 rounded-2xl border-slate-200 dark:border-slate-800 hover:border-amber-500/40 transition-colors flex flex-col justify-between shadow-lg shadow-slate-200/50 dark:shadow-none"
           >
             <div>
               <div className="flex items-center justify-between gap-2 mb-2">
-                <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-slate-950 text-slate-400 border border-slate-800">
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-950 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-800">
                   {item.category}
                 </span>
                 <span className="text-xs font-extrabold text-rose-400 bg-rose-950/60 px-2.5 py-0.5 rounded-full border border-rose-500/30">
@@ -107,18 +107,18 @@ export default function FairPriceTracker() {
                 </span>
               </div>
 
-              <h4 className="text-lg font-bold text-white font-heading mb-4">
+              <h4 className="text-lg font-bold text-slate-900 dark:text-white font-heading mb-4">
                 {item.item}
               </h4>
 
               {/* Price comparison box */}
-              <div className="grid grid-cols-2 gap-3 p-3.5 rounded-xl bg-slate-950/70 border border-slate-800/80 mb-4">
+              <div className="grid grid-cols-2 gap-3 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800/80 mb-4">
                 <div>
                   <div className="text-[10px] uppercase font-bold text-emerald-400 flex items-center gap-1">
                     <ShieldCheck className="w-3 h-3" />
                     <span>Verified Fair Price</span>
                   </div>
-                  <div className="text-base font-extrabold text-emerald-300 mt-0.5">
+                  <div className="text-base font-extrabold text-emerald-600 dark:text-emerald-300 mt-0.5">
                     {item.fairRange}
                   </div>
                 </div>
@@ -128,7 +128,7 @@ export default function FairPriceTracker() {
                     <TrendingUp className="w-3 h-3" />
                     <span>Street Surge Gouge</span>
                   </div>
-                  <div className="text-base font-extrabold text-rose-300 mt-0.5">
+                  <div className="text-base font-extrabold text-rose-600 dark:text-rose-300 mt-0.5">
                     {item.decemberSurge}
                   </div>
                 </div>
@@ -136,10 +136,10 @@ export default function FairPriceTracker() {
             </div>
 
             {/* Red flag notice */}
-            <div className="p-3 rounded-xl bg-amber-950/30 border border-amber-500/20 text-xs text-amber-200/90 flex items-start gap-2">
+            <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-500/20 text-xs text-amber-800 dark:text-amber-200/90 flex items-start gap-2">
               <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
               <div>
-                <span className="font-bold text-amber-300">Scam Red Flag: </span>
+                <span className="font-bold text-amber-700 dark:text-amber-300">Scam Red Flag: </span>
                 <span>{item.redFlagWarning}</span>
               </div>
             </div>
@@ -149,23 +149,23 @@ export default function FairPriceTracker() {
 
       {/* Dedicated Retail & Provisions Benchmark Section */}
       <div className="max-w-5xl mx-auto pt-4 space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b border-slate-800 pb-3">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
           <div>
             <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-emerald-400 mb-1">
               <ShieldCheck className="w-3.5 h-3.5" />
               <span>Official Cross River Commerce Clearinghouse</span>
             </div>
-            <h3 className="text-2xl font-bold font-heading text-white">
+            <h3 className="text-2xl font-bold font-heading text-slate-900 dark:text-white">
               Retail & Provisions Benchmark
             </h3>
           </div>
-          <p className="text-xs text-slate-400 max-w-md">
+          <p className="text-xs text-slate-600 dark:text-slate-400 max-w-md">
             Guaranteed manufacturer shelf pricing with printed POS receipts to shield tourists from informal street scalper price gouging.
           </p>
         </div>
 
-        <div className="bg-slate-900/90 border border-slate-700/80 rounded-2xl p-6 shadow-xl relative overflow-hidden">
-          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4 mb-4">
+        <div className="bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-700/80 rounded-2xl p-6 shadow-xl relative overflow-hidden">
+          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-4 mb-4">
             <div className="flex items-center gap-3">
               <div className="flex items-center justify-center bg-[#007a3d] px-2.5 py-1 rounded-md shadow-sm border border-emerald-600">
                 <div className="flex items-center gap-1.5 font-black tracking-tighter text-white">
@@ -179,8 +179,8 @@ export default function FairPriceTracker() {
                 </div>
               </div>
               <div>
-                <h3 className="text-lg font-bold text-white">SPAR Calabar Mall</h3>
-                <p className="text-xs text-slate-400">Cultural Centre Complex, Murtala Muhammed Highway, Calabar</p>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">SPAR Calabar Mall</h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400">Cultural Centre Complex, Murtala Muhammed Highway, Calabar</p>
               </div>
             </div>
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
@@ -190,26 +190,26 @@ export default function FairPriceTracker() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-5 text-sm">
-            <div className="bg-slate-950/60 p-3.5 rounded-xl border border-slate-800">
-              <span className="text-xs text-slate-400 block mb-1">Bottled Water & Soft Drinks</span>
+            <div className="bg-slate-50 dark:bg-slate-950/60 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800">
+              <span className="text-xs text-slate-500 dark:text-slate-400 block mb-1">Bottled Water & Soft Drinks</span>
               <span className="text-base font-bold text-emerald-400">₦300 – ₦800</span>
               <span className="text-xs text-rose-400 block mt-0.5">Street Scalper Surge: ₦1,500+</span>
             </div>
-            <div className="bg-slate-950/60 p-3.5 rounded-xl border border-slate-800">
-              <span className="text-xs text-slate-400 block mb-1">Toiletries & Travel Sunscreen</span>
+            <div className="bg-slate-50 dark:bg-slate-950/60 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800">
+              <span className="text-xs text-slate-500 dark:text-slate-400 block mb-1">Toiletries & Travel Sunscreen</span>
               <span className="text-base font-bold text-emerald-400">Regulated Shelf Price</span>
-              <span className="text-xs text-slate-400 block mt-0.5">Official Manufacturer Barcode</span>
+              <span className="text-xs text-slate-500 dark:text-slate-400 block mt-0.5">Official Manufacturer Barcode</span>
             </div>
-            <div className="bg-slate-950/60 p-3.5 rounded-xl border border-slate-800">
-              <span className="text-xs text-slate-400 block mb-1">Packaged Provisions & Snacks</span>
+            <div className="bg-slate-50 dark:bg-slate-950/60 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800">
+              <span className="text-xs text-slate-500 dark:text-slate-400 block mb-1">Packaged Provisions & Snacks</span>
               <span className="text-base font-bold text-emerald-400">Fixed Checkout Till</span>
               <span className="text-xs text-emerald-500 block mt-0.5">Printed POS Itemized Receipt</span>
             </div>
           </div>
 
           <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
-            <p className="text-xs text-slate-400 max-w-xl leading-relaxed">
-              <strong className="text-slate-200">Tourist Directive:</strong> No advance booking or escrow deposit required. Walk directly into the store and pay at the till using standard POS card or cash to completely avoid inflated street prices.
+            <p className="text-xs text-slate-600 dark:text-slate-400 max-w-xl leading-relaxed">
+              <strong className="text-slate-900 dark:text-slate-200">Tourist Directive:</strong> No advance booking or escrow deposit required. Walk directly into the store and pay at the till using standard POS card or cash to completely avoid inflated street prices.
             </p>
             
             <a 
@@ -230,17 +230,17 @@ export default function FairPriceTracker() {
       {/* Major Anti-Scam Directives Section */}
       <div className="max-w-5xl mx-auto pt-6">
         <div className="text-center mb-6">
-          <h3 className="text-2xl font-bold font-heading text-white">
+          <h3 className="text-2xl font-bold font-heading text-slate-900 dark:text-white">
             Official Calabar Carnival Anti-Fraud Directives
           </h3>
-          <p className="text-xs text-slate-400 mt-1">Direct alerts issued by the Cross River State Tourism Bureau</p>
+          <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">Direct alerts issued by the Cross River State Tourism Bureau</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {scamAdvisories.map((advisory, idx) => (
             <div
               key={idx}
-              className="p-5 rounded-2xl bg-[#121826] border border-rose-500/30 space-y-2 flex flex-col justify-between"
+              className="p-5 rounded-2xl bg-white dark:bg-[#121826] border border-rose-200 dark:border-rose-500/30 space-y-2 flex flex-col justify-between shadow-lg shadow-rose-500/5"
             >
               <div>
                 <div className="flex items-center justify-between text-xs mb-1">
@@ -248,13 +248,13 @@ export default function FairPriceTracker() {
                     <ShieldAlert className="w-3.5 h-3.5" />
                     <span>{advisory.severity} RISK</span>
                   </span>
-                  <span className="text-[11px] text-slate-400">{advisory.route}</span>
+                  <span className="text-[11px] text-slate-500 dark:text-slate-400">{advisory.route}</span>
                 </div>
-                <div className="font-bold text-sm text-white">{advisory.title}</div>
-                <p className="text-xs text-slate-300 mt-1 leading-relaxed">{advisory.description}</p>
+                <div className="font-bold text-sm text-slate-900 dark:text-white">{advisory.title}</div>
+                <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">{advisory.description}</p>
               </div>
 
-              <div className="pt-3 border-t border-slate-800 text-xs text-emerald-300">
+              <div className="pt-3 border-t border-slate-100 dark:border-slate-800 text-xs text-emerald-600 dark:text-emerald-300">
                 🛡️ <strong>Rule:</strong> {advisory.protectionRule}
               </div>
             </div>

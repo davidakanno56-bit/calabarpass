@@ -77,40 +77,40 @@ export default function TourismVideoSection({ onSelectCategory }) {
           <span>Official Cross River Tourism Showcase • 4K Experience</span>
         </div>
 
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-heading text-white tracking-tight">
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-heading text-slate-900 dark:text-white tracking-tight">
           Experience Calabar: <span className="gold-gradient-text font-bold">City Drive & Tourism Tour</span>
         </h2>
 
-        <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal tracking-tight max-w-2xl mx-auto">
+        <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed font-normal tracking-tight max-w-2xl mx-auto">
           Take an immersive visual drive through Nigeria's cleanest, greenest capital. Discover iconic palm-lined boulevards, historic roundabouts, vibrant commercial corridors, and waterfront heritage before browsing our verified clearinghouse categories.
         </p>
       </div>
 
       {/* Main Glassmorphic Video Showcase Card */}
-      <div className="glass-panel rounded-3xl p-4 sm:p-6 lg:p-8 border border-slate-800/90 bg-gradient-to-b from-slate-900/90 via-slate-950 to-[#070b11] shadow-2xl shadow-black/70 relative overflow-hidden">
+      <div className="glass-panel rounded-3xl p-4 sm:p-6 lg:p-8 border border-slate-200 dark:border-slate-800/90 bg-white/80 dark:bg-gradient-to-b dark:from-slate-900/90 dark:via-slate-950 dark:to-[#070b11] shadow-xl dark:shadow-2xl shadow-slate-200/50 dark:shadow-black/70 relative overflow-hidden">
         {/* Subtle decorative glow accents */}
         <div className="absolute -top-24 -left-24 w-80 h-80 bg-stateCyan/10 blur-[100px] rounded-full pointer-events-none" />
         <div className="absolute -bottom-24 -right-24 w-80 h-80 bg-amber-500/10 blur-[100px] rounded-full pointer-events-none" />
 
         {/* Top Video Toolbar */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-slate-800/80">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-slate-200 dark:border-slate-800/80">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-red-600/20 border border-red-500/40 text-red-400 flex items-center justify-center font-bold">
               <Play className="w-4 h-4 fill-red-400" />
             </div>
             <div>
-              <div className="text-sm font-bold text-white flex items-center gap-2">
+              <div className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
                 <span>Official Calabar City & Tourism Drive</span>
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               </div>
-              <div className="text-xs text-slate-400">
+              <div className="text-xs text-slate-500 dark:text-slate-400">
                 Cross River State Capital • Marian Road • Mary Slessor • Calabar River
               </div>
             </div>
           </div>
 
           <div className="flex items-center gap-2 self-end sm:self-auto">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-950/80 text-emerald-300 border border-emerald-500/30">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
               <span>Verified Tourism Bureau Footage</span>
             </span>
@@ -130,9 +130,9 @@ export default function TourismVideoSection({ onSelectCategory }) {
         </div>
 
         {/* Interactive Tour Highlights Strip */}
-        <div className="mt-6 pt-5 border-t border-slate-800/80">
+        <div className="mt-6 pt-5 border-t border-slate-200 dark:border-slate-800/80">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-xs font-extrabold uppercase tracking-wider text-slate-400 flex items-center gap-2">
+            <h3 className="text-xs font-extrabold uppercase tracking-wider text-slate-600 dark:text-slate-400 flex items-center gap-2">
               <MapPin className="w-3.5 h-3.5 text-amber-400" />
               <span>Tour Waypoints & Key Corridors Featured in Video:</span>
             </h3>
@@ -157,7 +157,7 @@ export default function TourismVideoSection({ onSelectCategory }) {
                   className={`text-left p-3 rounded-xl border transition-all cursor-pointer ${
                     activeTourStop === idx
                       ? `${stop.color} shadow-md scale-[1.02]`
-                      : "bg-slate-900/60 border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white"
+                      : "bg-slate-50 dark:bg-slate-900/60 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
                   }`}
                 >
                   <div className="flex items-center gap-2 mb-1">
@@ -175,17 +175,17 @@ export default function TourismVideoSection({ onSelectCategory }) {
       </div>
 
       {/* Explore Categories Banner */}
-      <div className="mt-10 rounded-2xl border border-slate-800/80 bg-slate-900/40 p-6 sm:p-8 backdrop-blur-sm">
+      <div className="mt-10 rounded-2xl border border-slate-200 dark:border-slate-800/80 bg-white/80 dark:bg-slate-900/40 p-6 sm:p-8 backdrop-blur-sm shadow-lg dark:shadow-none">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6">
           <div>
             <div className="text-xs font-bold uppercase tracking-widest text-stateCyan mb-1 flex items-center gap-1.5">
               <Sparkles className="w-3.5 h-3.5" />
               <span>Explore CalabarPass Clearinghouse</span>
             </div>
-            <h3 className="text-xl sm:text-2xl font-bold text-white font-heading">
+            <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white font-heading">
               Browse Curated Listings by Category
             </h3>
-            <p className="text-xs sm:text-sm text-slate-400 mt-1 max-w-xl">
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1 max-w-xl">
               Specific verified hotel bookings, eco-sanctuary passes, dining menus, and trade booths are organized into dedicated category views with escrow fraud protection.
             </p>
           </div>
@@ -204,12 +204,12 @@ export default function TourismVideoSection({ onSelectCategory }) {
                 key={cat.id}
                 type="button"
                 onClick={() => onSelectCategory && onSelectCategory(cat.id)}
-                className={`flex flex-col items-center justify-center text-center p-4 rounded-xl border border-slate-800 bg-slate-950/70 text-slate-300 transition-all hover:bg-slate-900 hover:scale-[1.03] active:scale-[0.98] cursor-pointer group ${cat.color}`}
+                className={`flex flex-col items-center justify-center text-center p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/70 text-slate-700 dark:text-slate-300 transition-all hover:bg-white dark:hover:bg-slate-900 hover:scale-[1.03] active:scale-[0.98] cursor-pointer group shadow-sm ${cat.color}`}
               >
-                <div className="w-10 h-10 rounded-xl bg-slate-900/90 border border-slate-800 flex items-center justify-center mb-2.5 group-hover:border-amber-500/40 transition-colors">
+                <div className="w-10 h-10 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 flex items-center justify-center mb-2.5 group-hover:border-amber-500/40 transition-colors">
                   <Icon className="w-5 h-5 text-amber-400" />
                 </div>
-                <span className="text-xs font-bold text-white group-hover:text-amber-400 transition-colors">
+                <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-amber-500 dark:group-hover:text-amber-400 transition-colors">
                   {cat.label}
                 </span>
                 <span className="text-[10px] text-slate-500 mt-0.5">

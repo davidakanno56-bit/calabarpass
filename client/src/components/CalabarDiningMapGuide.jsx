@@ -192,17 +192,17 @@ export default function CalabarDiningMapGuide() {
     : null;
 
   return (
-    <section id="calabar-destination-map" className="bg-[#070b11] py-16 sm:py-20 scroll-mt-20">
+    <section id="calabar-destination-map" className="bg-slate-50 dark:bg-[#070b11] py-16 sm:py-20 scroll-mt-20 transition-colors duration-200">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8 max-w-3xl">
           <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-stateCyan/20 bg-stateCyan/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-stateCyan">
             <Utensils className="h-3.5 w-3.5" />
             Calabar lifestyle & street guide
           </div>
-          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+          <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
             Find your next Calabar destination
           </h2>
-          <p className="mt-3 text-sm leading-6 text-slate-400 sm:text-base">
+          <p className="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-400 sm:text-base">
             Explore active fast-food favourites, local cuisine, nightlife,
             shopping, and relaxing spots around the city. Choose a destination
             to see it on the map and get directions.
@@ -220,7 +220,7 @@ export default function CalabarDiningMapGuide() {
                   onChange={(event) => setSearchQuery(event.target.value)}
                   placeholder="Search spots, corridors, or dishes..."
                   aria-label="Search dining spots"
-                  className="w-full rounded-xl border border-slate-800 bg-slate-900/60 py-3 pl-10 pr-4 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-amber-500/60"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 py-3 pl-10 pr-4 text-sm text-slate-900 dark:text-white outline-none transition placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:ring-2 focus:ring-stateCyan/30 focus:border-stateCyan shadow-inner"
                 />
               </label>
               <div className="flex flex-wrap gap-2" aria-label="Destination categories">
@@ -240,7 +240,7 @@ export default function CalabarDiningMapGuide() {
                     className={`rounded-full border px-3.5 py-2 text-xs font-semibold transition ${
                       selectedCategory === category
                         ? "border-sky-400 bg-stateCyan text-white"
-                        : "border-slate-800 bg-slate-900/60 text-slate-300 hover:border-slate-600 hover:text-white"
+                        : "border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 text-slate-700 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-600 hover:text-slate-900 dark:hover:text-white"
                     }`}
                   >
                     {category}
@@ -255,10 +255,10 @@ export default function CalabarDiningMapGuide() {
                 return (
                   <article
                     key={spot.id}
-                    className={`rounded-2xl border bg-slate-900/60 p-4 transition sm:p-5 ${
+                    className={`rounded-2xl border p-4 transition sm:p-5 ${
                       isSelected
-                        ? "border-amber-400/60 shadow-lg shadow-amber-950/20"
-                        : "border-slate-800 hover:border-slate-700"
+                        ? "border-amber-500 dark:border-amber-400/80 bg-amber-50/60 dark:bg-slate-900/90 shadow-md"
+                        : "border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 hover:border-slate-300 dark:hover:border-slate-700 shadow-sm"
                     }`}
                   >
                     <div className="flex items-start justify-between gap-3">
@@ -270,10 +270,10 @@ export default function CalabarDiningMapGuide() {
                         <span className="mb-2 ml-2 inline-flex rounded-full border border-slate-700 bg-slate-800/80 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-slate-300">
                           {spot.category}
                         </span>
-                        <h3 className="text-base font-bold leading-snug text-white sm:text-lg">
+                        <h3 className="text-base font-bold leading-snug text-slate-900 dark:text-white sm:text-lg">
                           {spot.name}
                         </h3>
-                        <p className="mt-1 text-sm leading-5 text-slate-400">
+                        <p className="mt-1 text-sm leading-5 text-slate-600 dark:text-slate-400">
                           {spot.specialty}
                         </p>
                       </div>
@@ -319,12 +319,12 @@ export default function CalabarDiningMapGuide() {
                 );
               })}
               {!filteredSpots.length && (
-                <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-8 text-center">
-                  <Search className="mx-auto h-6 w-6 text-slate-500" />
-                  <p className="mt-3 text-sm font-semibold text-white">
+                <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-8 text-center">
+                  <Search className="mx-auto h-6 w-6 text-slate-400 dark:text-slate-500" />
+                  <p className="mt-3 text-sm font-semibold text-slate-900 dark:text-white">
                     No dining spots found
                   </p>
-                  <p className="mt-1 text-xs text-slate-400">
+                  <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
                     Try another search or category.
                   </p>
                 </div>
@@ -332,21 +332,21 @@ export default function CalabarDiningMapGuide() {
             </div>
           </div>
 
-          <div className="overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/60 shadow-2xl shadow-black/30 lg:sticky lg:top-6">
-            <div className="flex items-center gap-3 border-b border-slate-800 p-4 sm:p-5">
+          <div className="overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 shadow-xl dark:shadow-2xl shadow-slate-200/50 dark:shadow-black/30 lg:sticky lg:top-6">
+            <div className="flex items-center gap-3 border-b border-slate-200 dark:border-slate-800 p-4 sm:p-5 bg-slate-50/70 dark:bg-transparent">
               <MapPin className="h-5 w-5 shrink-0 text-amber-400" />
               <div className="min-w-0">
                 <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500">
                   Selected destination
                 </p>
-                <p className="truncate text-sm font-semibold text-white">
+                <p className="truncate text-sm font-bold text-slate-900 dark:text-white">
                   {selectedSpot?.name ?? "Choose a dining spot"}
                 </p>
               </div>
             </div>
 
             {selectedSpot && (
-              <div className="border-b border-slate-800 bg-gradient-to-br from-amber-950/40 via-slate-900/90 to-slate-950 p-4 sm:p-5">
+              <div className="border-b border-slate-200 dark:border-slate-800 bg-gradient-to-br from-amber-50 via-white to-amber-50/40 dark:from-amber-950/40 dark:via-slate-900/90 dark:to-slate-950 p-4 sm:p-5">
                 <div className="mb-2 flex items-center justify-between gap-2">
                   <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/40 bg-amber-950/80 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-amber-300">
                     <Utensils className="h-3 w-3" />
@@ -357,7 +357,7 @@ export default function CalabarDiningMapGuide() {
                     <span>Verified Spot</span>
                   </span>
                 </div>
-                <h4 className="text-lg font-bold tracking-tight text-white sm:text-xl">
+                <h4 className="text-lg font-bold tracking-tight text-slate-900 dark:text-white sm:text-xl">
                   {selectedSpot.name}
                 </h4>
                 <div className="mt-1.5 flex items-center gap-1.5 text-xs font-semibold text-amber-400">
@@ -378,19 +378,19 @@ export default function CalabarDiningMapGuide() {
                 allowFullScreen
               />
             ) : (
-              <div className="flex h-72 items-center justify-center bg-slate-950/70 px-6 text-center text-sm text-slate-400 sm:h-96">
+              <div className="flex h-72 items-center justify-center bg-slate-100 dark:bg-slate-950/70 px-6 text-center text-sm text-slate-500 dark:text-slate-400 sm:h-96">
                 Select a dining spot to view its location on the map.
               </div>
             )}
 
             <div className="space-y-4 p-4 sm:p-5">
-              <div className="flex items-start gap-3 rounded-xl border border-slate-800 bg-[#070b11] px-3.5 py-3">
+              <div className="flex items-start gap-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#070b11] px-3.5 py-3">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-amber-400" />
                 <div>
                   <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-slate-500">
                     Address
                   </p>
-                  <p className="mt-1 text-sm text-slate-200">
+                  <p className="mt-1 text-sm text-slate-800 dark:text-slate-200">
                     {selectedSpot?.address ?? "No address available"}
                   </p>
                 </div>
@@ -404,7 +404,7 @@ export default function CalabarDiningMapGuide() {
                   className={`flex items-center justify-center gap-2 rounded-xl px-4 py-3.5 text-xs font-extrabold transition cursor-pointer ${
                     navigationUrl
                       ? "bg-stateCyan text-white shadow-lg shadow-stateCyan/25 hover:bg-sky-500"
-                      : "pointer-events-none bg-slate-800 text-slate-500"
+                      : "pointer-events-none bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500"
                   }`}
                 >
                   <Navigation className="h-4 w-4 shrink-0" />

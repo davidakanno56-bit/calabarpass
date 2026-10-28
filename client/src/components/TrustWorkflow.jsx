@@ -50,17 +50,17 @@ export default function TrustWorkflow() {
   ];
 
   return (
-    <section className="py-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-slate-800/80">
+    <section className="py-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-slate-200 dark:border-slate-800/80">
       {/* Section Header */}
       <div className="text-center max-w-3xl mx-auto mb-12">
         <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-3">
           <ShieldCheck className="w-3.5 h-3.5" />
           <span>Transparent Trust Architecture</span>
         </div>
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-heading text-white">
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-heading text-slate-900 dark:text-white">
           From Discovery to Check-In
         </h2>
-        <p className="text-sm sm:text-base text-slate-400 mt-3 leading-relaxed">
+        <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 mt-3 leading-relaxed">
           How CalabarPass safeguards tourists and authentic Cross River operators through an end-to-end verified booking pipeline.
         </p>
       </div>
@@ -77,7 +77,7 @@ export default function TrustWorkflow() {
               {/* Top Step Number & Icon */}
               <div>
                 <div className="flex items-center justify-between gap-2 mb-4">
-                  <span className="font-mono text-xs font-black tracking-widest px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-400">
+                  <span className="font-mono text-xs font-black tracking-widest px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400">
                     STEP {step.number}
                   </span>
 
@@ -86,7 +86,7 @@ export default function TrustWorkflow() {
                   </span>
                 </div>
 
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-slate-900 to-slate-800 border border-slate-700/80 flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform shadow-md">
+                <div className="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-gradient-to-tr dark:from-slate-900 dark:to-slate-800 border border-slate-200 dark:border-slate-700/80 flex items-center justify-center text-slate-900 dark:text-white mb-4 group-hover:scale-110 transition-transform shadow-md">
                   <Icon className="w-6 h-6 text-amber-400" />
                 </div>
 
@@ -94,11 +94,11 @@ export default function TrustWorkflow() {
                   {step.title}
                 </div>
 
-                <h3 className="text-base sm:text-lg font-bold font-heading text-white mb-2 leading-snug">
+                <h3 className="text-base sm:text-lg font-bold font-heading text-slate-900 dark:text-white mb-2 leading-snug">
                   {step.headline}
                 </h3>
 
-                <p className="text-xs text-slate-300 leading-relaxed">
+                <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
                   {step.description}
                 </p>
               </div>
@@ -106,7 +106,7 @@ export default function TrustWorkflow() {
               {/* Step indicator arrow for desktop */}
               {idx < steps.length - 1 && (
                 <div className="hidden lg:block absolute -right-3 top-1/2 -translate-y-1/2 z-20 pointer-events-none">
-                  <div className="w-6 h-6 rounded-full bg-[#0b0f17] border border-slate-700 flex items-center justify-center text-slate-400 shadow-md">
+                  <div className="w-6 h-6 rounded-full bg-white dark:bg-[#0b0f17] border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-400 shadow-md">
                     <ArrowRight className="w-3.5 h-3.5" />
                   </div>
                 </div>
@@ -117,11 +117,11 @@ export default function TrustWorkflow() {
       </div>
 
       {/* End-to-End Pipeline Summary Bar (Judges Visual) */}
-      <div className="mt-8 p-4 rounded-2xl bg-slate-950/80 border border-slate-800/80 overflow-x-auto scrollbar-none">
+      <div className="mt-8 p-4 rounded-2xl bg-white dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800/80 shadow-md dark:shadow-none overflow-x-auto scrollbar-none">
         <div className="flex items-center justify-between min-w-[760px] text-xs font-mono font-bold text-slate-400">
           <span className="text-amber-400">TOURIST</span>
           <span className="text-slate-600">→</span>
-          <span className="text-white">VERIFIED DESTINATION</span>
+          <span className="text-slate-900 dark:text-white">VERIFIED DESTINATION</span>
           <span className="text-slate-600">→</span>
           <span className="text-emerald-400">FAIR PRICE</span>
           <span className="text-slate-600">→</span>
@@ -131,7 +131,7 @@ export default function TrustWorkflow() {
           <span className="text-slate-600">→</span>
           <span className="text-amber-400">6-DIGIT VERIFICATION</span>
           <span className="text-slate-600">→</span>
-          <span className="text-white">AUTHORIZED VENDOR</span>
+          <span className="text-slate-900 dark:text-white">AUTHORIZED VENDOR</span>
           <span className="text-slate-600">→</span>
           <span className="text-emerald-400 font-extrabold">SUCCESSFUL CHECK-IN</span>
         </div>

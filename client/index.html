@@ -1,7 +1,28 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('calabarpass_theme');
+          if (saved === 'light') {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.classList.add('light');
+          } else if (saved === 'dark') {
+            document.documentElement.classList.add('dark');
+            document.documentElement.classList.remove('light');
+          } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.classList.add('light');
+          } else {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (e) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'><rect width='36' height='36' rx='9' fill='%2308182B'/><path d='M10 25V14C10 11.8 11.8 10 14 10H22C24.2 10 26 11.8 26 14V25' stroke='%2338BDF8' stroke-width='2.2' stroke-linecap='round'/><path d='M14 25V18C14 16.9 14.9 16 16 16H20C21.1 16 22 16.9 22 18V25' stroke='%230284C7' stroke-width='1.8' stroke-linecap='round'/><circle cx='18' cy='13' r='2' fill='%2338BDF8'/><line x1='8' y1='25' x2='28' y2='25' stroke='%2338BDF8' stroke-width='2' stroke-linecap='round'/></svg>" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="CalabarPass is Cross River State's premier 365-day tourism clearinghouse, fair-price directory, and anti-fraud Paystack escrow booking platform. Reserve Obudu Mountain, Agbokim Waterfalls, Drill Ranch, Marina Resort, Leboku Festival, and Carnival Calabar year-round with guaranteed fair pricing and secure release PIN." />
@@ -13,7 +34,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   </head>
-  <body class="bg-[#070b11] text-slate-100 font-sans antialiased selection:bg-stateCyan selection:text-white">
+  <body class="bg-slate-50 text-slate-900 dark:bg-[#070b11] dark:text-slate-100 font-sans antialiased selection:bg-stateCyan selection:text-white transition-colors duration-200">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
