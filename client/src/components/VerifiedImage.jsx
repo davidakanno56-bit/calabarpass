@@ -113,8 +113,12 @@ export default function VerifiedImage({
             loading="lazy"
             onLoad={() => setIsLoading(false)}
             onError={() => {
-              setIsLoading(false);
-              setHasError(true);
+              if (gallery.length > 1 && activeIndex < gallery.length - 1) {
+                setActiveIndex((prev) => prev + 1);
+              } else {
+                setIsLoading(false);
+                setHasError(true);
+              }
             }}
             className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ${className}`}
           />
