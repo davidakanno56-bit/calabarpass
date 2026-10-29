@@ -1,4 +1,5 @@
 import React from "react";
+import { useCurrency } from "../context/CurrencyContext.jsx";
 import { 
   ShieldCheck, 
   MapPin, 

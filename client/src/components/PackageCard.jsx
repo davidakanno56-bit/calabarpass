@@ -20,8 +20,9 @@ import {
 } from "lucide-react";
 
 export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
+  if (!pkg) return null;
   const { formatPrice } = useCurrency();
-  const savings = pkg.streetSurgePrice ? pkg.streetSurgePrice - pkg.priceNGN : 0;
+  const savings = (pkg?.streetSurgePrice && pkg?.priceNGN) ? pkg.streetSurgePrice - pkg.priceNGN : 0;
   const cardRef = useRef(null);
 
   const isDining = pkg?.categoryGroup === "dining-nightlife" || pkg?.category === "Dining & Nightlife";
@@ -217,7 +218,7 @@ export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
                 Included In Pass:
               </div>
               <div className="space-y-1.5">
-                {pkg.perks.map((perk, idx) => (
+                {(Array.isArray(pkg?.perks) ? pkg.perks : []).map((perk, idx) => (
                   <div key={idx} className="flex items-start gap-2 text-xs text-slate-600 dark:text-slate-300">
                     <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
                     <span>{perk}</span>

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useCurrency } from "../context/CurrencyContext.jsx";
 import {
   Check,
   LockKeyhole,

@@ -4,6 +4,7 @@ import HeroBanner from "./components/HeroBanner.jsx";
 import PackageList from "./components/PackageList.jsx";
 import CalabarDiningMapGuide from "./components/CalabarDiningMapGuide.jsx";
 import VerifiedDestinations from "./components/VerifiedDestinations.jsx";
+import ErrorBoundary from "./components/ErrorBoundary.jsx";
 import TourismVideoSection from "./components/TourismVideoSection.jsx";
 import LiveCRBCBroadcast from "./components/LiveCRBCBroadcast.jsx";
 import { PackageGridSkeleton, EscrowTableSkeleton } from "./components/SkeletonLoader.jsx";
@@ -360,10 +361,15 @@ export default function App() {
                   <CalabarDiningMapGuide />
                 )}
                 {activeCategory === "eco-sites" && (
-                  <VerifiedDestinations
-                    packages={packages}
-                    onViewPackage={(item) => setPackageForDetails(item)}
-                  />
+                  <ErrorBoundary
+                    title="Eco-Sites & Heritage Sanctuaries"
+                    message="We are synchronizing verified ecotourism passes and rainforest sanctuaries. Please click below to retry."
+                  >
+                    <VerifiedDestinations
+                      packages={packages}
+                      onViewPackage={(item) => setPackageForDetails(item)}
+                    />
+                  </ErrorBoundary>
                 )}
               </>
             )}
@@ -380,21 +386,26 @@ export default function App() {
 
         {(activeTab === "eco-sites" || activeTab === "ecosites" || activeTab === "eco") && (
           <div className="pt-4">
-            <PackageList
-              packages={packages}
-              dynamicCards={dynamicVendorCards}
-              activeCategory="eco-sites"
-              initialSearchQuery={initialSearchQuery}
-              onSelectCategory={handleCategoryChange}
-              isLoading={loadingPackages && packages.length === 0}
-              onSelectPackage={(pkg) => setSelectedPackage(pkg)}
-              onViewPackage={(pkg) => setPackageForDetails(pkg)}
-              onOpenShield={() => handleTabChange("shield")}
-            />
-            <VerifiedDestinations
-              packages={packages}
-              onViewPackage={(item) => setPackageForDetails(item)}
-            />
+            <ErrorBoundary
+              title="Eco-Sites & Heritage Directory"
+              message="We are synchronizing verified ecotourism passes and rainforest sanctuaries. Please click below to retry."
+            >
+              <PackageList
+                packages={packages}
+                dynamicCards={dynamicVendorCards}
+                activeCategory="eco-sites"
+                initialSearchQuery={initialSearchQuery}
+                onSelectCategory={handleCategoryChange}
+                isLoading={loadingPackages && packages.length === 0}
+                onSelectPackage={(pkg) => setSelectedPackage(pkg)}
+                onViewPackage={(pkg) => setPackageForDetails(pkg)}
+                onOpenShield={() => handleTabChange("shield")}
+              />
+              <VerifiedDestinations
+                packages={packages}
+                onViewPackage={(item) => setPackageForDetails(item)}
+              />
+            </ErrorBoundary>
           </div>
         )}
 
