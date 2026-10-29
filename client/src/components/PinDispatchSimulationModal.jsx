@@ -67,17 +67,29 @@ export default function PinDispatchSimulationModal({ isOpen, onClose, transactio
           <X className="w-5 h-5" />
         </button>
 
-        {/* Header: State Clearance & Verification Seal */}
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-11 h-11 rounded-2xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0 shadow-emerald-glow">
-            <ShieldCheck className="w-6 h-6" />
+                {/* Header: State Clearance & Verification Seal with CP Monogram */}
+        <div className="flex items-center gap-3.5 mb-5">
+          <div className="relative flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-br from-slate-900 to-[#070e1a] border border-stateCyan/40 p-2 shadow-lg shadow-cyan-950/50 shrink-0">
+            <img 
+              src="/assets/calabarpass-monogram.svg" 
+              alt="CalabarPass CP Monogram" 
+              className="w-full h-full object-contain drop-shadow"
+            />
+            <span className="absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-[#0e1422] flex items-center justify-center text-[8px] text-white font-bold">
+              ✓
+            </span>
           </div>
           <div>
-            <div className="flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-widest text-emerald-400">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-              <span>Automated Dispatch Active</span>
+            <div className="flex items-center gap-2 mb-0.5">
+              <span className="text-lg sm:text-xl font-bold tracking-tight font-sans text-white">
+                Calabar<span className="text-stateCyan font-extrabold">Pass</span>
+              </span>
+              <span className="text-[9px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 whitespace-nowrap flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                Escrow Clearance Active
+              </span>
             </div>
-            <h2 id="dispatch-modal-title" className="text-xl sm:text-2xl font-bold font-heading text-white">
+            <h2 id="dispatch-modal-title" className="text-lg sm:text-xl font-bold font-heading text-white">
               Instant Check-In PIN Dispatched
             </h2>
           </div>
@@ -126,8 +138,12 @@ export default function PinDispatchSimulationModal({ isOpen, onClose, transactio
         <div className="rounded-2xl bg-[#0b141a] border border-[#202c33] p-4 relative overflow-hidden mb-4 shadow-xl">
           <div className="flex items-center justify-between border-b border-[#202c33] pb-2.5 mb-2.5">
             <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-full bg-[#00a884] flex items-center justify-center text-white font-bold text-xs">
-                CP
+              <div className="w-8 h-8 rounded-full bg-slate-900 border border-emerald-500/40 p-1 flex items-center justify-center shrink-0">
+                <img 
+                  src="/assets/calabarpass-monogram.svg" 
+                  alt="CP Monogram" 
+                  className="w-full h-full object-contain"
+                />
               </div>
               <div>
                 <div className="text-xs font-bold text-[#e9edef] flex items-center gap-1">
@@ -174,7 +190,7 @@ export default function PinDispatchSimulationModal({ isOpen, onClose, transactio
             <div className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
               6-Digit Physical Check-In PIN
             </div>
-            <div className="text-2xl font-black font-mono text-amber-400 tracking-widest mt-0.5">
+            <div className="text-2xl font-black font-mono text-stateCyan tracking-widest mt-0.5">
               {pin}
             </div>
           </div>
@@ -207,11 +223,11 @@ export default function PinDispatchSimulationModal({ isOpen, onClose, transactio
                 onViewVoucher(transaction);
               }
             }}
-            className="w-full sm:flex-1 py-3 px-4 rounded-xl bg-stateCyan hover:bg-sky-500 text-white font-extrabold text-xs tracking-tight shadow-lg shadow-stateCyan/25 flex items-center justify-center gap-2 transition cursor-pointer hover:scale-[1.02] active:scale-95"
+            className="w-full sm:flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-500 to-stateCyan hover:opacity-95 text-slate-950 font-extrabold text-xs tracking-tight shadow-lg shadow-emerald-950/40 flex items-center justify-center gap-2 transition cursor-pointer hover:scale-[1.01] active:scale-95"
           >
-            <QrCode className="w-4 h-4" />
+            <QrCode className="w-4 h-4 text-slate-950" />
             <span>Open Digital Voucher &amp; QR Code</span>
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight className="w-4 h-4 text-slate-950" />
           </button>
           <button
             onClick={onClose}

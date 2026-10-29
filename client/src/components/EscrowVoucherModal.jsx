@@ -122,24 +122,24 @@ export default function EscrowVoucherModal({ transaction: initialTx, onClose, on
       const ctx = canvas.getContext("2d");
 
       // Card Background
-      ctx.fillStyle = "#0d131f";
+      ctx.fillStyle = "#09101d";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       // Gold-emerald top ribbon
       const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
-      gradient.addColorStop(0, "#f59e0b");
-      gradient.addColorStop(0.5, "#10b981");
-      gradient.addColorStop(1, "#f59e0b");
+      gradient.addColorStop(0, "#059669");
+      gradient.addColorStop(0.5, "#38bdf8");
+      gradient.addColorStop(1, "#059669");
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, 16);
 
       // Inner card border
-      ctx.strokeStyle = "rgba(245, 158, 11, 0.35)";
+      ctx.strokeStyle = "rgba(56, 189, 248, 0.35)";
       ctx.lineWidth = 2;
       ctx.strokeRect(30, 36, canvas.width - 60, canvas.height - 66);
 
       // Header Brand
-      ctx.fillStyle = "#f59e0b";
+      ctx.fillStyle = "#38bdf8";
       ctx.font = "bold 20px sans-serif";
       ctx.fillText("OFFICIAL VERIFICATION PASS • 365-DAY ESCROW CLEARINGHOUSE", 60, 80);
 
@@ -168,12 +168,12 @@ export default function EscrowVoucherModal({ transaction: initialTx, onClose, on
       // Secret 6-Digit PIN Box
       ctx.fillStyle = "rgba(15, 23, 42, 0.9)";
       ctx.fillRect(60, 200, canvas.width - 120, 180);
-      ctx.strokeStyle = "#f59e0b";
+      ctx.strokeStyle = "#38bdf8";
       ctx.setLineDash([8, 6]);
       ctx.strokeRect(60, 200, canvas.width - 120, 180);
       ctx.setLineDash([]);
 
-      ctx.fillStyle = "#f59e0b";
+      ctx.fillStyle = "#38bdf8";
       ctx.font = "bold 18px sans-serif";
       ctx.fillText("SECRET PHYSICAL CHECK-IN PIN", 90, 240);
 
@@ -197,7 +197,7 @@ export default function EscrowVoucherModal({ transaction: initialTx, onClose, on
       ctx.fillStyle = "#ffffff";
       ctx.font = "bold 20px sans-serif";
       ctx.fillText(transaction.packageName || "Premier Executive Stay", col1X, 460, 320);
-      ctx.fillStyle = "#f59e0b";
+      ctx.fillStyle = "#38bdf8";
       ctx.font = "16px sans-serif";
       ctx.fillText(`Vendor: ${transaction.vendor || "Verified Partner"}`, col1X, 490, 320);
 
@@ -317,24 +317,39 @@ export default function EscrowVoucherModal({ transaction: initialTx, onClose, on
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md overflow-y-auto">
-      <div className="relative w-full max-w-2xl bg-[#121826] border border-amber-500/40 rounded-3xl shadow-2xl overflow-hidden my-auto max-h-[90vh] overflow-y-auto print:border-none print:shadow-none print:bg-white print:text-black">
+      <div className="relative w-full max-w-2xl bg-[#0e1422]/95 backdrop-blur-xl border border-stateCyan/30 hover:border-stateCyan/50 rounded-3xl shadow-2xl shadow-cyan-950/40 transition-colors duration-300 overflow-hidden my-auto max-h-[90vh] overflow-y-auto print:border-none print:shadow-none print:bg-white print:text-black">
         {/* Top Gold Ribbon */}
-        <div className="h-2 bg-gradient-to-r from-amber-500 via-emerald-400 to-amber-500 no-print" />
+        <div className="h-1.5 bg-gradient-to-r from-emerald-500 via-stateCyan to-teal-400 no-print" />
 
         {/* Voucher Container */}
         <div className="p-6 sm:p-8 space-y-6">
           {/* Header */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-slate-800 pb-6 print:border-gray-200">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500 to-emerald-400 flex items-center justify-center text-black font-extrabold text-2xl shadow-gold-glow">
-                🌴
+              <div className="relative flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-slate-900 to-[#070e1a] border border-stateCyan/40 p-2 shadow-lg shadow-cyan-950/50 shrink-0">
+                <img 
+                  src="/assets/calabarpass-monogram.svg" 
+                  alt="CalabarPass CP Monogram" 
+                  className="w-full h-full object-contain drop-shadow"
+                />
+                <span className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-emerald-500 border-2 border-[#0e1422] flex items-center justify-center text-[9px] text-white font-bold">
+                  ✓
+                </span>
               </div>
               <div>
-                <div className="text-xs font-bold uppercase tracking-widest text-amber-400 print:text-amber-600 flex items-center gap-1.5">
+                <div className="text-xs font-bold uppercase tracking-widest text-emerald-400 print:text-emerald-700 flex items-center gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
                   <span>Payment Verified • 365-Day Escrow Secured</span>
                 </div>
-                <h2 className="text-2xl font-extrabold font-heading text-white print:text-black">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-xl sm:text-2xl font-bold tracking-tight font-sans text-white print:text-black">
+                    Calabar<span className="text-stateCyan font-extrabold">Pass</span>
+                  </span>
+                  <span className="text-[9px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-stateCyan/15 text-stateCyan border border-stateCyan/30 whitespace-nowrap">
+                    Official Escrow Pass
+                  </span>
+                </div>
+                <h2 className="text-xl sm:text-2xl font-extrabold font-heading text-white print:text-black">
                   Booking Confirmed & Escrow Secured!
                 </h2>
                 <p className="text-xs text-slate-400 print:text-gray-600">
@@ -379,7 +394,7 @@ export default function EscrowVoucherModal({ transaction: initialTx, onClose, on
           {/* Prominent Booking Reference Banner */}
           <div className="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center border border-amber-500/20 shrink-0">
+              <div className="w-8 h-8 rounded-lg bg-stateCyan/10 text-stateCyan flex items-center justify-center border border-stateCyan/30 shrink-0">
                 <FileCheck className="w-4 h-4" />
               </div>
               <div>
@@ -402,8 +417,8 @@ export default function EscrowVoucherModal({ transaction: initialTx, onClose, on
           </div>
 
           {/* Core 6-Digit Check-in PIN Display Card */}
-          <div className="p-6 rounded-2xl bg-gradient-to-br from-amber-950/30 via-slate-900 to-emerald-950/20 border-2 border-dashed border-amber-500/50 text-center relative overflow-hidden print:border-amber-600">
-            <div className="text-xs font-bold uppercase tracking-widest text-amber-400 mb-1">
+          <div className="p-6 rounded-2xl bg-gradient-to-br from-emerald-950/25 via-slate-900/90 to-sky-950/30 border-2 border-dashed border-stateCyan/40 text-center relative overflow-hidden print:border-emerald-600">
+            <div className="text-xs font-bold uppercase tracking-widest text-stateCyan mb-1">
               Secret Physical Check-In Code
             </div>
             <div className="text-xs text-slate-400 mb-3">
@@ -412,7 +427,7 @@ export default function EscrowVoucherModal({ transaction: initialTx, onClose, on
 
             {/* Huge PIN */}
             <div className="flex items-center justify-center gap-3 mb-3">
-              <div className="text-4xl sm:text-5xl font-black font-mono tracking-widest text-white bg-slate-950/90 px-6 py-3 rounded-2xl border border-amber-500/40 shadow-gold-glow print:text-black print:bg-gray-100">
+              <div className="text-4xl sm:text-5xl font-black font-mono tracking-widest text-white bg-slate-950/90 px-6 py-3 rounded-2xl border border-stateCyan/30 shadow-lg shadow-cyan-950/50 print:text-black print:bg-gray-100">
                 {transaction.checkInPin || "849201"}
               </div>
               <button
@@ -461,7 +476,7 @@ export default function EscrowVoucherModal({ transaction: initialTx, onClose, on
             <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 print:bg-gray-50 print:border-gray-200">
               <div className="text-slate-400 uppercase tracking-wider text-[10px]">Tourism Destination / Stay</div>
               <div className="font-bold text-sm text-white mt-0.5 print:text-black">{transaction.packageName}</div>
-              <div className="text-slate-400 mt-1">Vendor: <span className="text-amber-400 font-semibold">{transaction.vendor}</span></div>
+              <div className="text-slate-400 mt-1">Vendor: <span className="text-stateCyan font-semibold">{transaction.vendor}</span></div>
             </div>
 
             <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 print:bg-gray-50 print:border-gray-200">
@@ -503,7 +518,7 @@ export default function EscrowVoucherModal({ transaction: initialTx, onClose, on
                 )}
               </div>
               <div>
-                <div className="flex items-center gap-1.5 text-xs font-bold text-amber-400 mb-0.5">
+                <div className="flex items-center gap-1.5 text-xs font-bold text-stateCyan mb-0.5">
                   <QrCode className="w-3.5 h-3.5" />
                   <span>Dynamic Cryptographic Mobile QR Pass</span>
                 </div>
@@ -526,9 +541,9 @@ export default function EscrowVoucherModal({ transaction: initialTx, onClose, on
               <button
                 onClick={handleDownloadOfflinePass}
                 disabled={downloadingPass}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-black text-xs sm:text-sm font-extrabold shadow-gold-glow transition-all cursor-pointer"
+                className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-500 to-stateCyan hover:opacity-95 text-slate-950 text-xs sm:text-sm font-extrabold shadow-lg shadow-emerald-950/40 transition-all cursor-pointer hover:scale-[1.01] active:scale-95"
               >
-                <Download className="w-4 h-4 text-black" />
+                <Download className="w-4 h-4 text-slate-950" />
                 <span>{downloadingPass ? "Generating Pass..." : "Download / Save Voucher (PDF/Image)"}</span>
               </button>
 
