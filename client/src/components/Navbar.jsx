@@ -72,6 +72,7 @@ export default function Navbar({
   const { currency, setCurrency, availableCurrencies } = useCurrency();
   const [megaMenuCategory, setMegaMenuCategory] = useState(null);
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleVendorOrLookupClick = () => {
     setIsMegaMenuOpen(false);
@@ -85,6 +86,7 @@ export default function Navbar({
   };
 
   const handleCategoryClick = (catId) => {
+    setIsMobileMenuOpen(false);
     if (isMegaMenuOpen && megaMenuCategory === catId) {
       setIsMegaMenuOpen(false);
     } else {
@@ -117,6 +119,7 @@ export default function Navbar({
   };
 
   const handleLogoClick = () => {
+    setIsMobileMenuOpen(false);
     setIsMegaMenuOpen(false);
     if (onSelectCategory) {
       onSelectCategory("all");
@@ -159,7 +162,8 @@ export default function Navbar({
           </div>
 
           {/* Right side: Clean utility actions arranged neatly in a single row without any duplication */}
-          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+          {/* Desktop utility row: visible only on md+ viewports */}
+          <div className="hidden md:flex items-center gap-1.5 sm:gap-2.5 shrink-0">
             {/* 1. Multi-Currency Diaspora Selector */}
             <div className="relative flex items-center">
               <div className="relative flex items-center rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100/90 dark:bg-slate-900/90 hover:bg-white dark:hover:bg-slate-800 shadow-sm transition">
@@ -263,9 +267,157 @@ export default function Navbar({
                   No account for tourists • Vendors login
                 </span>
               </div>
+                        </button>
+          </div>
+
+          {/* Mobile Hamburger Trigger: visible only on mobile viewports (< md) */}
+          <div className="flex md:hidden items-center gap-2 shrink-0">
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              type="button"
+              className="p-2 sm:p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100/90 dark:bg-slate-900/90 text-slate-700 dark:text-slate-200 hover:text-stateCyan hover:border-stateCyan/40 transition-all cursor-pointer shadow-sm active:scale-95"
+              aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={isMobileMenuOpen}
+            >
+              {isMobileMenuOpen ? (
+                <X className="w-5 h-5 text-stateCyan" />
+              ) : (
+                <Menu className="w-5 h-5" />
+              )}
             </button>
           </div>
         </div>
+
+        {/* Mobile Slide-Out / Collapsible Menu Drawer (md:hidden) */}
+        {isMobileMenuOpen && (
+          <div 
+            className="md:hidden border-b border-slate-200 dark:border-slate-800 bg-white/98 dark:bg-[#0c121e]/98 backdrop-blur-xl px-4 py-4 space-y-3 shadow-2xl transition-all animate-fadeIn"
+            role="region"
+            aria-label="Mobile Navigation Utility Menu"
+          >
+            {/* Row 1 in Mobile Menu: Currency Selector & Theme Mode Switch */}
+            <div className="grid grid-cols-2 gap-2.5">
+              {/* Diaspora Currency Selector */}
+              <div className="relative flex items-center rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100/90 dark:bg-slate-900/90 p-2 shadow-sm">
+                <Globe className="w-4 h-4 text-stateCyan ml-1 shrink-0" />
+                <select
+                  value={currency}
+                  onChange={(e) => {
+                    setCurrency(e.target.value);
+                  }}
+                  aria-label="Select Currency for Diaspora conversion"
+                  className="w-full py-0.5 pl-2 pr-6 rounded-lg text-xs font-bold bg-transparent text-slate-800 dark:text-slate-100 cursor-pointer outline-none appearance-none"
+                >
+                  {availableCurrencies.map((c) => (
+                    <option key={c.code} value={c.code} className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white font-bold">
+                      {c.code} ({c.symbol})
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2.5 pointer-events-none" />
+              </div>
+
+              {/* Theme Toggle Button */}
+              <button
+                onClick={toggleTheme}
+                type="button"
+                className="flex items-center justify-center gap-2 p-2 rounded-xl text-xs font-bold border border-slate-200 dark:border-slate-800 bg-slate-100/90 dark:bg-slate-900/90 text-slate-700 dark:text-slate-200 hover:border-stateCyan/40 shadow-sm transition active:scale-95 cursor-pointer"
+                aria-label="Toggle Light / Dark theme"
+              >
+                {isDark ? (
+                  <>
+                    <Sun className="w-4 h-4 text-amber-400 shrink-0" />
+                    <span className="text-xs font-bold text-amber-400">Light Mode</span>
+                  </>
+                ) : (
+                  <>
+                    <Moon className="w-4 h-4 text-slate-700 shrink-0" />
+                    <span className="text-xs font-bold text-slate-700">Dark Mode</span>
+                  </>
+                )}
+              </button>
+            </div>
+
+            {/* Scam Shield Vault Button */}
+            <button
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                setIsMegaMenuOpen(false);
+                setActiveTab("shield");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              className={`w-full flex items-center justify-between p-3 rounded-xl text-xs font-bold transition-all border cursor-pointer active:scale-95 ${
+                activeTab === "shield"
+                  ? "bg-stateCyan text-white border-stateCyan shadow-md shadow-stateCyan/25"
+                  : "bg-slate-100/90 dark:bg-slate-900 text-slate-800 dark:text-slate-100 border-slate-200 dark:border-slate-800 hover:border-stateCyan/40"
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-500 shrink-0">
+                  <ShieldAlert className="w-4 h-4" />
+                </div>
+                <div className="text-left">
+                  <div className="font-bold text-slate-900 dark:text-white">Scam Shield Vault</div>
+                  <div className="text-[10px] text-slate-500 dark:text-slate-400 font-normal">Cross River Fair-Price Index &amp; Rate Assurance</div>
+                </div>
+              </div>
+              <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md bg-amber-500/15 text-amber-500 border border-amber-500/30">
+                Zero Fraud
+              </span>
+            </button>
+
+            {/* Vendor Portal / Booking & PIN Lookup Button */}
+            <button
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                handleVendorOrLookupClick();
+              }}
+              className={`w-full flex items-center justify-between p-3 rounded-xl text-xs font-bold transition-all border cursor-pointer active:scale-95 ${
+                activeTab === "escrow" || activeTab === "vendor"
+                  ? "bg-stateCyan text-white border-stateCyan shadow-md shadow-stateCyan/25"
+                  : "bg-slate-100/90 dark:bg-slate-900 text-slate-800 dark:text-slate-100 border-slate-200 dark:border-slate-800 hover:border-stateCyan/40"
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
+                  <User className="w-4 h-4" />
+                </div>
+                <div className="text-left">
+                  <div className="font-bold text-slate-900 dark:text-white">Vendor Portal / Booking Lookup</div>
+                  <div className="text-[10px] text-slate-500 dark:text-slate-400 font-normal">Look up 6-digit PIN or merchant payout ledger</div>
+                </div>
+              </div>
+              <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded-md bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                Lookup
+              </span>
+            </button>
+
+            {/* List Property / Host & Vendor Onboarding Button */}
+            {onOpenOnboarding && (
+              <button
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  setIsMegaMenuOpen(false);
+                  onOpenOnboarding();
+                }}
+                className="w-full flex items-center justify-between p-3 rounded-xl text-xs font-bold transition-all border border-slate-200 dark:border-slate-800 bg-slate-100/90 dark:bg-slate-900 text-slate-800 dark:text-slate-100 hover:border-stateCyan/40 cursor-pointer active:scale-95"
+              >
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-lg bg-stateCyan/10 border border-stateCyan/20 flex items-center justify-center text-stateCyan shrink-0">
+                    <Building2 className="w-4 h-4" />
+                  </div>
+                  <div className="text-left">
+                    <div className="font-bold text-slate-900 dark:text-white">List Property / Partner Portal</div>
+                    <div className="text-[10px] text-slate-500 dark:text-slate-400 font-normal">Onboard Hotel, Sanctuary, Dining or Band Pass</div>
+                  </div>
+                </div>
+                <span className="text-[10px] font-bold text-stateCyan">
+                  + Onboard
+                </span>
+              </button>
+            )}
+          </div>
+        )}
 
         {/* Row 2: Unified Booking.com-Style Horizontal Category Bar */}
         <div className="py-2.5 overflow-x-auto scrollbar-none no-scrollbar touch-pan-x -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
