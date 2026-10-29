@@ -141,18 +141,22 @@ export const DESTINATIONS = [
 
 export default function VerifiedDestinations({ packages = [], onViewPackage }) {
   const { formatPrice } = useCurrency();
+  const safePackages = Array.isArray(packages) ? packages : [];
+  const safeDestinations = Array.isArray(DESTINATIONS) ? DESTINATIONS : [];
+
   const handleDestinationClick = (dest) => {
-    // Match package from loaded packages or fallback
-    const matchedPkg = packages.find((p) => p.id === dest.packageId) || {
-      id: dest.packageId,
-      name: dest.name,
-      title: dest.name,
-      priceNGN: dest.priceRaw,
-      vendor: dest.verifiedVendor,
-      location: dest.location,
-      details: dest.description,
-      image: dest.image,
-      imageUrl: dest.image
+    if (!dest) return;
+    // Match package from loaded packages or fallback safely with optional chaining
+    const matchedPkg = safePackages.find((p) => p?.id === dest?.packageId) || {
+      id: dest.packageId || dest.id,
+      name: dest.name || "Eco-Site Destination",
+      title: dest.name || "Eco-Site Destination",
+      priceNGN: dest.priceRaw || 0,
+      vendor: dest.verifiedVendor || "Cross River Ecotourism Bureau",
+      location: dest.location || "Cross River State",
+      details: dest.description || dest.tagline || "",
+      image: dest.image || dest.imageUrl || "/assets/obudu_mountain.jpg",
+      imageUrl: dest.imageUrl || dest.image || "/assets/obudu_mountain.jpg"
     };
 
     if (onViewPackage) {
@@ -187,8 +191,10 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
 
       {/* Destination Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-        {DESTINATIONS.map((dest, index) => {
-          const IconComponent = dest.icon;
+        {safeDestinations.map((dest, index) => {
+          if (!dest) return null;
+          const IconComponent = dest.icon || Trees;
+          const highlights = Array.isArray(dest.highlights) ? dest.highlights : [];
 
           return (
             <div
@@ -237,16 +243,18 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
                   </p>
 
                   {/* Highlights Pills */}
-                  <div className="flex flex-wrap gap-1.5 pt-2">
-                    {dest.highlights.map((h, idx) => (
-                      <span
-                        key={idx}
-                        className="px-2 py-0.5 rounded-md text-[10px] font-medium bg-slate-100 dark:bg-slate-900/90 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-800"
-                      >
-                        {h}
-                      </span>
-                    ))}
-                  </div>
+                  {highlights.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5 pt-2">
+                      {highlights.map((h, idx) => (
+                        <span
+                          key={idx}
+                          className="px-2 py-0.5 rounded-md text-[10px] font-medium bg-slate-100 dark:bg-slate-900/90 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-800"
+                        >
+                          {h}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 {/* Bottom Pricing & CTA */}
@@ -256,13 +264,13 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
                       Estimated Budget
                     </span>
                     <span className="text-base sm:text-lg font-bold tracking-tight font-heading text-slate-900 dark:text-white">
-                      {dest.priceRaw ? `From ${formatPrice(dest.priceRaw)} / person` : dest.priceIndicator}
+                      {dest.priceRaw ? `From ${formatPrice(dest.priceRaw)} / person` : (dest.priceIndicator || "Standard Tariff")}
                     </span>
                   </div>
 
                   <div className="flex flex-wrap items-center gap-2">
                     <a
-                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${dest.name} ${dest.location}`)}`}
+                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${dest?.name || "Eco-Site"} ${dest?.location || "Calabar"}`)}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1 px-2.5 py-2 rounded-xl bg-slate-100 dark:bg-slate-800/90 hover:bg-slate-200 dark:hover:bg-slate-700 text-stateCyan hover:text-sky-600 dark:hover:text-white text-xs font-semibold tracking-tight border border-stateCyan/30 transition-all cursor-pointer shadow-sm"

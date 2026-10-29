@@ -43,6 +43,7 @@ export default function App() {
       }
       if (path === "/escrow") return "escrow";
       if (path === "/accommodations") return "packages"; // Handled via activeCategory
+      if (path === "/eco-sites" || path === "/ecosites" || path === "/eco") return "packages"; // Handled via activeCategory
     }
     return "packages";
   };
@@ -51,7 +52,7 @@ export default function App() {
     if (typeof window !== "undefined") {
       const path = window.location.pathname.toLowerCase();
       if (path === "/accommodations") return "accommodations";
-      if (path === "/eco-sites") return "eco-sites";
+      if (path === "/eco-sites" || path === "/ecosites" || path === "/eco") return "eco-sites";
       if (path === "/dining" || path === "/dining-nightlife") return "dining-nightlife";
       if (path === "/trade" || path === "/trade-expo") return "trade-expo";
       if (path === "/carnival" || path === "/carnival-culture") return "carnival-culture";
@@ -136,6 +137,14 @@ export default function App() {
   const handleTabChange = (tab) => {
     if (tab === "vendor" && !isVendorAuthenticated) {
       setShowVendorAuthModal(true);
+      return;
+    }
+    if (tab === "eco-sites" || tab === "ecosites" || tab === "eco") {
+      handleCategoryChange("eco-sites");
+      return;
+    }
+    if (tab === "accommodations") {
+      handleCategoryChange("accommodations");
       return;
     }
     setActiveTabState(tab);
@@ -367,6 +376,26 @@ export default function App() {
               onBookHotel={(hotel) => setSelectedPackage(hotel)}
             />
           </Suspense>
+        )}
+
+        {(activeTab === "eco-sites" || activeTab === "ecosites" || activeTab === "eco") && (
+          <div className="pt-4">
+            <PackageList
+              packages={packages}
+              dynamicCards={dynamicVendorCards}
+              activeCategory="eco-sites"
+              initialSearchQuery={initialSearchQuery}
+              onSelectCategory={handleCategoryChange}
+              isLoading={loadingPackages && packages.length === 0}
+              onSelectPackage={(pkg) => setSelectedPackage(pkg)}
+              onViewPackage={(pkg) => setPackageForDetails(pkg)}
+              onOpenShield={() => handleTabChange("shield")}
+            />
+            <VerifiedDestinations
+              packages={packages}
+              onViewPackage={(item) => setPackageForDetails(item)}
+            />
+          </div>
         )}
 
         {activeTab === "shield" && (

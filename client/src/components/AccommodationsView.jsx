@@ -25,20 +25,21 @@ export const officialAfSnetHotels = [
   {
     id: "hotel-transcorp-metropolitan",
     name: "Transcorp Hotels Calabar",
-    category: "AfSNET Official 5-Star Partner",
+    category: "Luxury 5-Star Hotel",
     area: "Murtala Mohammed Highway, Calabar",
     address: "10 Murtala Mohammed Highway, Calabar, Cross River State",
-    distanceToCICC: "8 mins drive to CICC (Conference Shuttle Hub)",
-    rating: "4.9 ★ Official AfSNET Tier",
+    distanceToCICC: "8 mins drive to CICC (Airport Corridor)",
+    rating: "4.9 ★ Luxury Tier",
     pricePerNight: "₦75,000",
     priceRange: "₦75,000 / night",
-    priceNote: "Negotiated AfSNET delegate rate (365-Day Escrow Protected)",
+    priceNote: "Negotiated executive rate with 365-day escrow protection",
     roomType: "Executive Standard / Deluxe Suites",
-    contactPerson: "Mr. Bassey Eyo (AfSNET Desk)",
+    description: "Flagship luxury hospitality property offering presidential suites, Vienna Café, high-security grounds, and Olympic-sized swimming pool.",
+    contactPerson: "Mr. Bassey Eyo (Front Desk)",
     phone: "+234 803 555 0101",
     email: "reservations.calabar@transcorphotels.com",
     amenities: [
-      "Executive AfSNET Shuttle to CICC",
+      "Executive Airport & City Shuttle",
       "24/7 Redundant Power & Fast Fiber WiFi",
       "Olympic Swimming Pool & Tennis Court",
       "Free Bureau Breakfast Buffet"
@@ -51,21 +52,22 @@ export const officialAfSnetHotels = [
   {
     id: "hotel-channel-view",
     name: "Channel View Hotel",
-    category: "AfSNET Executive 4-Star Partner",
+    category: "Executive 4-Star Hotel",
     area: "MCC Road, Calabar",
     address: "27/29 MCC Road, Calabar, Cross River State",
     distanceToCICC: "11 mins drive to CICC",
     rating: "4.7 ★ Verified Stay",
     pricePerNight: "₦45,000",
     priceRange: "₦45,000 / night",
-    priceNote: "Pre-negotiated conference rate locked in Escrow",
+    priceNote: "Verified executive room rate locked in Escrow",
     roomType: "Diplomatic Suite & Superior Rooms",
+    description: "Premier executive business stay along MCC Road featuring full conference halls, fitness center, and authentic Efik regional dining.",
     contactPerson: "Mrs. Nkechi Bassey",
     phone: "+234 803 555 0102",
     email: "info@channelviewhotel.com",
     amenities: [
       "Conference Room & Boardrooms",
-      "Airport Pickup & CICC Shuttles",
+      "Airport Pickup & Executive Shuttles",
       "Executive Fitness Center & Lounge",
       "Complimentary Efik Cuisine Breakfast"
     ],
@@ -77,7 +79,7 @@ export const officialAfSnetHotels = [
   {
     id: "hotel-tinapa-lakeside",
     name: "Tinapa Lakeside Hotel",
-    category: "AfSNET Resort & Conference Retreat",
+    category: "Resort & Conference Retreat",
     area: "Tinapa Free Zone, Calabar",
     address: "Tinapa Business Resort, Adiabo, Calabar",
     distanceToCICC: "5 mins drive to CICC (Adjacent to Convention Corridor)",
@@ -86,6 +88,7 @@ export const officialAfSnetHotels = [
     priceRange: "₦55,000 / night",
     priceNote: "Free zone tourism discount with instant PIN check-in",
     roomType: "Lakeview Executive King",
+    description: "Scenic waterfront resort at Tinapa Business Resort offering lakeside balconies, waterpark access, and quiet natural serenity.",
     contactPerson: "Engr. Edet Okon",
     phone: "+234 803 555 0103",
     email: "reservations@tinapalakeside.com",
@@ -103,7 +106,7 @@ export const officialAfSnetHotels = [
   {
     id: "hotel-danamic-luxury",
     name: "Danamic Hotel & Suites",
-    category: "AfSNET Boutique Business Hotel",
+    category: "Boutique Business Hotel",
     area: "State Housing Estate, Calabar",
     address: "Plot 14, 2nd Avenue, State Housing Estate, Calabar",
     distanceToCICC: "9 mins drive to CICC",
@@ -112,6 +115,7 @@ export const officialAfSnetHotels = [
     priceRange: "₦38,000 / night",
     priceNote: "Quiet executive residential corridor rate",
     roomType: "Deluxe Executive King",
+    description: "Boutique residential hotel nestled in the serene State Housing Estate diplomatic district with high-speed fiber WiFi and cocktail bar.",
     contactPerson: "Ms. Glory Archibong",
     phone: "+234 803 555 0104",
     email: "frontdesk@danamichotel.com",
@@ -129,7 +133,7 @@ export const officialAfSnetHotels = [
   {
     id: "hotel-cross-river-state-housing",
     name: "Marian Hotels Calabar",
-    category: "AfSNET Central City Hub",
+    category: "Central City Commercial Hub",
     area: "Marian Road / Old Ikang, Calabar",
     address: "125 Marian Road, Calabar, Cross River State",
     distanceToCICC: "12 mins drive to CICC",
@@ -138,6 +142,7 @@ export const officialAfSnetHotels = [
     priceRange: "₦35,000 / night",
     priceNote: "Close to city entertainment, banks & dining",
     roomType: "Standard Executive Room",
+    description: "Centrally positioned on bustling Marian Road, providing direct access to city dining strips, corporate desks, and backup power.",
     contactPerson: "Mr. Victor Duke",
     phone: "+234 803 555 0105",
     email: "booking@marianhotelscalabar.ng",
@@ -155,7 +160,7 @@ export const officialAfSnetHotels = [
   {
     id: "hotel-montana-suites",
     name: "Montana Hotel & Suites",
-    category: "AfSNET Budget Executive Stay",
+    category: "Budget Executive Stay",
     area: "Federal Housing Estate, Calabar",
     address: "Road 3, Federal Housing Estate, Ikot Ansa, Calabar",
     distanceToCICC: "14 mins drive to CICC",
@@ -164,6 +169,7 @@ export const officialAfSnetHotels = [
     priceRange: "₦28,000 / night",
     priceNote: "Best value accredited business accommodation",
     roomType: "Classic Standard Suite",
+    description: "Gated peaceful hospitality suites in Federal Housing Estate offering comfortable en-suite rooms, quiet grounds, and transit links.",
     contactPerson: "Mrs. Emem Effiong",
     phone: "+234 803 555 0106",
     email: "contact@montanasuites.ng",
@@ -171,7 +177,7 @@ export const officialAfSnetHotels = [
       "Secure Gated Residential Compound",
       "Clean Air Conditioning & En-Suite Bath",
       "On-Demand Airport & CICC Taxi Booking",
-      "AfSNET Escrow Voucher Accepted"
+      "100% Escrow Protected Reservation"
     ],
     imageUrl: "/images/montana.jpg",
     image: "/images/montana.jpg",
@@ -181,7 +187,7 @@ export const officialAfSnetHotels = [
   {
     id: "hotel-pyramid-hotel",
     name: "Pyramid Hotel Calabar",
-    category: "AfSNET Conference Partner",
+    category: "Modern Highway Conference Hotel",
     area: "Murtala Mohammed Highway, Calabar",
     address: "132 Murtala Mohammed Highway, Calabar",
     distanceToCICC: "7 mins drive to CICC",
@@ -190,6 +196,7 @@ export const officialAfSnetHotels = [
     priceRange: "₦42,000 / night",
     priceNote: "Fast highway access direct to convention gate",
     roomType: "Executive Business Deluxe",
+    description: "Modern highway property featuring fast transit to Margaret Ekpo Airport and CICC, well-equipped seminar halls, and VIP lounge.",
     contactPerson: "Chief Asuquo Ekpenyong",
     phone: "+234 803 555 0107",
     email: "reservations@pyramidhotelcalabar.com",
@@ -207,7 +214,7 @@ export const officialAfSnetHotels = [
   {
     id: "hotel-pearl-ballroom",
     name: "The Pearl Suites Calabar",
-    category: "AfSNET VIP Diplomatic Lodge",
+    category: "VIP Diplomatic Lodge",
     area: "Diamond Hill, Calabar",
     address: "5 Governor's Drive, Diamond Hill, Calabar",
     distanceToCICC: "10 mins drive to CICC",
@@ -216,6 +223,7 @@ export const officialAfSnetHotels = [
     priceRange: "₦65,000 / night",
     priceNote: "Diplomatic hill location overlooking Calabar River",
     roomType: "Presidential & Ambassadorial Suites",
+    description: "Exclusive Diamond Hill sanctuary overlooking the Calabar River, offering bespoke diplomatic security, private butler service, and peace.",
     contactPerson: "Lady Helen Henshaw",
     phone: "+234 803 555 0108",
     email: "diplomatic@pearlsuitescalabar.com",
@@ -244,14 +252,14 @@ export default function AccommodationsView({ onBookHotel }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeHotelDetails, setActiveHotelDetails] = useState(null);
 
-  const filterOptions = ["All Stays", "5-Star Partner", "Resort Class", "Executive 4-Star", "Boutique Business"];
+  const filterOptions = ["All Stays", "5-Star Luxury", "Resort Class", "Executive 4-Star", "Boutique Business"];
 
   const filteredHotels = officialAfSnetHotels.filter((hotel) => {
     const matchesRating = 
       selectedRating === "All Stays" ||
-      (selectedRating === "5-Star Partner" && hotel.category.includes("5-Star")) ||
+      (selectedRating === "5-Star Luxury" && (hotel.category.includes("5-Star") || hotel.category.includes("Luxury"))) ||
       (selectedRating === "Resort Class" && hotel.category.includes("Resort")) ||
-      (selectedRating === "Executive 4-Star" && hotel.category.includes("4-Star")) ||
+      (selectedRating === "Executive 4-Star" && (hotel.category.includes("4-Star") || hotel.category.includes("Executive"))) ||
       (selectedRating === "Boutique Business" && (hotel.category.includes("Boutique") || hotel.category.includes("Budget")));
 
     const matchesSearch = 
@@ -290,13 +298,13 @@ export default function AccommodationsView({ onBookHotel }) {
       <div>
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-3">
           <ShieldCheck className="w-4 h-4" />
-          <span>Official AfSNET Verified Hotel Directory • 365 Days</span>
+          <span>Verified Calabar Accommodations Directory • 365-Day Escrow</span>
         </div>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight font-heading">
-          Calabar Verified AfSNET Executive Accommodations
+          Calabar Verified Premier Accommodations
         </h1>
         <p className="mt-2 text-slate-600 dark:text-slate-400 text-sm sm:text-base max-w-3xl leading-relaxed">
-          Browse the {officialAfSnetHotels.length} officially accredited AfSNET hotels with verified conference proximity to the Calabar International Convention Centre (CICC). All guest reservations are backed by the <span className="text-amber-600 dark:text-amber-400 font-semibold">CalabarPass Anti-Fraud Escrow Protocol</span>.
+          Browse verified premier hotels and executive suites across Calabar. All guest reservations are backed by the <span className="text-amber-600 dark:text-amber-400 font-semibold">CalabarPass Anti-Fraud Escrow Protocol</span> with guaranteed on-site check-in release.
         </p>
 
         {/* Protection Guarantee Banner */}
@@ -370,7 +378,7 @@ export default function AccommodationsView({ onBookHotel }) {
               <div className="absolute top-3 left-3 flex items-center gap-1.5">
                 <span className="inline-flex items-center gap-1 rounded-full bg-emerald-950/80 border border-emerald-400/40 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-emerald-300 backdrop-blur-sm">
                   <ShieldCheck className="w-3 h-3 text-emerald-400" />
-                  AfSNET Verified
+                  Verified Stay
                 </span>
               </div>
 
@@ -390,18 +398,43 @@ export default function AccommodationsView({ onBookHotel }) {
             {/* Content Body */}
             <div className="p-5 flex flex-col flex-1 space-y-3">
               <div>
-                <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-stateCyan dark:group-hover:text-amber-400 transition-colors line-clamp-1">
-                  {hotel.name}
-                </h3>
-                <div className="flex items-baseline justify-between mt-1">
-                  <span className="text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold">
-                    AfSNET Conference Rate
+                <div className="flex items-start justify-between gap-2">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-stateCyan dark:group-hover:text-amber-400 transition-colors line-clamp-1">
+                    {hotel.name}
+                  </h3>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20 shrink-0">
+                    {hotel.category}
+                  </span>
+                </div>
+
+                <div className="flex items-baseline justify-between mt-2 pt-1 border-t border-slate-100 dark:border-slate-800/80">
+                  <span className="text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold truncate max-w-[150px] sm:max-w-[180px]" title={hotel.roomType}>
+                    {hotel.roomType || "Standard Nightly Rate"}
                   </span>
                   <span className="text-base font-extrabold text-amber-600 dark:text-amber-400 font-mono">
                     {formatPrice(parsePrice(hotel.pricePerNight))}
                     <span className="text-[10px] text-slate-500 dark:text-slate-400 font-normal"> / night</span>
                   </span>
                 </div>
+
+                {/* Unique Property Highlights & Description */}
+                <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-2 mt-2">
+                  {hotel.description || hotel.priceNote}
+                </p>
+
+                {/* Unique Amenities Highlights */}
+                {hotel.amenities && hotel.amenities.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 pt-2">
+                    {hotel.amenities.slice(0, 3).map((amenity, idx) => (
+                      <span
+                        key={idx}
+                        className="px-2 py-0.5 rounded-md text-[10px] font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700/60 truncate max-w-[200px]"
+                      >
+                        {amenity}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* Contact Information */}
@@ -447,7 +480,7 @@ export default function AccommodationsView({ onBookHotel }) {
           <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400">
             <Search className="w-5 h-5" />
           </div>
-          <h3 className="text-base font-bold text-slate-900 dark:text-white">No AfSNET Hotels Match Your Filter</h3>
+          <h3 className="text-base font-bold text-slate-900 dark:text-white">No Hotels Match Your Filter</h3>
           <p className="text-xs text-slate-500 dark:text-slate-400">
             Try adjusting your search criteria or switch back to "All Stays" to view all 8 accredited hotels.
           </p>
