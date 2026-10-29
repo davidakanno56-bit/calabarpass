@@ -14,6 +14,9 @@ import {
   KeyRound,
   ShieldAlert,
   X,
+  Search,
+  Lock,
+  Filter,
 } from "lucide-react";
 import { EscrowTableSkeleton } from "./SkeletonLoader.jsx";
 import {
@@ -698,6 +701,8 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
   });
 
   const [vendorCategoryFilter, setVendorCategoryFilter] = useState("all");
+  const [ledgerFilterTab, setLedgerFilterTab] = useState("all"); // 'all' | 'active' | 'settled'
+  const [ledgerSearchQuery, setLedgerSearchQuery] = useState("");
   const [payouts, setPayouts] = useState([]);
   const [activeBookings, setActiveBookings] = useState([]);
   const [redeemedDemoBookings, setRedeemedDemoBookings] = useState({});
@@ -1053,6 +1058,69 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
         Math.round((Number(payout.amountNGN) || 0) * PAYOUT_RATE)),
     0,
   );
+
+  const activeEscrowAmount = useMemo(
+    () =>
+      (activeBookings || []).reduce(
+        (sum, booking) => sum + (Number(booking.amountNGN) || 0),
+        0
+      ),
+    [activeBookings]
+  );
+  const activeEscrowNet = Math.round(activeEscrowAmount * PAYOUT_RATE);
+
+  const unifiedLedger = useMemo(() => {
+    const activeItems = (activeBookings || []).map((b) => ({
+      id: `active-${b.reference}`,
+      type: "active",
+      reference: b.reference,
+      customerName: b.customerName || "Guest",
+      item: b.packageName || activeMerchant.terms.itemExample,
+      grossAmount: Number(b.amountNGN) || 0,
+      netAmount: Math.round((Number(b.amountNGN) || 0) * PAYOUT_RATE),
+      date: b.bookingDate || b.createdAt || "Active Hold",
+      status: "Awaiting Check-in PIN",
+      isDemo: Boolean(b.isDemo),
+      raw: b,
+    }));
+
+    const settledItems = (payouts || []).map((p) => ({
+      id: `settled-${p.reference}`,
+      type: "settled",
+      reference: p.reference,
+      customerName: p.customerName || "Guest",
+      item: p.packageName || activeMerchant.terms.itemExample,
+      grossAmount: Number(p.amountNGN) || 0,
+      netAmount:
+        Number(p.payoutNGN) ||
+        Math.round((Number(p.amountNGN) || 0) * PAYOUT_RATE),
+      date: p.disbursedAt,
+      status: "Disbursed & Settled",
+      isDemo: Boolean(p.isDemo),
+      raw: p,
+    }));
+
+    let combined = [];
+    if (ledgerFilterTab === "active") {
+      combined = activeItems;
+    } else if (ledgerFilterTab === "settled") {
+      combined = settledItems;
+    } else {
+      combined = [...activeItems, ...settledItems];
+    }
+
+    if (ledgerSearchQuery.trim()) {
+      const q = ledgerSearchQuery.toLowerCase();
+      combined = combined.filter(
+        (item) =>
+          item.reference.toLowerCase().includes(q) ||
+          item.customerName.toLowerCase().includes(q) ||
+          item.item.toLowerCase().includes(q)
+      );
+    }
+
+    return combined;
+  }, [activeBookings, payouts, ledgerFilterTab, ledgerSearchQuery, activeMerchant]);
   const bookingWord = activeMerchant.terms.booking.toLowerCase();
 
   return (
@@ -1349,12 +1417,28 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
 
       <section
         aria-label="Settlement metrics"
-        className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+        className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
       >
+        <article className="rounded-2xl border border-amber-500/30 bg-amber-950/20 p-5 relative overflow-hidden">
+          <div className="flex items-center justify-between">
+            <p className="text-xs font-bold uppercase tracking-wider text-amber-300">
+              Active Escrow Holds
+            </p>
+            <Lock className="h-5 w-5 text-amber-400" />
+          </div>
+          <p className="mt-3 text-3xl font-extrabold text-amber-300">
+            {formatNaira(activeEscrowNet)}
+          </p>
+          <div className="mt-1 flex items-center justify-between text-xs text-amber-200/80">
+            <span>{activeBookings.length} booking(s) awaiting PIN</span>
+            <span className="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded font-semibold">95% net</span>
+          </div>
+        </article>
+
         <article className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
           <div className="flex items-center justify-between">
             <p className="text-xs font-bold uppercase tracking-wider text-emerald-300">
-              Total disbursed to merchant
+              Total disbursed
             </p>
             <Wallet className="h-5 w-5 text-emerald-400" />
           </div>
@@ -1362,7 +1446,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
             {formatNaira(totalDisbursed)}
           </p>
           <p className="mt-1 text-xs text-slate-400">
-            95% net settlement after the 5% platform fee
+            95% net settlement after 5% fee
           </p>
         </article>
 
@@ -1381,10 +1465,10 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
           </p>
         </article>
 
-        <article className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5 sm:col-span-2 lg:col-span-1">
+        <article className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
           <div className="flex items-center justify-between">
             <p className="text-xs font-bold uppercase tracking-wider text-amber-300">
-              Settlement protocol
+              Settlement Protocol
             </p>
             <LockKeyhole className="h-5 w-5 text-amber-400" />
           </div>
@@ -1392,7 +1476,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
             On-site PIN verification
           </p>
           <p className="mt-1 text-xs leading-5 text-slate-400">
-            Vendor-scoped escrow validation • 95% net merchant settlement
+            Instant Paystack release on check-in
           </p>
         </article>
       </section>
@@ -1584,97 +1668,225 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
         </form>
       </section>
 
-      <section aria-labelledby="ledger-heading" className="space-y-4">
-        <div>
-          <p className="mb-1 text-[11px] font-bold uppercase tracking-[0.16em] text-amber-400">
-            Settlement history
-          </p>
-          <h2 id="ledger-heading" className="text-xl font-bold text-white">
-            Payouts &amp; Settlement Ledger
-          </h2>
-          <p className="mt-1 text-xs leading-5 text-slate-400">
-            {activeMerchant.name} only • Merchant settlement is displayed net
-            of the 5% platform fee.
-          </p>
+      <section aria-labelledby="ledger-heading" className="space-y-4 pt-2">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-800/80 pb-4">
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-amber-400">
+                Self-Service Settlement Ledger
+              </span>
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                <ShieldCheck className="w-3 h-3" />
+                Live Vault Synchronized
+              </span>
+            </div>
+            <h2 id="ledger-heading" className="text-xl sm:text-2xl font-bold text-white font-heading">
+              Escrow Holds &amp; Payouts Ledger
+            </h2>
+            <p className="mt-1 text-xs leading-5 text-slate-400">
+              {activeMerchant.name} • View active escrow reservations awaiting check-in PIN and disbursed funds.
+            </p>
+          </div>
+
+          {/* Interactive Filter Tabs & Search */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
+            <div className="relative">
+              <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                value={ledgerSearchQuery}
+                onChange={(e) => setLedgerSearchQuery(e.target.value)}
+                placeholder="Search ref or guest..."
+                className="pl-8 pr-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 w-full sm:w-44 transition"
+              />
+              {ledgerSearchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setLedgerSearchQuery("")}
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-xs"
+                >
+                  ×
+                </button>
+              )}
+            </div>
+
+            <div className="flex items-center bg-slate-900 border border-slate-800 rounded-xl p-1 gap-1">
+              <button
+                type="button"
+                onClick={() => setLedgerFilterTab("all")}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
+                  ledgerFilterTab === "all"
+                    ? "bg-slate-800 text-white shadow-sm"
+                    : "text-slate-400 hover:text-slate-200"
+                }`}
+              >
+                All ({activeBookings.length + payouts.length})
+              </button>
+              <button
+                type="button"
+                onClick={() => setLedgerFilterTab("active")}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
+                  ledgerFilterTab === "active"
+                    ? "bg-amber-500/20 text-amber-300 border border-amber-500/30"
+                    : "text-slate-400 hover:text-amber-300"
+                }`}
+              >
+                <span>Active Holds</span>
+                <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-amber-500/30 text-amber-200 font-bold">
+                  {activeBookings.length}
+                </span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setLedgerFilterTab("settled")}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
+                  ledgerFilterTab === "settled"
+                    ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
+                    : "text-slate-400 hover:text-emerald-300"
+                }`}
+              >
+                <span>Disbursed</span>
+                <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-emerald-500/30 text-emerald-200 font-bold">
+                  {payouts.length}
+                </span>
+              </button>
+            </div>
+          </div>
         </div>
 
-        {loading && payouts.length === 0 ? (
-          <EscrowTableSkeleton rows={3} />
-        ) : payouts.length === 0 ? (
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/50 p-8 text-center">
-            <Wallet className="mx-auto h-6 w-6 text-slate-500" />
-            <p className="mt-3 text-sm font-semibold text-white">
-              No completed release records
+        {loading && unifiedLedger.length === 0 ? (
+          <EscrowTableSkeleton rows={4} />
+        ) : unifiedLedger.length === 0 ? (
+          <div className="rounded-2xl border border-slate-800 bg-slate-900/50 p-8 text-center space-y-2">
+            <Wallet className="mx-auto h-8 w-8 text-slate-500" />
+            <p className="text-sm font-semibold text-white">
+              No matching records in settlement ledger
             </p>
-            <p className="mt-1 text-xs text-slate-400">
-              Completed {bookingWord} will appear here after verification.
+            <p className="text-xs text-slate-400">
+              {ledgerSearchQuery
+                ? `No transactions match "${ledgerSearchQuery}". Try clearing search.`
+                : "Transactions and check-in releases will appear here in real-time."}
             </p>
           </div>
         ) : (
-          <div className="overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/60">
+          <div className="overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/60 shadow-xl">
             <div className="overflow-x-auto">
-              <table className="w-full min-w-[780px] text-left text-sm">
-                <thead className="border-b border-slate-800 bg-slate-950/70 text-[11px] uppercase tracking-wider text-slate-400">
+              <table className="w-full min-w-[800px] text-left text-sm">
+                <thead className="border-b border-slate-800 bg-slate-950/80 text-[11px] uppercase tracking-wider text-slate-400">
                   <tr>
-                    <th className="px-5 py-4 font-semibold">Booking reference</th>
-                    <th className="px-5 py-4 font-semibold">Guest / visitor</th>
-                    <th className="px-5 py-4 font-semibold">
-                      {activeMerchant.terms.item}
-                    </th>
-                    <th className="px-5 py-4 font-semibold">Net settlement</th>
-                    <th className="px-5 py-4 font-semibold">Release date</th>
-                    <th className="px-5 py-4 font-semibold">Status / record</th>
+                    <th className="px-5 py-4 font-semibold">Booking Reference</th>
+                    <th className="px-5 py-4 font-semibold">Guest / Visitor</th>
+                    <th className="px-5 py-4 font-semibold">{activeMerchant.terms.item}</th>
+                    <th className="px-5 py-4 font-semibold">Net Settlement (95%)</th>
+                    <th className="px-5 py-4 font-semibold">Date / Timestamp</th>
+                    <th className="px-5 py-4 font-semibold">Escrow Status &amp; Action</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-800/80">
-                  {payouts.map((transaction) => {
-                    const netAmount =
-                      Number(transaction.payoutNGN) ||
-                      Math.round(
-                        (Number(transaction.amountNGN) || 0) * PAYOUT_RATE,
-                      );
+                  {unifiedLedger.map((record) => {
+                    const isActive = record.type === "active";
                     return (
                       <tr
-                        key={transaction.reference}
-                        className="text-slate-300"
+                        key={record.id}
+                        className={`transition ${
+                          isActive
+                            ? "bg-amber-950/10 hover:bg-amber-950/20"
+                            : "hover:bg-slate-800/40"
+                        } text-slate-300`}
                       >
                         <td className="px-5 py-4">
                           <div className="font-mono text-xs font-semibold text-white">
-                            {transaction.reference}
+                            {record.reference}
                           </div>
-                          {transaction.isDemo && (
-                            <span className="mt-1 inline-flex rounded-full border border-slate-700 bg-slate-800 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-slate-300">
-                              Demo
-                            </span>
+                          <div className="flex items-center gap-1.5 mt-1">
+                            {isActive ? (
+                              <span className="inline-flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/10 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-amber-300">
+                                <Lock className="w-2.5 h-2.5" />
+                                In Escrow Vault
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-emerald-300">
+                                <CheckCircle2 className="w-2.5 h-2.5" />
+                                Disbursed
+                              </span>
+                            )}
+                            {record.isDemo && (
+                              <span className="inline-flex rounded-full border border-slate-700 bg-slate-800 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-slate-400">
+                                Demo
+                              </span>
+                            )}
+                          </div>
+                        </td>
+
+                        <td className="px-5 py-4">
+                          <div className="font-medium text-slate-200">{record.customerName}</div>
+                          {isActive && (
+                            <div className="text-[10px] text-amber-300/80">Check-in expected</div>
                           )}
                         </td>
-                        <td className="px-5 py-4">
-                          {transaction.customerName || "Guest"}
+
+                        <td className="px-5 py-4 text-slate-300">
+                          {record.item}
                         </td>
+
                         <td className="px-5 py-4">
-                          {transaction.packageName ||
-                            activeMerchant.terms.itemExample}
+                          <div className={`font-bold ${isActive ? "text-amber-300" : "text-emerald-300"} font-mono`}>
+                            {formatNaira(record.netAmount)}
+                          </div>
+                          <div className="text-[10px] text-slate-400">
+                            Gross: {formatNaira(record.grossAmount)}
+                          </div>
                         </td>
-                        <td className="px-5 py-4 font-bold text-emerald-300">
-                          {formatNaira(netAmount)}
+
+                        <td className="px-5 py-4 text-xs text-slate-300">
+                          {formatDate(record.date)}
                         </td>
+
                         <td className="px-5 py-4">
-                          {formatDate(transaction.disbursedAt)}
-                        </td>
-                        <td className="px-5 py-4">
-                          <div className="flex items-center gap-3">
-                            <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-2.5 py-1 text-[11px] font-semibold text-emerald-300">
-                              <CheckCircle2 className="h-3 w-3" />
-                              Redeemed
-                            </span>
-                            {onOpenVoucher && (
-                              <button
-                                type="button"
-                                onClick={() => onOpenVoucher(transaction)}
-                                className="text-xs font-semibold text-amber-300 underline-offset-4 hover:underline"
-                              >
-                                View record
-                              </button>
+                          <div className="flex items-center gap-2">
+                            {isActive ? (
+                              <>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setReleaseForm({ reference: record.reference, pin: record.raw?.pin || "" });
+                                    const pinInput = document.getElementById("release-pin");
+                                    if (pinInput) {
+                                      pinInput.focus();
+                                      pinInput.scrollIntoView({ behavior: "smooth", block: "center" });
+                                    }
+                                  }}
+                                  className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs shadow-sm transition cursor-pointer"
+                                  title="Validate Check-in PIN to release escrow"
+                                >
+                                  <span>Verify PIN</span>
+                                </button>
+                                {onOpenVoucher && (
+                                  <button
+                                    type="button"
+                                    onClick={() => onOpenVoucher(record.raw)}
+                                    className="text-xs text-slate-400 hover:text-white underline-offset-4 hover:underline cursor-pointer"
+                                  >
+                                    View Pass
+                                  </button>
+                                )}
+                              </>
+                            ) : (
+                              <>
+                                <span className="inline-flex items-center gap-1 text-xs text-emerald-400 font-semibold">
+                                  <CheckCircle2 className="h-3.5 w-3.5" />
+                                  Settled
+                                </span>
+                                {onOpenVoucher && (
+                                  <button
+                                    type="button"
+                                    onClick={() => onOpenVoucher(record.raw)}
+                                    className="text-xs font-semibold text-amber-300 underline-offset-4 hover:underline cursor-pointer ml-1"
+                                  >
+                                    View Receipt
+                                  </button>
+                                )}
+                              </>
                             )}
                           </div>
                         </td>

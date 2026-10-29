@@ -22,6 +22,8 @@ const PackageDetailsModal = lazy(() => import("./components/PackageDetailsModal.
 const VendorAuthModal = lazy(() => import("./components/VendorAuthModal.jsx"));
 const MerchantOnboardingModal = lazy(() => import("./components/MerchantOnboardingModal.jsx"));
 const AdminVendorQueue = lazy(() => import("./components/AdminVendorQueue.jsx"));
+const BookingLookupModal = lazy(() => import("./components/BookingLookupModal.jsx"));
+const PinDispatchSimulationModal = lazy(() => import("./components/PinDispatchSimulationModal.jsx"));
 
 export default function App() {
   const isSessionVendorAuthenticated = () => {
@@ -75,6 +77,8 @@ export default function App() {
   const [packageForDetails, setPackageForDetails] = useState(null);
   const [activeVoucher, setActiveVoucher] = useState(null);
   const [loadingPackages, setLoadingPackages] = useState(false);
+  const [showBookingLookupModal, setShowBookingLookupModal] = useState(false);
+  const [pinDispatchData, setPinDispatchData] = useState(null);
 
   const closePackageDetails = useCallback(() => setPackageForDetails(null), []);
 
@@ -262,7 +266,7 @@ export default function App() {
 
   const handleCheckoutSuccess = (transaction) => {
     setSelectedPackage(null);
-    setActiveVoucher(transaction);
+    setPinDispatchData(transaction);
 
     const refreshEscrow = async () => {
       const endpoint = "/api/escrow/transactions";
@@ -299,6 +303,7 @@ export default function App() {
         onSelectCategory={handleCategoryChange}
         onOpenVendorPortal={handleOpenVendorPortal}
         onOpenOnboarding={() => setShowOnboardingModal(true)}
+        onOpenBookingLookup={() => setShowBookingLookupModal(true)}
         isVendorAuthenticated={isVendorAuthenticated}
         escrowStats={escrowStats}
       />
@@ -473,6 +478,41 @@ export default function App() {
             isOpen={showOnboardingModal}
             onClose={() => setShowOnboardingModal(false)}
             onOnboardSuccess={handleOnboardSuccess}
+          />
+        </Suspense>
+      )}
+
+      {showBookingLookupModal && (
+        <Suspense fallback={null}>
+          <BookingLookupModal
+            isOpen={showBookingLookupModal}
+            onClose={() => setShowBookingLookupModal(false)}
+            onOpenVoucher={(tx) => {
+              setShowBookingLookupModal(false);
+              setActiveVoucher(tx);
+            }}
+            onVendorLoginSuccess={(vendor) => {
+              setShowBookingLookupModal(false);
+              handleVendorAuthSuccess(vendor);
+            }}
+          />
+        </Suspense>
+      )}
+
+      {pinDispatchData && (
+        <Suspense fallback={null}>
+          <PinDispatchSimulationModal
+            isOpen={!!pinDispatchData}
+            transaction={pinDispatchData}
+            onClose={() => {
+              const tx = pinDispatchData;
+              setPinDispatchData(null);
+              setActiveVoucher(tx);
+            }}
+            onViewVoucher={(tx) => {
+              setPinDispatchData(null);
+              setActiveVoucher(tx);
+            }}
           />
         </Suspense>
       )}

@@ -55,6 +55,7 @@ const HERO_IMAGES = {
 };
 
 export default function PackageDetailsModal({ pkg, onClose, onBookNow }) {
+  const { formatPrice } = useCurrency();
   const meta = resolvePlaceImage(pkg);
   const preferredImage = HERO_IMAGES[pkg?.id] || meta?.primaryUrl || pkg?.image || pkg?.imageUrl || "";
   const [imageSrc, setImageSrc] = useState(preferredImage);
@@ -133,7 +134,7 @@ export default function PackageDetailsModal({ pkg, onClose, onBookNow }) {
               </h2>
             </div>
             <span className="rounded-xl border border-amber-400/30 bg-[#0B0F17]/90 px-4 py-2 text-sm font-extrabold text-amber-300">
-              ₦{Number(pkg.priceNGN ?? pkg.price ?? 0).toLocaleString("en-NG")}{" "}
+              {formatPrice(pkg.priceNGN ?? pkg.price ?? 0)}{" "}
               / pass
             </span>
           </div>

@@ -3,6 +3,7 @@
 // Displays verified hotels with real-world photography and direct escrow booking.
 
 import React, { useState } from "react";
+import { useCurrency } from "../context/CurrencyContext.jsx";
 import { 
   Building2, 
   MapPin, 
@@ -231,7 +232,14 @@ export const officialAfSnetHotels = [
   }
 ];
 
+const parsePrice = (str) => {
+  if (!str) return 0;
+  const num = parseInt(String(str).replace(/[^0-9]/g, ""), 10);
+  return isNaN(num) ? 0 : num;
+};
+
 export default function AccommodationsView({ onBookHotel }) {
+  const { formatPrice } = useCurrency();
   const [selectedRating, setSelectedRating] = useState("All Stays");
   const [searchQuery, setSearchQuery] = useState("");
   const [activeHotelDetails, setActiveHotelDetails] = useState(null);
@@ -390,7 +398,7 @@ export default function AccommodationsView({ onBookHotel }) {
                     AfSNET Conference Rate
                   </span>
                   <span className="text-base font-extrabold text-amber-600 dark:text-amber-400 font-mono">
-                    {hotel.pricePerNight}
+                    {formatPrice(parsePrice(hotel.pricePerNight))}
                     <span className="text-[10px] text-slate-500 dark:text-slate-400 font-normal"> / night</span>
                   </span>
                 </div>
@@ -489,7 +497,7 @@ export default function AccommodationsView({ onBookHotel }) {
             <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-2 text-xs">
               <div className="flex justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
                 <span className="text-slate-500 dark:text-slate-400">Official Nightly Rate:</span>
-                <span className="text-amber-600 dark:text-amber-400 font-extrabold font-mono">{activeHotelDetails.pricePerNight}</span>
+                <span className="text-amber-600 dark:text-amber-400 font-extrabold font-mono">{formatPrice(parsePrice(activeHotelDetails.pricePerNight))}</span>
               </div>
               {activeHotelDetails.contactPerson && (
                 <div className="flex justify-between border-b border-slate-200 dark:border-slate-800 pb-2">

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useCurrency } from "../context/CurrencyContext.jsx";
 import { X, Lock, ShieldCheck, CreditCard, AlertCircle, ArrowRight, CheckCircle2, Loader2, Sparkles, Copy, Check, Calendar } from "lucide-react";
 import { CalendarPicker } from "./CalendarPicker.jsx";
 import { loadPaystackScript } from "../utils/paystackLoader.js";
@@ -7,6 +8,7 @@ import { handleLocalEscrowFallback } from "../utils/api.js";
 import VerifiedImage from "./VerifiedImage.jsx";
 
 export default function PaystackCheckoutModal({
+
   pkg,
   onClose,
   onSuccessVoucher,
@@ -23,6 +25,7 @@ export default function PaystackCheckoutModal({
   const [error, setError] = useState(null);
   const [activeStep, setActiveStep] = useState("form"); // 'form' | 'processing' | 'verifying'
   const [copiedCard, setCopiedCard] = useState(false);
+  const { currency, formatPrice } = useCurrency();
   const [devMode, setDevMode] = useState(false);
 
   // Discreet keyboard shortcut (Ctrl+Shift+D) to toggle dev sandbox for testing
@@ -412,6 +415,11 @@ export default function PaystackCheckoutModal({
               <div className="text-lg font-extrabold font-heading text-white">
                 ₦{amountNGN.toLocaleString()}
               </div>
+              {currency !== "NGN" && (
+                <div className="text-[11px] text-amber-400 font-semibold">
+                  ≈ {formatPrice(amountNGN)}
+                </div>
+              )}
             </div>
           </div>
 

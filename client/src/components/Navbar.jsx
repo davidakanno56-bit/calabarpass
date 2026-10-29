@@ -12,9 +12,11 @@ import {
   Moon,
   ChevronDown,
   ChevronUp,
-  User
+  User,
+  Globe
 } from "lucide-react";
 import { useTheme } from "../context/ThemeContext.jsx";
+import { useCurrency } from "../context/CurrencyContext.jsx";
 import CategoryMegaMenu from "./CategoryMegaMenu.jsx";
 
 export const NAV_CATEGORIES = [
@@ -62,19 +64,23 @@ export default function Navbar({
   onSelectCategory,
   onOpenVendorPortal,
   onOpenOnboarding,
+  onOpenBookingLookup,
   isVendorAuthenticated = false,
   escrowStats
 }) {
   const { isDark, toggleTheme } = useTheme();
+  const { currency, setCurrency, availableCurrencies } = useCurrency();
   const [megaMenuCategory, setMegaMenuCategory] = useState(null);
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
 
-  const handleVendorClick = () => {
+  const handleVendorOrLookupClick = () => {
     setIsMegaMenuOpen(false);
-    if (onOpenVendorPortal) {
+    if (onOpenBookingLookup) {
+      onOpenBookingLookup();
+    } else if (onOpenVendorPortal) {
       onOpenVendorPortal();
     } else {
-      setActiveTab("vendor");
+      setActiveTab("escrow");
     }
   };
 
@@ -123,7 +129,7 @@ export default function Navbar({
     <header className="sticky top-0 z-40 w-full border-b border-slate-200/90 dark:border-slate-800/80 bg-white/95 dark:bg-[#0b0f17]/95 backdrop-blur-md transition-colors duration-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Row 1: Top Navigation Bar (Logo on Left, Clean Utility Actions on Right) */}
-        <div className="flex items-center justify-between h-16 sm:h-18 gap-3 sm:gap-4 border-b border-slate-100 dark:border-slate-800/60">
+        <div className="flex items-center justify-between h-16 sm:h-18 gap-2 sm:gap-4 border-b border-slate-100 dark:border-slate-800/60">
           {/* Left side: Clean CalabarPass logo and brand mark */}
           <div 
             onClick={handleLogoClick} 
@@ -153,8 +159,31 @@ export default function Navbar({
           </div>
 
           {/* Right side: Clean utility actions arranged neatly in a single row without any duplication */}
-          <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
-            {/* 1. Theme Toggle */}
+          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+            {/* 1. Multi-Currency Diaspora Selector */}
+            <div className="relative flex items-center">
+              <div className="relative flex items-center rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100/90 dark:bg-slate-900/90 hover:bg-white dark:hover:bg-slate-800 shadow-sm transition">
+                <span className="pl-2 pr-1 text-slate-500 dark:text-slate-400 pointer-events-none hidden sm:inline">
+                  <Globe className="w-3.5 h-3.5" />
+                </span>
+                <select
+                  value={currency}
+                  onChange={(e) => setCurrency(e.target.value)}
+                  aria-label="Select Currency for Diaspora conversion"
+                  className="py-1.5 pl-2 sm:pl-1 pr-6 rounded-xl text-xs font-bold bg-transparent text-slate-800 dark:text-slate-200 cursor-pointer outline-none appearance-none"
+                  title="Diaspora Currency Converter (NGN ₦, USD $, GBP £, EUR €)"
+                >
+                  {availableCurrencies.map((c) => (
+                    <option key={c.code} value={c.code} className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white font-bold">
+                      {c.code} ({c.symbol})
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="w-3 h-3 text-slate-400 absolute right-2 pointer-events-none" />
+              </div>
+            </div>
+
+            {/* 2. Theme Toggle Switch */}
             <button
               onClick={toggleTheme}
               type="button"
@@ -175,32 +204,29 @@ export default function Navbar({
               )}
             </button>
 
-            {/* 2. List Property / Vendor Portal */}
-            <button
-              onClick={handleVendorClick}
-              className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-2 rounded-xl text-xs font-semibold tracking-tight transition-all border cursor-pointer hover:scale-[1.02] active:scale-95 ${
-                activeTab === "vendor"
-                  ? "bg-stateCyan text-white border-stateCyan shadow-md shadow-stateCyan/25"
-                  : "bg-slate-100/90 dark:bg-slate-900 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-800 hover:border-stateCyan/40 hover:bg-white dark:hover:bg-slate-800"
-              }`}
-              title="List Property / Open Merchant Terminal"
-            >
-              <Building2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-stateCyan shrink-0" />
-              <span className="whitespace-nowrap hidden sm:inline">List Property / Vendor Portal</span>
-              <span className="whitespace-nowrap sm:hidden">List Property</span>
-              {!isVendorAuthenticated && (
-                <Lock className="w-3 h-3 text-slate-400 opacity-70 shrink-0" />
-              )}
-            </button>
+            {/* 3. List Property (Host / Operator Onboarding) */}
+            {onOpenOnboarding && (
+              <button
+                onClick={() => {
+                  setIsMegaMenuOpen(false);
+                  onOpenOnboarding();
+                }}
+                className="hidden md:flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold tracking-tight transition-all border border-slate-200 dark:border-slate-800 bg-slate-100/90 dark:bg-slate-900/90 hover:bg-white dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 hover:border-stateCyan/40 cursor-pointer shadow-sm hover:scale-[1.02] active:scale-95"
+                title="Register Hotel, Tour Sanctuary, Restaurant or Band Terminal"
+              >
+                <Building2 className="w-3.5 h-3.5 text-stateCyan shrink-0" />
+                <span className="whitespace-nowrap">List Property</span>
+              </button>
+            )}
 
-            {/* 3. Scam Shield Vault */}
+            {/* 4. Scam Shield Vault */}
             <button
               onClick={() => {
                 setIsMegaMenuOpen(false);
                 setActiveTab("shield");
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
-              className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold tracking-tight transition-all border cursor-pointer hover:scale-[1.02] active:scale-95 ${
+              className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold tracking-tight transition-all border cursor-pointer hover:scale-[1.02] active:scale-95 ${
                 activeTab === "shield"
                   ? "bg-stateCyan text-white border-stateCyan shadow-md shadow-stateCyan/25"
                   : "bg-slate-100/90 dark:bg-slate-900 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-800 hover:border-stateCyan/40 hover:bg-white dark:hover:bg-slate-800"
@@ -212,26 +238,31 @@ export default function Navbar({
               <span className="whitespace-nowrap sm:hidden">Shield</span>
             </button>
 
-            {/* 4. User Profile / Escrow Login */}
+            {/* 5. User / Vendor Action Button: "Vendor Portal / Booking Lookup" */}
             <button
-              onClick={() => {
-                setIsMegaMenuOpen(false);
-                setActiveTab("escrow");
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-              className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-2 rounded-xl text-xs font-bold tracking-tight transition-all border cursor-pointer hover:scale-[1.02] active:scale-95 ${
-                activeTab === "escrow"
-                  ? "bg-emerald-500 text-white border-emerald-500 shadow-emerald-glow"
-                  : "bg-emerald-500/10 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border-emerald-500/30 hover:border-emerald-500/60"
+              onClick={handleVendorOrLookupClick}
+              className={`flex items-center gap-2 px-3 sm:px-3.5 py-2 rounded-xl text-xs font-bold tracking-tight transition-all border cursor-pointer hover:scale-[1.02] active:scale-95 ${
+                activeTab === "escrow" || activeTab === "vendor"
+                  ? "bg-stateCyan text-white border-stateCyan shadow-md shadow-stateCyan/25"
+                  : "bg-slate-100/90 dark:bg-slate-900 text-slate-800 dark:text-slate-100 border-slate-200 dark:border-slate-800 hover:border-stateCyan/40 hover:bg-white dark:hover:bg-slate-800"
               }`}
-              title="Escrow Account & Buyer Protection"
+              title="No account required for tourists. Vendors log in here."
             >
               <div className="relative flex items-center justify-center">
                 <User className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
                 <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
               </div>
-              <span className="whitespace-nowrap hidden sm:inline">User Profile / Login</span>
-              <span className="whitespace-nowrap sm:hidden font-mono">Login</span>
+              <div className="flex flex-col text-left">
+                <span className="whitespace-nowrap hidden sm:inline leading-tight">
+                  Vendor Portal / Booking Lookup
+                </span>
+                <span className="whitespace-nowrap sm:hidden">
+                  Lookup / Vendor
+                </span>
+                <span className="hidden xl:block text-[9px] text-slate-400 dark:text-slate-400 font-normal leading-none mt-0.5">
+                  No account for tourists • Vendors login
+                </span>
+              </div>
             </button>
           </div>
         </div>

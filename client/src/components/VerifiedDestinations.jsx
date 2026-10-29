@@ -140,6 +140,7 @@ export const DESTINATIONS = [
 ];
 
 export default function VerifiedDestinations({ packages = [], onViewPackage }) {
+  const { formatPrice } = useCurrency();
   const handleDestinationClick = (dest) => {
     // Match package from loaded packages or fallback
     const matchedPkg = packages.find((p) => p.id === dest.packageId) || {
@@ -255,7 +256,7 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
                       Estimated Budget
                     </span>
                     <span className="text-base sm:text-lg font-bold tracking-tight font-heading text-slate-900 dark:text-white">
-                      {dest.priceIndicator}
+                      {dest.priceRaw ? `From ${formatPrice(dest.priceRaw)} / person` : dest.priceIndicator}
                     </span>
                   </div>
 

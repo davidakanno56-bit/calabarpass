@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { useCurrency } from "../context/CurrencyContext.jsx";
 import { 
   ShieldCheck, 
   MapPin, 
@@ -19,6 +20,7 @@ import {
 } from "lucide-react";
 
 export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
+  const { formatPrice } = useCurrency();
   const savings = pkg.streetSurgePrice ? pkg.streetSurgePrice - pkg.priceNGN : 0;
   const cardRef = useRef(null);
 
@@ -283,12 +285,12 @@ export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
                 <div className="text-xs text-slate-500 dark:text-slate-400 mb-0.5 tracking-tight font-medium">Verified Fair Price</div>
                 <div className="flex items-baseline gap-2">
                   <span className="text-2xl sm:text-3xl font-bold tracking-tight font-heading text-slate-900 dark:text-white">
-                    ₦{pkg.priceNGN.toLocaleString()}
+                    {formatPrice(pkg.priceNGN)}
                   </span>
                 </div>
                 {savings > 0 && (
                   <div className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold tracking-tight">
-                    Save ₦{savings.toLocaleString()} vs surge (₦{pkg.streetSurgePrice.toLocaleString()})
+                    Save {formatPrice(savings)} vs surge ({formatPrice(pkg.streetSurgePrice)})
                   </div>
                 )}
               </div>
