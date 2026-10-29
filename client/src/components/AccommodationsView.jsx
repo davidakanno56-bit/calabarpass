@@ -44,7 +44,6 @@ export const officialAfSnetHotels = [
       "Olympic Swimming Pool & Tennis Court",
       "Free Bureau Breakfast Buffet"
     ],
-    gallery: ["/images/transcorp.jpg", "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80"],
     imageUrl: "/images/transcorp.jpg",
     image: "/images/transcorp.jpg",
     verified: true,
@@ -72,7 +71,6 @@ export const officialAfSnetHotels = [
       "Executive Fitness Center & Lounge",
       "Complimentary Efik Cuisine Breakfast"
     ],
-    gallery: ["/images/channel_view.jpg", "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1200&q=80"],
     imageUrl: "/images/channel_view.jpg",
     image: "/images/channel_view.jpg",
     verified: true,
@@ -100,7 +98,6 @@ export const officialAfSnetHotels = [
       "Duty-Free Shopping Emporium Access",
       "High-Security Escort Transit"
     ],
-    gallery: ["/images/tinapa_lakeside.jpg", "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=80"],
     imageUrl: "/images/tinapa_lakeside.jpg",
     image: "/images/tinapa_lakeside.jpg",
     verified: true,
@@ -128,7 +125,6 @@ export const officialAfSnetHotels = [
       "Fine Dining Restaurant & Cocktail Bar",
       "24/7 Monitored CCTV & Armed Escort"
     ],
-    gallery: ["/images/danamic.jpg", "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=80"],
     imageUrl: "/images/danamic.jpg",
     image: "/images/danamic.jpg",
     verified: true,
@@ -156,7 +152,6 @@ export const officialAfSnetHotels = [
       "Business Center & Printing Desk",
       "Reliable Standby Power Plant"
     ],
-    gallery: ["/images/marian_hotel.jpg", "https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=1200&q=80"],
     imageUrl: "/images/marian_hotel.jpg",
     image: "/images/marian_hotel.jpg",
     verified: true,
@@ -184,7 +179,6 @@ export const officialAfSnetHotels = [
       "On-Demand Airport & CICC Taxi Booking",
       "100% Escrow Protected Reservation"
     ],
-    gallery: ["/images/montana.jpg", "https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=1200&q=80"],
     imageUrl: "/images/montana.jpg",
     image: "/images/montana.jpg",
     verified: true,
@@ -212,7 +206,6 @@ export const officialAfSnetHotels = [
       "Executive VIP Cocktail Bar",
       "Solar & Diesel Continuous Power"
     ],
-    gallery: ["/images/pyramid_hotel.jpg", "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=1200&q=80"],
     imageUrl: "/images/pyramid_hotel.jpg",
     image: "/images/pyramid_hotel.jpg",
     verified: true,
@@ -240,7 +233,6 @@ export const officialAfSnetHotels = [
       "Private Butler Service on Request",
       "High-Speed Encrypted Conference WiFi"
     ],
-    gallery: ["/images/pearl_suites.jpg", "https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=1200&q=80"],
     imageUrl: "/images/pearl_suites.jpg",
     image: "/images/pearl_suites.jpg",
     verified: true,
