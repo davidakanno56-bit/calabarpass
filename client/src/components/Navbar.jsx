@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { 
+  Menu,
+  X,
   BedDouble, 
   Trees, 
   Utensils, 
@@ -68,8 +70,8 @@ export default function Navbar({
   isVendorAuthenticated = false,
   escrowStats
 }) {
-  const { isDark, toggleTheme } = useTheme();
-  const { currency, setCurrency, availableCurrencies } = useCurrency();
+  const { isDark = true, toggleTheme = () => {} } = useTheme() || {};
+  const { currency = "NGN", setCurrency = () => {}, availableCurrencies = [] } = useCurrency() || {};
   const [megaMenuCategory, setMegaMenuCategory] = useState(null);
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -177,7 +179,7 @@ export default function Navbar({
                   className="py-1.5 pl-2 sm:pl-1 pr-6 rounded-xl text-xs font-bold bg-transparent text-slate-800 dark:text-slate-200 cursor-pointer outline-none appearance-none"
                   title="Diaspora Currency Converter (NGN ₦, USD $, GBP £, EUR €)"
                 >
-                  {availableCurrencies.map((c) => (
+                  {(availableCurrencies || []).map((c) => (
                     <option key={c.code} value={c.code} className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white font-bold">
                       {c.code} ({c.symbol})
                     </option>
@@ -267,7 +269,7 @@ export default function Navbar({
                   No account for tourists • Vendors login
                 </span>
               </div>
-                        </button>
+            </button>
           </div>
 
           {/* Mobile Hamburger Trigger: visible only on mobile viewports (< md) */}
@@ -308,7 +310,7 @@ export default function Navbar({
                   aria-label="Select Currency for Diaspora conversion"
                   className="w-full py-0.5 pl-2 pr-6 rounded-lg text-xs font-bold bg-transparent text-slate-800 dark:text-slate-100 cursor-pointer outline-none appearance-none"
                 >
-                  {availableCurrencies.map((c) => (
+                  {(availableCurrencies || []).map((c) => (
                     <option key={c.code} value={c.code} className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white font-bold">
                       {c.code} ({c.symbol})
                     </option>
