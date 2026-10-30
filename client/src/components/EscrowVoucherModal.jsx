@@ -14,7 +14,8 @@ import {
   ShieldAlert,
   X,
   Clock,
-  FileCheck
+  FileCheck,
+  RotateCcw
 } from "lucide-react";
 import confetti from "canvas-confetti";
 import QRCode from "qrcode";
@@ -26,11 +27,11 @@ export default function EscrowVoucherModal({ transaction: initialTx, onClose, on
   const [copiedRef, setCopiedRef] = useState(false);
   const [qrSvg, setQrSvg] = useState("");
   const [qrDataUrl, setQrDataUrl] = useState("");
-  const [showDisputeModal, setShowDisputeModal] = useState(false);
-  const [disputeReason, setDisputeReason] = useState("Vendor No-Show / Unreachable");
-  const [disputeDetails, setDisputeDetails] = useState("");
-  const [disputeSubmitting, setDisputeSubmitting] = useState(false);
-  const [disputeSuccess, setDisputeSuccess] = useState(false);
+  const [showCancelModal, setShowCancelModal] = useState(false);
+  const [cancellationReason, setCancellationReason] = useState("Plans Changed / Cancel Reservation");
+  const [cancellationDetails, setCancellationDetails] = useState("");
+  const [cancelSubmitting, setCancelSubmitting] = useState(false);
+  const [cancelSuccess, setCancelSuccess] = useState(false);
   const [downloadingPass, setDownloadingPass] = useState(false);
 
   useEffect(() => {
@@ -263,18 +264,18 @@ export default function EscrowVoucherModal({ transaction: initialTx, onClose, on
   };
 
   /**
-   * Submits escrow dispute to freeze vendor disbursement immediately
+   * Submits automated cancellation and escrow refund request
    */
-  const handleFreezeEscrowDispute = async (e) => {
-    e.preventDefault();
+  const handleConfirmCancellation = async (e) => {
+    e?.preventDefault();
     if (!transaction?.reference) return;
 
-    setDisputeSubmitting(true);
+    setCancelSubmitting(true);
     const endpoint = "/api/escrow/dispute";
     const payload = {
       reference: transaction.reference,
-      reason: disputeReason,
-      details: disputeDetails
+      reason: cancellationReason,
+      details: cancellationDetails || `Cancellation & refund requested by tourist (${cancellationReason})`
     };
 
     let data;
@@ -303,13 +304,15 @@ export default function EscrowVoucherModal({ transaction: initialTx, onClose, on
     } finally {
       if (isOk && data?.success) {
         setTransaction(data.transaction);
-        setDisputeSuccess(true);
+        setCancelSuccess(true);
       } else {
-        alert(data?.error || "Failed to submit dispute");
+        alert(data?.error || "Failed to process cancellation / refund request. Please try again.");
       }
-      setDisputeSubmitting(false);
+      setCancelSubmitting(false);
     }
   };
+
+  const handleFreezeEscrowDispute = handleConfirmCancellation;
 
   if (!transaction) return null;
 
@@ -406,14 +409,28 @@ export default function EscrowVoucherModal({ transaction: initialTx, onClose, on
                 </div>
               </div>
             </div>
-            <button
-              onClick={handleCopyReference}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 text-xs font-medium transition-colors cursor-pointer shrink-0"
-              title="Copy Reference"
-            >
-              {copiedRef ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-              <span>{copiedRef ? "Copied Ref!" : "Copy Reference"}</span>
-            </button>
+            <div className="flex flex-wrap items-center gap-2 shrink-0">
+              <button
+                onClick={handleCopyReference}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 text-xs font-medium transition-colors cursor-pointer"
+                title="Copy Reference"
+              >
+                {copiedRef ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                <span>{copiedRef ? "Copied Ref!" : "Copy Reference"}</span>
+              </button>
+
+              {!isFrozen && (
+                <button
+                  type="button"
+                  onClick={() => setShowCancelModal(true)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/10 hover:bg-rose-950/40 text-amber-300 hover:text-rose-200 border-2 border-amber-500/70 hover:border-rose-500 text-xs font-bold shadow-sm transition-all cursor-pointer"
+                  title="Request Escrow Refund or Cancel Booking"
+                >
+                  <RotateCcw className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                  <span>Request Refund / Cancel</span>
+                </button>
+              )}
+            </div>
           </div>
 
           {/* Core 6-Digit Check-in PIN Display Card */}
@@ -455,20 +472,6 @@ export default function EscrowVoucherModal({ transaction: initialTx, onClose, on
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
               <span>Escrow Guarantee: Funds remain 100% protected until PIN redemption.</span>
             </div>
-
-            {/* Escrow Safety Trigger link */}
-            {!isFrozen && (
-              <div className="mt-3 pt-2 border-t border-slate-800/80 no-print">
-                <button
-                  type="button"
-                  onClick={() => setShowDisputeModal(true)}
-                  className="inline-flex items-center gap-1.5 text-xs text-rose-400 hover:text-rose-300 underline decoration-rose-500/40 hover:decoration-rose-300 font-medium transition-colors cursor-pointer"
-                >
-                  <AlertTriangle className="w-3.5 h-3.5 text-rose-400 shrink-0" />
-                  <span>Encountered an issue on arrival? Freeze Escrow & Report Dispute</span>
-                </button>
-              </div>
-            )}
           </div>
 
           {/* Voucher Details Grid */}
@@ -534,17 +537,17 @@ export default function EscrowVoucherModal({ transaction: initialTx, onClose, on
             </div>
           </div>
 
-          {/* Action Buttons: Clean Download & Close/Done options */}
-          <div className="flex flex-wrap items-center justify-between gap-3 pt-2 no-print">
+          {/* Action Buttons: Clean Download, Refund/Cancel & Close/Done options */}
+          <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-800/90 no-print">
             <div className="flex flex-wrap items-center gap-2">
               {/* Download / Save Voucher (PDF/Image) */}
               <button
                 onClick={handleDownloadOfflinePass}
                 disabled={downloadingPass}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-500 to-stateCyan hover:opacity-95 text-slate-950 text-xs sm:text-sm font-extrabold shadow-lg shadow-emerald-950/40 transition-all cursor-pointer hover:scale-[1.01] active:scale-95"
+                className="flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-500 to-stateCyan hover:opacity-95 text-slate-950 text-xs sm:text-sm font-extrabold shadow-lg shadow-emerald-950/40 transition-all cursor-pointer hover:scale-[1.01] active:scale-95"
               >
                 <Download className="w-4 h-4 text-slate-950" />
-                <span>{downloadingPass ? "Generating Pass..." : "Download / Save Voucher (PDF/Image)"}</span>
+                <span>{downloadingPass ? "Generating Pass..." : "Download Pass (PDF/Image)"}</span>
               </button>
 
               {/* Print Official Voucher */}
@@ -557,7 +560,25 @@ export default function EscrowVoucherModal({ transaction: initialTx, onClose, on
               </button>
             </div>
 
-            <div>
+            <div className="flex flex-wrap items-center gap-2.5">
+              {/* Prominent High-Contrast Danger/Amber Refund Button */}
+              {!isFrozen ? (
+                <button
+                  type="button"
+                  onClick={() => setShowCancelModal(true)}
+                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500/10 hover:bg-rose-950/70 text-amber-300 hover:text-rose-200 text-xs sm:text-sm font-bold border-2 border-amber-500/80 hover:border-rose-500 shadow-lg shadow-amber-950/40 transition-all cursor-pointer hover:scale-[1.01] active:scale-95"
+                  title="Request Escrow Refund or Cancel Booking"
+                >
+                  <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />
+                  <span>Request Refund / Cancel Booking</span>
+                </button>
+              ) : (
+                <div className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-rose-950/60 border border-rose-500/50 text-rose-300 text-xs font-bold">
+                  <ShieldAlert className="w-4 h-4 text-rose-400 shrink-0" />
+                  <span>Refund Request Logged (Escrow Frozen)</span>
+                </div>
+              )}
+
               {/* Close / Done Button */}
               <button
                 onClick={onClose}
@@ -570,102 +591,181 @@ export default function EscrowVoucherModal({ transaction: initialTx, onClose, on
         </div>
       </div>
 
-      {/* Escrow Safety Dispute Modal */}
-      {showDisputeModal && (
-        <div className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md">
-          <div className="relative w-full max-w-lg bg-[#141b2b] border border-rose-500/40 rounded-3xl shadow-2xl p-6 sm:p-7 space-y-5">
+      {/* Escrow Cancellation & Automated Refund Prompt Modal */}
+      {showCancelModal && (
+        <div className="fixed inset-0 z-60 flex items-center justify-center p-3 sm:p-4 bg-black/90 backdrop-blur-md overflow-y-auto">
+          <div className="relative w-full max-w-lg bg-[#0e1422] border-2 border-amber-500/50 rounded-3xl shadow-2xl shadow-amber-950/40 p-6 sm:p-7 space-y-5 text-white my-auto overflow-hidden">
+            {/* Top Amber Ribbon */}
+            <div className="h-1.5 bg-gradient-to-r from-amber-500 via-rose-500 to-amber-500 -mt-6 -mx-6 sm:-mt-7 sm:-mx-7 mb-4" />
+
             <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-              <div className="flex items-center gap-2.5 text-rose-400">
-                <ShieldAlert className="w-6 h-6" />
-                <h3 className="text-lg font-bold font-heading text-white">
-                  Freeze Escrow & Report Dispute
-                </h3>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-400 flex items-center justify-center shrink-0">
+                  <RotateCcw className="w-5 h-5 text-amber-400" />
+                </div>
+                <div>
+                  <h3 className="text-base sm:text-lg font-bold font-heading text-white">
+                    Request Refund / Cancel Booking
+                  </h3>
+                  <p className="text-[11px] text-slate-400">
+                    Automated Escrow Protection & Tourism Bureau Dispute Window
+                  </p>
+                </div>
               </div>
               <button
-                onClick={() => setShowDisputeModal(false)}
-                className="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800"
+                type="button"
+                onClick={() => {
+                  setShowCancelModal(false);
+                  setCancelSuccess(false);
+                }}
+                className="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+                aria-label="Close"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            {disputeSuccess ? (
+            {cancelSuccess ? (
               <div className="py-4 text-center space-y-4">
-                <div className="w-14 h-14 mx-auto rounded-full bg-rose-500/20 text-rose-400 flex items-center justify-center">
-                  <ShieldAlert className="w-8 h-8" />
+                <div className="w-16 h-16 mx-auto rounded-2xl bg-amber-500/15 border border-amber-500/30 text-amber-400 flex items-center justify-center shadow-inner">
+                  <ShieldCheck className="w-8 h-8 text-emerald-400" />
                 </div>
-                <h4 className="text-xl font-bold text-white">Escrow Funds Successfully Frozen</h4>
+                <div>
+                  <h4 className="text-xl font-bold font-heading text-white">
+                    Cancellation Logged & Escrow Frozen
+                  </h4>
+                  <p className="text-xs text-emerald-400 mt-1 font-medium">
+                    Automated Refund Processing Initiated
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 text-left text-xs space-y-2">
+                  <div className="flex justify-between items-center py-1 border-b border-slate-800">
+                    <span className="text-slate-400">Booking Reference</span>
+                    <span className="font-mono font-bold text-white">{transaction.reference}</span>
+                  </div>
+                  <div className="flex justify-between items-center py-1 border-b border-slate-800">
+                    <span className="text-slate-400">Refund Amount</span>
+                    <span className="font-heading font-bold text-emerald-400 text-sm">
+                      ₦{(transaction.amountNGN || 0).toLocaleString()} NGN
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center py-1 border-b border-slate-800">
+                    <span className="text-slate-400">Escrow Status</span>
+                    <span className="text-amber-400 font-semibold">Payout Frozen / In Review</span>
+                  </div>
+                  <div className="flex justify-between items-center py-1">
+                    <span className="text-slate-400">Check-In PIN Status</span>
+                    <span className="text-rose-400 font-semibold">Deactivated ({transaction.checkInPin})</span>
+                  </div>
+                </div>
+
                 <p className="text-xs text-slate-300 max-w-sm mx-auto leading-relaxed">
-                  Vendor disbursement is locked. Your deposit of{" "}
-                  <strong className="text-amber-400">₦{(transaction.amountNGN || 0).toLocaleString()} NGN</strong>{" "}
-                  remains protected in the State Escrow Vault while our tourism resolution officer investigates.
+                  Vendor disbursement has been locked in the Cross River State Escrow Vault. Funds will not be disbursed to {transaction.vendor || "the vendor"}. The refund audit process has been assigned under reference <strong>{transaction.reference}</strong>.
                 </p>
+
                 <button
-                  onClick={() => setShowDisputeModal(false)}
-                  className="px-6 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold cursor-pointer"
+                  type="button"
+                  onClick={() => {
+                    setShowCancelModal(false);
+                    setCancelSuccess(false);
+                  }}
+                  className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold transition-colors cursor-pointer"
                 >
-                  Return to Voucher
+                  Return to Booking Voucher
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleFreezeEscrowDispute} className="space-y-4 text-xs">
-                <p className="text-slate-300 text-xs leading-relaxed">
-                  If your room or experience does not meet standards or the vendor is unresponsive, you can immediately freeze fund release.
-                </p>
+              <form onSubmit={handleConfirmCancellation} className="space-y-4 text-xs">
+                {/* Booking Context Pill */}
+                <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 flex items-center justify-between gap-3">
+                  <div>
+                    <div className="text-[10px] uppercase font-bold text-slate-400">Active Reservation</div>
+                    <div className="font-bold text-white text-sm truncate max-w-[220px] sm:max-w-xs">
+                      {transaction.packageName || "Verified Tourism Stay"}
+                    </div>
+                    <div className="text-[11px] text-stateCyan">
+                      Vendor: {transaction.vendor || "Verified Partner"}
+                    </div>
+                  </div>
+                  <div className="text-right shrink-0">
+                    <div className="text-[10px] uppercase font-bold text-slate-400">Refund Value</div>
+                    <div className="text-sm font-extrabold text-amber-400 font-mono">
+                      ₦{(transaction.amountNGN || 0).toLocaleString()} NGN
+                    </div>
+                    <div className="text-[10px] text-emerald-400 font-semibold">100% Escrow Protected</div>
+                  </div>
+                </div>
 
                 <div>
-                  <label className="block text-slate-400 font-semibold mb-1.5">
-                    Select Dispute Reason:
+                  <label className="block text-slate-300 font-semibold mb-1.5">
+                    Select Reason for Cancellation / Refund:
                   </label>
                   <select
-                    value={disputeReason}
-                    onChange={(e) => setDisputeReason(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-rose-500"
+                    value={cancellationReason}
+                    onChange={(e) => setCancellationReason(e.target.value)}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-amber-500 transition-colors"
                   >
-                    <option value="Vendor No-Show / Unreachable">Vendor No-Show / Unreachable</option>
-                    <option value="Room Condition Substandard / Does not match photos">Room Condition Substandard / Does not match photos</option>
+                    <option value="Plans Changed / Cancel Reservation">Plans Changed / Cancel Reservation</option>
+                    <option value="Vendor No-Show / Host Unreachable">Vendor No-Show / Host Unreachable</option>
+                    <option value="Emergency / Travel Inconvenience">Emergency / Travel Inconvenience</option>
+                    <option value="Room Condition Substandard / Does not match listing">Room Condition Substandard / Does not match listing</option>
                     <option value="Overcharging / Unauthorized Demands on Arrival">Overcharging / Unauthorized Demands on Arrival</option>
                     <option value="Safety or Security Concern">Safety or Security Concern</option>
-                    <option value="Other Substandard Service">Other Substandard Service</option>
+                    <option value="Accidental Booking / Duplicate Payment">Accidental Booking / Duplicate Payment</option>
+                    <option value="Other Reason">Other Substandard Service / Dissatisfaction</option>
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-slate-400 font-semibold mb-1.5">
-                    Additional Details (Optional):
+                  <label className="block text-slate-300 font-semibold mb-1.5">
+                    Additional Details / Explanation (Optional):
                   </label>
                   <textarea
                     rows={3}
-                    value={disputeDetails}
-                    onChange={(e) => setDisputeDetails(e.target.value)}
-                    placeholder="Provide additional details regarding what happened upon arrival..."
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-rose-500 placeholder:text-slate-500"
+                    value={cancellationDetails}
+                    onChange={(e) => setCancellationDetails(e.target.value)}
+                    placeholder="Provide additional details regarding why you are cancelling or requesting an escrow refund..."
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-amber-500 placeholder:text-slate-500 transition-colors"
                   />
                 </div>
 
-                <div className="p-3 rounded-xl bg-rose-950/40 border border-rose-500/30 text-[11px] text-rose-200">
-                  ⚠️ Freezing escrow suspends PIN check-in for reference <strong>{transaction.reference}</strong>.
+                {/* Critical Security Warning */}
+                <div className="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/40 text-[11px] text-amber-200/90 space-y-1">
+                  <div className="flex items-center gap-2 font-bold text-amber-300">
+                    <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />
+                    <span>Instant Escrow Freezing Guarantee</span>
+                  </div>
+                  <p className="leading-relaxed">
+                    Confirming this cancellation immediately suspends the 6-digit Check-In PIN and blocks vendor fund disbursement for reference <strong>{transaction.reference}</strong>. Your funds remain secured in the Cross River State Escrow Vault.
+                  </p>
                 </div>
 
-                <div className="flex items-center justify-end gap-3 pt-2">
+                <div className="flex flex-col-reverse sm:flex-row items-center justify-end gap-2.5 pt-2">
                   <button
                     type="button"
-                    onClick={() => setShowDisputeModal(false)}
-                    className="px-4 py-2.5 rounded-xl bg-slate-800 text-slate-300 hover:text-white font-semibold cursor-pointer"
+                    onClick={() => {
+                      setShowCancelModal(false);
+                      setCancelSuccess(false);
+                    }}
+                    className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-semibold transition-colors cursor-pointer"
                   >
-                    Cancel
+                    Keep My Booking
                   </button>
                   <button
                     type="submit"
-                    disabled={disputeSubmitting}
-                    className="px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold flex items-center gap-2 shadow-rose-900/50 disabled:opacity-50 cursor-pointer"
+                    disabled={cancelSubmitting}
+                    className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-600 via-rose-600 to-rose-700 hover:from-amber-500 hover:to-rose-600 text-white font-bold flex items-center justify-center gap-2 border border-rose-500/50 shadow-lg shadow-rose-950/60 disabled:opacity-50 transition-all cursor-pointer"
                   >
-                    {disputeSubmitting ? (
-                      <span>Freezing Escrow...</span>
+                    {cancelSubmitting ? (
+                      <>
+                        <span className="w-3.5 h-3.5 rounded-full border-2 border-white/30 border-t-white animate-spin" />
+                        <span>Processing Cancellation...</span>
+                      </>
                     ) : (
                       <>
-                        <ShieldAlert className="w-4 h-4" />
-                        <span>Freeze Escrow & Submit Dispute</span>
+                        <RotateCcw className="w-4 h-4" />
+                        <span>Confirm Cancellation & Request Refund</span>
                       </>
                     )}
                   </button>
