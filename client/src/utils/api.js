@@ -541,7 +541,7 @@ export function getStoredPendingVendors() {
   if (typeof window !== "undefined") {
     try {
       const raw = localStorage.getItem(PENDING_STORAGE_KEY);
-      if (raw) return JSON.parse(raw);
+      if (raw !== null) return JSON.parse(raw);
       localStorage.setItem(PENDING_STORAGE_KEY, JSON.stringify(SEED_PENDING_MERCHANTS));
     } catch {}
   }
@@ -598,12 +598,12 @@ export function saveStoredDynamicCards(cards) {
 export function clearStoredDynamicData() {
   inMemoryVendors = [];
   inMemoryDynamicCards = [];
-  inMemoryPending = [...SEED_PENDING_MERCHANTS];
+  inMemoryPending = [];
   if (typeof window !== "undefined") {
     try {
       localStorage.removeItem(VENDORS_STORAGE_KEY);
       localStorage.removeItem(DYNAMIC_CARDS_STORAGE_KEY);
-      localStorage.removeItem(PENDING_STORAGE_KEY);
+      localStorage.setItem(PENDING_STORAGE_KEY, JSON.stringify([]));
       const activeId = sessionStorage.getItem("calabarpass_active_merchant_id");
       if (activeId && (activeId.startsWith("vnd-") || activeId.startsWith("card-"))) {
         sessionStorage.removeItem("calabarpass_active_merchant_id");
@@ -624,6 +624,10 @@ export function removeStoredDynamicVendor(vendorId) {
     (c) => c.vendorId !== vendorId && c.id !== `card-${vendorId}` && c.id !== vendorId
   );
   saveStoredDynamicCards(updatedCards);
+
+  const currentPending = getStoredPendingVendors();
+  const updatedPending = currentPending.filter((v) => v.id !== vendorId);
+  saveStoredPendingVendors(updatedPending);
 
   if (typeof window !== "undefined") {
     try {
