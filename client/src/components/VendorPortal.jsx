@@ -28,6 +28,7 @@ import {
   getStoredPendingVendors,
   removeStoredDynamicVendor,
   clearStoredDynamicData,
+  isPaystackLiveMode,
 } from "../utils/api.js";
 import AdminVendorQueue from "./AdminVendorQueue.jsx";
 
@@ -953,13 +954,27 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
           )
           .map((payout) => ({ ...payout, vendorId: activeMerchant.id }));
 
-        setActiveBookings([...serverBookings, ...demoBookings]);
-        setPayouts([...serverPayouts, ...demoPayouts]);
+        if (isPaystackLiveMode()) {
+          setActiveBookings(serverBookings);
+          setPayouts(serverPayouts);
+        } else {
+          setActiveBookings([...serverBookings, ...demoBookings]);
+          setPayouts([...serverPayouts, ...demoPayouts]);
+        }
       } catch (error) {
         console.error("Vendor ledger request failed:", error);
         setLedgerError(
-          `${error.message || "Unable to load live merchant records."} Showing demo bookings only where available.`,
+          isPaystackLiveMode()
+            ? (error.message || "Unable to load live merchant records.")
+            : `${error.message || "Unable to load live merchant records."} Showing demo bookings only where available.`,
         );
+
+        if (isPaystackLiveMode()) {
+          setActiveBookings([]);
+          setPayouts([]);
+          return;
+        }
+
         const baseDemoBooking = DEMO_BOOKINGS[activeMerchant.id] || (activeMerchant.demo ? [{
           reference: activeMerchant.demo[0],
           pin: activeMerchant.demo[1],
@@ -1035,9 +1050,11 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
     setReleaseStatus(null);
 
     try {
-      const demoBooking = activeBookings.find(
-        (booking) => booking.isDemo && booking.reference === reference,
-      );
+      const demoBooking = !isPaystackLiveMode()
+        ? activeBookings.find(
+            (booking) => booking.isDemo && booking.reference === reference,
+          )
+        : null;
 
       if (demoBooking) {
         if (demoBooking.pin !== pin) {

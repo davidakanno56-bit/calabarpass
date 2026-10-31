@@ -454,6 +454,18 @@ export const DEFAULT_SCAM_ADVISORIES = [
 const STORAGE_KEY = "calabarpass_escrow_db";
 let inMemoryTxs = null;
 
+export function getPaystackPublicKey() {
+  return (
+    (typeof import.meta !== "undefined" && import.meta.env?.VITE_PAYSTACK_PUBLIC_KEY) ||
+    "pk_test_e911f3fc519a96d916fbfea85742f88078495266"
+  );
+}
+
+export function isPaystackLiveMode() {
+  const pk = getPaystackPublicKey();
+  return Boolean(pk && pk.startsWith("pk_live_"));
+}
+
 function getStoredTransactions() {
   if (inMemoryTxs) return inMemoryTxs;
 
@@ -472,7 +484,12 @@ function getStoredTransactions() {
     }
   }
 
-  inMemoryTxs = JSON.parse(JSON.stringify(SEED_TRANSACTIONS));
+  // In live production mode, do not inject demo seed transactions
+  if (isPaystackLiveMode()) {
+    inMemoryTxs = [];
+  } else {
+    inMemoryTxs = JSON.parse(JSON.stringify(SEED_TRANSACTIONS));
+  }
   if (typeof window !== "undefined") {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(inMemoryTxs));

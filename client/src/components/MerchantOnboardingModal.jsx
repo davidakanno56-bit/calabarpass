@@ -22,7 +22,7 @@ import {
   Landmark,
   ExternalLink 
 } from "lucide-react";
-import { registerMerchantOnboarding, NIGERIAN_BANKS } from "../utils/api.js";
+import { registerMerchantOnboarding, NIGERIAN_BANKS, isPaystackLiveMode } from "../utils/api.js";
 
 const CATEGORIES = [
   {
@@ -88,6 +88,8 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
   const [createdVendor, setCreatedVendor] = useState(null);
   const [copied, setCopied] = useState(false);
   const [copiedSub, setCopiedSub] = useState(false);
+
+  const isLiveMode = isPaystackLiveMode();
 
   if (!isOpen) return null;
 
@@ -238,13 +240,15 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
               <h2 id="onboarding-modal-title" className="text-xl sm:text-2xl font-bold font-heading text-white">
                 Register Merchant Terminal
               </h2>
-              <button
-                type="button"
-                onClick={handlePresetFill}
-                className="px-2.5 py-1 rounded-lg bg-stateCyan/15 hover:bg-stateCyan/25 text-stateCyan font-bold text-[10px] uppercase tracking-wider transition border border-stateCyan/30 cursor-pointer whitespace-nowrap"
-              >
-                Auto-Fill Sample
-              </button>
+              {!isLiveMode && (
+                <button
+                  type="button"
+                  onClick={handlePresetFill}
+                  className="px-2.5 py-1 rounded-lg bg-stateCyan/15 hover:bg-stateCyan/25 text-stateCyan font-bold text-[10px] uppercase tracking-wider transition border border-stateCyan/30 cursor-pointer whitespace-nowrap"
+                >
+                  Auto-Fill Sample
+                </button>
+              )}
             </div>
 
             <p className="text-xs text-slate-400 mt-1 leading-relaxed">
@@ -349,7 +353,11 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
                 </div>
 
                 <p className="text-[10px] text-slate-400 leading-relaxed">
-                  ⚡ <strong>Automatic Paystack Subaccount:</strong> When submitted, an official Subaccount is created on your Paystack Dashboard (under <em>Akanno Tech</em>). In Test Mode, use <code className="text-amber-300 font-mono">0000000000</code> or your valid NUBAN.
+                  {isLiveMode ? (
+                    <span>🔒 <strong>Live Paystack Merchant Settlement:</strong> An official Paystack subaccount will be created and verified directly with your bank. Real customer payments will settle to this account.</span>
+                  ) : (
+                    <span>⚡ <strong>Automatic Paystack Subaccount:</strong> When submitted, an official Subaccount is created on your Paystack Dashboard (under <em>Akanno Tech</em>). In Test Mode, use <code className="text-amber-300 font-mono">0000000000</code> or your valid NUBAN.</span>
+                  )}
                 </p>
               </div>
 

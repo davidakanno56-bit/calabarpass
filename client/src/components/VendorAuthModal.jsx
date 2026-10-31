@@ -12,15 +12,18 @@ import {
   ArrowRight 
 } from "lucide-react";
 
-import { getStoredVendors } from "../utils/api.js";
+import { getStoredVendors, isPaystackLiveMode } from "../utils/api.js";
 
-// Authorized vendor access codes:
-// Master clearinghouse code, official tourism bureau code, and terminal check-in demo PINs
-const VALID_ACCESS_CODES = [
+// Master clearinghouse administrative codes
+const MASTER_OPERATOR_CODES = [
   "CALABAR2026",
   "3652026",
   "CALABARPASS",
-  "CP2026",
+  "CP2026"
+];
+
+// Sandbox test demo PINs (only accepted in test mode)
+const DEMO_TEST_PINS = [
   "849201",
   "712490",
   "418205",
@@ -35,6 +38,9 @@ export default function VendorAuthModal({ isOpen, onClose, onSuccess, onOpenOnbo
   const [isVerifying, setIsVerifying] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
+  const isLiveMode = isPaystackLiveMode();
+  const validCodes = isLiveMode ? MASTER_OPERATOR_CODES : [...MASTER_OPERATOR_CODES, ...DEMO_TEST_PINS];
+
   if (!isOpen) return null;
 
   const handleSubmit = (e) => {
@@ -43,7 +49,7 @@ export default function VendorAuthModal({ isOpen, onClose, onSuccess, onOpenOnbo
 
     const cleaned = accessCode.trim().toUpperCase();
     if (!cleaned) {
-      setError("Please enter your 6-digit or clearinghouse Vendor Access Code.");
+      setError("Please enter your official Vendor Access Code.");
       return;
     }
 
@@ -56,7 +62,7 @@ export default function VendorAuthModal({ isOpen, onClose, onSuccess, onOpenOnbo
       );
       const isValidCodeFormat = /^CAL-(HTL|ECO|EAT|TRD|CUL|VND)-\d{4}$/i.test(cleaned);
 
-      if (VALID_ACCESS_CODES.includes(cleaned) || matchedVendor || isValidCodeFormat) {
+      if (validCodes.includes(cleaned) || matchedVendor || isValidCodeFormat) {
         setIsSuccess(true);
         setIsVerifying(false);
 
@@ -67,7 +73,7 @@ export default function VendorAuthModal({ isOpen, onClose, onSuccess, onOpenOnbo
           if (matchedVendor) {
             sessionStorage.setItem("calabarpass_active_merchant_id", matchedVendor.id);
           }
-          const isMaster = ["CALABAR2026", "3652026", "CALABARPASS", "CP2026"].includes(cleaned);
+          const isMaster = MASTER_OPERATOR_CODES.includes(cleaned);
           if (isMaster) {
             sessionStorage.setItem("calabarpass_is_operator", "true");
             sessionStorage.setItem("calabarpass_operator_code", cleaned);
@@ -131,22 +137,24 @@ export default function VendorAuthModal({ isOpen, onClose, onSuccess, onOpenOnbo
           This portal contains private merchant accounts, guest booking records, and live bank settlement ledgers. Enter your operator access code to open the terminal.
         </p>
 
-        {/* Quick Demo Hint */}
-        <div className="mt-4 p-3 rounded-2xl bg-slate-900/90 border border-slate-800 text-xs text-slate-300 flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
-            <KeyRound className="w-4 h-4 text-stateCyan shrink-0" />
-            <span className="text-[11px]">
-              Demo Terminal Code: <strong className="font-mono text-stateCyan tracking-wider">CALABAR2026</strong>
-            </span>
+        {/* Quick Demo Hint (Hidden in Production Live Mode) */}
+        {!isLiveMode && (
+          <div className="mt-4 p-3 rounded-2xl bg-slate-900/90 border border-slate-800 text-xs text-slate-300 flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2">
+              <KeyRound className="w-4 h-4 text-stateCyan shrink-0" />
+              <span className="text-[11px]">
+                Demo Terminal Code: <strong className="font-mono text-stateCyan tracking-wider">CALABAR2026</strong>
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={() => handleQuickDemoFill("CALABAR2026")}
+              className="px-2.5 py-1 rounded-lg bg-stateCyan/20 hover:bg-stateCyan/30 text-stateCyan font-bold text-[10px] uppercase tracking-wider transition border border-stateCyan/30 cursor-pointer"
+            >
+              Auto-Fill
+            </button>
           </div>
-          <button
-            type="button"
-            onClick={() => handleQuickDemoFill("CALABAR2026")}
-            className="px-2.5 py-1 rounded-lg bg-stateCyan/20 hover:bg-stateCyan/30 text-stateCyan font-bold text-[10px] uppercase tracking-wider transition border border-stateCyan/30 cursor-pointer"
-          >
-            Auto-Fill
-          </button>
-        </div>
+        )}
 
         {/* Auth Form */}
         <form onSubmit={handleSubmit} className="mt-5 space-y-4">
