@@ -1441,6 +1441,12 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
           <span className="font-mono text-sm font-semibold text-slate-100">
             {activeMerchant.bankAccount}
           </span>
+          {activeMerchant.subaccount_code && (
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-mono text-emerald-300 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded-md self-start">
+              <span className="text-slate-400">Paystack:</span>
+              <strong className="text-emerald-300 font-bold">{activeMerchant.subaccount_code}</strong>
+            </span>
+          )}
         </div>
         <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
           {isCurrentDynamic && (

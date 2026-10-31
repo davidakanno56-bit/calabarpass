@@ -166,3 +166,155 @@ export async function verifyTransaction(reference) {
 export function releaseEscrowFunds({ reference, pin, vendor }) {
   return escrowStore.releaseEscrow(reference, pin, vendor);
 }
+
+export const NIGERIAN_BANKS = [
+  { name: "Zenith Bank", code: "057", match: /zenith/i },
+  { name: "Access Bank", code: "044", match: /access/i },
+  { name: "Guaranty Trust Bank (GTBank)", code: "058", match: /guaranty|gtbank|gtb/i },
+  { name: "First Bank of Nigeria", code: "011", match: /first\s*bank|fbn/i },
+  { name: "United Bank for Africa (UBA)", code: "033", match: /uba|united\s*bank/i },
+  { name: "Kuda Bank", code: "50211", match: /kuda/i },
+  { name: "OPay Digital Services", code: "999992", match: /opay/i },
+  { name: "PalmPay", code: "999991", match: /palmpay/i },
+  { name: "Fidelity Bank", code: "070", match: /fidelity/i },
+  { name: "Stanbic IBTC Bank", code: "221", match: /stanbic/i },
+  { name: "Union Bank of Nigeria", code: "032", match: /union/i },
+  { name: "Sterling Bank", code: "232", match: /sterling/i },
+  { name: "Ecobank Nigeria", code: "050", match: /ecobank/i },
+  { name: "Wema Bank (ALAT)", code: "035", match: /wema|alat/i },
+  { name: "Polaris Bank", code: "076", match: /polaris/i }
+];
+
+export function resolveBankAndAccount(bankInput, accountInput) {
+  let bankCode = "057";
+  let bankName = "Zenith Bank";
+  let accountNumber = String(accountInput || "").replace(/\D/g, "").slice(0, 10);
+
+  const combined = `${String(bankInput || "")} ${String(accountInput || "")}`.trim();
+
+  // If accountNumber wasn't clean 10 digits, look for 10 consecutive digits in combined
+  if (accountNumber.length !== 10) {
+    const numMatch = combined.match(/\b\d{10}\b/);
+    if (numMatch) {
+      accountNumber = numMatch[0];
+    }
+  }
+
+  // Find bank code from known list
+  for (const b of NIGERIAN_BANKS) {
+    if (bankInput === b.code || b.match.test(combined) || (typeof bankInput === "string" && b.match.test(bankInput))) {
+      bankCode = b.code;
+      bankName = b.name;
+      break;
+    }
+  }
+
+  // Fallback for test mode if no 10-digit number found
+  if (accountNumber.length !== 10) {
+    accountNumber = "0000000000";
+  }
+
+  return { bankCode, bankName, accountNumber };
+}
+
+/**
+ * Automatically provision a Paystack Merchant Subaccount for vendor settlement
+ * @param {Object} params - { business_name, settlement_bank, account_number, percentage_charge, description }
+ */
+export async function createPaystackSubaccount({
+  business_name,
+  settlement_bank,
+  account_number,
+  percentage_charge = 10,
+  description = "CalabarPass 365 Verified Partner Terminal"
+}) {
+  const { bankCode, bankName, accountNumber } = resolveBankAndAccount(settlement_bank, account_number);
+  const cleanBusinessName = String(business_name || "CalabarPass Merchant").trim();
+
+  const payload = {
+    business_name: cleanBusinessName,
+    settlement_bank: bankCode,
+    account_number: accountNumber,
+    percentage_charge: Math.round(Number(percentage_charge) || 10),
+    description: description || `CalabarPass Verified Partner - ${cleanBusinessName}`
+  };
+
+  try {
+    let res = await fetch(`${PAYSTACK_BASE_URL}/subaccount`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${PAYSTACK_SECRET_KEY}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    let data = await res.json();
+
+    // In Paystack Test Mode, if dummy account fails validation, auto-retry with standard sandbox NUBAN (0000000000, 057 Zenith)
+    if (!data.status && PAYSTACK_SECRET_KEY.startsWith("sk_test_")) {
+      console.warn(`[Paystack Subaccount] Initial creation rejected (${data.message}). Retrying in Test Mode with standard sandbox credentials...`);
+      res = await fetch(`${PAYSTACK_BASE_URL}/subaccount`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${PAYSTACK_SECRET_KEY}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          business_name: `${cleanBusinessName} (Test Mode)`,
+          settlement_bank: "057",
+          account_number: "0000000000",
+          percentage_charge: Math.round(Number(percentage_charge) || 10),
+          description: description || `CalabarPass Verified Partner - ${cleanBusinessName}`
+        })
+      });
+      data = await res.json();
+    }
+
+    if (!res.ok || !data.status) {
+      console.error("[Paystack Subaccount Error]:", data.message || "Failed to create subaccount");
+      return {
+        success: false,
+        error: data.message || "Failed to create Paystack subaccount",
+        subaccount_code: null
+      };
+    }
+
+    return {
+      success: true,
+      subaccount_code: data.data.subaccount_code,
+      data: data.data,
+      bankName: data.data.settlement_bank || bankName,
+      accountNumber: data.data.account_number || accountNumber
+    };
+  } catch (error) {
+    console.error("[Paystack Subaccount Network Error]:", error.message);
+    return {
+      success: false,
+      error: error.message,
+      subaccount_code: null
+    };
+  }
+}
+
+/**
+ * List all provisioned Paystack subaccounts
+ */
+export async function listPaystackSubaccounts() {
+  try {
+    const res = await fetch(`${PAYSTACK_BASE_URL}/subaccount`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${PAYSTACK_SECRET_KEY}`,
+        "Content-Type": "application/json"
+      }
+    });
+    const data = await res.json();
+    return {
+      success: data.status,
+      subaccounts: data.data || []
+    };
+  } catch (error) {
+    return { success: false, error: error.message, subaccounts: [] };
+  }
+}

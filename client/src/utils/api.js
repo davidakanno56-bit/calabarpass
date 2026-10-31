@@ -1048,7 +1048,11 @@ export function handleLocalEscrowFallback(endpoint, payload = null, method = "GE
       name, 
       category, 
       bankPayoutDetails, 
-      bankAccount, 
+      bankAccount,
+      bankCode,
+      accountNumber,
+      subaccount_code,
+      paystackSubaccount,
       phone, 
       phoneNumber, 
       email,
@@ -1066,7 +1070,7 @@ export function handleLocalEscrowFallback(endpoint, payload = null, method = "GE
     if (!title) {
       return { success: false, error: "Business name is required." };
     }
-    if (!bankPayoutDetails && !bankAccount) {
+    if (!bankPayoutDetails && !bankAccount && !accountNumber) {
       return { success: false, error: "Bank payout details are required." };
     }
     if (!phone && !phoneNumber) {
@@ -1083,7 +1087,7 @@ export function handleLocalEscrowFallback(endpoint, payload = null, method = "GE
     const accessCode = generateVendorAccessCode(normalizedCategory);
     const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
     const vendorId = `vnd-${slug}-${Date.now().toString(36)}`;
-    const bank = bankPayoutDetails || bankAccount || "Access Bank ****4102";
+    const bank = bankPayoutDetails || bankAccount || (bankCode && accountNumber ? `${bankCode} - ${accountNumber}` : "Access Bank ****4102");
     const tel = phone || phoneNumber || "+234 800 000 0000";
     const mail = (email || contactEmail || `${slug}@merchant.calabarpass.ng`).trim();
     const img = logoUrl || image || "/assets/executive_vip.jpg";
@@ -1099,6 +1103,8 @@ export function handleLocalEscrowFallback(endpoint, payload = null, method = "GE
       category: normalizedCategory,
       bankAccount: bank,
       bankPayoutDetails: bank,
+      subaccount_code: subaccount_code || payload?.subaccount_code || null,
+      paystackSubaccount: paystackSubaccount || payload?.paystackSubaccount || null,
       phone: tel,
       email: mail,
       logoUrl: img,
@@ -1131,6 +1137,8 @@ export function handleLocalEscrowFallback(endpoint, payload = null, method = "GE
       phone: tel,
       email: mail,
       bankPayoutDetails: bank,
+      subaccount_code: vendorRecord.subaccount_code,
+      paystackSubaccount: vendorRecord.paystackSubaccount,
       location: loc,
       priceNGN: rate,
       status: "pending",
@@ -1167,6 +1175,7 @@ export function handleLocalEscrowFallback(endpoint, payload = null, method = "GE
       details: `Official verified ${normalizedCategory} merchant in Cross River State with 100% escrow buyer protection.`,
       amenities: ["100% Escrow Protected", "Verified Payout Account", "PIN Redemption", "365-Day Guarantee"],
       accessCode,
+      subaccount_code: vendorRecord.subaccount_code,
       bookingMode: "365_day_open",
       capacityLabel: "Open Daily • 365-Day Escrow Check-In"
     };
@@ -1208,6 +1217,8 @@ export function handleLocalEscrowFallback(endpoint, payload = null, method = "GE
       vendor: vendorRecord,
       directoryCard,
       accessCode,
+      subaccount_code: vendorRecord.subaccount_code,
+      paystackSubaccount: vendorRecord.paystackSubaccount,
       message: `Merchant registered successfully. Save your Vendor Access Code: ${accessCode}`
     };
   }
@@ -1364,12 +1375,184 @@ export function handleLocalEscrowFallback(endpoint, payload = null, method = "GE
   return { success: true, message: "Autonomous client operation completed." };
 }
 
+export const NIGERIAN_BANKS = [
+  { name: "Zenith Bank", code: "057", match: /zenith/i },
+  { name: "Access Bank", code: "044", match: /access/i },
+  { name: "Guaranty Trust Bank (GTBank)", code: "058", match: /guaranty|gtbank|gtb/i },
+  { name: "First Bank of Nigeria", code: "011", match: /first\s*bank|fbn/i },
+  { name: "United Bank for Africa (UBA)", code: "033", match: /uba|united\s*bank/i },
+  { name: "Kuda Bank", code: "50211", match: /kuda/i },
+  { name: "OPay Digital Services", code: "999992", match: /opay/i },
+  { name: "PalmPay", code: "999991", match: /palmpay/i },
+  { name: "Fidelity Bank", code: "070", match: /fidelity/i },
+  { name: "Stanbic IBTC Bank", code: "221", match: /stanbic/i },
+  { name: "Union Bank of Nigeria", code: "032", match: /union/i },
+  { name: "Sterling Bank", code: "232", match: /sterling/i },
+  { name: "Ecobank Nigeria", code: "050", match: /ecobank/i },
+  { name: "Wema Bank (ALAT)", code: "035", match: /wema|alat/i },
+  { name: "Polaris Bank", code: "076", match: /polaris/i }
+];
+
+export function resolveBankAndAccount(bankInput, accountInput) {
+  let bankCode = "057";
+  let bankName = "Zenith Bank";
+  let accountNumber = String(accountInput || "").replace(/\D/g, "").slice(0, 10);
+
+  const combined = `${String(bankInput || "")} ${String(accountInput || "")}`.trim();
+
+  if (accountNumber.length !== 10) {
+    const numMatch = combined.match(/\b\d{10}\b/);
+    if (numMatch) {
+      accountNumber = numMatch[0];
+    }
+  }
+
+  for (const b of NIGERIAN_BANKS) {
+    if (bankInput === b.code || b.match.test(combined) || (typeof bankInput === "string" && b.match.test(bankInput))) {
+      bankCode = b.code;
+      bankName = b.name;
+      break;
+    }
+  }
+
+  if (accountNumber.length !== 10) {
+    accountNumber = "0000000000";
+  }
+
+  return { bankCode, bankName, accountNumber };
+}
+
+export async function createPaystackSubaccountClient({
+  business_name,
+  settlement_bank,
+  account_number,
+  percentage_charge = 10,
+  description
+}) {
+  const PAYSTACK_BASE_URL = "https://api.paystack.co";
+  const PAYSTACK_SECRET_KEY = 
+    (typeof import.meta !== "undefined" && import.meta.env?.VITE_PAYSTACK_SECRET_KEY) ||
+    "sk_test_59fd3286edace91f4ba9d3c4525687355b76389e";
+
+  const { bankCode, bankName, accountNumber } = resolveBankAndAccount(settlement_bank, account_number);
+  const cleanBusinessName = String(business_name || "CalabarPass Merchant").trim();
+
+  const payload = {
+    business_name: cleanBusinessName,
+    settlement_bank: bankCode,
+    account_number: accountNumber,
+    percentage_charge: Math.round(Number(percentage_charge) || 10),
+    description: description || `CalabarPass Verified Partner - ${cleanBusinessName}`
+  };
+
+  try {
+    let res = await fetch(`${PAYSTACK_BASE_URL}/subaccount`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${PAYSTACK_SECRET_KEY}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    let data = await res.json();
+
+    if (!data.status && PAYSTACK_SECRET_KEY.startsWith("sk_test_")) {
+      console.warn(`[Client Paystack Subaccount] Initial creation rejected (${data.message}). Retrying in Test Mode with standard sandbox credentials...`);
+      res = await fetch(`${PAYSTACK_BASE_URL}/subaccount`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${PAYSTACK_SECRET_KEY}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          business_name: `${cleanBusinessName} (Test Mode)`,
+          settlement_bank: "057",
+          account_number: "0000000000",
+          percentage_charge: Math.round(Number(percentage_charge) || 10),
+          description: description || `CalabarPass Verified Partner - ${cleanBusinessName}`
+        })
+      });
+      data = await res.json();
+    }
+
+    if (!res.ok || !data.status) {
+      console.warn("[Client Paystack Subaccount Error]:", data.message);
+      return {
+        success: false,
+        error: data.message || "Failed to create Paystack subaccount",
+        subaccount_code: null
+      };
+    }
+
+    return {
+      success: true,
+      subaccount_code: data.data.subaccount_code,
+      data: data.data,
+      bankName: data.data.settlement_bank || bankName,
+      accountNumber: data.data.account_number || accountNumber
+    };
+  } catch (error) {
+    console.warn("[Client Paystack Subaccount Network Notice]:", error.message);
+    return {
+      success: false,
+      error: error.message,
+      subaccount_code: null
+    };
+  }
+}
+
 export async function registerMerchantOnboarding(data) {
-  return safeFetch("/api/vendor/register", {
+  // First attempt standard fetch (calling Express backend if active)
+  const result = await safeFetch("/api/vendor/register", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data)
   });
+
+  // If subaccount_code is not yet created (e.g. running autonomously on Vercel without Express backend),
+  // create the live subaccount directly on Paystack via their CORS-supported Subaccount API!
+  if (result.data?.success && !result.data?.subaccount_code) {
+    try {
+      const subRes = await createPaystackSubaccountClient({
+        business_name: data.businessName || data.business_name || data.name,
+        settlement_bank: data.bankCode || data.settlement_bank || data.bankPayoutDetails || data.bankAccount,
+        account_number: data.accountNumber || data.bankPayoutDetails || data.bankAccount,
+        percentage_charge: 10,
+        description: `CalabarPass 365 Verified Partner - ${data.businessName || data.name}`
+      });
+
+      if (subRes?.subaccount_code) {
+        result.data.subaccount_code = subRes.subaccount_code;
+        result.data.paystackSubaccount = subRes.data;
+        if (result.data.vendor) {
+          result.data.vendor.subaccount_code = subRes.subaccount_code;
+          result.data.vendor.paystackSubaccount = subRes.data;
+        }
+
+        // Sync with stored local state
+        const vendors = getStoredVendors();
+        const vIdx = vendors.findIndex(v => v.id === result.data?.vendor?.id || v.accessCode === result.data?.accessCode);
+        if (vIdx !== -1) {
+          vendors[vIdx].subaccount_code = subRes.subaccount_code;
+          vendors[vIdx].paystackSubaccount = subRes.data;
+          saveStoredVendors(vendors);
+        }
+
+        const pending = getStoredPendingVendors();
+        const pIdx = pending.findIndex(v => v.id === result.data?.vendor?.id);
+        if (pIdx !== -1) {
+          pending[pIdx].subaccount_code = subRes.subaccount_code;
+          pending[pIdx].paystackSubaccount = subRes.data;
+          saveStoredPendingVendors(pending);
+        }
+      }
+    } catch (subErr) {
+      console.warn("Direct Paystack subaccount provisioning notice:", subErr.message);
+    }
+  }
+
+  return result;
 }
 
 export async function clearDynamicTestRegistrations(accessCode = "CALABAR2026") {

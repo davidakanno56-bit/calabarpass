@@ -18,9 +18,11 @@ import {
   Phone, 
   MapPin, 
   Image as ImageIcon,
-  Mail 
+  Mail,
+  Landmark,
+  ExternalLink 
 } from "lucide-react";
-import { registerMerchantOnboarding } from "../utils/api.js";
+import { registerMerchantOnboarding, NIGERIAN_BANKS } from "../utils/api.js";
 
 const CATEGORIES = [
   {
@@ -69,7 +71,10 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
   const [formData, setFormData] = useState({
     businessName: "",
     category: "accommodations",
-    bankPayoutDetails: "",
+    bankCode: "057",
+    bankName: "Zenith Bank",
+    accountNumber: "0000000000",
+    bankPayoutDetails: "Zenith Bank - 0000000000",
     phone: "",
     email: "",
     location: "Marian Road / Calabar Municipality",
@@ -82,6 +87,7 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
   const [error, setError] = useState("");
   const [createdVendor, setCreatedVendor] = useState(null);
   const [copied, setCopied] = useState(false);
+  const [copiedSub, setCopiedSub] = useState(false);
 
   if (!isOpen) return null;
 
@@ -89,6 +95,25 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+    if (error) setError("");
+  };
+
+  const handleBankChange = (code, name) => {
+    setFormData(prev => ({
+      ...prev,
+      bankCode: code,
+      bankName: name,
+      bankPayoutDetails: `${name} - ${prev.accountNumber || "0000000000"}`
+    }));
+  };
+
+  const handleAccountNumberChange = (val) => {
+    const clean = val.replace(/\D/g, "").slice(0, 10);
+    setFormData(prev => ({
+      ...prev,
+      accountNumber: clean,
+      bankPayoutDetails: `${prev.bankName || "Zenith Bank"} - ${clean}`
+    }));
     if (error) setError("");
   };
 
@@ -105,7 +130,10 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
     setFormData({
       businessName: "Royal Efik Heritage Suites",
       category: "accommodations",
-      bankPayoutDetails: "Zenith Bank - 1029384756 (Royal Hospitality Ltd)",
+      bankCode: "057",
+      bankName: "Zenith Bank",
+      accountNumber: "0000000000",
+      bankPayoutDetails: "Zenith Bank - 0000000000 (Royal Hospitality Ltd)",
       phone: "+234 803 772 1904",
       email: "reservations@royalefiksuites.com",
       location: "Marian Road / State Housing Estate, Calabar",
@@ -124,8 +152,8 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
       setError("Please provide your establishment or business name.");
       return;
     }
-    if (!formData.bankPayoutDetails.trim()) {
-      setError("Please specify your verified settlement bank account.");
+    if (!formData.accountNumber.trim()) {
+      setError("Please specify your 10-digit settlement account number.");
       return;
     }
     if (!formData.phone.trim()) {
@@ -138,6 +166,7 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
     try {
       const res = await registerMerchantOnboarding({
         ...formData,
+        bankPayoutDetails: `${formData.bankName} - ${formData.accountNumber}`,
         logoUrl: formData.logoUrl.trim() || selectedCategoryMeta.defaultImage
       });
 
@@ -270,37 +299,74 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
                 />
               </div>
 
-              {/* Bank Payout Details */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <label className="block font-bold uppercase tracking-wider text-slate-300 mb-1.5 flex items-center gap-1.5">
-                    <CreditCard className="w-3.5 h-3.5 text-amber-400" />
-                    <span>Settlement Bank Details *</span>
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.bankPayoutDetails}
-                    onChange={(e) => handleInputChange("bankPayoutDetails", e.target.value)}
-                    placeholder="e.g. Zenith Bank - 1029384756"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-700 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-amber-400 transition"
-                    required
-                  />
+              {/* Automated Paystack Settlement Account */}
+              <div className="rounded-2xl border border-amber-500/30 bg-slate-950/60 p-3.5 space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-amber-300">
+                    <Landmark className="w-4 h-4 text-amber-400" />
+                    <span>3. Settlement Account (Paystack Subaccount) *</span>
+                  </span>
+                  <span className="text-[10px] text-emerald-400 font-mono bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded-full">
+                    Auto-Provisioned
+                  </span>
                 </div>
 
-                <div>
-                  <label className="block font-bold uppercase tracking-wider text-slate-300 mb-1.5 flex items-center gap-1.5">
-                    <Phone className="w-3.5 h-3.5 text-amber-400" />
-                    <span>Operator Phone Number *</span>
-                  </label>
-                  <input
-                    type="tel"
-                    value={formData.phone}
-                    onChange={(e) => handleInputChange("phone", e.target.value)}
-                    placeholder="+234 80X XXX XXXX"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-700 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-amber-400 transition"
-                    required
-                  />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block font-semibold text-slate-300 mb-1 text-[11px]">
+                      Settlement Bank *
+                    </label>
+                    <select
+                      value={formData.bankCode}
+                      onChange={(e) => {
+                        const selectedBank = NIGERIAN_BANKS.find(b => b.code === e.target.value);
+                        handleBankChange(e.target.value, selectedBank?.name || formData.bankName);
+                      }}
+                      className="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-amber-400 transition cursor-pointer"
+                    >
+                      {NIGERIAN_BANKS.map(b => (
+                        <option key={b.code} value={b.code}>
+                          {b.name} ({b.code})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block font-semibold text-slate-300 mb-1 text-[11px]">
+                      10-Digit Account Number (NUBAN) *
+                    </label>
+                    <input
+                      type="text"
+                      maxLength={10}
+                      value={formData.accountNumber}
+                      onChange={(e) => handleAccountNumberChange(e.target.value)}
+                      placeholder="0000000000"
+                      className="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white font-mono placeholder-slate-500 text-xs focus:outline-none focus:border-amber-400 transition"
+                      required
+                    />
+                  </div>
                 </div>
+
+                <p className="text-[10px] text-slate-400 leading-relaxed">
+                  ⚡ <strong>Automatic Paystack Subaccount:</strong> When submitted, an official Subaccount is created on your Paystack Dashboard (under <em>Akanno Tech</em>). In Test Mode, use <code className="text-amber-300 font-mono">0000000000</code> or your valid NUBAN.
+                </p>
+              </div>
+
+              {/* Operator Phone Number */}
+              <div>
+                <label className="block font-bold uppercase tracking-wider text-slate-300 mb-1.5 flex items-center gap-1.5">
+                  <Phone className="w-3.5 h-3.5 text-amber-400" />
+                  <span>4. Operator Phone Number *</span>
+                </label>
+                <input
+                  type="tel"
+                  value={formData.phone}
+                  onChange={(e) => handleInputChange("phone", e.target.value)}
+                  placeholder="+234 80X XXX XXXX"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-700 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-amber-400 transition"
+                  required
+                />
               </div>
 
               {/* Business Email for Verification & Approval Dispatch */}
@@ -458,11 +524,71 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
               </p>
             </div>
 
+            {/* Paystack Automated Subaccount Box */}
+            {(createdVendor.subaccount_code || createdVendor.vendor?.subaccount_code) && (
+              <div className="p-4 rounded-2xl bg-gradient-to-br from-emerald-950/60 via-slate-900 to-emerald-950/40 border-2 border-emerald-500/50 shadow-emerald-glow max-w-sm mx-auto text-left">
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-[10px] font-extrabold uppercase tracking-widest text-emerald-400 flex items-center gap-1">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                    <span>Paystack Subaccount Created</span>
+                  </span>
+                  <span className="text-[10px] font-semibold text-emerald-300 bg-emerald-500/20 px-2 py-0.5 rounded-full border border-emerald-500/30">
+                    Live on Dashboard
+                  </span>
+                </div>
+                <div className="flex items-center justify-between gap-3 mt-2">
+                  <div className="overflow-hidden">
+                    <span className="font-mono text-xl sm:text-2xl font-extrabold text-emerald-300 tracking-wider truncate block">
+                      {createdVendor.subaccount_code || createdVendor.vendor?.subaccount_code}
+                    </span>
+                    <p className="text-[10px] text-slate-400 mt-0.5">
+                      Bank: <strong className="text-slate-200">{createdVendor.vendor?.bankAccount || `${formData.bankName} - ${formData.accountNumber}`}</strong>
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const code = createdVendor.subaccount_code || createdVendor.vendor?.subaccount_code;
+                      if (code) {
+                        navigator.clipboard?.writeText(code);
+                        setCopiedSub(true);
+                        setTimeout(() => setCopiedSub(false), 2000);
+                      }
+                    }}
+                    className="p-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 transition cursor-pointer shrink-0"
+                    title="Copy Subaccount Code"
+                  >
+                    {copiedSub ? <Check className="w-4 h-4 text-emerald-300" /> : <Copy className="w-4 h-4" />}
+                  </button>
+                </div>
+                <div className="mt-2.5 pt-2 border-t border-emerald-500/20 flex items-center justify-between text-[11px]">
+                  <span className="text-slate-400">Paystack: Payments → Subaccounts</span>
+                  <a
+                    href="https://dashboard.paystack.com/#/subaccounts"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1 text-emerald-400 hover:text-emerald-300 font-semibold underline underline-offset-2"
+                  >
+                    <span>View in Paystack</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
+              </div>
+            )}
+
             <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800 text-left text-xs text-slate-300 max-w-md mx-auto space-y-1.5">
               <div className="flex items-center justify-between">
                 <span className="text-slate-400">Directory Status:</span>
                 <span className="font-bold text-emerald-400">Live in #directory-catalog</span>
               </div>
+              {(createdVendor.subaccount_code || createdVendor.vendor?.subaccount_code) && (
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-400">Paystack Subaccount:</span>
+                  <span className="font-mono font-bold text-emerald-400">
+                    {createdVendor.subaccount_code || createdVendor.vendor?.subaccount_code}
+                  </span>
+                </div>
+              )}
               <div className="flex items-center justify-between">
                 <span className="text-slate-400">Settlement Account:</span>
                 <span className="font-mono text-slate-200">{createdVendor.vendor?.bankAccount}</span>

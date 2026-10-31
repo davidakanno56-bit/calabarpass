@@ -221,6 +221,12 @@ export default function AdminVendorQueue({ onApprovalSuccess }) {
                         <span>{vendor.bankPayoutDetails}</span>
                       </span>
                     )}
+                    {vendor.subaccount_code && (
+                      <span className="flex items-center gap-1 font-mono text-[11px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/25 px-2 py-0.5 rounded">
+                        <span>Paystack:</span>
+                        <strong className="text-emerald-300">{vendor.subaccount_code}</strong>
+                      </span>
+                    )}
                   </div>
 
                   {vendor.location && (

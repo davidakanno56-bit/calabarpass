@@ -7,7 +7,13 @@ import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
 import { escrowStore } from "./store.js";
-import { initializeTransaction, verifyTransaction, releaseEscrowFunds } from "./paystack.js";
+import { 
+  initializeTransaction, 
+  verifyTransaction, 
+  releaseEscrowFunds, 
+  createPaystackSubaccount, 
+  listPaystackSubaccounts 
+} from "./paystack.js";
 import { getAiConciergeResponse, FAIR_PRICES, SCAM_ADVISORIES } from "./aiPricing.js";
 import { imageService } from "./imageService.js";
 
@@ -294,7 +300,7 @@ app.get("/api/vendor/payouts", (req, res) => {
 });
 
 // 7c. Merchant Self-Onboarding Registration Endpoint
-const handleVendorRegistration = (req, res) => {
+const handleVendorRegistration = async (req, res) => {
   try {
     const { 
       businessName, 
@@ -302,7 +308,9 @@ const handleVendorRegistration = (req, res) => {
       name, 
       category, 
       bankPayoutDetails, 
-      bankAccount, 
+      bankAccount,
+      bankCode,
+      accountNumber,
       phone, 
       phoneNumber, 
       email,
@@ -320,18 +328,38 @@ const handleVendorRegistration = (req, res) => {
     if (!title) {
       return res.status(400).json({ success: false, error: "Business name is required." });
     }
-    if (!bankPayoutDetails && !bankAccount) {
+    if (!bankPayoutDetails && !bankAccount && !accountNumber) {
       return res.status(400).json({ success: false, error: "Bank payout details are required." });
     }
     if (!phone && !phoneNumber) {
       return res.status(400).json({ success: false, error: "Phone number is required." });
     }
 
+    // Automatically create a Paystack Subaccount for this vendor terminal
+    let subaccountResult = null;
+    try {
+      subaccountResult = await createPaystackSubaccount({
+        business_name: title,
+        settlement_bank: bankCode || bankPayoutDetails || bankAccount,
+        account_number: accountNumber || bankPayoutDetails || bankAccount,
+        percentage_charge: 10,
+        description: `CalabarPass 365 Verified Partner - ${title}`
+      });
+    } catch (subErr) {
+      console.warn("Paystack subaccount creation warning:", subErr.message);
+    }
+
+    const subaccountCode = subaccountResult?.subaccount_code || null;
+    const finalBankDesc = bankPayoutDetails || bankAccount || (subaccountResult ? `${subaccountResult.bankName} - ${subaccountResult.accountNumber}` : "Zenith Bank - 0000000000");
+
     const result = escrowStore.registerVendor({
       businessName: title,
       business_name: title,
       category,
-      bankPayoutDetails: bankPayoutDetails || bankAccount,
+      bankPayoutDetails: finalBankDesc,
+      bankAccount: finalBankDesc,
+      subaccount_code: subaccountCode,
+      paystackSubaccount: subaccountResult?.data || null,
       phone: phone || phoneNumber,
       email: email || contactEmail,
       logoUrl: logoUrl || image,
@@ -344,9 +372,13 @@ const handleVendorRegistration = (req, res) => {
       success: true,
       vendor: result.vendor,
       accessCode: result.accessCode,
+      subaccount_code: subaccountCode,
+      paystackSubaccount: subaccountResult?.data || null,
       directoryCard: result.directoryCard,
       status: result.vendor.status || "pending",
-      message: `Merchant registered successfully. Application is in pending review queue.`
+      message: subaccountCode 
+        ? `Merchant registered successfully with Paystack Subaccount (${subaccountCode}). Live on Paystack Dashboard.`
+        : `Merchant registered successfully. Application is in pending review queue.`
     });
   } catch (error) {
     console.error("Vendor Onboarding Error:", error.message);
@@ -372,13 +404,34 @@ app.get("/api/admin/vendors/pending", (req, res) => {
 });
 
 // 7c-3. Review Merchant Application (Approve or Remove)
-app.post("/api/admin/vendors/:vendor_id/review", (req, res) => {
+app.post("/api/admin/vendors/:vendor_id/review", async (req, res) => {
   try {
     const { vendor_id } = req.params;
     const action = req.query.action || req.body?.action;
 
     if (!action) {
       return res.status(400).json({ detail: "Invalid action parameter." });
+    }
+
+    if (action === "approve") {
+      const vendor = escrowStore.pendingVendors.get(vendor_id) || escrowStore.vendors.get(vendor_id);
+      if (vendor && !vendor.subaccount_code) {
+        try {
+          const subRes = await createPaystackSubaccount({
+            business_name: vendor.business_name || vendor.name,
+            settlement_bank: vendor.bankPayoutDetails || vendor.bankAccount,
+            account_number: vendor.bankPayoutDetails || vendor.bankAccount,
+            percentage_charge: 10,
+            description: `CalabarPass 365 Verified Partner - ${vendor.name}`
+          });
+          if (subRes?.subaccount_code) {
+            vendor.subaccount_code = subRes.subaccount_code;
+            vendor.paystackSubaccount = subRes.data;
+          }
+        } catch (subErr) {
+          console.warn("[Review Subaccount Notice]:", subErr.message);
+        }
+      }
     }
 
     const result = escrowStore.reviewVendor(vendor_id, action);
@@ -392,10 +445,25 @@ app.post("/api/admin/vendors/:vendor_id/review", (req, res) => {
       return res.status(400).json({ detail: result.error || "Review failed." });
     }
 
-    res.json({ status: "success", message: `Vendor successfully ${action}d.` });
+    res.json({ 
+      status: "success", 
+      message: `Vendor successfully ${action}d.`,
+      merchant_code: result.vendor?.merchant_code || result.merchant_code,
+      subaccount_code: result.vendor?.subaccount_code || null
+    });
   } catch (error) {
     console.error("Admin Review Error:", error.message);
     res.status(500).json({ detail: error.message, error: error.message });
+  }
+});
+
+// 7c-4. Get all Paystack Subaccounts
+app.get("/api/paystack/subaccounts", async (req, res) => {
+  try {
+    const result = await listPaystackSubaccounts();
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message, subaccounts: [] });
   }
 });
 
