@@ -1624,11 +1624,6 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
                       {activeMerchant.terms.item}:{" "}
                       {booking.packageName || activeMerchant.terms.itemExample}
                     </p>
-                    {booking.isDemo && (
-                      <p className="mt-2 font-mono text-[11px] text-slate-500">
-                        Demo PIN: <span className="text-slate-300">{booking.pin}</span>
-                      </p>
-                    )}
                   </div>
                   <span className="inline-flex w-fit items-center gap-1.5 rounded-full border border-amber-500/25 bg-amber-500/10 px-2.5 py-1 text-[11px] font-semibold text-amber-300">
                     <LockKeyhole className="h-3 w-3" />
@@ -1930,26 +1925,16 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
                           <div className="flex items-center gap-2">
                             {isActive ? (
                               <>
-                                <button
-                                  type="button"
-                                  onClick={() => {
-                                    setReleaseForm({ reference: record.reference, pin: record.raw?.pin || "" });
-                                    const pinInput = document.getElementById("release-pin");
-                                    if (pinInput) {
-                                      pinInput.focus();
-                                      pinInput.scrollIntoView({ behavior: "smooth", block: "center" });
-                                    }
-                                  }}
-                                  className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs shadow-sm transition cursor-pointer"
-                                  title="Validate Check-in PIN to release escrow"
-                                >
-                                  <span>Verify PIN</span>
-                                </button>
+                                <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-amber-300 bg-amber-500/10 border border-amber-500/25 px-2.5 py-1 rounded-lg">
+                                  <LockKeyhole className="h-3 w-3 text-amber-400" />
+                                  <span>Escrow Secured</span>
+                                </span>
                                 {onOpenVoucher && (
                                   <button
                                     type="button"
                                     onClick={() => onOpenVoucher(record.raw)}
-                                    className="text-xs text-slate-400 hover:text-white underline-offset-4 hover:underline cursor-pointer"
+                                    className="text-xs text-slate-400 hover:text-white underline-offset-4 hover:underline cursor-pointer ml-1"
+                                    title="View guest booking pass"
                                   >
                                     View Pass
                                   </button>

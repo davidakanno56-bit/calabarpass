@@ -317,14 +317,6 @@ export default function EscrowManager({ onOpenVoucher }) {
                   </>
                 )}
               </button>
-
-              <button
-                type="button"
-                onClick={() => setReleaseForm({ reference: "CP-DEMO-849201", pin: "849201" })}
-                className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white text-xs font-semibold border border-slate-700 transition-colors"
-              >
-                Auto-Fill Demo Active Booking (849201)
-              </button>
             </div>
           </form>
         </div>
