@@ -2,6 +2,9 @@
 // Autonomous Client API & Local Escrow Fallback Engine for Vercel Deployments
 
 import { PACKAGES } from "../data/packages.js";
+import { POPULAR_BANKS, ALL_NIGERIAN_BANKS, searchBanks, getBankByCode } from "./banks.js";
+
+export { POPULAR_BANKS, ALL_NIGERIAN_BANKS, searchBanks, getBankByCode };
 
 // Initial seed transactions for multi-tenant vendor terminals and escrow ledger
 const SEED_TRANSACTIONS = [
@@ -835,14 +838,34 @@ export function handleLocalEscrowFallback(endpoint, payload = null, method = "GE
 
   // 2b. Paystack bank account resolution preview
   if (cleanEndpoint === "/api/paystack/resolve-account") {
-    const acc = urlObj?.searchParams.get("account_number") || "";
+    let acc = String(urlObj?.searchParams.get("account_number") || "").replace(/\D/g, "");
+    if (acc.length === 11 && acc.startsWith("0")) {
+      acc = acc.slice(1);
+    } else {
+      acc = acc.slice(0, 10);
+    }
     const bnk = urlObj?.searchParams.get("bank_code") || "";
+    const bName = urlObj?.searchParams.get("business_name") || "";
+    const name = (acc === "0000000000" || acc === "1029384756")
+      ? "ROYAL EFIK HOSPITALITY (TEST SANDBOX)"
+      : (bName?.trim() ? `${bName.trim().toUpperCase()} (SANDBOX)` : `VERIFIED MERCHANT (${acc.slice(-4)})`);
     return {
       success: true,
-      accountName: acc === "0000000000" || acc === "1029384756" ? "ROYAL EFIK HOSPITALITY (TEST SANDBOX)" : "VERIFIED MERCHANT (PAYSTACK TEST SANDBOX)",
+      accountName: name,
+      account_name: name,
       accountNumber: acc,
       bankCode: bnk,
-      isTestMock: true
+      isTestMock: true,
+      notice: "Test Mode: Live NIBSS name resolution active when Paystack Live Key is configured."
+    };
+  }
+
+  // 2c. Paystack all banks list
+  if (cleanEndpoint === "/api/paystack/banks") {
+    return {
+      success: true,
+      count: ALL_NIGERIAN_BANKS.length,
+      banks: ALL_NIGERIAN_BANKS
     };
   }
 
@@ -1405,44 +1428,35 @@ export function handleLocalEscrowFallback(endpoint, payload = null, method = "GE
   return { success: true, message: "Autonomous client operation completed." };
 }
 
-export const NIGERIAN_BANKS = [
-  { name: "Zenith Bank", code: "057", match: /zenith/i },
-  { name: "Access Bank", code: "044", match: /access/i },
-  { name: "Guaranty Trust Bank (GTBank)", code: "058", match: /guaranty|gtbank|gtb/i },
-  { name: "First Bank of Nigeria", code: "011", match: /first\s*bank|fbn/i },
-  { name: "United Bank for Africa (UBA)", code: "033", match: /uba|united\s*bank/i },
-  { name: "Kuda Bank", code: "50211", match: /kuda/i },
-  { name: "OPay Digital Services", code: "999992", match: /opay/i },
-  { name: "PalmPay", code: "999991", match: /palmpay/i },
-  { name: "Fidelity Bank", code: "070", match: /fidelity/i },
-  { name: "Stanbic IBTC Bank", code: "221", match: /stanbic/i },
-  { name: "Union Bank of Nigeria", code: "032", match: /union/i },
-  { name: "Sterling Bank", code: "232", match: /sterling/i },
-  { name: "Ecobank Nigeria", code: "050", match: /ecobank/i },
-  { name: "Wema Bank (ALAT)", code: "035", match: /wema|alat/i },
-  { name: "Polaris Bank", code: "076", match: /polaris/i }
-];
+// All 290+ Nigerian banks supported by Paystack & NIBSS
+export const NIGERIAN_BANKS = ALL_NIGERIAN_BANKS;
 
 export function resolveBankAndAccount(bankInput, accountInput) {
   let bankCode = "057";
   let bankName = "Zenith Bank";
-  let accountNumber = String(accountInput || "").replace(/\D/g, "").slice(0, 10);
-
-  const combined = `${String(bankInput || "")} ${String(accountInput || "")}`.trim();
-
-  if (accountNumber.length !== 10) {
-    const numMatch = combined.match(/\b\d{10}\b/);
-    if (numMatch) {
-      accountNumber = numMatch[0];
-    }
+  
+  let accountNumber = String(accountInput || "").replace(/\D/g, "");
+  if (accountNumber.length === 11 && accountNumber.startsWith("0")) {
+    accountNumber = accountNumber.slice(1);
+  } else {
+    accountNumber = accountNumber.slice(0, 10);
   }
 
-  for (const b of NIGERIAN_BANKS) {
-    if (bankInput === b.code || b.match.test(combined) || (typeof bankInput === "string" && b.match.test(bankInput))) {
-      bankCode = b.code;
-      bankName = b.name;
-      break;
-    }
+  const cleanInput = String(bankInput || "").trim().toLowerCase();
+
+  // 1. Direct code match
+  let found = getBankByCode(bankInput);
+
+  // 2. Exact or partial name match on bankInput
+  if (!found && cleanInput) {
+    found = ALL_NIGERIAN_BANKS.find(b => b.name.toLowerCase() === cleanInput)
+      || ALL_NIGERIAN_BANKS.find(b => b.name.toLowerCase().includes(cleanInput))
+      || ALL_NIGERIAN_BANKS.find(b => cleanInput.includes(b.name.toLowerCase()));
+  }
+
+  if (found) {
+    bankCode = found.code;
+    bankName = found.name;
   }
 
   if (accountNumber.length !== 10) {
@@ -1533,10 +1547,16 @@ export async function createPaystackSubaccountClient({
 }
 
 /**
- * Resolves and verifies bank account name via Paystack & NIBSS
+ * Resolves and verifies bank account name via Paystack & NIBSS across all 290+ Nigerian banks
  */
-export async function resolveBankAccountClient({ accountNumber, bankCode }) {
-  const cleanAcc = String(accountNumber || "").replace(/\D/g, "").slice(0, 10);
+export async function resolveBankAccountClient({ accountNumber, bankCode, businessName = "" }) {
+  let cleanAcc = String(accountNumber || "").replace(/\D/g, "");
+  // Normalize 11-digit Nigerian mobile accounts (e.g. PalmPay/OPay 080... -> 80...)
+  if (cleanAcc.length === 11 && cleanAcc.startsWith("0")) {
+    cleanAcc = cleanAcc.slice(1);
+  } else {
+    cleanAcc = cleanAcc.slice(0, 10);
+  }
   const cleanBank = String(bankCode || "").trim();
 
   if (cleanAcc.length !== 10 || !cleanBank) {
@@ -1545,9 +1565,14 @@ export async function resolveBankAccountClient({ accountNumber, bankCode }) {
 
   // 1. Try safeFetch against server
   try {
-    const res = await safeFetch(`/api/paystack/resolve-account?account_number=${encodeURIComponent(cleanAcc)}&bank_code=${encodeURIComponent(cleanBank)}`);
+    const res = await safeFetch(`/api/paystack/resolve-account?account_number=${encodeURIComponent(cleanAcc)}&bank_code=${encodeURIComponent(cleanBank)}&business_name=${encodeURIComponent(businessName)}`);
     if (res.ok && res.data?.success) {
-      return res.data;
+      const name = res.data.accountName || res.data.account_name;
+      return {
+        ...res.data,
+        accountName: name,
+        account_name: name
+      };
     }
   } catch {}
 
@@ -1561,6 +1586,7 @@ export async function resolveBankAccountClient({ accountNumber, bankCode }) {
     return {
       success: true,
       accountName: "ROYAL EFIK HOSPITALITY (TEST SANDBOX)",
+      account_name: "ROYAL EFIK HOSPITALITY (TEST SANDBOX)",
       accountNumber: cleanAcc,
       bankCode: cleanBank,
       isTestMock: true
@@ -1579,27 +1605,38 @@ export async function resolveBankAccountClient({ accountNumber, bankCode }) {
       return {
         success: true,
         accountName: data.data.account_name,
+        account_name: data.data.account_name,
         accountNumber: data.data.account_number || cleanAcc,
-        bankCode: cleanBank
+        bankCode: cleanBank,
+        isLiveResolved: true
       };
     }
 
     if (PAYSTACK_SECRET_KEY.startsWith("sk_test_")) {
+      const mockName = businessName?.trim()
+        ? `${businessName.toUpperCase().slice(0, 26)} (SANDBOX)`
+        : `VERIFIED MERCHANT (${cleanAcc.slice(-4)})`;
       return {
         success: true,
-        accountName: "VERIFIED MERCHANT (PAYSTACK TEST SANDBOX)",
+        accountName: mockName,
+        account_name: mockName,
         accountNumber: cleanAcc,
         bankCode: cleanBank,
-        isTestMock: true
+        isTestMock: true,
+        notice: "Test Mode: Live NIBSS name resolution active when Paystack Live Key is configured."
       };
     }
 
     return { success: false, error: data.message || "Could not resolve bank account details." };
   } catch (err) {
     if (PAYSTACK_SECRET_KEY.startsWith("sk_test_")) {
+      const mockName = businessName?.trim()
+        ? `${businessName.toUpperCase().slice(0, 26)} (SANDBOX)`
+        : `VERIFIED MERCHANT (${cleanAcc.slice(-4)})`;
       return {
         success: true,
-        accountName: "VERIFIED MERCHANT (PAYSTACK TEST SANDBOX)",
+        accountName: mockName,
+        account_name: mockName,
         accountNumber: cleanAcc,
         bankCode: cleanBank,
         isTestMock: true

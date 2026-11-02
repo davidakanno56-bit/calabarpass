@@ -468,15 +468,29 @@ app.get("/api/paystack/subaccounts", async (req, res) => {
   }
 });
 
-// 7c-5. Live Bank Account Verification Preview
+// 7c-5. Live Bank Account Verification Preview across all 290+ Nigerian banks
 app.get("/api/paystack/resolve-account", async (req, res) => {
   try {
-    const { account_number, bank_code } = req.query;
+    const { account_number, bank_code, business_name } = req.query;
     if (!account_number || !bank_code) {
       return res.status(400).json({ success: false, error: "account_number and bank_code are required." });
     }
-    const result = await resolveBankAccount(account_number, bank_code);
+    const result = await resolveBankAccount(account_number, bank_code, business_name);
     res.json(result);
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// 7c-6. Get Complete List of all 290+ Nigerian Banks
+app.get("/api/paystack/banks", (req, res) => {
+  try {
+    const banksPath = path.join(__dirname, "paystack_banks.json");
+    if (fs.existsSync(banksPath)) {
+      const banks = JSON.parse(fs.readFileSync(banksPath, "utf8"));
+      return res.json({ success: true, count: banks.length, banks });
+    }
+    res.json({ success: true, count: 0, banks: [] });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }

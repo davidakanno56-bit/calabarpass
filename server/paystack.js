@@ -321,20 +321,28 @@ export async function listPaystackSubaccounts() {
 
 /**
  * Live Bank Account Verification & Name Resolution with Paystack & NIBSS
+ * Resolves registered account names across all 290+ Nigerian banks (including PalmPay, Moniepoint, OPay, etc.)
  */
-export async function resolveBankAccount(accountNumber, bankCode) {
-  const cleanAcc = String(accountNumber || "").replace(/\D/g, "").slice(0, 10);
+export async function resolveBankAccount(accountNumber, bankCode, businessName = "") {
+  let cleanAcc = String(accountNumber || "").replace(/\D/g, "");
+  // Normalize 11-digit Nigerian mobile accounts (e.g. PalmPay/OPay 080... -> 80...)
+  if (cleanAcc.length === 11 && cleanAcc.startsWith("0")) {
+    cleanAcc = cleanAcc.slice(1);
+  } else {
+    cleanAcc = cleanAcc.slice(0, 10);
+  }
   const cleanBank = String(bankCode || "").trim();
 
   if (cleanAcc.length !== 10 || !cleanBank) {
     return { success: false, error: "Valid 10-digit account number and bank code required." };
   }
 
-  // In test mode or when using standard sandbox 0000000000
+  // In test mode or when using standard sandbox 0000000000 / 1029384756
   if (PAYSTACK_SECRET_KEY.startsWith("sk_test_") && (cleanAcc === "0000000000" || cleanAcc === "1029384756")) {
     return {
       success: true,
       accountName: "ROYAL EFIK HOSPITALITY (TEST SANDBOX)",
+      account_name: "ROYAL EFIK HOSPITALITY (TEST SANDBOX)",
       accountNumber: cleanAcc,
       bankCode: cleanBank,
       isTestMock: true
@@ -354,18 +362,29 @@ export async function resolveBankAccount(accountNumber, bankCode) {
       return {
         success: true,
         accountName: data.data.account_name,
+        account_name: data.data.account_name,
         accountNumber: data.data.account_number || cleanAcc,
-        bankCode: cleanBank
+        bankCode: cleanBank,
+        isLiveResolved: true
       };
     }
 
+    // In Test Mode (sk_test_...):
+    // Paystack sandbox only mocks commercial bank test accounts (0000000000) and does not connect
+    // to live NIBSS for third-party fintechs (PalmPay, Moniepoint, OPay).
+    // In test mode, we provide a clean, realistic sandbox verification so registration is seamless.
     if (PAYSTACK_SECRET_KEY.startsWith("sk_test_")) {
+      const mockName = businessName?.trim()
+        ? `${businessName.toUpperCase().slice(0, 26)} (SANDBOX)`
+        : `VERIFIED MERCHANT (${cleanAcc.slice(-4)})`;
       return {
         success: true,
-        accountName: "VERIFIED MERCHANT (PAYSTACK TEST SANDBOX)",
+        accountName: mockName,
+        account_name: mockName,
         accountNumber: cleanAcc,
         bankCode: cleanBank,
-        isTestMock: true
+        isTestMock: true,
+        notice: "Test Mode: Live NIBSS name resolution active when Paystack Live Key is configured."
       };
     }
 
@@ -375,9 +394,13 @@ export async function resolveBankAccount(accountNumber, bankCode) {
     };
   } catch (err) {
     if (PAYSTACK_SECRET_KEY.startsWith("sk_test_")) {
+      const mockName = businessName?.trim()
+        ? `${businessName.toUpperCase().slice(0, 26)} (SANDBOX)`
+        : `VERIFIED MERCHANT (${cleanAcc.slice(-4)})`;
       return {
         success: true,
-        accountName: "VERIFIED MERCHANT (PAYSTACK TEST SANDBOX)",
+        accountName: mockName,
+        account_name: mockName,
         accountNumber: cleanAcc,
         bankCode: cleanBank,
         isTestMock: true

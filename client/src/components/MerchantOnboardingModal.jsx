@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { 
   Building2, 
   ShieldCheck, 
@@ -21,9 +21,16 @@ import {
   Mail,
   Landmark,
   ExternalLink,
-  Loader2
+  Loader2,
+  Search
 } from "lucide-react";
-import { registerMerchantOnboarding, NIGERIAN_BANKS, isPaystackLiveMode, resolveBankAccountClient } from "../utils/api.js";
+import { 
+  registerMerchantOnboarding, 
+  POPULAR_BANKS, 
+  ALL_NIGERIAN_BANKS, 
+  isPaystackLiveMode, 
+  resolveBankAccountClient 
+} from "../utils/api.js";
 
 const CATEGORIES = [
   {
@@ -74,8 +81,8 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
     category: "accommodations",
     bankCode: "057",
     bankName: "Zenith Bank",
-    accountNumber: "0000000000",
-    bankPayoutDetails: "Zenith Bank - 0000000000",
+    accountNumber: "",
+    bankPayoutDetails: "",
     phone: "",
     email: "",
     location: "Marian Road / Calabar Municipality",
@@ -90,19 +97,35 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
   const [copied, setCopied] = useState(false);
   const [copiedSub, setCopiedSub] = useState(false);
 
-  // Live Bank Resolution State
+  // Bank Search & Live Resolution State
+  const [bankSearchTerm, setBankSearchTerm] = useState("");
   const [resolvingAccount, setResolvingAccount] = useState(false);
   const [resolvedAccountName, setResolvedAccountName] = useState("");
+  const [isMockResolved, setIsMockResolved] = useState(false);
   const [resolveError, setResolveError] = useState("");
 
   const isLiveMode = isPaystackLiveMode();
 
+  // Filter 290+ banks by search query
+  const filteredBanks = useMemo(() => {
+    const q = bankSearchTerm.trim().toLowerCase();
+    if (!q) return ALL_NIGERIAN_BANKS;
+    return ALL_NIGERIAN_BANKS.filter(
+      b => b.name.toLowerCase().includes(q) || b.code.includes(q)
+    );
+  }, [bankSearchTerm]);
+
   // Debounced live bank account verification via Paystack / NIBSS
   useEffect(() => {
     let active = true;
-    const cleanNum = (formData.accountNumber || "").replace(/\D/g, "");
+    let cleanNum = (formData.accountNumber || "").replace(/\D/g, "");
+    if (cleanNum.length === 11 && cleanNum.startsWith("0")) {
+      cleanNum = cleanNum.slice(1);
+    }
+
     if (cleanNum.length !== 10 || !formData.bankCode) {
       setResolvedAccountName("");
+      setIsMockResolved(false);
       setResolveError("");
       setResolvingAccount(false);
       return;
@@ -115,30 +138,38 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
       try {
         const res = await resolveBankAccountClient({
           accountNumber: cleanNum,
-          bankCode: formData.bankCode
+          bankCode: formData.bankCode,
+          businessName: formData.businessName
         });
         if (!active) return;
-        if (res?.data?.success && res?.data?.account_name) {
-          setResolvedAccountName(res.data.account_name);
+        
+        const resolved = res?.accountName || res?.account_name || res?.data?.accountName || res?.data?.account_name;
+        const isSuccess = res?.success || res?.data?.success;
+
+        if (isSuccess && resolved) {
+          setResolvedAccountName(resolved);
+          setIsMockResolved(Boolean(res?.isTestMock || res?.data?.isTestMock));
           setResolveError("");
         } else {
           setResolvedAccountName("");
-          setResolveError(res?.data?.error || "Unable to verify account name. Please check NUBAN and bank.");
+          setIsMockResolved(false);
+          setResolveError(res?.error || res?.data?.error || "Unable to verify account name. Please check NUBAN and bank.");
         }
       } catch (err) {
         if (!active) return;
         setResolvedAccountName("");
+        setIsMockResolved(false);
         setResolveError(err?.message || "Verification failed");
       } finally {
         if (active) setResolvingAccount(false);
       }
-    }, 450);
+    }, 400);
 
     return () => {
       active = false;
       clearTimeout(timer);
     };
-  }, [formData.accountNumber, formData.bankCode]);
+  }, [formData.accountNumber, formData.bankCode, formData.businessName]);
 
   if (!isOpen) return null;
 
@@ -154,12 +185,15 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
       ...prev,
       bankCode: code,
       bankName: name,
-      bankPayoutDetails: `${name} - ${prev.accountNumber || "0000000000"}`
+      bankPayoutDetails: `${name} - ${prev.accountNumber || ""}`
     }));
   };
 
   const handleAccountNumberChange = (val) => {
-    const clean = val.replace(/\D/g, "").slice(0, 10);
+    let clean = val.replace(/\D/g, "").slice(0, 11);
+    if (clean.length === 11 && clean.startsWith("0")) {
+      clean = clean.slice(1); // Auto-normalize to 10 digits
+    }
     setFormData(prev => ({
       ...prev,
       accountNumber: clean,
@@ -203,8 +237,14 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
       setError("Please provide your establishment or business name.");
       return;
     }
-    if (!formData.accountNumber.trim()) {
-      setError("Please specify your 10-digit settlement account number.");
+
+    let cleanAcc = formData.accountNumber.trim().replace(/\D/g, "");
+    if (cleanAcc.length === 11 && cleanAcc.startsWith("0")) {
+      cleanAcc = cleanAcc.slice(1);
+    }
+
+    if (cleanAcc.length !== 10) {
+      setError("Please specify a valid 10-digit settlement account number (or 11-digit mobile account).");
       return;
     }
     if (!formData.phone.trim()) {
@@ -217,10 +257,11 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
     try {
       const res = await registerMerchantOnboarding({
         ...formData,
+        accountNumber: cleanAcc,
         accountName: resolvedAccountName || formData.businessName,
         bankPayoutDetails: resolvedAccountName
-          ? `${formData.bankName} - ${formData.accountNumber} (${resolvedAccountName})`
-          : `${formData.bankName} - ${formData.accountNumber}`,
+          ? `${formData.bankName} - ${cleanAcc} (${resolvedAccountName})`
+          : `${formData.bankName} - ${cleanAcc}`,
         logoUrl: formData.logoUrl.trim() || selectedCategoryMeta.defaultImage
       });
 
@@ -369,38 +410,76 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block font-semibold text-slate-300 mb-1 text-[11px]">
-                      Settlement Bank *
-                    </label>
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="block font-semibold text-slate-300 text-[11px]">
+                        Settlement Bank * ({ALL_NIGERIAN_BANKS.length} Banks)
+                      </label>
+                      {bankSearchTerm && (
+                        <button
+                          type="button"
+                          onClick={() => setBankSearchTerm("")}
+                          className="text-[10px] text-amber-400 hover:underline cursor-pointer"
+                        >
+                          Clear
+                        </button>
+                      )}
+                    </div>
+
+                    {/* Instant Bank Search Input */}
+                    <div className="relative mb-1.5">
+                      <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                      <input
+                        type="text"
+                        value={bankSearchTerm}
+                        onChange={(e) => setBankSearchTerm(e.target.value)}
+                        placeholder="Search: Moniepoint, PalmPay, OPay..."
+                        className="w-full pl-7 pr-2.5 py-1.5 rounded-lg bg-slate-900/90 border border-slate-700/80 text-white placeholder-slate-500 text-[11px] focus:outline-none focus:border-amber-400 transition"
+                      />
+                    </div>
+
                     <select
                       value={formData.bankCode}
                       onChange={(e) => {
-                        const selectedBank = NIGERIAN_BANKS.find(b => b.code === e.target.value);
+                        const selectedBank = ALL_NIGERIAN_BANKS.find(b => b.code === e.target.value);
                         handleBankChange(e.target.value, selectedBank?.name || formData.bankName);
                       }}
-                      className="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-amber-400 transition cursor-pointer"
+                      className="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-amber-400 transition cursor-pointer"
                     >
-                      {NIGERIAN_BANKS.map(b => (
-                        <option key={b.code} value={b.code}>
-                          {b.name} ({b.code})
-                        </option>
-                      ))}
+                      {!bankSearchTerm && (
+                        <optgroup label="🌟 POPULAR / DIGITAL & COMMERCIAL BANKS">
+                          {POPULAR_BANKS.map(b => (
+                            <option key={`pop-${b.code}`} value={b.code}>
+                              {b.name} ({b.code})
+                            </option>
+                          ))}
+                        </optgroup>
+                      )}
+                      <optgroup label={bankSearchTerm ? `FILTERED RESULTS (${filteredBanks.length})` : "🏛️ ALL 290+ NIGERIAN BANKS (A-Z)"}>
+                        {filteredBanks.map(b => (
+                          <option key={b.code} value={b.code}>
+                            {b.name} ({b.code})
+                          </option>
+                        ))}
+                      </optgroup>
                     </select>
                   </div>
 
                   <div>
                     <label className="block font-semibold text-slate-300 mb-1 text-[11px]">
-                      10-Digit Account Number (NUBAN) *
+                      Account Number (NUBAN or Mobile) *
                     </label>
                     <input
                       type="text"
-                      maxLength={10}
+                      maxLength={11}
                       value={formData.accountNumber}
                       onChange={(e) => handleAccountNumberChange(e.target.value)}
-                      placeholder="0000000000"
+                      placeholder="e.g. 8031234567 or 10-digit NUBAN"
                       className="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white font-mono placeholder-slate-500 text-xs focus:outline-none focus:border-amber-400 transition"
                       required
                     />
+                    <span className="text-[10px] text-slate-400 block mt-1">
+                      💡 PalmPay/OPay: Enter your 10-digit number or 11 digits with 0 (auto-converts).
+                    </span>
                   </div>
                 </div>
 
@@ -420,12 +499,12 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
                       <span className="font-bold text-emerald-200 uppercase truncate">{resolvedAccountName}</span>
                     </div>
                     <span className="text-[9px] uppercase tracking-wider font-mono text-emerald-400/90 bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/30 shrink-0">
-                      NIBSS Live
+                      {isMockResolved ? "NIBSS Sandbox" : "NIBSS Live"}
                     </span>
                   </div>
                 )}
 
-                {!resolvingAccount && resolveError && formData.accountNumber.length === 10 && (
+                {!resolvingAccount && resolveError && formData.accountNumber.length >= 10 && (
                   <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-amber-950/30 border border-amber-500/40 text-amber-300 text-[11px]">
                     <AlertCircle className="w-4 h-4 text-amber-400 shrink-0" />
                     <span>{resolveError}</span>
