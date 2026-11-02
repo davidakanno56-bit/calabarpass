@@ -12,7 +12,8 @@ import {
   verifyTransaction, 
   releaseEscrowFunds, 
   createPaystackSubaccount, 
-  listPaystackSubaccounts 
+  listPaystackSubaccounts,
+  resolveBankAccount 
 } from "./paystack.js";
 import { getAiConciergeResponse, FAIR_PRICES, SCAM_ADVISORIES } from "./aiPricing.js";
 import { imageService } from "./imageService.js";
@@ -464,6 +465,20 @@ app.get("/api/paystack/subaccounts", async (req, res) => {
     res.json(result);
   } catch (error) {
     res.status(500).json({ success: false, error: error.message, subaccounts: [] });
+  }
+});
+
+// 7c-5. Live Bank Account Verification Preview
+app.get("/api/paystack/resolve-account", async (req, res) => {
+  try {
+    const { account_number, bank_code } = req.query;
+    if (!account_number || !bank_code) {
+      return res.status(400).json({ success: false, error: "account_number and bank_code are required." });
+    }
+    const result = await resolveBankAccount(account_number, bank_code);
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
   }
 });
 

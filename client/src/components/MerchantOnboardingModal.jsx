@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { 
   Building2, 
   ShieldCheck, 
@@ -20,9 +20,10 @@ import {
   Image as ImageIcon,
   Mail,
   Landmark,
-  ExternalLink 
+  ExternalLink,
+  Loader2
 } from "lucide-react";
-import { registerMerchantOnboarding, NIGERIAN_BANKS, isPaystackLiveMode } from "../utils/api.js";
+import { registerMerchantOnboarding, NIGERIAN_BANKS, isPaystackLiveMode, resolveBankAccountClient } from "../utils/api.js";
 
 const CATEGORIES = [
   {
@@ -89,7 +90,55 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
   const [copied, setCopied] = useState(false);
   const [copiedSub, setCopiedSub] = useState(false);
 
+  // Live Bank Resolution State
+  const [resolvingAccount, setResolvingAccount] = useState(false);
+  const [resolvedAccountName, setResolvedAccountName] = useState("");
+  const [resolveError, setResolveError] = useState("");
+
   const isLiveMode = isPaystackLiveMode();
+
+  // Debounced live bank account verification via Paystack / NIBSS
+  useEffect(() => {
+    let active = true;
+    const cleanNum = (formData.accountNumber || "").replace(/\D/g, "");
+    if (cleanNum.length !== 10 || !formData.bankCode) {
+      setResolvedAccountName("");
+      setResolveError("");
+      setResolvingAccount(false);
+      return;
+    }
+
+    setResolvingAccount(true);
+    setResolveError("");
+
+    const timer = setTimeout(async () => {
+      try {
+        const res = await resolveBankAccountClient({
+          accountNumber: cleanNum,
+          bankCode: formData.bankCode
+        });
+        if (!active) return;
+        if (res?.data?.success && res?.data?.account_name) {
+          setResolvedAccountName(res.data.account_name);
+          setResolveError("");
+        } else {
+          setResolvedAccountName("");
+          setResolveError(res?.data?.error || "Unable to verify account name. Please check NUBAN and bank.");
+        }
+      } catch (err) {
+        if (!active) return;
+        setResolvedAccountName("");
+        setResolveError(err?.message || "Verification failed");
+      } finally {
+        if (active) setResolvingAccount(false);
+      }
+    }, 450);
+
+    return () => {
+      active = false;
+      clearTimeout(timer);
+    };
+  }, [formData.accountNumber, formData.bankCode]);
 
   if (!isOpen) return null;
 
@@ -168,7 +217,10 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
     try {
       const res = await registerMerchantOnboarding({
         ...formData,
-        bankPayoutDetails: `${formData.bankName} - ${formData.accountNumber}`,
+        accountName: resolvedAccountName || formData.businessName,
+        bankPayoutDetails: resolvedAccountName
+          ? `${formData.bankName} - ${formData.accountNumber} (${resolvedAccountName})`
+          : `${formData.bankName} - ${formData.accountNumber}`,
         logoUrl: formData.logoUrl.trim() || selectedCategoryMeta.defaultImage
       });
 
@@ -351,6 +403,34 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
                     />
                   </div>
                 </div>
+
+                {/* Live Account Name Verification Preview */}
+                {resolvingAccount && (
+                  <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 text-[11px] animate-pulse">
+                    <Loader2 className="w-3.5 h-3.5 animate-spin text-amber-400 shrink-0" />
+                    <span>Verifying settlement account name with NIBSS & Paystack...</span>
+                  </div>
+                )}
+
+                {!resolvingAccount && resolvedAccountName && (
+                  <div className="flex items-center justify-between gap-2 px-3 py-2 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 text-[11px]">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                      <span className="font-semibold text-slate-300">Verified Account:</span>
+                      <span className="font-bold text-emerald-200 uppercase truncate">{resolvedAccountName}</span>
+                    </div>
+                    <span className="text-[9px] uppercase tracking-wider font-mono text-emerald-400/90 bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/30 shrink-0">
+                      NIBSS Live
+                    </span>
+                  </div>
+                )}
+
+                {!resolvingAccount && resolveError && formData.accountNumber.length === 10 && (
+                  <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-amber-950/30 border border-amber-500/40 text-amber-300 text-[11px]">
+                    <AlertCircle className="w-4 h-4 text-amber-400 shrink-0" />
+                    <span>{resolveError}</span>
+                  </div>
+                )}
 
                 <p className="text-[10px] text-slate-400 leading-relaxed">
                   {isLiveMode ? (

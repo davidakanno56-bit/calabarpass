@@ -15,7 +15,8 @@ import {
   X,
   Clock,
   FileCheck,
-  RotateCcw
+  RotateCcw,
+  MessageCircle
 } from "lucide-react";
 import confetti from "canvas-confetti";
 import QRCode from "qrcode";
@@ -106,6 +107,37 @@ export default function EscrowVoucherModal({ transaction: initialTx, onClose, on
 
   const handlePrint = () => {
     window.print();
+  };
+
+  const handleShareWhatsApp = () => {
+    const pin = transaction?.checkInPin || "849201";
+    const ref = transaction?.reference || "CP-PASS";
+    const pkg = transaction?.packageName || "Cross River Tourism Experience";
+    const vendor = transaction?.vendor || "Verified Operator";
+    const amount = (transaction?.amountNGN || (transaction?.amountKobo ? transaction.amountKobo / 100 : 0)).toLocaleString();
+    const date = transaction?.bookingDate || new Date().toISOString().split("T")[0];
+
+    const message = 
+`🌴 *CALABARPASS OFFICIAL ESCROW CLEARANCE PASS*
+---------------------------------------------
+📍 *Destination / Package:* ${pkg}
+🏨 *Merchant / Host:* ${vendor}
+📅 *Booking Date:* ${date}
+💰 *Escrow Amount:* ₦${amount} (Funds Secured)
+🔑 *Booking Reference ID:* ${ref}
+🔒 *SECRET CHECK-IN PIN:* ${pin}
+---------------------------------------------
+🛡️ *HOW TO USE ON ARRIVAL:*
+Present this 6-digit PIN to the receptionist or tour desk in Cross River State to unlock and redeem your booking.
+
+⚠️ *SAFETY WARNING:*
+Do NOT reveal this PIN over the phone or online. Only give it to the merchant in person when you arrive at the venue and confirm your room/pass!
+
+🌐 *Verified Clearinghouse:* https://calabarpass.vercel.app`;
+
+    const encoded = encodeURIComponent(message);
+    const whatsappUrl = `https://api.whatsapp.com/send?text=${encoded}`;
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
   };
 
   /**
@@ -557,6 +589,17 @@ export default function EscrowVoucherModal({ transaction: initialTx, onClose, on
               >
                 <Printer className="w-4 h-4" />
                 <span>Print Voucher</span>
+              </button>
+
+              {/* Share Pass to WhatsApp */}
+              <button
+                type="button"
+                onClick={handleShareWhatsApp}
+                className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-[#25D366]/20 hover:bg-[#25D366]/30 text-[#25D366] hover:text-emerald-300 text-xs font-bold border border-[#25D366]/40 shadow-sm transition-all cursor-pointer hover:scale-[1.01] active:scale-95"
+                title="Send official pass & PIN directly to WhatsApp"
+              >
+                <MessageCircle className="w-4 h-4 text-[#25D366]" />
+                <span>Share to WhatsApp</span>
               </button>
             </div>
 

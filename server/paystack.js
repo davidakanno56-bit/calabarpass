@@ -318,3 +318,71 @@ export async function listPaystackSubaccounts() {
     return { success: false, error: error.message, subaccounts: [] };
   }
 }
+
+/**
+ * Live Bank Account Verification & Name Resolution with Paystack & NIBSS
+ */
+export async function resolveBankAccount(accountNumber, bankCode) {
+  const cleanAcc = String(accountNumber || "").replace(/\D/g, "").slice(0, 10);
+  const cleanBank = String(bankCode || "").trim();
+
+  if (cleanAcc.length !== 10 || !cleanBank) {
+    return { success: false, error: "Valid 10-digit account number and bank code required." };
+  }
+
+  // In test mode or when using standard sandbox 0000000000
+  if (PAYSTACK_SECRET_KEY.startsWith("sk_test_") && (cleanAcc === "0000000000" || cleanAcc === "1029384756")) {
+    return {
+      success: true,
+      accountName: "ROYAL EFIK HOSPITALITY (TEST SANDBOX)",
+      accountNumber: cleanAcc,
+      bankCode: cleanBank,
+      isTestMock: true
+    };
+  }
+
+  try {
+    const res = await fetch(`${PAYSTACK_BASE_URL}/bank/resolve?account_number=${encodeURIComponent(cleanAcc)}&bank_code=${encodeURIComponent(cleanBank)}`, {
+      headers: {
+        Authorization: `Bearer ${PAYSTACK_SECRET_KEY}`,
+        "Content-Type": "application/json"
+      }
+    });
+    const data = await res.json();
+
+    if (data.status && data.data?.account_name) {
+      return {
+        success: true,
+        accountName: data.data.account_name,
+        accountNumber: data.data.account_number || cleanAcc,
+        bankCode: cleanBank
+      };
+    }
+
+    if (PAYSTACK_SECRET_KEY.startsWith("sk_test_")) {
+      return {
+        success: true,
+        accountName: "VERIFIED MERCHANT (PAYSTACK TEST SANDBOX)",
+        accountNumber: cleanAcc,
+        bankCode: cleanBank,
+        isTestMock: true
+      };
+    }
+
+    return {
+      success: false,
+      error: data.message || "Could not resolve bank account details. Verify NUBAN."
+    };
+  } catch (err) {
+    if (PAYSTACK_SECRET_KEY.startsWith("sk_test_")) {
+      return {
+        success: true,
+        accountName: "VERIFIED MERCHANT (PAYSTACK TEST SANDBOX)",
+        accountNumber: cleanAcc,
+        bankCode: cleanBank,
+        isTestMock: true
+      };
+    }
+    return { success: false, error: err.message };
+  }
+}

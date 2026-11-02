@@ -25,6 +25,7 @@ const MerchantOnboardingModal = lazy(() => import("./components/MerchantOnboardi
 const AdminVendorQueue = lazy(() => import("./components/AdminVendorQueue.jsx"));
 const BookingLookupModal = lazy(() => import("./components/BookingLookupModal.jsx"));
 const PinDispatchSimulationModal = lazy(() => import("./components/PinDispatchSimulationModal.jsx"));
+const TouristHelplineWidget = lazy(() => import("./components/TouristHelplineWidget.jsx"));
 
 export default function App() {
   const isSessionVendorAuthenticated = () => {
@@ -556,6 +557,11 @@ export default function App() {
           />
         </Suspense>
       )}
+
+      {/* 24/7 Carnival Rapid Response & Ministry Tourist Helpline Widget */}
+      <Suspense fallback={null}>
+        <TouristHelplineWidget />
+      </Suspense>
 
       <footer className="mt-20 border-t border-slate-800/80 bg-slate-950/80 py-12 text-slate-400 text-xs no-print">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
