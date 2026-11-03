@@ -9,7 +9,7 @@ export default function SecurityTrustSection() {
       mainText: "Only onboarded vendors can access their assigned merchant portal.",
       details: "Designed to ensure that only authenticated Cross River tour operators, registered band secretariats, and accredited hotels can receive guest bookings and check-in vouchers.",
       badge: "Verified Access Control",
-      borderColor: "border-amber-500/30"
+      borderColor: "border-stateCyan/30"
     },
     {
       icon: Layers,
@@ -25,7 +25,7 @@ export default function SecurityTrustSection() {
       mainText: "Unique booking codes help prevent unauthorized redemption.",
       details: "Each transaction produces a cryptographic token and secret 6-digit PIN, designed to eliminate counterfeit wristbands, duplicate room sales, and black-market ticket scalping.",
       badge: "Cryptographic PIN",
-      borderColor: "border-amber-400/30"
+      borderColor: "border-stateCyan/30"
     },
     {
       icon: Lock,
@@ -67,10 +67,10 @@ export default function SecurityTrustSection() {
           return (
             <div
               key={idx}
-              className={`glass-panel p-6 sm:p-7 rounded-3xl border ${item.borderColor} hover:border-amber-500/50 transition-all duration-300 space-y-4 relative group hover:shadow-xl`}
+              className={`glass-panel p-6 sm:p-7 rounded-3xl border ${item.borderColor} hover:border-stateCyan/50 transition-all duration-300 space-y-4 relative group hover:shadow-xl`}
             >
               <div className="flex items-center justify-between gap-3">
-                <div className="w-11 h-11 rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 flex items-center justify-center text-amber-400 group-hover:scale-105 transition-transform">
+                <div className="w-11 h-11 rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 flex items-center justify-center text-stateCyan group-hover:scale-105 transition-transform">
                   <IconComponent className="w-5 h-5" />
                 </div>
 

@@ -139,13 +139,13 @@ export default function AdminVendorQueue({ onApprovalSuccess }) {
         <div className={`p-4 rounded-xl border flex items-center justify-between gap-3 text-xs animate-fadeIn ${
           notification.type === "success" 
             ? "bg-emerald-950/60 border-emerald-500/40 text-emerald-200" 
-            : "bg-amber-950/60 border-amber-500/40 text-amber-200"
+            : "bg-sky-950/60 border-stateCyan/40 text-sky-200"
         }`}>
           <div className="flex items-center gap-2.5">
             {notification.type === "success" ? (
               <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
             ) : (
-              <XCircle className="w-4 h-4 text-amber-400 shrink-0" />
+              <XCircle className="w-4 h-4 text-stateCyan shrink-0" />
             )}
             <span>{notification.message}</span>
           </div>
@@ -161,7 +161,7 @@ export default function AdminVendorQueue({ onApprovalSuccess }) {
       {/* Main Vendor Queue List */}
       {loading && pendingVendors.length === 0 ? (
         <div className="py-12 text-center text-slate-400 space-y-3">
-          <RefreshCw className="w-6 h-6 animate-spin mx-auto text-amber-400" />
+          <RefreshCw className="w-6 h-6 animate-spin mx-auto text-stateCyan" />
           <p className="text-sm">Fetching pending applications from state bureau registry...</p>
         </div>
       ) : pendingVendors.length === 0 ? (

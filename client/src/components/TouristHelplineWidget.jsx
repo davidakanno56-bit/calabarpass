@@ -95,9 +95,9 @@ export default function TouristHelplineWidget() {
 
               <a
                 href="tel:+2348035550105"
-                className="flex items-center gap-2 p-2.5 rounded-xl bg-slate-900/90 border border-slate-700/80 hover:border-amber-400 text-slate-200 hover:text-white transition"
+                className="flex items-center gap-2 p-2.5 rounded-xl bg-slate-900/90 border border-slate-700/80 hover:border-stateCyan text-slate-200 hover:text-white transition"
               >
-                <Lock className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                <Lock className="w-3.5 h-3.5 text-stateCyan shrink-0" />
                 <div className="min-w-0">
                   <div className="text-[10px] uppercase font-bold text-slate-400">Escrow Dispute</div>
                   <div className="font-mono text-[11px] text-white truncate">+234 803 555 0105</div>
@@ -106,8 +106,8 @@ export default function TouristHelplineWidget() {
             </div>
 
             {/* Escrow Rule Reminder */}
-            <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-[10px] leading-relaxed flex items-start gap-2">
-              <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+            <div className="p-2.5 rounded-xl bg-stateCyan/10 border border-stateCyan/30 text-sky-200 text-[10px] leading-relaxed flex items-start gap-2">
+              <AlertTriangle className="w-4 h-4 text-stateCyan shrink-0 mt-0.5" />
               <span>
                 <strong>Tourist Golden Rule:</strong> Never reveal your 6-digit Secret PIN before arriving at the venue and verifying your room or service. Releasing the PIN immediately settles funds to the vendor.
               </span>

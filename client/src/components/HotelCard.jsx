@@ -91,7 +91,7 @@ export default function HotelCard({ hotel, onBookHotel }) {
             : "transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)",
           willChange: "transform"
         }}
-        className="glass-panel rounded-3xl overflow-hidden flex flex-col border border-slate-200 dark:border-white/10 hover:border-amber-500/40 relative group cursor-pointer shadow-xl hover:shadow-2xl hover:shadow-amber-500/10 backdrop-blur-xl bg-white dark:bg-slate-900/80"
+        className="glass-panel rounded-3xl overflow-hidden flex flex-col border border-slate-200 dark:border-white/10 hover:border-stateCyan/40 relative group cursor-pointer shadow-xl hover:shadow-2xl hover:shadow-stateCyan/10 backdrop-blur-xl bg-white dark:bg-slate-900/80"
       >
         {/* Specular Glare Overlay */}
         <div
@@ -109,11 +109,11 @@ export default function HotelCard({ hotel, onBookHotel }) {
         >
           {isCurrentImgFailed ? (
             <div className="w-full h-full bg-gradient-to-br from-slate-900 via-emerald-950 to-slate-950 flex flex-col items-center justify-center p-6 text-center">
-              <div className="w-12 h-12 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 mb-2 shadow-gold-glow">
+              <div className="w-12 h-12 rounded-xl bg-stateCyan/20 border border-stateCyan/40 flex items-center justify-center text-stateCyan mb-2 shadow-cyan-glow">
                 <Building2 className="w-6 h-6" />
               </div>
               <span className="text-xs font-bold text-slate-200">{hotel.name}</span>
-              <span className="text-[11px] text-amber-400 mt-0.5">{IMAGE_LABELS[currentImgIdx] || "Verified Stay"}</span>
+              <span className="text-[11px] text-stateCyan mt-0.5">{IMAGE_LABELS[currentImgIdx] || "Verified Stay"}</span>
               <span className="text-[10px] text-emerald-400/90 mt-1 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
                 State Bureau Verified Property
               </span>
@@ -137,7 +137,7 @@ export default function HotelCard({ hotel, onBookHotel }) {
             style={{ transform: "translateZ(30px)" }}
           >
             {/* Category */}
-            <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-black/85 backdrop-blur-md text-amber-400 border border-amber-500/40 shadow-md">
+            <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-black/85 backdrop-blur-md text-stateCyan border border-stateCyan/40 shadow-md">
               {hotel.category}
             </span>
 
@@ -171,7 +171,7 @@ export default function HotelCard({ hotel, onBookHotel }) {
             className="absolute bottom-12 left-3 right-3 flex items-center justify-between text-[11px] font-semibold text-slate-300 pointer-events-none z-20 preserve-3d"
             style={{ transform: "translateZ(20px)" }}
           >
-            <span className="px-2.5 py-0.5 rounded-md bg-black/80 backdrop-blur-md border border-white/15 text-amber-300 truncate max-w-[220px]">
+            <span className="px-2.5 py-0.5 rounded-md bg-black/80 backdrop-blur-md border border-white/15 text-sky-300 truncate max-w-[220px]">
               {IMAGE_LABELS[currentImgIdx] || `View ${currentImgIdx + 1}`}
             </span>
             <span className="px-2 py-0.5 rounded-md bg-black/80 backdrop-blur-md border border-white/15 text-slate-300">
@@ -212,12 +212,12 @@ export default function HotelCard({ hotel, onBookHotel }) {
           {/* Title, Rating & Location */}
           <div style={{ transform: "translateZ(25px)" }} className="preserve-3d">
             <div className="flex items-start justify-between gap-2 mb-1.5">
-              <h3 className="text-xl font-semibold tracking-tight font-heading text-slate-900 dark:text-white group-hover:text-amber-500 dark:group-hover:text-amber-400 transition-colors">
+              <h3 className="text-xl font-semibold tracking-tight font-heading text-slate-900 dark:text-white group-hover:text-stateCyan dark:group-hover:text-stateCyan transition-colors">
                 {hotel.name}
               </h3>
               {/* Rating */}
-              <div className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold shrink-0">
-                <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+              <div className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-stateCyan/10 border border-stateCyan/30 text-sky-300 text-xs font-semibold shrink-0">
+                <Star className="w-3.5 h-3.5 fill-stateCyan text-stateCyan" />
                 <span>{hotel.rating}</span>
                 <span className="text-[10px] text-slate-400 font-normal">({hotel.reviewCount})</span>
               </div>
@@ -225,7 +225,7 @@ export default function HotelCard({ hotel, onBookHotel }) {
 
             {/* Location Area */}
             <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 mb-3">
-              <MapPin className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+              <MapPin className="w-3.5 h-3.5 text-stateCyan shrink-0" />
               <span className="truncate">{hotel.area}</span>
             </div>
 
@@ -263,7 +263,7 @@ export default function HotelCard({ hotel, onBookHotel }) {
               <div className="text-2xl font-semibold tracking-tight font-heading text-slate-900 dark:text-white">
                 {hotel.priceRange}
               </div>
-              <div className="text-[11px] text-amber-400/90 font-medium mt-1 leading-snug">
+              <div className="text-[11px] text-stateCyan/90 font-medium mt-1 leading-snug">
                 {hotel.priceNote}
               </div>
             </div>

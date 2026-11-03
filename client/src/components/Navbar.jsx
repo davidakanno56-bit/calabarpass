@@ -199,8 +199,8 @@ export default function Navbar({
             >
               {isDark ? (
                 <>
-                  <Sun className="w-4 h-4 text-amber-400 shrink-0" />
-                  <span className="hidden xl:inline text-[11px] font-bold text-amber-400">Light</span>
+                  <Sun className="w-4 h-4 text-stateCyan shrink-0" />
+                  <span className="hidden xl:inline text-[11px] font-bold text-stateCyan">Light</span>
                 </>
               ) : (
                 <>
@@ -239,7 +239,7 @@ export default function Navbar({
               }`}
               title="Cross River Fair-Price Index & Scam Shield Vault"
             >
-              <ShieldAlert className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-500 shrink-0" />
+              <ShieldAlert className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-stateCyan shrink-0" />
               <span className="whitespace-nowrap hidden sm:inline">Scam Shield Vault</span>
               <span className="whitespace-nowrap sm:hidden">Shield</span>
             </button>
@@ -328,8 +328,8 @@ export default function Navbar({
               >
                 {isDark ? (
                   <>
-                    <Sun className="w-4 h-4 text-amber-400 shrink-0" />
-                    <span className="text-xs font-bold text-amber-400">Light Mode</span>
+                    <Sun className="w-4 h-4 text-stateCyan shrink-0" />
+                    <span className="text-xs font-bold text-stateCyan">Light Mode</span>
                   </>
                 ) : (
                   <>
@@ -355,7 +355,7 @@ export default function Navbar({
               }`}
             >
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-500 shrink-0">
+                <div className="w-8 h-8 rounded-lg bg-stateCyan/10 border border-stateCyan/20 flex items-center justify-center text-stateCyan shrink-0">
                   <ShieldAlert className="w-4 h-4" />
                 </div>
                 <div className="text-left">
@@ -363,7 +363,7 @@ export default function Navbar({
                   <div className="text-[10px] text-slate-500 dark:text-slate-400 font-normal">Cross River Fair-Price Index &amp; Rate Assurance</div>
                 </div>
               </div>
-              <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md bg-amber-500/15 text-amber-500 border border-amber-500/30">
+              <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md bg-stateCyan/15 text-stateCyan border border-stateCyan/30">
                 Zero Fraud
               </span>
             </button>

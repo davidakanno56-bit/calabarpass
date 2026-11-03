@@ -89,7 +89,7 @@ export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
     : BedDouble;
 
   const headerGradient = isDining
-    ? "from-amber-50/90 via-white to-amber-50/40 dark:from-amber-950/40 dark:via-slate-900/90 dark:to-slate-950 border-amber-200 dark:border-amber-500/20"
+    ? "from-sky-50/90 via-white to-sky-50/40 dark:from-sky-950/40 dark:via-slate-900/90 dark:to-slate-950 border-sky-200 dark:border-stateCyan/20"
     : isTrade
     ? "from-cyan-50/90 via-white to-cyan-50/40 dark:from-cyan-950/40 dark:via-slate-900/90 dark:to-slate-950 border-cyan-200 dark:border-cyan-500/20"
     : isCarnival
@@ -99,7 +99,7 @@ export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
     : "from-blue-50/90 via-white to-blue-50/40 dark:from-blue-950/40 dark:via-slate-900/90 dark:to-slate-950 border-blue-200 dark:border-blue-500/20";
 
   const badgeColor = isDining
-    ? "bg-amber-100 text-amber-800 border-amber-300 dark:bg-amber-950/80 dark:text-amber-300 dark:border-amber-500/40"
+    ? "bg-sky-100 text-sky-800 border-sky-300 dark:bg-sky-950/80 dark:text-sky-300 dark:border-stateCyan/40"
     : isTrade
     ? "bg-cyan-100 text-sky-800 border-cyan-300 dark:bg-cyan-950/80 dark:text-cyan-300 dark:border-cyan-500/40"
     : isCarnival
@@ -135,7 +135,7 @@ export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
             : "transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)",
           willChange: "transform"
         }}
-        className="glass-panel rounded-3xl overflow-hidden flex flex-col border border-slate-200/90 dark:border-slate-800 hover:border-stateCyan/60 dark:hover:border-amber-500/40 relative group cursor-pointer shadow-sm hover:shadow-xl dark:shadow-xl dark:hover:shadow-gold-glow transition-all duration-300"
+        className="glass-panel rounded-3xl overflow-hidden flex flex-col border border-slate-200/90 dark:border-slate-800 hover:border-stateCyan/60 dark:hover:border-stateCyan/40 relative group cursor-pointer shadow-sm hover:shadow-xl dark:shadow-xl dark:hover:shadow-cyan-glow transition-all duration-300"
       >
         {/* Dynamic 3D Glare / Specular Shine Overlay */}
         <div
@@ -170,10 +170,10 @@ export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
 
           {/* Business / Venue / Band / Site Name in Bold Text + Physical Location */}
           <div className="space-y-1.5">
-            <h3 className="text-2xl sm:text-3xl font-bold font-heading text-slate-900 dark:text-white tracking-tight group-hover:text-stateCyan dark:group-hover:text-amber-400 transition-colors">
+            <h3 className="text-2xl sm:text-3xl font-bold font-heading text-slate-900 dark:text-white tracking-tight group-hover:text-stateCyan dark:group-hover:text-stateCyan transition-colors">
               {pkg.name || pkg.title}
             </h3>
-            <div className="flex items-center gap-2 text-sm text-amber-600 dark:text-amber-400 font-semibold tracking-tight">
+            <div className="flex items-center gap-2 text-sm text-sky-600 dark:text-stateCyan font-semibold tracking-tight">
               <MapPin className="w-4 h-4 shrink-0" />
               <span className="font-medium text-slate-700 dark:text-slate-200">
                 {pkg.location || pkg.corridor || "Calabar, Cross River State"}
@@ -201,7 +201,7 @@ export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
               {pkg.details || pkg.description}
             </p>
             {isDining && pkg.specialty && (
-              <p className="text-xs text-amber-700 dark:text-amber-300/90 mt-2 font-medium">
+              <p className="text-xs text-sky-700 dark:text-sky-300/90 mt-2 font-medium">
                 <span className="text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider text-[10px] block">House Specialty:</span>
                 {pkg.specialty}
               </p>

@@ -110,11 +110,11 @@ export default function PinDispatchSimulationModal({ isOpen, onClose, transactio
               {dispatchStage >= 2 ? (
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
               ) : (
-                <span className="w-3.5 h-3.5 rounded-full border-2 border-amber-400 border-t-transparent animate-spin shrink-0" />
+                <span className="w-3.5 h-3.5 rounded-full border-2 border-stateCyan border-t-transparent animate-spin shrink-0" />
               )}
               <span>2. WhatsApp Cloud API ({customerPhone})</span>
             </span>
-            <span className={`text-[10px] font-bold ${dispatchStage >= 2 ? "text-emerald-400" : "text-amber-400"}`}>
+            <span className={`text-[10px] font-bold ${dispatchStage >= 2 ? "text-emerald-400" : "text-stateCyan"}`}>
               {dispatchStage >= 2 ? "DELIVERED ✓✓" : "SENDING..."}
             </span>
           </div>
@@ -124,11 +124,11 @@ export default function PinDispatchSimulationModal({ isOpen, onClose, transactio
               {dispatchStage >= 3 ? (
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
               ) : (
-                <span className="w-3.5 h-3.5 rounded-full border-2 border-amber-400 border-t-transparent animate-spin shrink-0" />
+                <span className="w-3.5 h-3.5 rounded-full border-2 border-stateCyan border-t-transparent animate-spin shrink-0" />
               )}
               <span>3. National Telecom SMS Gateway</span>
             </span>
-            <span className={`text-[10px] font-bold ${dispatchStage >= 3 ? "text-emerald-400" : "text-amber-400"}`}>
+            <span className={`text-[10px] font-bold ${dispatchStage >= 3 ? "text-emerald-400" : "text-stateCyan"}`}>
               {dispatchStage >= 3 ? "DISPATCHED ✓" : "QUEUED..."}
             </span>
           </div>
@@ -174,7 +174,7 @@ export default function PinDispatchSimulationModal({ isOpen, onClose, transactio
                 {pin}
               </div>
               <div className="text-[9px] text-slate-300">
-                Booking Reference: <span className="font-mono text-amber-300">{reference}</span>
+                Booking Reference: <span className="font-mono text-sky-300">{reference}</span>
               </div>
             </div>
 

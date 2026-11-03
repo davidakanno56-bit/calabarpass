@@ -58,7 +58,7 @@ export const CalendarPicker = ({ selectedDate, onChange, className = "" }) => {
     if (month === 11) {
       return {
         icon: Sparkles,
-        color: 'text-amber-400 bg-amber-500/10 border-amber-500/30',
+        color: 'text-stateCyan bg-stateCyan/10 border-stateCyan/30',
         title: 'December Carnival Calabar Festivities',
         desc: 'Peak carnival season across Marian Road and U.J. Esuene Stadium. Early escrow reservation guarantees official band kits and viewing stands.'
       };
@@ -79,7 +79,7 @@ export const CalendarPicker = ({ selectedDate, onChange, className = "" }) => {
     } else {
       return {
         icon: Sun,
-        color: 'text-amber-300 bg-amber-500/10 border-amber-500/30',
+        color: 'text-sky-300 bg-stateCyan/10 border-stateCyan/30',
         title: 'Sunny Dry Highlands Season',
         desc: 'Crisp clear skies at Obudu Mountain cable car, ideal river cruising on the Calabar River, and comfortable travel weather.'
       };
@@ -90,7 +90,7 @@ export const CalendarPicker = ({ selectedDate, onChange, className = "" }) => {
     <div className={`space-y-3 ${className}`}>
       <div className="flex items-center justify-between">
         <label className="text-xs font-semibold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
-          <Calendar className="w-3.5 h-3.5 text-amber-400" />
+          <Calendar className="w-3.5 h-3.5 text-stateCyan" />
           Choose Reservation Date (365 Days Available)
         </label>
         <span className="text-[11px] font-medium text-emerald-400 flex items-center gap-1 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
@@ -106,7 +106,7 @@ export const CalendarPicker = ({ selectedDate, onChange, className = "" }) => {
           min={today}
           value={selectedDate || today}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full bg-slate-900/90 border border-slate-700/80 hover:border-amber-500/50 focus:border-amber-500 rounded-xl px-4 py-3 text-slate-100 text-sm font-medium shadow-inner focus:outline-none focus:ring-1 focus:ring-amber-500 transition-colors"
+          className="w-full bg-slate-900/90 border border-slate-700/80 hover:border-stateCyan/50 focus:border-stateCyan rounded-xl px-4 py-3 text-slate-100 text-sm font-medium shadow-inner focus:outline-none focus:ring-1 focus:ring-stateCyan transition-colors"
         />
       </div>
 

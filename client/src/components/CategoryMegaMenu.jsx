@@ -73,9 +73,9 @@ export const CATEGORY_DETAILS = {
     tagline: "Authentic Efik Culinary Heritage, River Catfish & VIP City Lounges",
     icon: Utensils,
     badgeText: "Culinary Guild Verified",
-    badgeColor: "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/30",
-    accentColor: "text-amber-500",
-    bgAccent: "from-amber-500/5 to-transparent",
+    badgeColor: "bg-stateCyan/10 text-sky-600 dark:text-stateCyan border-stateCyan/30",
+    accentColor: "text-stateCyan",
+    bgAccent: "from-stateCyan/5 to-transparent",
     corridors: [
       { name: "Marian Road Food Strip", desc: "Kilishi, authentic point & kill, grills & nightlife", query: "Marian" },
       { name: "Marina Waterfront Promenade", desc: "Fresh catfish, river view cocktails & breeze", query: "Marina" },

@@ -201,13 +201,13 @@ export default function HeroBanner({ setActiveTab, onSelectCategory, escrowStats
                   style={{ transform: "translateZ(35px)" }}
                 >
                   {/* Metallic Gold Chip */}
-                  <div className="w-12 h-9 rounded-lg bg-gradient-to-br from-yellow-300 via-amber-400 to-yellow-600 border border-yellow-200/80 p-1 flex flex-col justify-between shadow-md">
-                    <div className="h-1 bg-yellow-800/40 rounded-sm" />
+                  <div className="w-12 h-9 rounded-lg bg-gradient-to-br from-sky-300 via-stateCyan to-sky-600 border border-sky-200/80 p-1 flex flex-col justify-between shadow-md">
+                    <div className="h-1 bg-sky-800/40 rounded-sm" />
                     <div className="flex justify-between">
-                      <div className="w-2 h-3 bg-yellow-800/40 rounded-sm" />
-                      <div className="w-2 h-3 bg-yellow-800/40 rounded-sm" />
+                      <div className="w-2 h-3 bg-sky-800/40 rounded-sm" />
+                      <div className="w-2 h-3 bg-sky-800/40 rounded-sm" />
                     </div>
-                    <div className="h-1 bg-yellow-800/40 rounded-sm" />
+                    <div className="h-1 bg-sky-800/40 rounded-sm" />
                   </div>
 
                   {/* Holographic Seal Badge */}

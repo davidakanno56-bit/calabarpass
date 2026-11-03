@@ -81,7 +81,7 @@ export default function VerifiedImage({
       {isLoading && !isNeutralFallback && (
         <div className={`absolute inset-0 z-10 animate-pulse bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center`}>
           <div className="flex flex-col items-center gap-2 text-slate-500 text-xs">
-            <div className="w-8 h-8 rounded-full border-2 border-amber-500/30 border-t-amber-500 animate-spin" />
+            <div className="w-8 h-8 rounded-full border-2 border-stateCyan/30 border-t-stateCyan animate-spin" />
             <span>Loading authentic photo...</span>
           </div>
         </div>
@@ -90,7 +90,7 @@ export default function VerifiedImage({
       {/* 2. Neutral Branded Fallback (No AI / No generic stock) */}
       {isNeutralFallback ? (
         <div className={`w-full ${aspectRatio} flex flex-col items-center justify-center p-6 text-center bg-gradient-to-b from-slate-900 to-slate-950 text-slate-400 select-none border border-dashed border-slate-800`}>
-          <div className="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 mb-3 shadow-inner">
+          <div className="w-14 h-14 rounded-2xl bg-stateCyan/10 border border-stateCyan/20 flex items-center justify-center text-stateCyan mb-3 shadow-inner">
             <CameraOff className="w-7 h-7" />
           </div>
           <span className="text-sm font-semibold text-slate-200 tracking-wide">
@@ -99,8 +99,8 @@ export default function VerifiedImage({
           <p className="text-xs text-slate-400 mt-1 max-w-xs leading-relaxed">
             Awaiting authentic on-site verification in Cross River State. No synthetic or AI images permitted.
           </p>
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-medium bg-slate-800/80 text-amber-400/90 border border-amber-500/20 mt-3">
-            <ShieldCheck className="w-3 h-3 text-amber-400" />
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-medium bg-slate-800/80 text-stateCyan/90 border border-stateCyan/20 mt-3">
+            <ShieldCheck className="w-3 h-3 text-stateCyan" />
             CalabarPass Clearinghouse Standard
           </span>
         </div>
@@ -171,7 +171,7 @@ export default function VerifiedImage({
                       setActiveIndex(idx);
                     }}
                     className={`h-1.5 rounded-full transition-all ${
-                      idx === activeIndex ? "w-4 bg-amber-400" : "w-1.5 bg-slate-500/70 hover:bg-slate-400"
+                      idx === activeIndex ? "w-4 bg-stateCyan" : "w-1.5 bg-slate-500/70 hover:bg-slate-400"
                     }`}
                     title={`Angle ${idx + 1}`}
                   />
@@ -188,7 +188,7 @@ export default function VerifiedImage({
             >
               <div>
                 <div className="flex items-center justify-between pb-2 mb-2 border-b border-slate-800">
-                  <span className="font-semibold text-amber-400 flex items-center gap-1.5 text-xs">
+                  <span className="font-semibold text-stateCyan flex items-center gap-1.5 text-xs">
                     <ShieldCheck className="w-3.5 h-3.5" />
                     Verified Photo Attribution
                   </span>
@@ -225,7 +225,7 @@ export default function VerifiedImage({
                     href={imageMeta.licenseUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-amber-400 hover:text-amber-300 inline-flex items-center gap-1 text-[10px]"
+                    className="text-stateCyan hover:text-sky-300 inline-flex items-center gap-1 text-[10px]"
                   >
                     License Info <ExternalLink className="w-3 h-3" />
                   </a>

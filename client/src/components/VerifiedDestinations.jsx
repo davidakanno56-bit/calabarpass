@@ -200,7 +200,7 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
           return (
             <div
               key={dest.id}
-              className={`group rounded-3xl overflow-hidden glass-panel border border-slate-200 dark:border-slate-800 hover:border-emerald-500/40 dark:hover:border-amber-500/40 transition-all duration-300 flex flex-col hover:shadow-xl dark:hover:shadow-2xl dark:hover:shadow-amber-500/10 ${
+              className={`group rounded-3xl overflow-hidden glass-panel border border-slate-200 dark:border-slate-800 hover:border-emerald-500/40 dark:hover:border-stateCyan/40 transition-all duration-300 flex flex-col hover:shadow-xl dark:hover:shadow-2xl dark:hover:shadow-stateCyan/10 ${
                 index === 4 ? "sm:col-span-2 lg:col-span-1" : ""
               }`}
             >
@@ -221,10 +221,10 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
 
                 {/* Destination Name & Physical Location */}
                 <div className="space-y-1.5">
-                  <h3 className="text-2xl font-bold font-heading text-slate-900 dark:text-white tracking-tight group-hover:text-emerald-600 dark:group-hover:text-amber-400 transition-colors">
+                  <h3 className="text-2xl font-bold font-heading text-slate-900 dark:text-white tracking-tight group-hover:text-emerald-600 dark:group-hover:text-stateCyan transition-colors">
                     {dest.name}
                   </h3>
-                  <div className="flex items-center gap-2 text-sm text-amber-600 dark:text-amber-400 font-semibold tracking-tight">
+                  <div className="flex items-center gap-2 text-sm text-sky-600 dark:text-stateCyan font-semibold tracking-tight">
                     <MapPin className="w-4 h-4 shrink-0" />
                     <span className="font-medium text-slate-700 dark:text-slate-200">{dest.location}</span>
                   </div>
@@ -235,7 +235,7 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
               <div className="p-6 flex-1 flex flex-col justify-between space-y-4 bg-white/70 dark:bg-transparent">
                 <div className="space-y-2">
 
-                  <p className="text-xs text-amber-600 dark:text-amber-400 font-semibold tracking-tight">
+                  <p className="text-xs text-sky-600 dark:text-stateCyan font-semibold tracking-tight">
                     {dest.tagline}
                   </p>
 

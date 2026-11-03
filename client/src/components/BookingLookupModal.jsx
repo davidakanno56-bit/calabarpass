@@ -304,9 +304,9 @@ export default function BookingLookupModal({
                 </div>
 
                 {/* 6-Digit PIN Spotlight */}
-                <div className="p-3 rounded-xl bg-black/50 border border-amber-500/30 flex items-center justify-between">
+                <div className="p-3 rounded-xl bg-black/50 border border-stateCyan/30 flex items-center justify-between">
                   <div>
-                    <div className="text-[10px] uppercase font-bold text-amber-400 tracking-wider">
+                    <div className="text-[10px] uppercase font-bold text-stateCyan tracking-wider">
                       Your Secret Check-In PIN
                     </div>
                     <div className="text-2xl font-black font-mono text-white tracking-widest">
@@ -349,7 +349,7 @@ export default function BookingLookupModal({
         {activeTab === "vendor" && (
           <div className="space-y-4">
             <div className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 text-xs text-slate-300 space-y-1">
-              <div className="font-bold text-amber-400 flex items-center gap-1.5">
+              <div className="font-bold text-stateCyan flex items-center gap-1.5">
                 <Lock className="w-3.5 h-3.5" />
                 <span>Authorized Merchants Only</span>
               </div>
@@ -372,7 +372,7 @@ export default function BookingLookupModal({
                       if (vendorError) setVendorError("");
                     }}
                     placeholder="Enter access code e.g. CALABAR2026..."
-                    className="w-full pl-4 pr-10 py-3 rounded-xl bg-slate-950/80 border border-slate-700 text-white font-mono text-sm placeholder-slate-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition"
+                    className="w-full pl-4 pr-10 py-3 rounded-xl bg-slate-950/80 border border-slate-700 text-white font-mono text-sm placeholder-slate-500 focus:outline-none focus:border-stateCyan focus:ring-1 focus:ring-stateCyan transition"
                     autoFocus
                   />
                   <button
@@ -395,7 +395,7 @@ export default function BookingLookupModal({
                     setAccessCode("CALABAR2026");
                     setVendorError("");
                   }}
-                  className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-400 text-[11px] font-mono font-bold transition border border-slate-700 cursor-pointer"
+                  className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-stateCyan text-[11px] font-mono font-bold transition border border-slate-700 cursor-pointer"
                 >
                   CALABAR2026
                 </button>
@@ -411,7 +411,7 @@ export default function BookingLookupModal({
               <button
                 type="submit"
                 disabled={vendorLoading}
-                className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-black font-extrabold text-xs tracking-tight shadow-gold-glow transition cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50"
+                className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-stateCyan to-sky-600 hover:from-stateCyan text-black font-extrabold text-xs tracking-tight shadow-cyan-glow transition cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50"
               >
                 {vendorLoading ? (
                   <span>Verifying Terminal Access...</span>

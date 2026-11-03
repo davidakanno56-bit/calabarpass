@@ -31,10 +31,10 @@ export default function TrustWorkflow() {
       headline: "Receive Unique Voucher & 6-Digit PIN",
       description: "Instantly generate your tamper-proof digital voucher and private 6-digit verification PIN. Offline download and cryptographic QR code are included.",
       icon: Key,
-      color: "from-amber-400 to-yellow-500",
-      accentBorder: "border-amber-400/30",
+      color: "from-stateCyan to-stateCyan",
+      accentBorder: "border-stateCyan/30",
       pillText: "6-Digit Secret PIN",
-      pillColor: "text-amber-300 bg-amber-400/10 border-amber-400/30"
+      pillColor: "text-sky-300 bg-stateCyan/10 border-stateCyan/30"
     },
     {
       number: "04",
@@ -72,7 +72,7 @@ export default function TrustWorkflow() {
           return (
             <div
               key={step.number}
-              className={`glass-panel rounded-3xl p-6 border ${step.accentBorder} hover:border-amber-500/50 transition-all duration-300 flex flex-col justify-between relative group hover:shadow-xl`}
+              className={`glass-panel rounded-3xl p-6 border ${step.accentBorder} hover:border-stateCyan/50 transition-all duration-300 flex flex-col justify-between relative group hover:shadow-xl`}
             >
               {/* Top Step Number & Icon */}
               <div>
@@ -87,10 +87,10 @@ export default function TrustWorkflow() {
                 </div>
 
                 <div className="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-gradient-to-tr dark:from-slate-900 dark:to-slate-800 border border-slate-200 dark:border-slate-700/80 flex items-center justify-center text-slate-900 dark:text-white mb-4 group-hover:scale-110 transition-transform shadow-md">
-                  <Icon className="w-6 h-6 text-amber-400" />
+                  <Icon className="w-6 h-6 text-stateCyan" />
                 </div>
 
-                <div className="text-xs font-black uppercase tracking-widest text-amber-400/90 mb-1">
+                <div className="text-xs font-black uppercase tracking-widest text-stateCyan/90 mb-1">
                   {step.title}
                 </div>
 
@@ -119,7 +119,7 @@ export default function TrustWorkflow() {
       {/* End-to-End Pipeline Summary Bar (Judges Visual) */}
       <div className="mt-8 p-4 rounded-2xl bg-white dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800/80 shadow-md dark:shadow-none overflow-x-auto scrollbar-none no-scrollbar touch-pan-x -mx-2 px-4 sm:mx-0 sm:px-4">
         <div className="flex items-center justify-between min-w-[760px] text-xs font-mono font-bold text-slate-400">
-          <span className="text-amber-400">TOURIST</span>
+          <span className="text-stateCyan">TOURIST</span>
           <span className="text-slate-600">→</span>
           <span className="text-slate-900 dark:text-white">VERIFIED DESTINATION</span>
           <span className="text-slate-600">→</span>
@@ -127,9 +127,9 @@ export default function TrustWorkflow() {
           <span className="text-slate-600">→</span>
           <span className="text-sky-400">SECURE PAYMENT</span>
           <span className="text-slate-600">→</span>
-          <span className="text-amber-300">DIGITAL VOUCHER</span>
+          <span className="text-sky-300">DIGITAL VOUCHER</span>
           <span className="text-slate-600">→</span>
-          <span className="text-amber-400">6-DIGIT VERIFICATION</span>
+          <span className="text-stateCyan">6-DIGIT VERIFICATION</span>
           <span className="text-slate-600">→</span>
           <span className="text-slate-900 dark:text-white">AUTHORIZED VENDOR</span>
           <span className="text-slate-600">→</span>

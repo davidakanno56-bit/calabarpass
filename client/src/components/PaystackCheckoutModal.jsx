@@ -118,6 +118,7 @@ export default function PaystackCheckoutModal({
 
       const reference = initData.reference;
       const publicKey = initData.publicKey || paystackPublicKey || "pk_test_e911f3fc519a96d916fbfea85742f88078495266";
+      const checkInPin = initData.checkInPin || Math.floor(100000 + Math.random() * 900000).toString();
 
       // 2. Dynamically load Paystack Popup SDK on demand
       let PaystackPop;
@@ -137,9 +138,11 @@ export default function PaystackCheckoutModal({
           ref: reference,
           metadata: {
             custom_fields: [
+              { display_name: "🔐 6-DIGIT CHECK-IN PIN", variable_name: "check_in_pin", value: checkInPin },
+              { display_name: "🌴 Booking Reference", variable_name: "booking_reference", value: reference },
               { display_name: "Customer Name", variable_name: "customer_name", value: formData.customerName },
               { display_name: "Package", variable_name: "package_name", value: pkg.name },
-              { display_name: "Vendor", variable_name: "vendor", value: pkg.vendor },
+              { display_name: "Assigned Merchant", variable_name: "vendor", value: pkg.vendor || vendorName },
               { display_name: "Booking Date", variable_name: "booking_date", value: selectedDate }
             ]
           },
@@ -199,6 +202,15 @@ export default function PaystackCheckoutModal({
           ...data.transaction,
           statusLabel: "Escrow Secured - Awaiting On-Site Verification"
         };
+        // Auto-switch terminal context to the booked vendor so the user sees their booking immediately
+        const vendorKey = updatedTx.vendorId || pkg.vendorId || updatedTx.vendor || pkg.vendor;
+        if (vendorKey) {
+          sessionStorage.setItem("calabarpass_active_merchant_id", vendorKey);
+          localStorage.setItem("calabarpass_last_booked_vendor", vendorKey);
+        }
+        if (updatedTx.reference) {
+          sessionStorage.setItem("calabarpass_last_booking_ref", updatedTx.reference);
+        }
         onClose?.();
         onSuccessVoucher(updatedTx);
       } else {
@@ -273,6 +285,14 @@ export default function PaystackCheckoutModal({
           ...verifyData.transaction,
           statusLabel: "Escrow Secured - Awaiting On-Site Verification"
         };
+        const vendorKey = updatedTx.vendorId || pkg.vendorId || updatedTx.vendor || pkg.vendor;
+        if (vendorKey) {
+          sessionStorage.setItem("calabarpass_active_merchant_id", vendorKey);
+          localStorage.setItem("calabarpass_last_booked_vendor", vendorKey);
+        }
+        if (updatedTx.reference) {
+          sessionStorage.setItem("calabarpass_last_booking_ref", updatedTx.reference);
+        }
         onClose?.();
         onSuccessVoucher(updatedTx);
       } else {
@@ -351,22 +371,22 @@ export default function PaystackCheckoutModal({
         <div className="p-6 space-y-5 max-h-[80vh] overflow-y-auto">
           {/* Paystack Helper Banner: Revealed in Dev Mode, or sleek Escrow Assurance in Consumer Mode */}
           {devMode ? (
-            <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-xs space-y-2">
+            <div className="p-3.5 rounded-2xl bg-sky-500/10 border border-stateCyan/30 text-sky-200 text-xs space-y-2">
               <div className="flex items-center justify-between">
-                <div className="font-bold flex items-center gap-1.5 text-amber-300">
-                  <Sparkles className="w-4 h-4 text-amber-400" />
+                <div className="font-bold flex items-center gap-1.5 text-stateCyan">
+                  <Sparkles className="w-4 h-4 text-stateCyan" />
                   <span>Paystack Test Credentials (Dev Mode)</span>
                 </div>
                 <button
                   type="button"
                   onClick={handleCopyTestCard}
-                  className="flex items-center gap-1 text-[11px] bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 px-2 py-0.5 rounded border border-amber-500/30 transition-colors"
+                  className="flex items-center gap-1 text-[11px] bg-stateCyan/20 hover:bg-stateCyan/30 text-stateCyan px-2 py-0.5 rounded border border-stateCyan/30 transition-colors"
                 >
                   {copiedCard ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
                   <span>{copiedCard ? "Copied!" : "Copy Card"}</span>
                 </button>
               </div>
-              <div className="font-mono text-[11px] bg-black/40 p-2 rounded-lg text-amber-100/90 border border-amber-500/20 break-all select-all">
+              <div className="font-mono text-[11px] bg-black/40 p-2 rounded-lg text-sky-100/90 border border-stateCyan/20 break-all select-all">
                 Sandbox Testing: Card: 4084 0840 8408 4081 | CVV: 408 | Exp: Any future date | OTP: 123456
               </div>
             </div>
@@ -401,13 +421,13 @@ export default function PaystackCheckoutModal({
               />
             </div>
             <div className="flex-1 min-w-0">
-              <div className="text-xs text-amber-400 font-bold uppercase tracking-wider">{pkg.category}</div>
+              <div className="text-xs text-stateCyan font-bold uppercase tracking-wider">{pkg.category}</div>
               <div className="font-bold text-sm text-white truncate">{itemName}</div>
               <div className="text-xs text-slate-400 truncate">
                 {isHotel ? `Location: ${pkg.area}` : `Vendor: ${vendorName}`}
               </div>
               {isHotel && pkg.priceNote && (
-                <div className="text-[10px] text-amber-400/90 font-medium mt-0.5 truncate">{pkg.priceNote}</div>
+                <div className="text-[10px] text-sky-400/90 font-medium mt-0.5 truncate">{pkg.priceNote}</div>
               )}
             </div>
             <div className="text-right">
@@ -416,7 +436,7 @@ export default function PaystackCheckoutModal({
                 ₦{amountNGN.toLocaleString()}
               </div>
               {currency !== "NGN" && (
-                <div className="text-[11px] text-amber-400 font-semibold">
+                <div className="text-[11px] text-stateCyan font-semibold">
                   ≈ {formatPrice(amountNGN)}
                 </div>
               )}
@@ -457,7 +477,7 @@ export default function PaystackCheckoutModal({
                 value={formData.customerName}
                 onChange={handleInputChange}
                 required
-                className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-amber-500"
+                className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-sky-400"
                 placeholder="e.g. Obinna Emecheta"
               />
             </div>
@@ -473,7 +493,7 @@ export default function PaystackCheckoutModal({
                   value={formData.email}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-amber-500"
+                  className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-sky-400"
                   placeholder="name@example.com"
                 />
               </div>
@@ -487,7 +507,7 @@ export default function PaystackCheckoutModal({
                   name="phone"
                   value={formData.phone}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-amber-500"
+                  className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-sky-400"
                   placeholder="+234 803 000 0000"
                 />
               </div>
@@ -506,7 +526,7 @@ export default function PaystackCheckoutModal({
             </div>
             <div className="border-t border-slate-800 pt-2 flex justify-between text-sm font-bold text-white">
               <span>Total Payable to Escrow Vault</span>
-              <span className="text-amber-400 text-base">₦{totalAmountNGN.toLocaleString()}</span>
+              <span className="text-stateCyan font-extrabold text-base">₦{totalAmountNGN.toLocaleString()}</span>
             </div>
           </div>
 
@@ -534,10 +554,10 @@ export default function PaystackCheckoutModal({
 
             {/* Discreet Dev Simulation Option - ONLY visible when dev mode is active */}
             {devMode && (
-              <div className="p-3 rounded-xl bg-amber-500/10 border border-dashed border-amber-500/40 space-y-2">
-                <div className="text-[10px] font-mono text-amber-300 uppercase tracking-wider flex items-center justify-between">
+              <div className="p-3 rounded-xl bg-sky-500/10 border border-dashed border-stateCyan/40 space-y-2">
+                <div className="text-[10px] font-mono text-stateCyan uppercase tracking-wider flex items-center justify-between">
                   <span className="flex items-center gap-1">
-                    <Sparkles className="w-3 h-3 text-amber-400" />
+                    <Sparkles className="w-3 h-3 text-stateCyan" />
                     Sandbox Quick Simulator
                   </span>
                   <span className="text-emerald-400 font-bold">ACTIVE</span>
@@ -546,9 +566,9 @@ export default function PaystackCheckoutModal({
                   type="button"
                   onClick={handleQuickTestCheckout}
                   disabled={loading}
-                  className="w-full py-2 px-3 rounded-lg bg-slate-900 hover:bg-slate-800 text-amber-200 hover:text-white text-xs font-semibold border border-amber-500/30 flex items-center justify-center gap-2 transition-colors cursor-pointer"
+                  className="w-full py-2 px-3 rounded-lg bg-slate-900 hover:bg-slate-800 text-sky-200 hover:text-white text-xs font-semibold border border-stateCyan/30 flex items-center justify-center gap-2 transition-colors cursor-pointer"
                 >
-                  <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                  <Sparkles className="w-3.5 h-3.5 text-stateCyan" />
                   <span>Simulate Paystack Callback & Lock Escrow</span>
                 </button>
               </div>
@@ -564,7 +584,7 @@ export default function PaystackCheckoutModal({
             <button
               type="button"
               onClick={() => setDevMode(!devMode)}
-              className="text-[10px] text-slate-500 hover:text-amber-400 cursor-pointer transition-colors px-1.5 py-0.5 rounded"
+              className="text-[10px] text-slate-500 hover:text-stateCyan cursor-pointer transition-colors px-1.5 py-0.5 rounded"
               title="Toggle Sandbox Simulator (Shortcut: Ctrl+Shift+D)"
             >
               {devMode ? "Dev Mode: ON" : "Sandbox"}

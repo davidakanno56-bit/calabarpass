@@ -24,7 +24,7 @@ export default function TourismVideoSection({ onSelectCategory }) {
       desc: "Calabar's primary commercial, dining, and nightlife boulevard",
       category: "dining-nightlife",
       icon: Utensils,
-      color: "text-amber-400 border-amber-500/40 bg-amber-950/60"
+      color: "text-stateCyan border-stateCyan/40 bg-sky-950/60"
     },
     {
       id: "mary-slessor",
@@ -63,7 +63,7 @@ export default function TourismVideoSection({ onSelectCategory }) {
   const CATEGORY_SHORTCUTS = [
     { id: "accommodations", label: "Accommodations", count: "6 Stays", icon: BedDouble, color: "hover:border-blue-500/60 hover:text-blue-400" },
     { id: "eco-sites", label: "Eco-Sites & Heritage", count: "6 Sanctuaries", icon: Trees, color: "hover:border-emerald-500/60 hover:text-emerald-400" },
-    { id: "dining-nightlife", label: "Dining & Nightlife", count: "6 Spots", icon: Utensils, color: "hover:border-amber-500/60 hover:text-amber-400" },
+    { id: "dining-nightlife", label: "Dining & Nightlife", count: "6 Spots", icon: Utensils, color: "hover:border-stateCyan/60 hover:text-stateCyan" },
     { id: "trade-expo", label: "Trade & Expo Hub", count: "4 Commercial", icon: Briefcase, color: "hover:border-cyan-500/60 hover:text-cyan-400" },
     { id: "carnival-culture", label: "Carnival & Culture", count: "5 Passes", icon: Flame, color: "hover:border-rose-500/60 hover:text-rose-400" }
   ];
@@ -90,7 +90,7 @@ export default function TourismVideoSection({ onSelectCategory }) {
       <div className="glass-panel rounded-3xl p-4 sm:p-6 lg:p-8 border border-slate-200 dark:border-slate-800/90 bg-white/80 dark:bg-gradient-to-b dark:from-slate-900/90 dark:via-slate-950 dark:to-[#070b11] shadow-xl dark:shadow-2xl shadow-slate-200/50 dark:shadow-black/70 relative overflow-hidden">
         {/* Subtle decorative glow accents */}
         <div className="absolute -top-24 -left-24 w-80 h-80 bg-stateCyan/10 blur-[100px] rounded-full pointer-events-none" />
-        <div className="absolute -bottom-24 -right-24 w-80 h-80 bg-amber-500/10 blur-[100px] rounded-full pointer-events-none" />
+        <div className="absolute -bottom-24 -right-24 w-80 h-80 bg-stateCyan/10 blur-[100px] rounded-full pointer-events-none" />
 
         {/* Top Video Toolbar */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-slate-200 dark:border-slate-800/80">
@@ -133,7 +133,7 @@ export default function TourismVideoSection({ onSelectCategory }) {
         <div className="mt-6 pt-5 border-t border-slate-200 dark:border-slate-800/80">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-xs font-extrabold uppercase tracking-wider text-slate-600 dark:text-slate-400 flex items-center gap-2">
-              <MapPin className="w-3.5 h-3.5 text-amber-400" />
+              <MapPin className="w-3.5 h-3.5 text-stateCyan" />
               <span>Tour Waypoints & Key Corridors Featured in Video:</span>
             </h3>
             <span className="text-[11px] text-slate-500 hidden sm:inline">
@@ -206,10 +206,10 @@ export default function TourismVideoSection({ onSelectCategory }) {
                 onClick={() => onSelectCategory && onSelectCategory(cat.id)}
                 className={`flex flex-col items-center justify-center text-center p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/70 text-slate-700 dark:text-slate-300 transition-all hover:bg-white dark:hover:bg-slate-900 hover:scale-[1.03] active:scale-[0.98] cursor-pointer group shadow-sm ${cat.color}`}
               >
-                <div className="w-10 h-10 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 flex items-center justify-center mb-2.5 group-hover:border-amber-500/40 transition-colors">
-                  <Icon className="w-5 h-5 text-amber-400" />
+                <div className="w-10 h-10 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 flex items-center justify-center mb-2.5 group-hover:border-stateCyan/40 transition-colors">
+                  <Icon className="w-5 h-5 text-stateCyan" />
                 </div>
-                <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-amber-500 dark:group-hover:text-amber-400 transition-colors">
+                <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-stateCyan dark:group-hover:text-stateCyan transition-colors">
                   {cat.label}
                 </span>
                 <span className="text-[10px] text-slate-500 mt-0.5">

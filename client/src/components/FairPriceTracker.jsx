@@ -69,7 +69,7 @@ export default function FairPriceTracker() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search e.g. Airport cab, Suya, Hotel..."
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-xs placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-amber-500"
+            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-xs placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-stateCyan"
           />
         </div>
 
@@ -95,7 +95,7 @@ export default function FairPriceTracker() {
         {filteredPrices.map((item, index) => (
           <div
             key={index}
-            className="glass-panel p-6 rounded-2xl border-slate-200 dark:border-slate-800 hover:border-amber-500/40 transition-colors flex flex-col justify-between shadow-lg shadow-slate-200/50 dark:shadow-none"
+            className="glass-panel p-6 rounded-2xl border-slate-200 dark:border-slate-800 hover:border-stateCyan/40 transition-colors flex flex-col justify-between shadow-lg shadow-slate-200/50 dark:shadow-none"
           >
             <div>
               <div className="flex items-center justify-between gap-2 mb-2">
@@ -136,10 +136,10 @@ export default function FairPriceTracker() {
             </div>
 
             {/* Red flag notice */}
-            <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-500/20 text-xs text-amber-800 dark:text-amber-200/90 flex items-start gap-2">
-              <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+            <div className="p-3 rounded-xl bg-sky-50 dark:bg-sky-950/30 border border-sky-200 dark:border-stateCyan/20 text-xs text-sky-800 dark:text-sky-200/90 flex items-start gap-2">
+              <AlertTriangle className="w-4 h-4 text-stateCyan shrink-0 mt-0.5" />
               <div>
-                <span className="font-bold text-amber-700 dark:text-amber-300">Scam Red Flag: </span>
+                <span className="font-bold text-sky-700 dark:text-sky-300">Scam Red Flag: </span>
                 <span>{item.redFlagWarning}</span>
               </div>
             </div>

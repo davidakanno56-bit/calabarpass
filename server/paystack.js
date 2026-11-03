@@ -2,6 +2,7 @@
 // Paystack Live API Integration & Escrow Engine
 
 import { escrowStore } from "./store.js";
+import { sendTransactionalEmail } from "./mail.js";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -27,8 +28,9 @@ export async function initializeTransaction({ packageId, email, customerName, ph
   const amountKobo = pkg.priceNGN * 100;
   const reference = `CP-${Date.now()}-${Math.floor(1000 + Math.random() * 9000)}`;
   const reservationDate = bookingDate || new Date(Date.now() + 86400000).toISOString().split('T')[0];
+  const checkInPin = escrowStore.generatePin();
 
-  // Create local record in AWAITING_PAYMENT state
+  // Create local record in AWAITING_PAYMENT state with pre-generated PIN
   escrowStore.createTransaction({
     reference,
     packageId,
@@ -36,7 +38,8 @@ export async function initializeTransaction({ packageId, email, customerName, ph
     customerName: customerName || "Carnival Guest",
     phone: phone || "",
     amountKobo,
-    bookingDate: reservationDate
+    bookingDate: reservationDate,
+    checkInPin
   });
 
   const payload = {
@@ -51,7 +54,35 @@ export async function initializeTransaction({ packageId, email, customerName, ph
       phone: phone || "",
       vendor: pkg.vendor,
       bookingDate: reservationDate,
-      escrowType: "CrossRiverState_365Day_FairPrice_Escrow"
+      checkInPin: checkInPin,
+      escrowType: "CrossRiverState_365Day_FairPrice_Escrow",
+      custom_fields: [
+        {
+          display_name: "🔐 6-DIGIT CHECK-IN PIN",
+          variable_name: "check_in_pin",
+          value: checkInPin
+        },
+        {
+          display_name: "🌴 Booking Reference",
+          variable_name: "booking_reference",
+          value: reference
+        },
+        {
+          display_name: "🏨 Assigned Merchant",
+          variable_name: "merchant_name",
+          value: pkg.vendor
+        },
+        {
+          display_name: "📅 Reservation Date",
+          variable_name: "booking_date",
+          value: reservationDate
+        },
+        {
+          display_name: "🛡️ Verification Protocol",
+          variable_name: "verification_protocol",
+          value: "Present this 6-digit PIN on-site in Calabar. Merchant cannot release escrow without this code."
+        }
+      ]
     }
   };
 
@@ -77,6 +108,7 @@ export async function initializeTransaction({ packageId, email, customerName, ph
   return {
     success: true,
     reference,
+    checkInPin,
     authorization_url: data.data.authorization_url,
     access_code: data.data.access_code,
     publicKey: PAYSTACK_PUBLIC_KEY,
@@ -135,6 +167,36 @@ export async function verifyTransaction(reference) {
       gateway_response: paystackData.gateway_response,
       paid_at: paystackData.paid_at
     });
+
+    // Dispatch official Cross River State Escrow Voucher & 6-Digit Check-In PIN Email
+    try {
+      const recipientEmail = paystackData.customer?.email || lockedRecord.email;
+      sendTransactionalEmail({
+        to_email: recipientEmail,
+        subject: `🔐 CalabarPass Escrow Voucher & 6-Digit Check-In PIN [${lockedRecord.reference}]`,
+        body: `Dear ${lockedRecord.customerName || "Carnival Guest"},
+
+Your booking for "${lockedRecord.packageName || "Cross River Experience"}" with ${lockedRecord.vendor || "Verified Merchant"} has been confirmed and protected by Cross River State Tourism Escrow!
+
+==================================================
+🔐 YOUR OFFICIAL 6-DIGIT CHECK-IN PIN:
+👉  ${lockedRecord.checkInPin}  👈
+==================================================
+Booking Reference: ${lockedRecord.reference}
+Assigned Merchant: ${lockedRecord.vendor}
+Amount Protected:  ₦${((lockedRecord.amountKobo || 0) / 100).toLocaleString()}
+Scheduled Date:    ${lockedRecord.bookingDate}
+
+🛡️ ESCROW PROTECTION PROTOCOL:
+Do NOT disclose this 6-digit PIN over the phone or online. Only present this code on-site in Calabar when you arrive at ${lockedRecord.vendor} and inspect your reservation. The merchant cannot claim your escrow funds without this physical PIN!
+
+Tourist Helpline: +234 800-CALABAR (Toll Free 24/7)
+Cross River Tourism Clearinghouse & Bureau of Hospitality
+`
+      });
+    } catch (mailErr) {
+      console.warn("[Mail Dispatch Warning]:", mailErr.message);
+    }
 
     return {
       success: true,

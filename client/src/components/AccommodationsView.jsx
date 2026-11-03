@@ -304,7 +304,7 @@ export default function AccommodationsView({ onBookHotel }) {
           Calabar Verified Premier Accommodations
         </h1>
         <p className="mt-2 text-slate-600 dark:text-slate-400 text-sm sm:text-base max-w-3xl leading-relaxed">
-          Browse verified premier hotels and executive suites across Calabar. All guest reservations are backed by the <span className="text-amber-600 dark:text-amber-400 font-semibold">CalabarPass Anti-Fraud Escrow Protocol</span> with guaranteed on-site check-in release.
+          Browse verified premier hotels and executive suites across Calabar. All guest reservations are backed by the <span className="text-sky-600 dark:text-stateCyan font-semibold">CalabarPass Anti-Fraud Escrow Protocol</span> with guaranteed on-site check-in release.
         </p>
 
         {/* Protection Guarantee Banner */}
@@ -359,7 +359,7 @@ export default function AccommodationsView({ onBookHotel }) {
         {filteredHotels.map((hotel) => (
           <article
             key={hotel.id}
-            className="group rounded-2xl bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 hover:border-stateCyan dark:hover:border-amber-500/50 transition-all duration-300 flex flex-col overflow-hidden hover:-translate-y-1 shadow-sm hover:shadow-xl dark:shadow-xl"
+            className="group rounded-2xl bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 hover:border-stateCyan dark:hover:border-stateCyan/50 transition-all duration-300 flex flex-col overflow-hidden hover:-translate-y-1 shadow-sm hover:shadow-xl dark:shadow-xl"
           >
             {/* Image Header with Real URLs */}
             <div className="relative h-48 w-full overflow-hidden bg-slate-950">
@@ -382,8 +382,8 @@ export default function AccommodationsView({ onBookHotel }) {
                 </span>
               </div>
 
-              <div className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-slate-950/80 border border-amber-500/30 px-2.5 py-1 text-[11px] font-bold text-amber-300 backdrop-blur-sm">
-                <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+              <div className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-slate-950/80 border border-stateCyan/30 px-2.5 py-1 text-[11px] font-bold text-sky-300 backdrop-blur-sm">
+                <Star className="w-3.5 h-3.5 fill-stateCyan text-stateCyan" />
                 {hotel.rating}
               </div>
 
@@ -399,10 +399,10 @@ export default function AccommodationsView({ onBookHotel }) {
             <div className="p-5 flex flex-col flex-1 space-y-3">
               <div>
                 <div className="flex items-start justify-between gap-2">
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-stateCyan dark:group-hover:text-amber-400 transition-colors line-clamp-1">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-stateCyan dark:group-hover:text-stateCyan transition-colors line-clamp-1">
                     {hotel.name}
                   </h3>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20 shrink-0">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-sky-600 dark:text-stateCyan bg-stateCyan/10 px-2 py-0.5 rounded border border-stateCyan/20 shrink-0">
                     {hotel.category}
                   </span>
                 </div>
@@ -411,7 +411,7 @@ export default function AccommodationsView({ onBookHotel }) {
                   <span className="text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold truncate max-w-[150px] sm:max-w-[180px]" title={hotel.roomType}>
                     {hotel.roomType || "Standard Nightly Rate"}
                   </span>
-                  <span className="text-base font-extrabold text-amber-600 dark:text-amber-400 font-mono">
+                  <span className="text-base font-extrabold text-sky-600 dark:text-stateCyan font-mono">
                     {formatPrice(parsePrice(hotel.pricePerNight))}
                     <span className="text-[10px] text-slate-500 dark:text-slate-400 font-normal"> / night</span>
                   </span>
@@ -441,7 +441,7 @@ export default function AccommodationsView({ onBookHotel }) {
               <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/90 dark:border-slate-800/80 space-y-1.5 text-[11px] text-slate-600 dark:text-slate-300">
                 {hotel.contactPerson && (
                   <div className="flex items-center gap-2">
-                    <User className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400 shrink-0" />
+                    <User className="w-3.5 h-3.5 text-stateCyan dark:text-stateCyan shrink-0" />
                     <span className="font-medium text-slate-800 dark:text-slate-200">{hotel.contactPerson}</span>
                   </div>
                 )}
@@ -490,7 +490,7 @@ export default function AccommodationsView({ onBookHotel }) {
       {/* Hotel Quick Details Modal */}
       {activeHotelDetails && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md animate-fadeIn overflow-y-auto">
-          <div className="relative w-full max-w-lg bg-white dark:bg-[#0f1523] border border-slate-200 dark:border-amber-500/40 rounded-3xl p-5 sm:p-6 shadow-2xl text-slate-900 dark:text-slate-100 space-y-4 sm:space-y-5 my-auto max-h-[90vh] overflow-y-auto">
+          <div className="relative w-full max-w-lg bg-white dark:bg-[#0f1523] border border-slate-200 dark:border-stateCyan/40 rounded-3xl p-5 sm:p-6 shadow-2xl text-slate-900 dark:text-slate-100 space-y-4 sm:space-y-5 my-auto max-h-[90vh] overflow-y-auto">
             <div className="relative h-44 rounded-2xl overflow-hidden">
               <VerifiedImage
                 item={activeHotelDetails}
@@ -530,7 +530,7 @@ export default function AccommodationsView({ onBookHotel }) {
             <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-2 text-xs">
               <div className="flex justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
                 <span className="text-slate-500 dark:text-slate-400">Official Nightly Rate:</span>
-                <span className="text-amber-600 dark:text-amber-400 font-extrabold font-mono">{formatPrice(parsePrice(activeHotelDetails.pricePerNight))}</span>
+                <span className="text-sky-600 dark:text-stateCyan font-extrabold font-mono">{formatPrice(parsePrice(activeHotelDetails.pricePerNight))}</span>
               </div>
               {activeHotelDetails.contactPerson && (
                 <div className="flex justify-between border-b border-slate-200 dark:border-slate-800 pb-2">

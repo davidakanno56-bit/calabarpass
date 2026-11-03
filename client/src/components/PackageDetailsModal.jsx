@@ -124,7 +124,7 @@ export default function PackageDetailsModal({ pkg, onClose, onBookNow }) {
           </button>
           <div className="absolute bottom-4 left-5 right-5 flex flex-wrap items-end justify-between gap-3 sm:left-7 sm:right-7">
             <div>
-              <span className="mb-2 inline-flex rounded-full border border-amber-400/30 bg-black/70 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-amber-300">
+              <span className="mb-2 inline-flex rounded-full border border-stateCyan/30 bg-black/70 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-sky-300">
                 {pkg.category || "Verified destination"}
               </span>
               <h2
@@ -134,7 +134,7 @@ export default function PackageDetailsModal({ pkg, onClose, onBookNow }) {
                 {packageName}
               </h2>
             </div>
-            <span className="rounded-xl border border-amber-400/30 bg-[#0B0F17]/90 px-4 py-2 text-sm font-extrabold text-amber-300">
+            <span className="rounded-xl border border-stateCyan/30 bg-[#0B0F17]/90 px-4 py-2 text-sm font-extrabold text-sky-300">
               {formatPrice(pkg.priceNGN ?? pkg.price ?? 0)}{" "}
               / pass
             </span>
@@ -144,7 +144,7 @@ export default function PackageDetailsModal({ pkg, onClose, onBookNow }) {
         <div className="grid gap-6 p-5 sm:p-7 md:grid-cols-[1.1fr_0.9fr]">
           <div>
             <div className="mb-5 flex items-start gap-2 text-sm text-slate-300">
-              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-amber-400" />
+              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-stateCyan" />
               <span>{pkg.location || "Cross River State"}</span>
             </div>
             <h3 className="mb-3 text-sm font-extrabold uppercase tracking-wider text-white">
@@ -190,7 +190,7 @@ export default function PackageDetailsModal({ pkg, onClose, onBookNow }) {
           <button
             type="button"
             onClick={handleBookNow}
-            className="rounded-xl bg-amber-400 px-5 py-3 text-sm font-extrabold text-slate-950 transition hover:bg-amber-300"
+            className="rounded-xl bg-stateCyan px-5 py-3 text-sm font-extrabold text-slate-950 transition hover:bg-sky-300"
           >
             Lock Escrow Slot / Book Now
           </button>

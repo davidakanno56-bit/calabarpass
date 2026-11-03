@@ -127,7 +127,7 @@ export default function PackageList({
       {/* Section Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
         <div>
-          <div className="flex items-center gap-2 text-amber-500 dark:text-amber-400 text-xs font-bold uppercase tracking-widest mb-2">
+          <div className="flex items-center gap-2 text-stateCyan dark:text-stateCyan text-xs font-bold uppercase tracking-widest mb-2">
             <ShieldCheck className="w-4 h-4 text-emerald-500" />
             <span>Cross River 365-Day Commercial & Tourism Architecture</span>
           </div>
@@ -143,7 +143,7 @@ export default function PackageList({
         <div className="flex items-center gap-2 self-start md:self-auto bg-white dark:bg-slate-900/90 px-4 py-2 rounded-2xl border border-slate-200 dark:border-slate-800 text-xs shadow-sm">
           <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
           <span className="text-slate-600 dark:text-slate-300 font-medium">Active Directory:</span>
-          <span className="font-bold text-amber-600 dark:text-amber-400 font-mono">
+          <span className="font-bold text-sky-600 dark:text-stateCyan font-mono">
             {allCards.length} Verified Venues & Passes
           </span>
         </div>
@@ -221,7 +221,7 @@ export default function PackageList({
             </div>
             <div className="text-xs sm:text-sm text-slate-700 dark:text-slate-300">
               <strong className="text-blue-600 dark:text-blue-300 font-bold block sm:inline">1. Accommodations (Hotels, Resorts, Suites): </strong>
-              Verified executive hotels across Highway, State Housing, MCC, and Tinapa corridors. All payments remain securely locked in the <span className="text-amber-600 dark:text-amber-400 font-semibold">CalabarPass Anti-Fraud Escrow Vault</span> until physical check-in.
+              Verified executive hotels across Highway, State Housing, MCC, and Tinapa corridors. All payments remain securely locked in the <span className="text-sky-600 dark:text-stateCyan font-semibold">CalabarPass Anti-Fraud Escrow Vault</span> until physical check-in.
             </div>
           </div>
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-500/30 whitespace-nowrap self-start md:self-auto">
@@ -250,17 +250,17 @@ export default function PackageList({
       )}
 
       {currentCategory === "dining-nightlife" && (
-        <div className="mb-8 p-4 sm:p-5 rounded-2xl bg-amber-50/80 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-500/30 flex flex-col md:flex-row md:items-center justify-between gap-4 transition-colors">
+        <div className="mb-8 p-4 sm:p-5 rounded-2xl bg-sky-50/80 dark:bg-sky-950/40 border border-sky-200 dark:border-stateCyan/30 flex flex-col md:flex-row md:items-center justify-between gap-4 transition-colors">
           <div className="flex items-start sm:items-center gap-3.5">
-            <div className="w-11 h-11 rounded-xl bg-amber-500/15 text-amber-600 dark:text-amber-400 flex items-center justify-center font-bold shrink-0">
+            <div className="w-11 h-11 rounded-xl bg-stateCyan/15 text-sky-600 dark:text-stateCyan flex items-center justify-center font-bold shrink-0">
               <Utensils className="w-6 h-6" />
             </div>
             <div className="text-xs sm:text-sm text-slate-700 dark:text-slate-300">
-              <strong className="text-amber-700 dark:text-amber-300 font-bold block sm:inline">3. Dining & Nightlife (Eateries, Seafood Hubs, Lounges): </strong>
+              <strong className="text-sky-700 dark:text-sky-300 font-bold block sm:inline">3. Dining & Nightlife (Eateries, Seafood Hubs, Lounges): </strong>
               Explore Crunchies fast-food combos, authentic Efik Fisherman soup at Supreme Viking, Marina Resort river catfish, and VIP nightlife lounges along Marian Road with GPS navigation and escrow vouchers.
             </div>
           </div>
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30 whitespace-nowrap self-start md:self-auto">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-stateCyan/15 text-sky-700 dark:text-sky-300 border border-stateCyan/30 whitespace-nowrap self-start md:self-auto">
             <Utensils className="w-3.5 h-3.5" />
             Verified Culinary Guide
           </span>

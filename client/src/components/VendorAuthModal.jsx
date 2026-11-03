@@ -101,7 +101,7 @@ export default function VendorAuthModal({ isOpen, onClose, onSuccess, onOpenOnbo
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md animate-fadeIn overflow-y-auto">
       <div 
-        className="relative w-full max-w-md bg-[#0f1523] border border-amber-500/40 rounded-3xl p-5 sm:p-8 shadow-2xl shadow-amber-500/10 text-slate-100 my-auto max-h-[90vh] overflow-y-auto"
+        className="relative w-full max-w-md bg-[#0f1523] border border-stateCyan/40 rounded-3xl p-5 sm:p-8 shadow-2xl shadow-stateCyan/10 text-slate-100 my-auto max-h-[90vh] overflow-y-auto"
         role="dialog"
         aria-modal="true"
         aria-labelledby="vendor-auth-title"
@@ -171,7 +171,7 @@ export default function VendorAuthModal({ isOpen, onClose, onSuccess, onOpenOnbo
                   if (error) setError("");
                 }}
                 placeholder="Enter access code or PIN..."
-                className="w-full px-4 py-3 rounded-xl bg-slate-950/80 border border-slate-700 text-white placeholder-slate-500 font-mono tracking-widest text-sm focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition"
+                className="w-full px-4 py-3 rounded-xl bg-slate-950/80 border border-slate-700 text-white placeholder-slate-500 font-mono tracking-widest text-sm focus:outline-none focus:border-stateCyan focus:ring-1 focus:ring-stateCyan transition"
                 autoFocus
               />
               <button

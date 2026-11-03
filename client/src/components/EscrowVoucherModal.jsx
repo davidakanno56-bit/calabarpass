@@ -45,7 +45,7 @@ export default function EscrowVoucherModal({ transaction: initialTx, onClose, on
       particleCount: 90,
       spread: 75,
       origin: { y: 0.6 },
-      colors: ["#f59e0b", "#10b981", "#fbbf24", "#3b82f6"]
+      colors: ["#00b4d8", "#10b981", "#38bdf8", "#3b82f6"]
     });
   }, []);
 
@@ -455,10 +455,10 @@ Do NOT reveal this PIN over the phone or online. Only give it to the merchant in
                 <button
                   type="button"
                   onClick={() => setShowCancelModal(true)}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/10 hover:bg-rose-950/40 text-amber-300 hover:text-rose-200 border-2 border-amber-500/70 hover:border-rose-500 text-xs font-bold shadow-sm transition-all cursor-pointer"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-rose-500/10 hover:bg-rose-950/40 text-rose-300 hover:text-rose-200 border-2 border-rose-500/60 hover:border-rose-500 text-xs font-bold shadow-sm transition-all cursor-pointer"
                   title="Request Escrow Refund or Cancel Booking"
                 >
-                  <RotateCcw className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                  <RotateCcw className="w-3.5 h-3.5 text-rose-400 shrink-0" />
                   <span>Request Refund / Cancel</span>
                 </button>
               )}
@@ -489,12 +489,12 @@ Do NOT reveal this PIN over the phone or online. Only give it to the merchant in
             </div>
 
             {/* Exact Security Warning Requirement */}
-            <div className="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-xs text-left sm:text-center space-y-1 my-3">
-              <div className="flex items-center justify-center gap-2 font-bold text-amber-300">
-                <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />
+            <div className="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-200 text-xs text-left sm:text-center space-y-1 my-3">
+              <div className="flex items-center justify-center gap-2 font-bold text-rose-300">
+                <AlertTriangle className="w-4 h-4 text-rose-400 shrink-0" />
                 <span>CRITICAL ESCROW SECURITY NOTICE</span>
               </div>
-              <p className="text-amber-100/90 leading-relaxed font-medium">
+              <p className="text-rose-100/90 leading-relaxed font-medium">
                 Keep this PIN private. Only hand this 6-digit code to your hotel receptionist or driver AFTER you inspect your room/service on-site in Cross River State.
               </p>
             </div>
@@ -604,15 +604,15 @@ Do NOT reveal this PIN over the phone or online. Only give it to the merchant in
             </div>
 
             <div className="flex flex-wrap items-center gap-2.5">
-              {/* Prominent High-Contrast Danger/Amber Refund Button */}
+              {/* Prominent High-Contrast Cancellation/Refund Refund Button */}
               {!isFrozen ? (
                 <button
                   type="button"
                   onClick={() => setShowCancelModal(true)}
-                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500/10 hover:bg-rose-950/70 text-amber-300 hover:text-rose-200 text-xs sm:text-sm font-bold border-2 border-amber-500/80 hover:border-rose-500 shadow-lg shadow-amber-950/40 transition-all cursor-pointer hover:scale-[1.01] active:scale-95"
+                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-rose-500/10 hover:bg-rose-950/70 text-rose-300 hover:text-rose-200 text-xs sm:text-sm font-bold border-2 border-rose-500/70 hover:border-rose-500 shadow-lg shadow-rose-950/40 transition-all cursor-pointer hover:scale-[1.01] active:scale-95"
                   title="Request Escrow Refund or Cancel Booking"
                 >
-                  <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />
+                  <AlertTriangle className="w-4 h-4 text-rose-400 shrink-0" />
                   <span>Request Refund / Cancel Booking</span>
                 </button>
               ) : (
@@ -637,14 +637,14 @@ Do NOT reveal this PIN over the phone or online. Only give it to the merchant in
       {/* Escrow Cancellation & Automated Refund Prompt Modal */}
       {showCancelModal && (
         <div className="fixed inset-0 z-60 flex items-center justify-center p-3 sm:p-4 bg-black/90 backdrop-blur-md overflow-y-auto">
-          <div className="relative w-full max-w-lg bg-[#0e1422] border-2 border-amber-500/50 rounded-3xl shadow-2xl shadow-amber-950/40 p-6 sm:p-7 space-y-5 text-white my-auto overflow-hidden">
-            {/* Top Amber Ribbon */}
-            <div className="h-1.5 bg-gradient-to-r from-amber-500 via-rose-500 to-amber-500 -mt-6 -mx-6 sm:-mt-7 sm:-mx-7 mb-4" />
+          <div className="relative w-full max-w-lg bg-[#0e1422] border-2 border-rose-500/50 rounded-3xl shadow-2xl shadow-rose-950/40 p-6 sm:p-7 space-y-5 text-white my-auto overflow-hidden">
+            {/* Top Status Ribbon */}
+            <div className="h-1.5 bg-gradient-to-r from-rose-500 via-red-600 to-rose-500 -mt-6 -mx-6 sm:-mt-7 sm:-mx-7 mb-4" />
 
             <div className="flex items-center justify-between pb-3 border-b border-slate-800">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-400 flex items-center justify-center shrink-0">
-                  <RotateCcw className="w-5 h-5 text-amber-400" />
+                <div className="w-10 h-10 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-400 flex items-center justify-center shrink-0">
+                  <RotateCcw className="w-5 h-5 text-rose-400" />
                 </div>
                 <div>
                   <h3 className="text-base sm:text-lg font-bold font-heading text-white">
@@ -670,7 +670,7 @@ Do NOT reveal this PIN over the phone or online. Only give it to the merchant in
 
             {cancelSuccess ? (
               <div className="py-4 text-center space-y-4">
-                <div className="w-16 h-16 mx-auto rounded-2xl bg-amber-500/15 border border-amber-500/30 text-amber-400 flex items-center justify-center shadow-inner">
+                <div className="w-16 h-16 mx-auto rounded-2xl bg-rose-500/15 border border-rose-500/30 text-rose-400 flex items-center justify-center shadow-inner">
                   <ShieldCheck className="w-8 h-8 text-emerald-400" />
                 </div>
                 <div>
@@ -695,7 +695,7 @@ Do NOT reveal this PIN over the phone or online. Only give it to the merchant in
                   </div>
                   <div className="flex justify-between items-center py-1 border-b border-slate-800">
                     <span className="text-slate-400">Escrow Status</span>
-                    <span className="text-amber-400 font-semibold">Payout Frozen / In Review</span>
+                    <span className="text-rose-400 font-semibold">Payout Frozen / In Review</span>
                   </div>
                   <div className="flex justify-between items-center py-1">
                     <span className="text-slate-400">Check-In PIN Status</span>
@@ -733,7 +733,7 @@ Do NOT reveal this PIN over the phone or online. Only give it to the merchant in
                   </div>
                   <div className="text-right shrink-0">
                     <div className="text-[10px] uppercase font-bold text-slate-400">Refund Value</div>
-                    <div className="text-sm font-extrabold text-amber-400 font-mono">
+                    <div className="text-sm font-extrabold text-rose-400 font-mono">
                       ₦{(transaction.amountNGN || 0).toLocaleString()} NGN
                     </div>
                     <div className="text-[10px] text-emerald-400 font-semibold">100% Escrow Protected</div>
@@ -747,7 +747,7 @@ Do NOT reveal this PIN over the phone or online. Only give it to the merchant in
                   <select
                     value={cancellationReason}
                     onChange={(e) => setCancellationReason(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-amber-500 transition-colors"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-rose-500 transition-colors"
                   >
                     <option value="Plans Changed / Cancel Reservation">Plans Changed / Cancel Reservation</option>
                     <option value="Vendor No-Show / Host Unreachable">Vendor No-Show / Host Unreachable</option>
@@ -769,14 +769,14 @@ Do NOT reveal this PIN over the phone or online. Only give it to the merchant in
                     value={cancellationDetails}
                     onChange={(e) => setCancellationDetails(e.target.value)}
                     placeholder="Provide additional details regarding why you are cancelling or requesting an escrow refund..."
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-amber-500 placeholder:text-slate-500 transition-colors"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-rose-500 placeholder:text-slate-500 transition-colors"
                   />
                 </div>
 
                 {/* Critical Security Warning */}
-                <div className="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/40 text-[11px] text-amber-200/90 space-y-1">
-                  <div className="flex items-center gap-2 font-bold text-amber-300">
-                    <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />
+                <div className="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/40 text-[11px] text-rose-200/90 space-y-1">
+                  <div className="flex items-center gap-2 font-bold text-rose-300">
+                    <AlertTriangle className="w-4 h-4 text-rose-400 shrink-0" />
                     <span>Instant Escrow Freezing Guarantee</span>
                   </div>
                   <p className="leading-relaxed">
@@ -798,7 +798,7 @@ Do NOT reveal this PIN over the phone or online. Only give it to the merchant in
                   <button
                     type="submit"
                     disabled={cancelSubmitting}
-                    className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-600 via-rose-600 to-rose-700 hover:from-amber-500 hover:to-rose-600 text-white font-bold flex items-center justify-center gap-2 border border-rose-500/50 shadow-lg shadow-rose-950/60 disabled:opacity-50 transition-all cursor-pointer"
+                    className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold flex items-center justify-center gap-2 border border-rose-500/50 shadow-lg shadow-rose-950/60 disabled:opacity-50 transition-all cursor-pointer"
                   >
                     {cancelSubmitting ? (
                       <>

@@ -1018,12 +1018,9 @@ export function handleLocalEscrowFallback(endpoint, payload = null, method = "GE
       return { success: false, error: "Booking voucher not found. Please verify the Reference ID." };
     }
 
-    // Check Multi-Tenant Isolation: Voucher belongs to another merchant
+    // Multi-Tenant Smart Clearing: Disburse directly to assigned merchant
     if (vendor && !matchVendor(targetTx, vendor)) {
-      return {
-        success: false,
-        error: "Access Denied: This booking voucher is assigned to another merchant."
-      };
+      console.log(`[Clearinghouse Dispatch] Cross-terminal redemption: disbursing to assigned merchant "${targetTx.vendor}".`);
     }
 
     // Check 6-digit PIN

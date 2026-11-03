@@ -299,7 +299,7 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md overflow-y-auto animate-fadeIn">
       <div 
-        className="relative w-full max-w-xl bg-[#0d131f] border border-amber-500/40 rounded-3xl p-5 sm:p-8 shadow-2xl shadow-amber-500/10 text-slate-100 my-auto max-h-[90vh] overflow-y-auto"
+        className="relative w-full max-w-xl bg-[#0d131f] border border-stateCyan/40 rounded-3xl p-5 sm:p-8 shadow-2xl shadow-stateCyan/10 text-slate-100 my-auto max-h-[90vh] overflow-y-auto"
         role="dialog"
         aria-modal="true"
         aria-labelledby="onboarding-modal-title"
@@ -391,16 +391,16 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
                   value={formData.businessName}
                   onChange={(e) => handleInputChange("businessName", e.target.value)}
                   placeholder="e.g. Transcorp Hotels, Viking Seafood, Seagull Band..."
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-700 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-amber-400 transition"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-700 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-sky-400 transition"
                   required
                 />
               </div>
 
               {/* Automated Paystack Settlement Account */}
-              <div className="rounded-2xl border border-amber-500/30 bg-slate-950/60 p-3.5 space-y-3">
+              <div className="rounded-2xl border border-stateCyan/30 bg-slate-950/60 p-3.5 space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-amber-300">
-                    <Landmark className="w-4 h-4 text-amber-400" />
+                  <span className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-stateCyan">
+                    <Landmark className="w-4 h-4 text-stateCyan" />
                     <span>3. Settlement Account (Paystack Subaccount) *</span>
                   </span>
                   <span className="text-[10px] text-emerald-400 font-mono bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded-full">
@@ -418,7 +418,7 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
                         <button
                           type="button"
                           onClick={() => setBankSearchTerm("")}
-                          className="text-[10px] text-amber-400 hover:underline cursor-pointer"
+                          className="text-[10px] text-sky-400 hover:underline cursor-pointer"
                         >
                           Clear
                         </button>
@@ -433,7 +433,7 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
                         value={bankSearchTerm}
                         onChange={(e) => setBankSearchTerm(e.target.value)}
                         placeholder="Search: Moniepoint, PalmPay, OPay..."
-                        className="w-full pl-7 pr-2.5 py-1.5 rounded-lg bg-slate-900/90 border border-slate-700/80 text-white placeholder-slate-500 text-[11px] focus:outline-none focus:border-amber-400 transition"
+                        className="w-full pl-7 pr-2.5 py-1.5 rounded-lg bg-slate-900/90 border border-slate-700/80 text-white placeholder-slate-500 text-[11px] focus:outline-none focus:border-sky-400 transition"
                       />
                     </div>
 
@@ -443,7 +443,7 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
                         const selectedBank = ALL_NIGERIAN_BANKS.find(b => b.code === e.target.value);
                         handleBankChange(e.target.value, selectedBank?.name || formData.bankName);
                       }}
-                      className="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-amber-400 transition cursor-pointer"
+                      className="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-sky-400 transition cursor-pointer"
                     >
                       {!bankSearchTerm && (
                         <optgroup label="🌟 POPULAR / DIGITAL & COMMERCIAL BANKS">
@@ -474,7 +474,7 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
                       value={formData.accountNumber}
                       onChange={(e) => handleAccountNumberChange(e.target.value)}
                       placeholder="e.g. 8031234567 or 10-digit NUBAN"
-                      className="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white font-mono placeholder-slate-500 text-xs focus:outline-none focus:border-amber-400 transition"
+                      className="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white font-mono placeholder-slate-500 text-xs focus:outline-none focus:border-sky-400 transition"
                       required
                     />
                     <span className="text-[10px] text-slate-400 block mt-1">
@@ -486,7 +486,7 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
                 {/* Live Account Name Verification Preview */}
                 {resolvingAccount && (
                   <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 text-[11px] animate-pulse">
-                    <Loader2 className="w-3.5 h-3.5 animate-spin text-amber-400 shrink-0" />
+                    <Loader2 className="w-3.5 h-3.5 animate-spin text-sky-400 shrink-0" />
                     <span>Verifying settlement account name with NIBSS & Paystack...</span>
                   </div>
                 )}
@@ -505,8 +505,8 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
                 )}
 
                 {!resolvingAccount && resolveError && formData.accountNumber.length >= 10 && (
-                  <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-amber-950/30 border border-amber-500/40 text-amber-300 text-[11px]">
-                    <AlertCircle className="w-4 h-4 text-amber-400 shrink-0" />
+                  <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-rose-950/30 border border-rose-500/40 text-rose-300 text-[11px]">
+                    <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
                     <span>{resolveError}</span>
                   </div>
                 )}
@@ -515,7 +515,7 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
                   {isLiveMode ? (
                     <span>🔒 <strong>Live Paystack Merchant Settlement:</strong> An official Paystack subaccount will be created and verified directly with your bank. Real customer payments will settle to this account.</span>
                   ) : (
-                    <span>⚡ <strong>Automatic Paystack Subaccount:</strong> When submitted, an official Subaccount is created on your Paystack Dashboard (under <em>Akanno Tech</em>). In Test Mode, use <code className="text-amber-300 font-mono">0000000000</code> or your valid NUBAN.</span>
+                    <span>⚡ <strong>Automatic Paystack Subaccount:</strong> When submitted, an official Subaccount is created on your Paystack Dashboard (under <em>Akanno Tech</em>). In Test Mode, use <code className="text-stateCyan font-mono">0000000000</code> or your valid NUBAN.</span>
                   )}
                 </p>
               </div>
@@ -523,7 +523,7 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
               {/* Operator Phone Number */}
               <div>
                 <label className="block font-bold uppercase tracking-wider text-slate-300 mb-1.5 flex items-center gap-1.5">
-                  <Phone className="w-3.5 h-3.5 text-amber-400" />
+                  <Phone className="w-3.5 h-3.5 text-stateCyan" />
                   <span>4. Operator Phone Number *</span>
                 </label>
                 <input
@@ -531,7 +531,7 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
                   value={formData.phone}
                   onChange={(e) => handleInputChange("phone", e.target.value)}
                   placeholder="+234 80X XXX XXXX"
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-700 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-amber-400 transition"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-700 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-sky-400 transition"
                   required
                 />
               </div>
@@ -539,7 +539,7 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
               {/* Business Email for Verification & Approval Dispatch */}
               <div>
                 <label className="block font-bold uppercase tracking-wider text-slate-300 mb-1.5 flex items-center gap-1.5">
-                  <Mail className="w-3.5 h-3.5 text-amber-400" />
+                  <Mail className="w-3.5 h-3.5 text-stateCyan" />
                   <span>Official Business Email (Receives State Merchant Code & Approval Notice)</span>
                 </label>
                 <input
@@ -547,7 +547,7 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
                   value={formData.email}
                   onChange={(e) => handleInputChange("email", e.target.value)}
                   placeholder="e.g. contact@yourbusiness.com"
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-700 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-amber-400 transition"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-700 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-sky-400 transition"
                 />
               </div>
 
@@ -563,7 +563,7 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
                     value={formData.location}
                     onChange={(e) => handleInputChange("location", e.target.value)}
                     placeholder="e.g. Marian Road, Calabar Municipality"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-700 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-amber-400 transition"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-700 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-sky-400 transition"
                   />
                 </div>
 
@@ -576,7 +576,7 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
                     value={formData.priceNGN}
                     onChange={(e) => handleInputChange("priceNGN", e.target.value)}
                     placeholder="35000"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-700 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-amber-400 transition"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-700 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-sky-400 transition"
                   />
                 </div>
               </div>
@@ -592,7 +592,7 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
                   value={formData.logoUrl}
                   onChange={(e) => handleInputChange("logoUrl", e.target.value)}
                   placeholder={selectedCategoryMeta.defaultImage}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-700 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-amber-400 transition"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-700 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-sky-400 transition"
                 />
               </div>
 
@@ -606,7 +606,7 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
                   onChange={(e) => handleInputChange("description", e.target.value)}
                   placeholder="Highlights, offerings, amenities, or festival passes included..."
                   rows={2}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-700 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-amber-400 transition resize-none"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-700 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-sky-400 transition resize-none"
                 />
               </div>
 
@@ -668,19 +668,19 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
               </p>
             </div>
 
-            {/* Access Code Golden Box */}
-            <div className="p-5 rounded-2xl bg-gradient-to-br from-amber-950/60 via-slate-900 to-amber-950/40 border-2 border-amber-500/60 shadow-gold-glow max-w-sm mx-auto">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-amber-400 block mb-1">
+            {/* Access Code State Cyan Box */}
+            <div className="p-5 rounded-2xl bg-gradient-to-br from-sky-950/60 via-slate-900 to-cyan-950/40 border-2 border-stateCyan/60 shadow-lg shadow-stateCyan/10 max-w-sm mx-auto">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-stateCyan block mb-1">
                 Your Official Vendor Access Code
               </span>
               <div className="flex items-center justify-center gap-3">
-                <span className="font-mono text-2xl sm:text-3xl font-extrabold text-amber-300 tracking-wider">
+                <span className="font-mono text-2xl sm:text-3xl font-extrabold text-sky-200 tracking-wider">
                   {createdVendor.accessCode}
                 </span>
                 <button
                   type="button"
                   onClick={handleCopyCode}
-                  className="p-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 transition cursor-pointer"
+                  className="p-2 rounded-xl bg-stateCyan/20 hover:bg-stateCyan/30 text-stateCyan border border-stateCyan/40 transition cursor-pointer"
                   title="Copy Access Code"
                 >
                   {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
@@ -762,7 +762,7 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-slate-400">Private Terminal:</span>
-                <span className="font-bold text-amber-300">Isolated & Locked Under Key</span>
+                <span className="font-bold text-stateCyan">Isolated & Locked Under Key</span>
               </div>
             </div>
 

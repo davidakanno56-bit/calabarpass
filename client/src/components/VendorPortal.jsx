@@ -714,7 +714,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
 
   const [activeMerchantId, setActiveMerchantId] = useState(() => {
     if (typeof window !== "undefined") {
-      const saved = sessionStorage.getItem("calabarpass_active_merchant_id");
+      const saved = sessionStorage.getItem("calabarpass_active_merchant_id") || localStorage.getItem("calabarpass_last_booked_vendor");
       if (saved) return saved;
     }
     return MERCHANTS[0].id;
@@ -729,7 +729,13 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [ledgerError, setLedgerError] = useState("");
-  const [releaseForm, setReleaseForm] = useState({ reference: "", pin: "" });
+  const [releaseForm, setReleaseForm] = useState(() => {
+    if (typeof window !== "undefined") {
+      const lastRef = sessionStorage.getItem("calabarpass_last_booking_ref");
+      if (lastRef) return { reference: lastRef, pin: "" };
+    }
+    return { reference: "", pin: "" };
+  });
   const [releaseStatus, setReleaseStatus] = useState(null);
   const [releaseLoading, setReleaseLoading] = useState(false);
 
@@ -1050,6 +1056,42 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
     setReleaseStatus(null);
 
     try {
+      // 1. Check local stored transactions first (supporting client-side and simulated checkouts)
+      const storedTxs = getStoredTransactions();
+      const localMatch = (storedTxs || []).find(t => t.reference === reference);
+
+      if (localMatch) {
+        if (String(localMatch.checkInPin).trim() !== pin) {
+          throw new Error("Invalid 6-digit physical check-in PIN. Please verify with guest.");
+        }
+
+        localMatch.status = "COMPLETED_DISBURSED";
+        localMatch.statusLabel = "Completed & Disbursed to Vendor";
+        localMatch.disbursedAt = new Date().toISOString();
+        saveStoredTransactions(storedTxs);
+
+        const payout = withNetPayout({
+          ...localMatch,
+          vendorId: localMatch.vendorId || activeMerchant.id,
+          vendor: localMatch.vendor || activeMerchant.name,
+          status: "COMPLETED_DISBURSED",
+          statusLabel: "Completed & Disbursed to Vendor",
+          disbursedAt: new Date().toISOString(),
+          isDemo: false
+        });
+
+        setActiveBookings((bookings) => bookings.filter((b) => b.reference !== reference));
+        setPayouts((current) => [payout, ...current.filter((b) => b.reference !== reference)]);
+        setReleaseStatus({
+          success: true,
+          message: `PIN Verified! ₦${(payout.payoutNGN || localMatch.amountNGN).toLocaleString()} successfully disbursed to ${localMatch.vendor || activeMerchant.name} for guest ${localMatch.customerName}!`,
+          isDemo: false
+        });
+        setReleaseLoading(false);
+        setReleaseForm({ reference: "", pin: "" });
+        return;
+      }
+
       const demoBooking = !isPaystackLiveMode()
         ? activeBookings.find(
             (booking) => booking.isDemo && booking.reference === reference,
@@ -1098,7 +1140,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
           body: JSON.stringify({
             reference,
             pin,
-            vendor: activeMerchant.apiVendorId,
+            vendor: matchedBooking?.vendorId || matchedBooking?.vendor || activeMerchant.apiVendorId,
           }),
         });
 
@@ -1201,12 +1243,26 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
   }, [activeBookings, payouts, ledgerFilterTab, ledgerSearchQuery, activeMerchant]);
   const bookingWord = activeMerchant.terms.booking.toLowerCase();
 
+  // Real-time lookup for whatever reference the operator typed
+  const matchedBooking = useMemo(() => {
+    const q = releaseForm.reference.trim();
+    if (!q || q.length < 4) return null;
+    const foundInActive = (activeBookings || []).find(b => b.reference?.toLowerCase() === q.toLowerCase());
+    if (foundInActive) return foundInActive;
+    const foundInPayouts = (payouts || []).find(b => b.reference?.toLowerCase() === q.toLowerCase());
+    if (foundInPayouts) return foundInPayouts;
+    const stored = getStoredTransactions();
+    const foundInStored = (stored || []).find(b => b.reference?.toLowerCase() === q.toLowerCase());
+    if (foundInStored) return foundInStored;
+    return null;
+  }, [releaseForm.reference, activeBookings, payouts]);
+
   return (
     <main className="mx-auto max-w-7xl space-y-8 px-4 py-10 text-slate-100 sm:px-6 lg:px-8">
       <header className="flex flex-col justify-between gap-5 border-b border-slate-800 pb-6 lg:flex-row lg:items-end">
         <div>
           <div className="mb-2 flex items-center justify-between gap-3">
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-amber-400">
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-stateCyan">
               <Building2 className="h-4 w-4" />
               <span>Merchant settlement terminal</span>
             </div>
@@ -1214,10 +1270,10 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
               <button
                 type="button"
                 onClick={() => handleOpenOperatorModal("clear")}
-                className="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 hover:text-amber-200 border border-amber-500/30 text-xs font-bold transition cursor-pointer"
+                className="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700 text-xs font-bold transition cursor-pointer"
                 title="Operator Reset: Clear dynamic test registrations (requires CALABAR2026)"
               >
-                <RotateCcw className="h-3.5 w-3.5 text-amber-400" />
+                <RotateCcw className="h-3.5 w-3.5 text-stateCyan" />
                 <span>Clear / Remove Test Merchants{allRemovableTestMerchants.length > 0 ? ` (${allRemovableTestMerchants.length})` : ""}</span>
               </button>
               <button
@@ -1258,7 +1314,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
         <div className="flex flex-col gap-2 sm:min-w-80">
           <div className="flex items-center justify-between text-xs font-semibold text-slate-400">
             <span>Switch active terminal</span>
-            <span className="text-[10px] text-amber-400 font-mono">
+            <span className="text-[10px] text-stateCyan font-mono">
               {allMerchants.length} Verified Terminals
             </span>
           </div>
@@ -1291,7 +1347,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
           <select
             value={activeMerchantId}
             onChange={(event) => setActiveMerchantId(event.target.value)}
-            className="rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 text-sm font-semibold text-white outline-none transition hover:border-amber-500/60 focus:border-amber-400 cursor-pointer"
+            className="rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 text-sm font-semibold text-white outline-none transition hover:border-sky-500/60 focus:border-stateCyan cursor-pointer"
           >
             {(vendorCategoryFilter === "all" || vendorCategoryFilter === "accommodations") && (
               <optgroup label="1. Accommodations (Hotels, Resorts, Suites)">
@@ -1356,22 +1412,22 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
       {dynamicMerchants.length > 0 && (
         <section
           aria-label="Clearinghouse operator administration"
-          className="rounded-2xl border border-amber-500/30 bg-gradient-to-r from-amber-950/40 via-slate-900/90 to-slate-900/80 p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-lg shadow-black/40"
+          className="rounded-2xl border border-stateCyan/30 bg-gradient-to-r from-slate-950/80 via-slate-900/90 to-slate-900/80 p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-lg shadow-black/40"
         >
           <div className="flex items-start gap-3.5">
-            <div className="rounded-xl border border-amber-500/40 bg-amber-500/10 p-2.5 text-amber-400 shrink-0">
+            <div className="rounded-xl border border-stateCyan/40 bg-stateCyan/10 p-2.5 text-stateCyan shrink-0">
               <KeyRound className="h-5 w-5" />
             </div>
             <div>
               <div className="flex items-center gap-2 flex-wrap">
                 <h2 className="text-sm font-bold text-white tracking-wide">Operator Clearinghouse Control: Test Registrations</h2>
-                <span className="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-[11px] font-mono font-extrabold border border-amber-500/40">
+                <span className="px-2.5 py-0.5 rounded-full bg-stateCyan/20 text-stateCyan text-[11px] font-mono font-extrabold border border-stateCyan/40">
                   {dynamicMerchants.length} Custom Test Registration{dynamicMerchants.length === 1 ? "" : "s"} Active
                 </span>
               </div>
               <p className="text-xs text-slate-400 mt-1.5 max-w-2xl leading-relaxed">
                 Custom merchant listings (e.g. Obudu Cattle Ranch) are currently rendering live on the public directory catalog (<strong className="text-slate-300">#directory-catalog</strong>).
-                Triggering the reset permanently removes custom registered entries from storage and cleanly restores the directory catalog to verified defaults (strictly locked behind operator key <code className="text-amber-300 font-mono bg-black/50 px-1.5 py-0.5 rounded border border-amber-500/30">CALABAR2026</code>).
+                Triggering the reset permanently removes custom registered entries from storage and cleanly restores the directory catalog to verified defaults (strictly locked behind operator key <code className="text-stateCyan font-mono bg-black/50 px-1.5 py-0.5 rounded border border-stateCyan/30">CALABAR2026</code>).
               </p>
             </div>
           </div>
@@ -1391,7 +1447,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
             <button
               type="button"
               onClick={() => handleOpenOperatorModal("clear")}
-              className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-extrabold text-xs transition shadow-gold-glow cursor-pointer"
+              className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-gradient-to-r from-stateCyan to-sky-600 hover:from-sky-400 hover:to-sky-500 text-white font-extrabold text-xs transition shadow-md shadow-sky-950/40 cursor-pointer"
               title="Clear all custom test registrations"
             >
               <RotateCcw className="h-4 w-4" />
@@ -1427,7 +1483,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
           <div>
             <div className="flex flex-wrap items-center gap-2">
               <p className="font-bold text-white">{activeMerchant.name}</p>
-              <span className="rounded-full border border-amber-500/25 bg-amber-500/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-amber-300">
+              <span className="rounded-full border border-stateCyan/30 bg-stateCyan/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-stateCyan">
                 {activeMerchant.terminalType}
               </span>
               {isCurrentDynamic && (
@@ -1503,19 +1559,19 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
         aria-label="Settlement metrics"
         className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
       >
-        <article className="rounded-2xl border border-amber-500/30 bg-amber-950/20 p-5 relative overflow-hidden">
+        <article className="rounded-2xl border border-stateCyan/30 bg-slate-900/80 p-5 relative overflow-hidden">
           <div className="flex items-center justify-between">
-            <p className="text-xs font-bold uppercase tracking-wider text-amber-300">
+            <p className="text-xs font-bold uppercase tracking-wider text-stateCyan">
               Active Escrow Holds
             </p>
-            <Lock className="h-5 w-5 text-amber-400" />
+            <Lock className="h-5 w-5 text-stateCyan" />
           </div>
-          <p className="mt-3 text-3xl font-extrabold text-amber-300">
+          <p className="mt-3 text-3xl font-extrabold text-white">
             {formatNaira(activeEscrowNet)}
           </p>
-          <div className="mt-1 flex items-center justify-between text-xs text-amber-200/80">
+          <div className="mt-1 flex items-center justify-between text-xs text-slate-400">
             <span>{activeBookings.length} booking(s) awaiting PIN</span>
-            <span className="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded font-semibold">95% net</span>
+            <span className="text-[10px] bg-stateCyan/20 text-stateCyan px-2 py-0.5 rounded font-semibold border border-stateCyan/30">95% net</span>
           </div>
         </article>
 
@@ -1551,10 +1607,10 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
 
         <article className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
           <div className="flex items-center justify-between">
-            <p className="text-xs font-bold uppercase tracking-wider text-amber-300">
+            <p className="text-xs font-bold uppercase tracking-wider text-slate-300">
               Settlement Protocol
             </p>
-            <LockKeyhole className="h-5 w-5 text-amber-400" />
+            <LockKeyhole className="h-5 w-5 text-stateCyan" />
           </div>
           <p className="mt-3 text-lg font-extrabold text-white">
             On-site PIN verification
@@ -1568,7 +1624,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
       <section aria-labelledby="incoming-heading" className="space-y-4">
         <div className="flex flex-col justify-between gap-2 sm:flex-row sm:items-end">
           <div>
-            <div className="mb-1 flex items-center gap-2 text-amber-400">
+            <div className="mb-1 flex items-center gap-2 text-stateCyan">
               <Clock3 className="h-4 w-4" />
               <span className="text-[11px] font-bold uppercase tracking-wider">
                 Escrow secured
@@ -1608,12 +1664,12 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
                 <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-start">
                   <div>
                     <div className="flex flex-wrap items-center gap-2">
-                      <p className="font-mono text-xs font-bold text-amber-300">
+                      <p className="font-mono text-xs font-bold text-stateCyan">
                         {booking.reference}
                       </p>
                       {booking.isDemo && (
-                        <span className="rounded-full border border-slate-700 bg-slate-800 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-slate-300">
-                          Demo
+                        <span className="rounded-full border border-slate-700 bg-slate-800 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-slate-400">
+                          Demo Sample
                         </span>
                       )}
                     </div>
@@ -1625,7 +1681,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
                       {booking.packageName || activeMerchant.terms.itemExample}
                     </p>
                   </div>
-                  <span className="inline-flex w-fit items-center gap-1.5 rounded-full border border-amber-500/25 bg-amber-500/10 px-2.5 py-1 text-[11px] font-semibold text-amber-300">
+                  <span className="inline-flex w-fit items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/15 px-2.5 py-1 text-[11px] font-semibold text-emerald-300">
                     <LockKeyhole className="h-3 w-3" />
                     Escrow Locked
                   </span>
@@ -1654,10 +1710,10 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
 
       <section
         aria-labelledby="verification-heading"
-        className="rounded-3xl border border-amber-500/25 bg-gradient-to-br from-slate-900 via-slate-900 to-amber-950/20 p-5 shadow-2xl sm:p-8"
+        className="rounded-3xl border border-stateCyan/30 bg-gradient-to-br from-slate-900 via-slate-900 to-sky-950/30 p-5 shadow-2xl sm:p-8"
       >
         <div className="mb-6 max-w-2xl">
-          <p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-amber-400">
+          <p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-stateCyan">
             On-site terminal • {activeMerchant.terminalType}
           </p>
           <h2
@@ -1671,6 +1727,41 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
             guest before releasing escrow.
           </p>
         </div>
+
+        {/* Live Matched Booking Inspector Card */}
+        {matchedBooking && (
+          <div className="mb-4 p-4 rounded-2xl bg-stateCyan/15 border border-sky-400/40 text-xs animate-fadeIn">
+            <div className="flex items-center justify-between flex-wrap gap-2">
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="font-bold text-white uppercase text-[11px] tracking-wide">
+                  Verified Pass: {matchedBooking.packageName || matchedBooking.packageTitle || "Experience Pass"}
+                </span>
+              </div>
+              <span className="font-mono text-stateCyan font-bold text-sm">
+                ₦{(matchedBooking.amountNGN || (matchedBooking.amountKobo ? matchedBooking.amountKobo / 100 : 0)).toLocaleString()}
+              </span>
+            </div>
+            <div className="mt-2.5 grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] text-slate-300">
+              <div>👤 <strong>Registered Guest Name:</strong> <span className="text-white font-bold ml-1">{matchedBooking.customerName || "Verified Guest"}</span></div>
+              <div>🏨 <strong>Assigned Merchant:</strong> <span className="text-white font-bold ml-1">{matchedBooking.vendor || "Cross River Partner"}</span></div>
+            </div>
+            {matchedBooking.vendorId && matchedBooking.vendorId !== activeMerchant.id && (
+              <div className="mt-3 pt-2.5 border-t border-sky-400/20 flex items-center justify-between gap-2 flex-wrap">
+                <span className="text-[11px] text-sky-200">
+                  📍 Note: This pass is registered for <strong>{matchedBooking.vendor}</strong>. Cross-terminal verification is fully enabled.
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setActiveMerchantId(matchedBooking.vendorId)}
+                  className="text-[11px] font-bold text-white bg-stateCyan hover:bg-sky-400 px-2.5 py-1 rounded-lg transition cursor-pointer"
+                >
+                  Switch to {matchedBooking.vendor} Terminal ↗
+                </button>
+              </div>
+            )}
+          </div>
+        )}
 
         <form onSubmit={handleReleaseEscrow} className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2">
@@ -1694,8 +1785,8 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
                   }));
                   setReleaseStatus(null);
                 }}
-                placeholder="e.g. CP-DEMO-551902"
-                className="w-full rounded-xl border border-slate-700 bg-slate-950/70 px-4 py-3 font-mono text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-amber-400"
+                placeholder="e.g. CP-DEMO-551902 or your CP- reference"
+                className="w-full rounded-xl border border-slate-700 bg-slate-950/70 px-4 py-3 font-mono text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-sky-400"
               />
             </div>
             <div>
@@ -1722,7 +1813,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
                   setReleaseStatus(null);
                 }}
                 placeholder="Enter 6-digit PIN"
-                className="w-full rounded-xl border border-slate-700 bg-slate-950/70 px-4 py-3 font-mono text-sm tracking-[0.3em] text-white outline-none transition placeholder:font-sans placeholder:tracking-normal placeholder:text-slate-600 focus:border-amber-400"
+                className="w-full rounded-xl border border-slate-700 bg-slate-950/70 px-4 py-3 font-mono text-sm tracking-[0.3em] text-white outline-none transition placeholder:font-sans placeholder:tracking-normal placeholder:text-slate-600 focus:border-sky-400"
               />
             </div>
           </div>
@@ -1730,7 +1821,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
           <button
             type="submit"
             disabled={releaseLoading}
-            className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-amber-400 px-5 py-3.5 text-sm font-extrabold text-slate-950 shadow-lg shadow-amber-950/20 transition hover:bg-amber-300 disabled:cursor-wait disabled:opacity-60 sm:w-auto"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-stateCyan to-sky-600 px-5 py-3.5 text-sm font-extrabold text-white shadow-lg shadow-sky-950/40 transition hover:from-sky-400 hover:to-sky-500 disabled:cursor-wait disabled:opacity-60 sm:w-auto cursor-pointer"
           >
             {releaseLoading ? (
               <>
@@ -1751,7 +1842,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-800/80 pb-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-amber-400">
+              <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-stateCyan">
                 Self-Service Settlement Ledger
               </span>
               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
@@ -1776,7 +1867,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
                 value={ledgerSearchQuery}
                 onChange={(e) => setLedgerSearchQuery(e.target.value)}
                 placeholder="Search ref or guest..."
-                className="pl-8 pr-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 w-full sm:w-44 transition"
+                className="pl-8 pr-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-sky-400 w-full sm:w-44 transition"
               />
               {ledgerSearchQuery && (
                 <button
@@ -1806,12 +1897,12 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
                 onClick={() => setLedgerFilterTab("active")}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
                   ledgerFilterTab === "active"
-                    ? "bg-amber-500/20 text-amber-300 border border-amber-500/30"
-                    : "text-slate-400 hover:text-amber-300"
+                    ? "bg-stateCyan/20 text-stateCyan border border-stateCyan/30"
+                    : "text-slate-400 hover:text-stateCyan"
                 }`}
               >
                 <span>Active Holds</span>
-                <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-amber-500/30 text-amber-200 font-bold">
+                <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-stateCyan/30 text-stateCyan font-bold">
                   {activeBookings.length}
                 </span>
               </button>
@@ -1869,7 +1960,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
                         key={record.id}
                         className={`transition ${
                           isActive
-                            ? "bg-amber-950/10 hover:bg-amber-950/20"
+                            ? "bg-slate-900/40 hover:bg-slate-800/40"
                             : "hover:bg-slate-800/40"
                         } text-slate-300`}
                       >
@@ -1879,7 +1970,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
                           </div>
                           <div className="flex items-center gap-1.5 mt-1">
                             {isActive ? (
-                              <span className="inline-flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/10 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-amber-300">
+                              <span className="inline-flex items-center gap-1 rounded-full border border-stateCyan/30 bg-stateCyan/10 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-stateCyan">
                                 <Lock className="w-2.5 h-2.5" />
                                 In Escrow Vault
                               </span>
@@ -1900,7 +1991,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
                         <td className="px-5 py-4">
                           <div className="font-medium text-slate-200">{record.customerName}</div>
                           {isActive && (
-                            <div className="text-[10px] text-amber-300/80">Check-in expected</div>
+                            <div className="text-[10px] text-stateCyan">Check-in expected</div>
                           )}
                         </td>
 
@@ -1909,7 +2000,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
                         </td>
 
                         <td className="px-5 py-4">
-                          <div className={`font-bold ${isActive ? "text-amber-300" : "text-emerald-300"} font-mono`}>
+                          <div className={`font-bold ${isActive ? "text-stateCyan" : "text-emerald-300"} font-mono`}>
                             {formatNaira(record.netAmount)}
                           </div>
                           <div className="text-[10px] text-slate-400">
@@ -1925,8 +2016,8 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
                           <div className="flex items-center gap-2">
                             {isActive ? (
                               <>
-                                <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-amber-300 bg-amber-500/10 border border-amber-500/25 px-2.5 py-1 rounded-lg">
-                                  <LockKeyhole className="h-3 w-3 text-amber-400" />
+                                <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-stateCyan bg-stateCyan/10 border border-stateCyan/30 px-2.5 py-1 rounded-lg">
+                                  <LockKeyhole className="h-3 w-3 text-stateCyan" />
                                   <span>Escrow Secured</span>
                                 </span>
                                 {onOpenVoucher && (
@@ -1950,7 +2041,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
                                   <button
                                     type="button"
                                     onClick={() => onOpenVoucher(record.raw)}
-                                    className="text-xs font-semibold text-amber-300 underline-offset-4 hover:underline cursor-pointer ml-1"
+                                    className="text-xs font-semibold text-stateCyan underline-offset-4 hover:underline cursor-pointer ml-1"
                                   >
                                     View Receipt
                                   </button>
@@ -1999,13 +2090,13 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
       {operatorModal.isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md overflow-y-auto">
           <div
-            className="relative w-full max-w-xl bg-[#0e1422] border-2 border-amber-500/40 rounded-3xl p-6 sm:p-7 shadow-2xl shadow-amber-950/40 text-slate-100 my-auto max-h-[90vh] overflow-y-auto"
+            className="relative w-full max-w-xl bg-[#0e1422] border-2 border-stateCyan/40 rounded-3xl p-6 sm:p-7 shadow-2xl shadow-sky-950/40 text-slate-100 my-auto max-h-[90vh] overflow-y-auto"
             role="dialog"
             aria-modal="true"
             aria-labelledby="operator-modal-title"
           >
-            {/* Top Amber Ribbon */}
-            <div className="h-1.5 bg-gradient-to-r from-amber-500 via-rose-500 to-amber-500 -mt-6 -mx-6 sm:-mt-7 sm:-mx-7 mb-4 rounded-t-3xl" />
+            {/* Top State Cyan Ribbon */}
+            <div className="h-1.5 bg-gradient-to-r from-stateCyan via-emerald-500 to-stateCyan -mt-6 -mx-6 sm:-mt-7 sm:-mx-7 mb-4 rounded-t-3xl" />
 
             <button
               type="button"
@@ -2017,14 +2108,14 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
             </button>
 
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-2xl bg-amber-500/20 border border-amber-500/40 text-amber-400 flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-2xl bg-stateCyan/20 border border-stateCyan/40 text-stateCyan flex items-center justify-center shrink-0">
                 <ShieldAlert className="w-5 h-5" />
               </div>
               <div>
                 <h3 id="operator-modal-title" className="text-lg font-bold text-white">
                   Manage &amp; Remove Test Merchants
                 </h3>
-                <p className="text-xs text-amber-400/90 font-medium">Operator Authentication (CALABAR2026)</p>
+                <p className="text-xs text-stateCyan font-medium">Operator Authentication (CALABAR2026)</p>
               </div>
             </div>
 
@@ -2032,7 +2123,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
             <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 mb-4">
               <div className="flex items-center justify-between mb-1.5">
                 <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider">
-                  Master Operator Code <span className="text-amber-400">*</span>
+                  Master Operator Code <span className="text-stateCyan">*</span>
                 </label>
                 <button
                   type="button"
@@ -2040,7 +2131,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
                     setOperatorCodeInput("CALABAR2026");
                     if (operatorError) setOperatorError("");
                   }}
-                  className="text-amber-300 hover:text-amber-200 text-[11px] underline font-mono cursor-pointer"
+                  className="text-stateCyan hover:text-sky-300 text-[11px] underline font-mono cursor-pointer"
                 >
                   Use CALABAR2026
                 </button>
@@ -2055,12 +2146,12 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
                     if (operatorError) setOperatorError("");
                   }}
                   placeholder="Enter CALABAR2026"
-                  className="w-full bg-slate-950 border border-slate-700 focus:border-amber-400 rounded-xl pl-10 pr-4 py-2 text-sm font-mono text-white placeholder-slate-500 outline-none transition"
+                  className="w-full bg-slate-950 border border-slate-700 focus:border-sky-400 rounded-xl pl-10 pr-4 py-2 text-sm font-mono text-white placeholder-slate-500 outline-none transition"
                 />
               </div>
               <div className="mt-1 flex items-center justify-between text-[11px] text-slate-400">
                 <span>Code is required to authorize merchant deletion</span>
-                <span className="text-amber-400 font-mono font-semibold">Active: CALABAR2026</span>
+                <span className="text-stateCyan font-mono font-semibold">Active: CALABAR2026</span>
               </div>
             </div>
 
@@ -2098,7 +2189,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
                   Custom &amp; Test Merchants ({allRemovableTestMerchants.length})
                 </span>
                 {allRemovableTestMerchants.length > 0 && (
-                  <span className="text-[11px] text-amber-400 font-medium">
+                  <span className="text-[11px] text-stateCyan font-medium">
                     Click "Remove" on any item to delete it
                   </span>
                 )}
@@ -2125,7 +2216,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
                       className="p-3.5 rounded-2xl bg-slate-900/90 hover:bg-slate-900 border border-slate-800 hover:border-slate-700 flex items-center justify-between gap-3 transition"
                     >
                       <div className="flex items-center gap-3 min-w-0 flex-1">
-                        <div className="w-10 h-10 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-400 flex items-center justify-center shrink-0">
+                        <div className="w-10 h-10 rounded-xl bg-stateCyan/15 border border-stateCyan/30 text-stateCyan flex items-center justify-center shrink-0">
                           <Building2 className="w-5 h-5" />
                         </div>
                         <div className="min-w-0 flex-1">
@@ -2133,7 +2224,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
                             <h4 className="font-bold text-white text-sm truncate">
                               {merchant.name || merchant.business_name || merchant.businessName}
                             </h4>
-                            <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                            <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-stateCyan/20 text-stateCyan border border-stateCyan/30">
                               {merchant.category || "accommodations"}
                             </span>
                             {merchant.source === "pending" && (
@@ -2173,7 +2264,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
                   type="button"
                   onClick={handleOperatorSubmit}
                   disabled={operatorLoading}
-                  className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-600 via-rose-600 to-rose-700 hover:from-amber-500 hover:to-rose-600 text-white font-bold text-xs flex items-center justify-center gap-2 border border-rose-500/50 shadow-lg shadow-rose-950/50 transition cursor-pointer disabled:opacity-50"
+                  className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs flex items-center justify-center gap-2 border border-rose-500/50 shadow-lg shadow-rose-950/50 transition cursor-pointer disabled:opacity-50"
                 >
                   {operatorLoading ? (
                     <RefreshCw className="w-4 h-4 animate-spin" />

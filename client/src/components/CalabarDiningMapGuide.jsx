@@ -257,13 +257,13 @@ export default function CalabarDiningMapGuide() {
                     key={spot.id}
                     className={`rounded-2xl border p-4 transition sm:p-5 ${
                       isSelected
-                        ? "border-amber-500 dark:border-amber-400/80 bg-amber-50/60 dark:bg-slate-900/90 shadow-md"
+                        ? "border-stateCyan dark:border-stateCyan/80 bg-sky-50/60 dark:bg-slate-900/90 shadow-md"
                         : "border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 hover:border-slate-300 dark:hover:border-slate-700 shadow-sm"
                     }`}
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div className="min-w-0">
-                        <span className="mb-2 inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-amber-400">
+                        <span className="mb-2 inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-stateCyan">
                           <MapPin className="h-3 w-3" />
                           {spot.corridor}
                         </span>
@@ -334,7 +334,7 @@ export default function CalabarDiningMapGuide() {
 
           <div className="overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 shadow-xl dark:shadow-2xl shadow-slate-200/50 dark:shadow-black/30 lg:sticky lg:top-6">
             <div className="flex items-center gap-3 border-b border-slate-200 dark:border-slate-800 p-4 sm:p-5 bg-slate-50/70 dark:bg-transparent">
-              <MapPin className="h-5 w-5 shrink-0 text-amber-400" />
+              <MapPin className="h-5 w-5 shrink-0 text-stateCyan" />
               <div className="min-w-0">
                 <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500">
                   Selected destination
@@ -346,9 +346,9 @@ export default function CalabarDiningMapGuide() {
             </div>
 
             {selectedSpot && (
-              <div className="border-b border-slate-200 dark:border-slate-800 bg-gradient-to-br from-amber-50 via-white to-amber-50/40 dark:from-amber-950/40 dark:via-slate-900/90 dark:to-slate-950 p-4 sm:p-5">
+              <div className="border-b border-slate-200 dark:border-slate-800 bg-gradient-to-br from-sky-50 via-white to-sky-50/40 dark:from-sky-950/40 dark:via-slate-900/90 dark:to-slate-950 p-4 sm:p-5">
                 <div className="mb-2 flex items-center justify-between gap-2">
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/40 bg-amber-950/80 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-amber-300">
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-stateCyan/40 bg-sky-950/80 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-sky-300">
                     <Utensils className="h-3 w-3" />
                     <span>{selectedSpot.category}</span>
                   </span>
@@ -360,8 +360,8 @@ export default function CalabarDiningMapGuide() {
                 <h4 className="text-lg font-bold tracking-tight text-slate-900 dark:text-white sm:text-xl">
                   {selectedSpot.name}
                 </h4>
-                <div className="mt-1.5 flex items-center gap-1.5 text-xs font-semibold text-amber-400">
-                  <MapPin className="h-3.5 w-3.5 shrink-0 text-amber-400" />
+                <div className="mt-1.5 flex items-center gap-1.5 text-xs font-semibold text-stateCyan">
+                  <MapPin className="h-3.5 w-3.5 shrink-0 text-stateCyan" />
                   <span>{selectedSpot.address}</span>
                 </div>
               </div>
@@ -385,7 +385,7 @@ export default function CalabarDiningMapGuide() {
 
             <div className="space-y-4 p-4 sm:p-5">
               <div className="flex items-start gap-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#070b11] px-3.5 py-3">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-amber-400" />
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-stateCyan" />
                 <div>
                   <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-slate-500">
                     Address

@@ -51,7 +51,7 @@ export const CATEGORIES_CONFIG = [
     subtitle: "Eateries, Seafood Hubs, Lounges",
     iconName: "Utensils",
     tagline: "Authentic Efik Seafood, Fast Bites, Grills & VIP Lounges",
-    color: "from-amber-500 to-orange-600"
+    color: "from-stateCyan to-orange-600"
   },
   {
     id: "trade-expo",
