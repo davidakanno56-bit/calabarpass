@@ -427,11 +427,16 @@ export default function App() {
         {activeTab === "vendor" && (
           <Suspense fallback={<div className="p-12 text-center text-slate-400">Loading Vendor Portal & Clearinghouse...</div>}>
             {isVendorAuthenticated ? (
-              <VendorPortal
-                onOpenVoucher={(tx) => setActiveVoucher(tx)}
-                onLockTerminal={handleLockTerminal}
-                onDynamicCardsChange={(updatedCards) => setDynamicVendorCards(updatedCards)}
-              />
+              <ErrorBoundary
+                title="Merchant Settlement Terminal"
+                message="Settlement terminal ledger is initializing. Please click below to refresh the active merchant terminal."
+              >
+                <VendorPortal
+                  onOpenVoucher={(tx) => setActiveVoucher(tx)}
+                  onLockTerminal={handleLockTerminal}
+                  onDynamicCardsChange={(updatedCards) => setDynamicVendorCards(updatedCards)}
+                />
+              </ErrorBoundary>
             ) : (
               <div className="py-20 px-4 max-w-xl mx-auto text-center space-y-6">
                 <div className="w-16 h-16 rounded-3xl bg-stateCyan/20 border border-stateCyan/40 text-stateCyan flex items-center justify-center mx-auto shadow-lg shadow-stateCyan/20">

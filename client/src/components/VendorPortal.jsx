@@ -635,14 +635,20 @@ const formatDate = (date) => {
 };
 
 const vendorMatches = (record, merchant) => {
+  if (!record || !merchant) return false;
   const vendorId = String(record.vendorId || "").toLowerCase();
   const vendorName = String(record.vendor || "").toLowerCase();
+  const merchantName = String(merchant.name || "").toLowerCase();
+  const merchantId = String(merchant.id || "").toLowerCase();
+  const merchantApiId = String(merchant.apiVendorId || "").toLowerCase();
+  const aliases = (merchant.aliases || []).map((a) => String(a).toLowerCase());
+
   return (
-    vendorId === merchant.id ||
-    vendorId === merchant.apiVendorId ||
-    (merchant.aliases || []).includes(vendorId) ||
-    vendorName === merchant.name.toLowerCase() ||
-    (merchant.aliases || []).includes(vendorName) ||
+    vendorId === merchantId ||
+    vendorId === merchantApiId ||
+    aliases.includes(vendorId) ||
+    (merchantName && vendorName === merchantName) ||
+    aliases.includes(vendorName) ||
     (merchant.category === "trade-expo" && (vendorId.includes("commerce") || vendorName.includes("commerce") || vendorId.includes("cicc") || vendorName.includes("cicc") || vendorId.includes("trade") || vendorName.includes("trade"))) ||
     (merchant.category === "dining-nightlife" && (vendorId.includes("crunchies") || vendorName.includes("crunchies") || vendorId.includes("viking") || vendorName.includes("viking") || vendorId.includes("arena") || vendorName.includes("arena") || vendorId.includes("mayfair") || vendorName.includes("mayfair")))
   );
@@ -663,49 +669,52 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
   // Merge dynamically registered merchants with static baseline merchants
   const allMerchants = useMemo(() => {
     const dynamicFormatted = (registeredVendors || [])
-      .filter((v) => !staticIds.has(v.id))
-      .map((v) => ({
-        id: v.id,
-        isDynamic: true,
-        apiVendorId: v.apiVendorId || v.id,
-        name: v.name || v.businessName,
-        category: v.category || "accommodations",
-        terminalType: v.terminalType || "Verified Merchant",
-        bankAccount: v.bankAccount || "Verified Settlement Account",
-        terms: v.terms || {
-          incoming: "Guest Check-Ins",
-          booking: "Bookings",
-          item: "Service",
-          itemExample: `${v.name || v.businessName} Pass`,
-          dateLabel: "Verification Date",
-          amountLabel: "Rate",
-        },
-        aliases: v.aliases || [v.id],
-        demo: v.demo || [
-          `CP-${(v.accessCode || "DEMO").replace(/[^A-Z0-9]/g, "")}`,
-          "552190",
-          "Verified Onboarding Guest",
-          `${v.name || v.businessName} Pass`,
-          35000,
-        ],
-      }));
+      .filter((v) => v && v.id && !staticIds.has(v.id))
+      .map((v) => {
+        const vTitle = v.name || v.businessName || v.business_name || "Verified Merchant";
+        return {
+          id: v.id,
+          isDynamic: true,
+          apiVendorId: v.apiVendorId || v.id,
+          name: vTitle,
+          category: v.category || "accommodations",
+          terminalType: v.terminalType || "Verified Merchant",
+          bankAccount: v.bankAccount || v.bankPayoutDetails || "Verified Settlement Account",
+          terms: v.terms || {
+            incoming: "Guest Check-Ins",
+            booking: "Bookings",
+            item: "Service",
+            itemExample: `${vTitle} Pass`,
+            dateLabel: "Verification Date",
+            amountLabel: "Rate",
+          },
+          aliases: v.aliases || [v.id],
+          demo: v.demo || [
+            `CP-${String(v.accessCode || "DEMO").replace(/[^A-Z0-9]/g, "")}`,
+            "552190",
+            "Verified Onboarding Guest",
+            `${vTitle} Pass`,
+            Number(v.priceNGN || v.price || 35000),
+          ],
+        };
+      });
     return [...dynamicFormatted, ...MERCHANTS];
   }, [registeredVendors, staticIds]);
 
   const dynamicMerchants = useMemo(
-    () => (registeredVendors || []).filter((v) => !staticIds.has(v.id)),
+    () => (registeredVendors || []).filter((v) => v && v.id && !staticIds.has(v.id)),
     [registeredVendors, staticIds]
   );
 
   const allRemovableTestMerchants = useMemo(() => {
     const map = new Map();
     (registeredVendors || []).forEach((v) => {
-      if (!staticIds.has(v.id)) {
+      if (v && v.id && !staticIds.has(v.id)) {
         map.set(v.id, { ...v, source: "registered" });
       }
     });
     (pendingVendors || []).forEach((v) => {
-      if (!staticIds.has(v.id) && !map.has(v.id)) {
+      if (v && v.id && !staticIds.has(v.id) && !map.has(v.id)) {
         map.set(v.id, { ...v, source: "pending" });
       }
     });
@@ -714,7 +723,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
 
   const [activeMerchantId, setActiveMerchantId] = useState(() => {
     if (typeof window !== "undefined") {
-      const saved = sessionStorage.getItem("calabarpass_active_merchant_id") || localStorage.getItem("calabarpass_last_booked_vendor");
+      const saved = sessionStorage.getItem("calabarpass_active_merchant_id");
       if (saved) return saved;
     }
     return MERCHANTS[0].id;
@@ -729,13 +738,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [ledgerError, setLedgerError] = useState("");
-  const [releaseForm, setReleaseForm] = useState(() => {
-    if (typeof window !== "undefined") {
-      const lastRef = sessionStorage.getItem("calabarpass_last_booking_ref");
-      if (lastRef) return { reference: lastRef, pin: "" };
-    }
-    return { reference: "", pin: "" };
-  });
+  const [releaseForm, setReleaseForm] = useState({ reference: "", pin: "" });
   const [releaseStatus, setReleaseStatus] = useState(null);
   const [releaseLoading, setReleaseLoading] = useState(false);
 
@@ -750,10 +753,23 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
   const [operatorError, setOperatorError] = useState("");
   const [operatorLoading, setOperatorLoading] = useState(false);
 
-  const activeMerchant =
-    allMerchants.find((merchant) => merchant.id === activeMerchantId) ||
-    allMerchants[0] ||
-    MERCHANTS[0];
+  const activeMerchant = useMemo(() => {
+    const found = allMerchants.find(
+      (m) => m.id === activeMerchantId || m.apiVendorId === activeMerchantId || (m.aliases || []).includes(activeMerchantId)
+    );
+    const candidate = found || allMerchants[0] || MERCHANTS[0];
+    return {
+      ...candidate,
+      terms: candidate?.terms || {
+        incoming: "Guest Check-Ins",
+        booking: "Bookings",
+        item: "Service",
+        itemExample: "Pass",
+        dateLabel: "Verification Date",
+        amountLabel: "Rate",
+      }
+    };
+  }, [allMerchants, activeMerchantId]);
 
   const isCurrentDynamic = Boolean(activeMerchant?.isDynamic || !staticIds.has(activeMerchant?.id));
 
@@ -1140,7 +1156,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
           body: JSON.stringify({
             reference,
             pin,
-            vendor: matchedBooking?.vendorId || matchedBooking?.vendor || activeMerchant.apiVendorId,
+            vendor: activeMerchant.apiVendorId,
           }),
         });
 
@@ -1229,30 +1245,31 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
       combined = [...activeItems, ...settledItems];
     }
 
-    if (ledgerSearchQuery.trim()) {
+    if (ledgerSearchQuery?.trim()) {
       const q = ledgerSearchQuery.toLowerCase();
       combined = combined.filter(
         (item) =>
-          item.reference.toLowerCase().includes(q) ||
-          item.customerName.toLowerCase().includes(q) ||
-          item.item.toLowerCase().includes(q)
+          String(item.reference || "").toLowerCase().includes(q) ||
+          String(item.customerName || "").toLowerCase().includes(q) ||
+          String(item.item || "").toLowerCase().includes(q)
       );
     }
 
     return combined;
   }, [activeBookings, payouts, ledgerFilterTab, ledgerSearchQuery, activeMerchant]);
-  const bookingWord = activeMerchant.terms.booking.toLowerCase();
+  const bookingWord = (activeMerchant?.terms?.booking || "bookings").toLowerCase();
 
   // Real-time lookup for whatever reference the operator typed
   const matchedBooking = useMemo(() => {
-    const q = releaseForm.reference.trim();
+    const q = releaseForm?.reference?.trim() || "";
     if (!q || q.length < 4) return null;
-    const foundInActive = (activeBookings || []).find(b => b.reference?.toLowerCase() === q.toLowerCase());
+    const qLower = q.toLowerCase();
+    const foundInActive = (activeBookings || []).find((b) => String(b.reference || "").toLowerCase() === qLower);
     if (foundInActive) return foundInActive;
-    const foundInPayouts = (payouts || []).find(b => b.reference?.toLowerCase() === q.toLowerCase());
+    const foundInPayouts = (payouts || []).find((b) => String(b.reference || "").toLowerCase() === qLower);
     if (foundInPayouts) return foundInPayouts;
-    const stored = getStoredTransactions();
-    const foundInStored = (stored || []).find(b => b.reference?.toLowerCase() === q.toLowerCase());
+    const stored = getStoredTransactions() || [];
+    const foundInStored = (stored || []).find((b) => String(b.reference || "").toLowerCase() === qLower);
     if (foundInStored) return foundInStored;
     return null;
   }, [releaseForm.reference, activeBookings, payouts]);

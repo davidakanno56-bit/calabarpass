@@ -779,15 +779,20 @@ function matchVendor(tx, queryVendor) {
   if (q.includes("mayfair") && (tvId.includes("mayfair") || tvName.includes("mayfair"))) return true;
 
   // Check dynamically registered merchants
-  const storedVendors = getStoredVendors();
-  const dynamicMatch = storedVendors.find(v => 
-    v.id.toLowerCase() === q || 
-    v.apiVendorId.toLowerCase() === q || 
-    v.name.toLowerCase() === q ||
-    (v.aliases && v.aliases.includes(q))
-  );
+  const storedVendors = getStoredVendors() || [];
+  const dynamicMatch = storedVendors.find((v) => {
+    if (!v) return false;
+    const vId = String(v.id || "").toLowerCase();
+    const vApiId = String(v.apiVendorId || "").toLowerCase();
+    const vName = String(v.name || v.businessName || v.business_name || "").toLowerCase();
+    const aliases = Array.isArray(v.aliases) ? v.aliases.map((a) => String(a).toLowerCase()) : [];
+    return vId === q || vApiId === q || vName === q || aliases.includes(q);
+  });
   if (dynamicMatch) {
-    if (tvId === dynamicMatch.id || tvId === dynamicMatch.apiVendorId || tvName === dynamicMatch.name.toLowerCase()) {
+    const dmId = String(dynamicMatch.id || "").toLowerCase();
+    const dmApiId = String(dynamicMatch.apiVendorId || "").toLowerCase();
+    const dmName = String(dynamicMatch.name || dynamicMatch.businessName || dynamicMatch.business_name || "").toLowerCase();
+    if (tvId === dmId || tvId === dmApiId || (dmName && tvName === dmName)) {
       return true;
     }
   }

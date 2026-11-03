@@ -19,6 +19,18 @@ export class ErrorBoundary extends React.Component {
     this.setState({ hasError: false, error: null });
   };
 
+  handleClearCacheAndReload = () => {
+    try {
+      if (typeof window !== "undefined") {
+        sessionStorage.clear();
+        localStorage.removeItem("calabarpass_last_booked_vendor");
+        localStorage.removeItem("calabarpass_active_merchant_id");
+        localStorage.removeItem("calabarpass_last_booking_ref");
+      }
+    } catch {}
+    window.location.reload();
+  };
+
   render() {
     if (this.state.hasError) {
       if (this.props.fallback) {
@@ -35,7 +47,12 @@ export class ErrorBoundary extends React.Component {
           <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-md mx-auto leading-relaxed">
             {this.props.message || "A temporary issue prevented this section from displaying. All verified passes and escrow services remain operational."}
           </p>
-          <div className="pt-2 flex items-center justify-center gap-3">
+          {this.state.error?.message && (
+            <p className="text-[11px] font-mono text-rose-400/90 bg-rose-950/30 border border-rose-500/20 px-3 py-1.5 rounded-xl max-w-lg mx-auto truncate">
+              {this.state.error.message}
+            </p>
+          )}
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
             <button
               type="button"
               onClick={this.handleReset}
@@ -46,10 +63,11 @@ export class ErrorBoundary extends React.Component {
             </button>
             <button
               type="button"
-              onClick={() => window.location.reload()}
+              onClick={this.handleClearCacheAndReload}
               className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold border border-slate-200 dark:border-slate-700 transition cursor-pointer"
+              title="Clears test session storage and reloads fresh"
             >
-              <span>Reload Page</span>
+              <span>Reset Cache & Reload</span>
             </button>
           </div>
         </div>
