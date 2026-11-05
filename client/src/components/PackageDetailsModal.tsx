@@ -163,16 +163,15 @@ export default function PackageDetailsModal({ pkg, onClose, onBookNow }) {
             </ul>
           </div>
 
-          <aside className="self-start rounded-2xl border border-emerald-500/25 bg-emerald-950/30 p-4">
-            <div className="mb-2 flex items-center gap-2 text-emerald-300">
-              <ShieldCheck className="h-5 w-5" />
-              <h3 className="text-sm font-extrabold">Escrow Anti-Scam Shield</h3>
+          <aside className="self-start rounded-2xl border border-cr-forest/30 bg-cr-forest/10 p-5">
+            <div className="mb-2 flex items-center gap-2 text-cr-lagoon">
+              <ShieldCheck className="h-5 w-5 text-cr-lagoon" />
+              <h3 className="text-sm font-extrabold">Protected Partner Escrow</h3>
             </div>
-            <p className="text-xs leading-5 text-slate-300">
-              100% of your payment remains locked in the CalabarPass vault until
-              you confirm your on-site booking with the physical 6-digit PIN.
+            <p className="text-xs leading-5 text-slate-300 font-light">
+              Your reservation deposit is securely locked in escrow until physical on-site check-in and 6-digit PIN verification.
             </p>
-            <div className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-emerald-300">
+            <div className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-cr-forest/30 bg-cr-forest/20 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-cr-lagoon">
               <LockKeyhole className="h-3 w-3" />
               Protected until check-in
             </div>
@@ -183,16 +182,16 @@ export default function PackageDetailsModal({ pkg, onClose, onBookNow }) {
           <button
             type="button"
             onClick={onClose}
-            className="rounded-xl border border-slate-700 px-5 py-3 text-sm font-bold text-slate-200 transition hover:bg-slate-800"
+            className="rounded-2xl border border-slate-700 px-5 py-3 text-xs font-bold uppercase tracking-wider text-slate-200 transition hover:bg-slate-800 cursor-pointer"
           >
             Close
           </button>
           <button
             type="button"
             onClick={handleBookNow}
-            className="rounded-xl bg-stateCyan px-5 py-3 text-sm font-extrabold text-slate-950 transition hover:bg-sky-300"
+            className="rounded-2xl bg-cr-forest hover:bg-cr-tropical px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-white shadow-lg shadow-cr-forest/25 transition cursor-pointer"
           >
-            Lock Escrow Slot / Book Now
+            Reserve with Escrow Protection
           </button>
         </footer>
       </section>

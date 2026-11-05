@@ -535,7 +535,7 @@ export default function PaystackCheckoutModal({
             <button
               onClick={handlePaystackCheckout}
               disabled={loading}
-              className="w-full py-3.5 px-6 rounded-xl bg-stateCyan hover:bg-sky-500 text-white font-extrabold text-base shadow-lg shadow-stateCyan/25 flex items-center justify-center gap-2 hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 cursor-pointer"
+              className="w-full py-4 px-6 rounded-2xl bg-cr-forest hover:bg-cr-tropical text-white font-extrabold text-base uppercase tracking-wider shadow-xl shadow-cr-forest/25 flex items-center justify-center gap-2 hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 cursor-pointer"
             >
               {loading ? (
                 <>

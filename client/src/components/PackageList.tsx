@@ -127,29 +127,29 @@ export default function PackageList({
       {/* Section Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
         <div>
-          <div className="flex items-center gap-2 text-stateCyan dark:text-stateCyan text-xs font-bold uppercase tracking-widest mb-2">
-            <ShieldCheck className="w-4 h-4 text-emerald-500" />
-            <span>Cross River 365-Day Commercial & Tourism Architecture</span>
+          <div className="flex items-center gap-2 text-cr-forest dark:text-cr-lagoon text-xs font-bold uppercase tracking-widest mb-2">
+            <ShieldCheck className="w-4 h-4 text-cr-forest dark:text-cr-lagoon" />
+            <span>Cross River 365-Day Commercial & Tourism Clearinghouse</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold font-heading text-slate-900 dark:text-white tracking-tight">
-            Official State Escrow & Pass Directory
+          <h2 className="text-3xl sm:text-4xl font-extrabold font-heading text-slate-900 dark:text-white tracking-tight">
+            Curated Experiences & Verified Passes
           </h2>
-          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 mt-2 max-w-3xl leading-relaxed tracking-tight">
-            Operating 365 days a year across Cross River State. Explore verified executive accommodations, rainforest eco-sites, authentic dining spots, Ministry of Commerce trade fair booths, and official Carnival Calabar passes.
+          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 mt-2 max-w-3xl leading-relaxed tracking-tight font-light">
+            Operating 365 days a year across Cross River State. Explore verified executive accommodations, rainforest eco-sites, authentic culinary dining, trade fair booths, and official Carnival Calabar passes.
           </p>
         </div>
 
         {/* Total Verified Live Metric */}
         <div className="flex items-center gap-2 self-start md:self-auto bg-white dark:bg-slate-900/90 px-4 py-2 rounded-2xl border border-slate-200 dark:border-slate-800 text-xs shadow-sm">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+          <span className="w-2 h-2 rounded-full bg-cr-forest animate-ping"></span>
           <span className="text-slate-600 dark:text-slate-300 font-medium">Active Directory:</span>
-          <span className="font-bold text-sky-600 dark:text-stateCyan font-mono">
+          <span className="font-bold text-cr-forest dark:text-cr-lagoon font-mono">
             {allCards.length} Verified Venues & Passes
           </span>
         </div>
       </div>
 
-      {/* Main 5-Category Tabs Bar (Booking.com & eBay enterprise standard) */}
+      {/* Main 5-Category Tabs Bar */}
       <div className="mb-6 p-2.5 rounded-2xl bg-white dark:bg-slate-900/90 border border-slate-200/90 dark:border-slate-800 flex flex-col xl:flex-row gap-3 items-stretch xl:items-center justify-between shadow-sm">
         <div className="flex items-center gap-2 w-full xl:w-auto overflow-x-auto scrollbar-none no-scrollbar -mx-1 px-1 touch-pan-x flex-nowrap xl:flex-wrap pb-1 xl:pb-0">
           {/* "All" Tab */}
@@ -157,7 +157,7 @@ export default function PackageList({
             onClick={() => handleCategoryChange("all")}
             className={`flex items-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold tracking-tight transition-all cursor-pointer ${
               currentCategory === "all"
-                ? "bg-stateCyan text-white shadow-md shadow-stateCyan/20 scale-[1.02]"
+                ? "bg-cr-forest text-white shadow-md shadow-cr-forest/20 scale-[1.02]"
                 : "bg-slate-100 dark:bg-slate-950/70 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800"
             }`}
           >
@@ -182,12 +182,12 @@ export default function PackageList({
                 onClick={() => handleCategoryChange(cat.id)}
                 className={`flex items-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold tracking-tight transition-all cursor-pointer whitespace-nowrap ${
                   isSelected
-                    ? "bg-stateCyan text-white shadow-md shadow-stateCyan/20 scale-[1.02]"
+                    ? "bg-cr-forest text-white shadow-md shadow-cr-forest/20 scale-[1.02]"
                     : "bg-slate-100 dark:bg-slate-950/70 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800"
                 }`}
                 title={cat.subtitle}
               >
-                <Icon className={`w-4 h-4 ${isSelected ? "text-white" : "text-stateCyan"}`} />
+                <Icon className={`w-4 h-4 ${isSelected ? "text-white" : "text-cr-forest dark:text-cr-lagoon"}`} />
                 <span>{cat.shortLabel}</span>
                 <span className={`px-2 py-0.5 rounded-full text-xs font-extrabold ${
                   isSelected ? "bg-white/20 text-white" : "bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400"
@@ -207,7 +207,7 @@ export default function PackageList({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search passes, hotels, booths..."
-            className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-stateCyan/30 focus:border-stateCyan transition shadow-inner"
+            className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cr-forest/30 focus:border-cr-forest transition shadow-inner"
           />
         </div>
       </div>

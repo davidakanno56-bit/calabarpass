@@ -4,16 +4,15 @@ import {
   ShieldCheck, 
   MapPin, 
   ArrowRight, 
-  Sparkles, 
   Compass, 
-  Eye, 
   Mountain, 
   Waves, 
   Landmark, 
   Trees, 
   Flame, 
   Navigation, 
-  ArrowUpRight 
+  ArrowUpRight,
+  Sparkles
 } from "lucide-react";
 import VerifiedImage from "./VerifiedImage.tsx";
 
@@ -24,7 +23,7 @@ export const DESTINATIONS = [
     name: "Obudu Mountain Resort",
     location: "Obanliku LGA, Cross River State",
     category: "Highland Sanctuary",
-    tagline: "Plateau Cable Car & Mountain Vista",
+    tagline: "Plateau Cable Car & Misty Cloud Forests",
     badge: "Verified Highland Sanctuary",
     icon: Mountain,
     priceIndicator: "From ₦85,000 / person",
@@ -38,8 +37,8 @@ export const DESTINATIONS = [
     license: "Official Tourism Clearinghouse Asset",
     licenseUrl: "https://calabarpass.ng/licensing/verified-media",
     source: "verified_local",
-    description: "Africa's iconic plateau cable car, canopy walkway above tropical cloud forests, Holy Mountain trail, and temperate mountain climate at 1,576m altitude.",
-    highlights: ["Cable Car Ride", "Canopy Walkway", "Temperate Climate", "Ranger Escort"],
+    description: "Africa's iconic plateau cable car ascending through cloud forests, suspended canopy walkways, Holy Mountain peaks, and a refreshing temperate climate at 1,576 meters altitude.",
+    highlights: ["1,576m Altitude", "Africa's Longest Cable Car", "Canopy Walkway", "Holy Mountain Trail"],
     verifiedVendor: "Obudu Highland Tours & Rangers"
   },
   {
@@ -48,7 +47,7 @@ export const DESTINATIONS = [
     name: "Agbokim Waterfalls",
     location: "Ikom LGA, Cross River State",
     category: "Eco-Wonder",
-    tagline: "Seven Terraced Cascades & Rainbow Mist",
+    tagline: "Seven Terraced Cascades & Iridescent Rainbow Mist",
     badge: "Verified Nature Wonder",
     icon: Waves,
     priceIndicator: "From ₦25,000 / person",
@@ -62,17 +61,17 @@ export const DESTINATIONS = [
     license: "CC BY-SA 4.0",
     licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0",
     source: "wikimedia_commons",
-    description: "Spectacular seven-stream waterfall cascading into lush tropical rainforest. Renowned for its misty iridescent rainbows, stone trails, and biodiversity.",
-    highlights: ["7 Terraced Cascades", "Rainbow Basin", "Canopy Trail", "Guided Transit"],
+    description: "A monumental seven-stream waterfall thundering over terraced limestone bluffs into pristine tropical rainforest, veiled in perpetual rainbow mist and emerald moss.",
+    highlights: ["7 Terraced Streams", "Perpetual Rainbow Mist", "Ancient Rainforest Trails", "Ranger Escort"],
     verifiedVendor: "Ikom Ecotourism Guides Cooperative"
   },
   {
     id: "dest-marina",
     packageId: "pkg-marina-cruise",
-    name: "Marina Resort",
+    name: "Marina Resort & Waterfront",
     location: "Calabar Waterfront, Calabar",
     category: "Heritage & Waterfront",
-    tagline: "Calabar River Cruise & Slave History",
+    tagline: "Historic Calabar River & Slave History Museum",
     badge: "Verified Heritage Site",
     icon: Landmark,
     priceIndicator: "From ₦25,000 / person",
@@ -86,17 +85,17 @@ export const DESTINATIONS = [
     license: "State Clearinghouse On-Site Verified Asset",
     licenseUrl: "https://calabarpass.ng/licensing/verified-media",
     source: "verified_local",
-    description: "Waterfront catamaran cruises on the historic Calabar River, the solemn Slave History Museum audiovisual gallery, and authentic Efik cultural culinary arts.",
-    highlights: ["Riverboat Cruise", "Slave History Museum", "Waterfront Lounge", "Efik Heritage"],
+    description: "Scenic promenade overlooking the historic Calabar River, featuring sunset river catamaran cruises, the solemn Slave History Museum audiovisual archive, and seaside dining.",
+    highlights: ["Sunset River Cruises", "Slave History Museum", "Promenade Dining", "Efik Cultural Arts"],
     verifiedVendor: "Marina Resort & Waterway Bureau"
   },
   {
     id: "dest-drill-ranch",
     packageId: "pkg-drill-ranch",
-    name: "Drill Monkey Ranch",
+    name: "Drill Monkey Sanctuary",
     location: "Afi Mountain Reserve, Boki LGA",
     category: "Wildlife Sanctuary",
-    tagline: "Primate Conservation & Canopy Trek",
+    tagline: "Primate Conservation & Virgin Rainforest Trek",
     badge: "Verified Wildlife Sanctuary",
     icon: Trees,
     priceIndicator: "From ₦45,000 / person",
@@ -110,14 +109,14 @@ export const DESTINATIONS = [
     license: "CC BY-SA 4.0",
     licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0",
     source: "wikimedia_commons",
-    description: "World-renowned sanctuary dedicated to saving the endangered African drill primate and chimpanzees. Experience canopy treks over virgin rainforest with wildlife rangers.",
-    highlights: ["Drill & Chimp Sanctuary", "Afi Canopy Walkway", "Pandrillus Conservation", "Native Rainforest"],
+    description: "Globally acclaimed sanctuary dedicated to protecting the endangered African drill monkey and orphaned chimpanzees amidst the dense canopy of Afi Mountain Wildlife Sanctuary.",
+    highlights: ["Endangered Drill Primates", "Afi Canopy Trek", "Pandrillus Conservation", "Virgin Cloud Forest"],
     verifiedVendor: "Afi Drill Monkey Sanctuary"
   },
   {
     id: "dest-carnival",
     packageId: "pkg-seagull-pass",
-    name: "Calabar Carnival",
+    name: "Carnival Calabar",
     location: "Marian Road & Stadium Route, Calabar",
     category: "Cultural Pageantry",
     tagline: "Africa's Biggest Street Party",
@@ -134,8 +133,8 @@ export const DESTINATIONS = [
     license: "Official Secretariat Media Agreement",
     licenseUrl: "https://calabarpass.ng/licensing/seagull-band",
     source: "verified_local",
-    description: "The crown jewel of African carnival tourism. 12 kilometers of continuous street masquerade, world-class band costume kits, pulsating rhythms, and stadium grandstands.",
-    highlights: ["12km Street Route", "Official Band Costumes", "VIP Truck Access", "Security Escort"],
+    description: "The premier cultural festival in Africa. A 12-kilometer street parade of vibrant masquerades, five competitive bands, pulsating West African rhythms, and world-class costume craftsmanship.",
+    highlights: ["12km Street Pageant", "Official Band Kits", "VIP Grandstand Access", "Escort Protocols"],
     verifiedVendor: "Seagull Band Secretariat"
   }
 ];
@@ -147,7 +146,6 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
 
   const handleDestinationClick = (dest) => {
     if (!dest) return;
-    // Match package from loaded packages or fallback safely with optional chaining
     const matchedPkg = safePackages.find((p) => p?.id === dest?.packageId) || {
       id: dest.packageId || dest.id,
       name: dest.name || "Eco-Site Destination",
@@ -166,143 +164,284 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
   };
 
   return (
-    <section id="verified-cross-river" className="py-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-slate-200 dark:border-slate-800/80">
-      {/* Section Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
-        <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-stateCyan/10 border border-stateCyan/30 text-stateCyan text-xs font-bold uppercase tracking-wider mb-3">
-            <Compass className="w-3.5 h-3.5 text-stateCyan" />
-            <span>Cross River Tourism Identity</span>
+    <section id="verified-cross-river" className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Editorial Section Header */}
+      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-14">
+        <div className="space-y-4 max-w-3xl">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cr-forest/10 dark:bg-cr-forest/20 border border-cr-forest/30 text-cr-forest dark:text-cr-lagoon text-xs font-bold uppercase tracking-wider">
+            <Compass className="w-3.5 h-3.5 text-cr-forest dark:text-cr-lagoon" />
+            <span>Iconic Destinations of Cross River State</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight font-heading text-slate-900 dark:text-white">
-            Explore Verified Cross River
+          
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight font-heading text-slate-900 dark:text-white leading-[1.15]">
+            Where Wonder Awaits. <br className="hidden sm:inline" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cr-forest via-cr-lagoon to-emerald-400">
+              Legendary Landscapes & Living Heritage.
+            </span>
           </h2>
-          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 mt-2 max-w-2xl leading-relaxed">
-            Discover legendary mountain plateaus, rainforest waterfalls, historic waterways, and vibrant cultural celebrations—all shielded by verified operator credentials and digital vouchers.
+          
+          <p className="text-base text-slate-600 dark:text-slate-300 leading-relaxed font-light">
+            From the cloud-veiled peaks of the Obudu Plateau to seven-terraced rainforest waterfalls and the historic Calabar River waterfront—explore authentic destinations safeguarded with verified tariffs and direct escrow protection.
           </p>
         </div>
 
-        <div className="flex items-center gap-2 self-start md:self-auto bg-white dark:bg-slate-900/80 p-1.5 rounded-2xl border border-slate-200 dark:border-slate-800 text-xs font-semibold shadow-sm">
-          <span className="px-3 py-1.5 text-emerald-600 dark:text-emerald-400 font-mono flex items-center gap-1.5 font-bold">
-            <ShieldCheck className="w-4 h-4 text-emerald-500" />
+        {/* Verification Counter Badge */}
+        <div className="flex items-center gap-3 self-start lg:self-auto bg-white dark:bg-slate-900/90 p-2 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+          <div className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-cr-forest/10 dark:bg-cr-forest/20 text-cr-forest dark:text-cr-lagoon text-xs font-bold">
+            <ShieldCheck className="w-4 h-4 text-cr-forest dark:text-cr-lagoon" />
             <span>5 Verified Destinations</span>
+          </div>
+          <span className="text-[11px] text-slate-500 dark:text-slate-400 pr-2 font-medium hidden sm:inline">
+            Direct Bureau & Cooperative Partners
           </span>
         </div>
       </div>
 
-      {/* Destination Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-        {safeDestinations.map((dest, index) => {
-          if (!dest) return null;
-          const IconComponent = dest.icon || Trees;
-          const highlights = Array.isArray(dest.highlights) ? dest.highlights : [];
+      {/* Featured Destination Bento/Hero Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8">
+        
+        {/* Primary Hero Card: Obudu Mountain Resort (Takes 7 columns on desktop) */}
+        {safeDestinations[0] && (
+          <div 
+            onClick={() => handleDestinationClick(safeDestinations[0])}
+            className="lg:col-span-7 group relative rounded-3xl overflow-hidden cursor-pointer bg-slate-950 border border-slate-200/40 dark:border-slate-800/80 luxury-card-hover shadow-xl min-h-[460px] sm:min-h-[520px] flex flex-col justify-between"
+          >
+            {/* Background Image with Zoom */}
+            <div className="absolute inset-0 overflow-hidden">
+              <VerifiedImage
+                item={safeDestinations[0]}
+                src={safeDestinations[0].image || safeDestinations[0].imageUrl}
+                alt={safeDestinations[0].name}
+                aspectRatio="h-full"
+                rounded="rounded-none"
+                showBadge={false}
+                showAttribution={false}
+                allowGallery={false}
+                className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-black/20 pointer-events-none" />
+            </div>
 
+            {/* Top Badges */}
+            <div className="relative z-10 p-6 sm:p-8 flex items-center justify-between gap-3 pointer-events-none">
+              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-slate-950/80 backdrop-blur-md text-cr-lagoon border border-cr-lagoon/30 shadow-lg">
+                <Mountain className="w-3.5 h-3.5 text-cr-lagoon" />
+                <span>{safeDestinations[0].category}</span>
+              </span>
+
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-cr-forest/90 backdrop-blur-md text-white border border-cr-forest/40 shadow-lg">
+                <ShieldCheck className="w-3.5 h-3.5 text-cr-lagoon" />
+                <span>Verified Sanctuary</span>
+              </span>
+            </div>
+
+            {/* Bottom Content Area */}
+            <div className="relative z-10 p-6 sm:p-8 space-y-4">
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-xs font-semibold text-cr-lagoon">
+                  <MapPin className="w-4 h-4 text-cr-lagoon shrink-0" />
+                  <span>{safeDestinations[0].location}</span>
+                </div>
+                <h3 className="text-3xl sm:text-4xl font-extrabold font-heading text-white tracking-tight group-hover:text-cr-lagoon transition-colors duration-300">
+                  {safeDestinations[0].name}
+                </h3>
+                <p className="text-sm sm:text-base text-slate-200 line-clamp-2 max-w-xl font-light leading-relaxed">
+                  {safeDestinations[0].description}
+                </p>
+              </div>
+
+              {/* Highlights */}
+              <div className="flex flex-wrap gap-2 pt-1">
+                {safeDestinations[0].highlights?.map((h, i) => (
+                  <span
+                    key={i}
+                    className="px-3 py-1 rounded-full text-[11px] font-medium bg-white/10 backdrop-blur-md text-white border border-white/15"
+                  >
+                    {h}
+                  </span>
+                ))}
+              </div>
+
+              {/* Action & Tariff */}
+              <div className="pt-4 border-t border-white/15 flex flex-wrap items-center justify-between gap-4">
+                <div>
+                  <div className="text-[10px] uppercase font-bold tracking-wider text-slate-300">Verified Budget</div>
+                  <div className="text-xl font-black font-heading text-white">
+                    {safeDestinations[0].priceRaw ? `From ${formatPrice(safeDestinations[0].priceRaw)} / person` : safeDestinations[0].priceIndicator}
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <a
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${safeDestinations[0].name} ${safeDestinations[0].location}`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="p-3 rounded-2xl bg-white/10 hover:bg-white/20 backdrop-blur-md text-white border border-white/20 transition-all cursor-pointer"
+                    title="View on Google Maps"
+                  >
+                    <Navigation className="w-4 h-4" />
+                  </a>
+
+                  <button
+                    type="button"
+                    onClick={() => handleDestinationClick(safeDestinations[0])}
+                    className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-cr-forest hover:bg-cr-tropical text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-cr-forest/30 transition-all cursor-pointer group-hover:bg-cr-lagoon group-hover:text-slate-950"
+                  >
+                    <span>Explore Destination</span>
+                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Secondary Card: Agbokim Waterfalls (Takes 5 columns on desktop) */}
+        {safeDestinations[1] && (
+          <div 
+            onClick={() => handleDestinationClick(safeDestinations[1])}
+            className="lg:col-span-5 group relative rounded-3xl overflow-hidden cursor-pointer bg-slate-950 border border-slate-200/40 dark:border-slate-800/80 luxury-card-hover shadow-xl min-h-[460px] sm:min-h-[520px] flex flex-col justify-between"
+          >
+            <div className="absolute inset-0 overflow-hidden">
+              <VerifiedImage
+                item={safeDestinations[1]}
+                src={safeDestinations[1].image || safeDestinations[1].imageUrl}
+                alt={safeDestinations[1].name}
+                aspectRatio="h-full"
+                rounded="rounded-none"
+                showBadge={false}
+                showAttribution={false}
+                allowGallery={false}
+                className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-black/20 pointer-events-none" />
+            </div>
+
+            <div className="relative z-10 p-6 sm:p-8 flex items-center justify-between gap-3 pointer-events-none">
+              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-slate-950/80 backdrop-blur-md text-emerald-300 border border-emerald-400/30 shadow-lg">
+                <Waves className="w-3.5 h-3.5 text-emerald-400" />
+                <span>{safeDestinations[1].category}</span>
+              </span>
+
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-cr-forest/90 backdrop-blur-md text-white border border-cr-forest/40 shadow-lg">
+                <ShieldCheck className="w-3.5 h-3.5 text-cr-lagoon" />
+                <span>Nature Wonder</span>
+              </span>
+            </div>
+
+            <div className="relative z-10 p-6 sm:p-8 space-y-4">
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-xs font-semibold text-emerald-300">
+                  <MapPin className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>{safeDestinations[1].location}</span>
+                </div>
+                <h3 className="text-2xl sm:text-3xl font-extrabold font-heading text-white tracking-tight group-hover:text-emerald-300 transition-colors duration-300">
+                  {safeDestinations[1].name}
+                </h3>
+                <p className="text-sm text-slate-200 line-clamp-2 font-light leading-relaxed">
+                  {safeDestinations[1].description}
+                </p>
+              </div>
+
+              <div className="flex flex-wrap gap-2 pt-1">
+                {safeDestinations[1].highlights?.slice(0, 3).map((h, i) => (
+                  <span
+                    key={i}
+                    className="px-2.5 py-1 rounded-full text-[11px] font-medium bg-white/10 backdrop-blur-md text-white border border-white/15"
+                  >
+                    {h}
+                  </span>
+                ))}
+              </div>
+
+              <div className="pt-4 border-t border-white/15 flex flex-wrap items-center justify-between gap-4">
+                <div>
+                  <div className="text-[10px] uppercase font-bold tracking-wider text-slate-300">Verified Budget</div>
+                  <div className="text-lg font-black font-heading text-white">
+                    {safeDestinations[1].priceRaw ? `From ${formatPrice(safeDestinations[1].priceRaw)} / person` : safeDestinations[1].priceIndicator}
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => handleDestinationClick(safeDestinations[1])}
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-cr-forest hover:bg-cr-tropical text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-cr-forest/30 transition-all cursor-pointer group-hover:bg-emerald-400 group-hover:text-slate-950"
+                >
+                  <span>Explore</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Third Row: 3 Editorial Cards (Marina, Drill Ranch, Carnival) */}
+        {safeDestinations.slice(2).map((dest) => {
+          const IconComp = dest.icon || Landmark;
           return (
             <div
               key={dest.id}
-              className={`group rounded-3xl overflow-hidden glass-panel border border-slate-200 dark:border-slate-800 hover:border-emerald-500/40 dark:hover:border-stateCyan/40 transition-all duration-300 flex flex-col hover:shadow-xl dark:hover:shadow-2xl dark:hover:shadow-stateCyan/10 ${
-                index === 4 ? "sm:col-span-2 lg:col-span-1" : ""
-              }`}
+              onClick={() => handleDestinationClick(dest)}
+              className="lg:col-span-4 group relative rounded-3xl overflow-hidden cursor-pointer bg-slate-950 border border-slate-200/40 dark:border-slate-800/80 luxury-card-hover shadow-xl min-h-[420px] flex flex-col justify-between"
             >
-              {/* Authentic High-Res Photography Header */}
-              <div className="relative h-56 w-full overflow-hidden bg-slate-950">
+              <div className="absolute inset-0 overflow-hidden">
                 <VerifiedImage
                   item={dest}
-                  src={dest.image || dest.imageUrl || dest.primaryUrl}
+                  src={dest.image || dest.imageUrl}
                   alt={dest.name}
-                  aspectRatio="h-56"
+                  aspectRatio="h-full"
                   rounded="rounded-none"
                   showBadge={false}
                   showAttribution={false}
                   allowGallery={false}
+                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-black/30 pointer-events-none" />
-
-                {/* Top Badges */}
-                <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between gap-2 z-10">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-slate-950/80 backdrop-blur-md text-emerald-300 border border-emerald-400/40 shadow-sm">
-                    <IconComponent className="w-3.5 h-3.5 text-emerald-400" />
-                    <span>{dest.category}</span>
-                  </span>
-
-                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-slate-950/80 backdrop-blur-md text-emerald-300 border border-emerald-400/40 shadow-sm">
-                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                    <span>{dest.badge}</span>
-                  </span>
-                </div>
-
-                {/* Destination Name & Physical Location over Gradient */}
-                <div className="absolute bottom-3.5 left-4 right-4 z-10 space-y-1">
-                  <h3 className="text-2xl font-bold font-heading text-white tracking-tight group-hover:text-stateCyan transition-colors drop-shadow-sm">
-                    {dest.name}
-                  </h3>
-                  <div className="flex items-center gap-1.5 text-xs text-slate-200 font-medium">
-                    <MapPin className="w-3.5 h-3.5 text-stateCyan shrink-0" />
-                    <span className="truncate">{dest.location}</span>
-                  </div>
-                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/45 to-black/25 pointer-events-none" />
               </div>
 
-              {/* Card Body */}
-              <div className="p-6 flex-1 flex flex-col justify-between space-y-4 bg-white/70 dark:bg-transparent">
-                <div className="space-y-2">
+              <div className="relative z-10 p-5 sm:p-6 flex items-center justify-between gap-2 pointer-events-none">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-slate-950/80 backdrop-blur-md text-white border border-white/20 shadow-md">
+                  <IconComp className="w-3.5 h-3.5 text-cr-lagoon" />
+                  <span>{dest.category}</span>
+                </span>
 
-                  <p className="text-xs text-sky-600 dark:text-stateCyan font-semibold tracking-tight">
-                    {dest.tagline}
-                  </p>
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-cr-forest/90 backdrop-blur-md text-white border border-cr-forest/40 shadow-md">
+                  <ShieldCheck className="w-3.5 h-3.5 text-cr-lagoon" />
+                  <span>Verified</span>
+                </span>
+              </div>
 
-                  <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-3">
+              <div className="relative z-10 p-5 sm:p-6 space-y-3">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-1.5 text-xs font-semibold text-cr-lagoon">
+                    <MapPin className="w-3.5 h-3.5 text-cr-lagoon shrink-0" />
+                    <span className="truncate">{dest.location}</span>
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-extrabold font-heading text-white tracking-tight group-hover:text-cr-lagoon transition-colors duration-300">
+                    {dest.name}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-200 line-clamp-2 font-light leading-relaxed">
                     {dest.description}
                   </p>
-
-                  {/* Highlights Pills */}
-                  {highlights.length > 0 && (
-                    <div className="flex flex-wrap gap-1.5 pt-2">
-                      {highlights.map((h, idx) => (
-                        <span
-                          key={idx}
-                          className="px-2 py-0.5 rounded-md text-[10px] font-medium bg-slate-100 dark:bg-slate-900/90 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-800"
-                        >
-                          {h}
-                        </span>
-                      ))}
-                    </div>
-                  )}
                 </div>
 
-                {/* Bottom Pricing & CTA */}
-                <div className="pt-4 border-t border-slate-200 dark:border-slate-800/80 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+                <div className="pt-3 border-t border-white/15 flex items-center justify-between gap-3">
                   <div>
-                    <span className="text-[10px] uppercase font-semibold tracking-wider text-slate-500 block">
-                      Estimated Budget
-                    </span>
-                    <span className="text-base sm:text-lg font-bold tracking-tight font-heading text-slate-900 dark:text-white">
-                      {dest.priceRaw ? `From ${formatPrice(dest.priceRaw)} / person` : (dest.priceIndicator || "Standard Tariff")}
-                    </span>
+                    <div className="text-[10px] uppercase font-bold tracking-wider text-slate-400">Tariff</div>
+                    <div className="text-base font-extrabold font-heading text-white">
+                      {dest.priceRaw ? `From ${formatPrice(dest.priceRaw)}` : dest.priceIndicator}
+                    </div>
                   </div>
 
-                  <div className="flex flex-wrap items-center gap-2">
-                    <a
-                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${dest?.name || "Eco-Site"} ${dest?.location || "Calabar"}`)}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 px-2.5 py-2 rounded-xl bg-slate-100 dark:bg-slate-800/90 hover:bg-slate-200 dark:hover:bg-slate-700 text-stateCyan hover:text-sky-600 dark:hover:text-white text-xs font-semibold tracking-tight border border-stateCyan/30 transition-all cursor-pointer shadow-sm"
-                      title={`View ${dest.name} on Google Maps`}
-                    >
-                      <Navigation className="w-3.5 h-3.5" />
-                      <span>Map</span>
-                      <ArrowUpRight className="w-3 h-3" />
-                    </a>
-
-                    <button
-                      type="button"
-                      onClick={() => handleDestinationClick(dest)}
-                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-stateCyan hover:bg-sky-500 text-white font-semibold text-xs tracking-tight shadow-md shadow-stateCyan/25 hover:scale-[1.03] active:scale-[0.98] transition-all cursor-pointer shrink-0"
-                    >
-                      <span>View Package</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
+                  <button
+                    type="button"
+                    onClick={() => handleDestinationClick(dest)}
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-cr-forest hover:bg-cr-tropical text-white font-bold text-xs uppercase tracking-wider shadow-md transition-all cursor-pointer group-hover:bg-cr-lagoon group-hover:text-slate-950"
+                  >
+                    <span>Explore</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
                 </div>
               </div>
             </div>

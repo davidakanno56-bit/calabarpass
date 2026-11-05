@@ -1,6 +1,6 @@
-// client/src/components/AccommodationsView.jsx
-// Official AfSNET 2026 Executive Accommodations Directory & Escrow Booking
-// Displays verified hotels with real-world photography and direct escrow booking.
+// client/src/components/AccommodationsView.tsx
+// Verified Executive Accommodations Directory & Escrow Booking
+// Luxury Destination Discovery (Visit Dubai × Visit Saudi Standard)
 
 import React, { useState } from "react";
 import { useCurrency } from "../context/CurrencyContext.tsx";
@@ -17,9 +17,12 @@ import {
   ArrowRight, 
   Search, 
   BedDouble,
-  X
+  X,
+  Compass,
+  Check
 } from "lucide-react";
 import VerifiedImage from "./VerifiedImage.tsx";
+import HotelCard from "./HotelCard.tsx";
 
 export const officialAfSnetHotels = [
   {
@@ -46,6 +49,11 @@ export const officialAfSnetHotels = [
     ],
     imageUrl: "/images/transcorp.jpg",
     image: "/images/transcorp.jpg",
+    images: [
+      "/images/transcorp.jpg",
+      "/assets/executive_vip.jpg",
+      "/assets/calabar-cityscape-aerial.jpg"
+    ],
     verified: true,
     verificationStatus: "verified_real_world"
   },
@@ -73,6 +81,10 @@ export const officialAfSnetHotels = [
     ],
     imageUrl: "/images/channel_view.jpg",
     image: "/images/channel_view.jpg",
+    images: [
+      "/images/channel_view.jpg",
+      "/assets/executive_vip.jpg"
+    ],
     verified: true,
     verificationStatus: "verified_real_world"
   },
@@ -100,6 +112,10 @@ export const officialAfSnetHotels = [
     ],
     imageUrl: "/images/tinapa_lakeside.jpg",
     image: "/images/tinapa_lakeside.jpg",
+    images: [
+      "/images/tinapa_lakeside.jpg",
+      "/assets/marina_resort.jpg"
+    ],
     verified: true,
     verificationStatus: "verified_real_world"
   },
@@ -123,10 +139,14 @@ export const officialAfSnetHotels = [
       "Quiet Diplomatic District",
       "Dedicated High-Speed WiFi",
       "Fine Dining Restaurant & Cocktail Bar",
-      "24/7 Monitored CCTV & Armed Escort"
+      "24/7 Monitored CCTV & Escort"
     ],
     imageUrl: "/images/danamic.jpg",
     image: "/images/danamic.jpg",
+    images: [
+      "/images/danamic.jpg",
+      "/assets/executive_vip.jpg"
+    ],
     verified: true,
     verificationStatus: "verified_real_world"
   },
@@ -154,6 +174,10 @@ export const officialAfSnetHotels = [
     ],
     imageUrl: "/images/marian_hotel.jpg",
     image: "/images/marian_hotel.jpg",
+    images: [
+      "/images/marian_hotel.jpg",
+      "/assets/executive_vip.jpg"
+    ],
     verified: true,
     verificationStatus: "verified_real_world"
   },
@@ -181,6 +205,10 @@ export const officialAfSnetHotels = [
     ],
     imageUrl: "/images/montana.jpg",
     image: "/images/montana.jpg",
+    images: [
+      "/images/montana.jpg",
+      "/assets/executive_vip.jpg"
+    ],
     verified: true,
     verificationStatus: "verified_real_world"
   },
@@ -208,6 +236,10 @@ export const officialAfSnetHotels = [
     ],
     imageUrl: "/images/pyramid_hotel.jpg",
     image: "/images/pyramid_hotel.jpg",
+    images: [
+      "/images/pyramid_hotel.jpg",
+      "/assets/executive_vip.jpg"
+    ],
     verified: true,
     verificationStatus: "verified_real_world"
   },
@@ -235,22 +267,30 @@ export const officialAfSnetHotels = [
     ],
     imageUrl: "/images/pearl_suites.jpg",
     image: "/images/pearl_suites.jpg",
+    images: [
+      "/images/pearl_suites.jpg",
+      "/assets/executive_vip.jpg"
+    ],
     verified: true,
     verificationStatus: "verified_real_world"
   }
 ];
 
-const parsePrice = (str) => {
+const parsePrice = (str: string | number) => {
   if (!str) return 0;
   const num = parseInt(String(str).replace(/[^0-9]/g, ""), 10);
   return isNaN(num) ? 0 : num;
 };
 
-export default function AccommodationsView({ onBookHotel }) {
+interface AccommodationsViewProps {
+  onBookHotel?: (pkg: any) => void;
+}
+
+export default function AccommodationsView({ onBookHotel }: AccommodationsViewProps) {
   const { formatPrice } = useCurrency();
   const [selectedRating, setSelectedRating] = useState("All Stays");
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeHotelDetails, setActiveHotelDetails] = useState(null);
+  const [activeHotelDetails, setActiveHotelDetails] = useState<any>(null);
 
   const filterOptions = ["All Stays", "5-Star Luxury", "Resort Class", "Executive 4-Star", "Boutique Business"];
 
@@ -271,15 +311,16 @@ export default function AccommodationsView({ onBookHotel }) {
     return matchesRating && matchesSearch;
   });
 
-  const handleBookingClick = (hotel) => {
+  const handleBookingClick = (hotel: any) => {
     if (onBookHotel) {
+      const priceNum = parsePrice(hotel.pricePerNight);
       onBookHotel({
         id: `pkg-${hotel.id}`,
         title: `${hotel.name} - ${hotel.roomType}`,
         name: hotel.name,
-        priceNGN: parseInt(hotel.pricePerNight.replace(/[^0-9]/g, ""), 10),
-        price: parseInt(hotel.pricePerNight.replace(/[^0-9]/g, ""), 10),
-        streetSurgePrice: parseInt(hotel.pricePerNight.replace(/[^0-9]/g, ""), 10) * 1.35,
+        priceNGN: priceNum,
+        price: priceNum,
+        streetSurgePrice: Math.round(priceNum * 1.35),
         category: "Accommodations",
         categoryGroup: "accommodations",
         location: hotel.area,
@@ -287,53 +328,58 @@ export default function AccommodationsView({ onBookHotel }) {
         image: hotel.imageUrl || hotel.image,
         imageUrl: hotel.imageUrl || hotel.image,
         verified: true,
-        escrowBadge: "AfSNET 100% Escrow Protected"
+        escrowBadge: "365-Day Escrow Protected"
       });
     }
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-      {/* Official Directory Header */}
-      <div>
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-3">
-          <ShieldCheck className="w-4 h-4" />
-          <span>Verified Calabar Accommodations Directory • 365-Day Escrow</span>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
+      {/* Editorial Destination Header */}
+      <div className="space-y-4">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cr-forest/10 dark:bg-cr-forest/20 border border-cr-forest/30 text-cr-forest dark:text-cr-lagoon text-xs font-bold uppercase tracking-wider">
+          <Building2 className="w-3.5 h-3.5 text-cr-forest dark:text-cr-lagoon" />
+          <span>Curated Calabar Accommodations • Verified Partner Directory</span>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight font-heading">
-          Calabar Verified Premier Accommodations
+        
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight font-heading leading-tight">
+          Where to Stay in Calabar. <br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-cr-forest via-cr-lagoon to-emerald-400">
+            Exceptional Hospitality & Protected Escrow Stays.
+          </span>
         </h1>
-        <p className="mt-2 text-slate-600 dark:text-slate-400 text-sm sm:text-base max-w-3xl leading-relaxed">
-          Browse verified premier hotels and executive suites across Calabar. All guest reservations are backed by the <span className="text-sky-600 dark:text-stateCyan font-semibold">CalabarPass Anti-Fraud Escrow Protocol</span> with guaranteed on-site check-in release.
+        
+        <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-3xl leading-relaxed font-light">
+          Discover verified premier hotels, tranquil lakeside retreats, and executive conference suites across Calabar. Designed to support trusted tourism experiences across Cross River State, your reservation deposit remains securely held in escrow until you check in on-site.
         </p>
 
         {/* Protection Guarantee Banner */}
-        <div className="mt-6 p-4 rounded-2xl bg-white dark:bg-slate-900/90 border border-emerald-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm dark:shadow-lg transition-colors">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
-              <BedDouble className="w-6 h-6" />
+        <div className="mt-8 p-5 rounded-3xl bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-cr-forest/10 dark:bg-cr-forest/20 text-cr-forest dark:text-cr-lagoon flex items-center justify-center shrink-0">
+              <ShieldCheck className="w-6 h-6" />
             </div>
-            <div className="text-xs sm:text-sm text-slate-700 dark:text-slate-300">
-              <span className="font-bold text-emerald-700 dark:text-emerald-400">Zero-Risk Escrow Guarantee:</span> Your room deposit remains safely locked in state escrow until you arrive on-site and present your 6-digit PIN at the hotel front desk.
+            <div className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed font-light">
+              <span className="font-bold text-slate-900 dark:text-white">Protected Booking Escrow:</span> Your reservation payment is safeguarded by the clearinghouse protocol and only disbursed to the hotel upon physical arrival and 6-digit PIN verification.
             </div>
           </div>
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-500/10 dark:bg-emerald-950/80 border border-emerald-500/30 text-emerald-700 dark:text-emerald-400 text-xs font-bold shrink-0 self-start sm:self-auto">
+          <div className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-cr-forest/10 dark:bg-cr-forest/20 border border-cr-forest/30 text-cr-forest dark:text-cr-lagoon text-xs font-bold shrink-0 self-start sm:self-auto">
             <Lock className="w-3.5 h-3.5" />
-            100% Escrow Protected
+            <span>Escrow Protected</span>
           </div>
         </div>
       </div>
 
       {/* Search & Rating Filter Bar */}
-      <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-2">
         <div className="relative w-full md:w-96">
-          <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+          <Search className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
           <input
             type="text"
-            placeholder="Search hotel name, CICC distance, or contact..."
+            placeholder="Search hotel name, CICC proximity, or suite..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-stateCyan/30 focus:border-stateCyan transition shadow-inner"
+            className="w-full pl-11 pr-4 py-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-cr-forest/40 focus:border-cr-forest transition shadow-inner"
           />
         </div>
 
@@ -341,10 +387,11 @@ export default function AccommodationsView({ onBookHotel }) {
           {filterOptions.map((opt) => (
             <button
               key={opt}
+              type="button"
               onClick={() => setSelectedRating(opt)}
-              className={`px-3.5 py-2 rounded-xl text-xs font-bold tracking-tight transition-all cursor-pointer ${
+              className={`px-4 py-2.5 rounded-2xl text-xs font-bold tracking-tight transition-all cursor-pointer ${
                 selectedRating === opt
-                  ? "bg-stateCyan text-white shadow-md shadow-stateCyan/20"
+                  ? "bg-cr-forest text-white shadow-md shadow-cr-forest/20"
                   : "bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800"
               }`}
             >
@@ -354,219 +401,139 @@ export default function AccommodationsView({ onBookHotel }) {
         </div>
       </div>
 
-      {/* Grid of Verified AfSNET Hotels */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+      {/* Grid of Verified Hotels */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
         {filteredHotels.map((hotel) => (
-          <article
+          <HotelCard
             key={hotel.id}
-            className="group rounded-2xl bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 hover:border-stateCyan dark:hover:border-stateCyan/50 transition-all duration-300 flex flex-col overflow-hidden hover:-translate-y-1 shadow-sm hover:shadow-xl dark:shadow-xl"
-          >
-            {/* Image Header with Real URLs */}
-            <div className="relative h-48 w-full overflow-hidden bg-slate-950">
-              <VerifiedImage
-                item={hotel}
-                src={hotel.imageUrl || hotel.image}
-                alt={hotel.name}
-                aspectRatio="h-48"
-                rounded="rounded-none"
-                showBadge={false}
-                showAttribution={false}
-                allowGallery={false}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent pointer-events-none" />
-              
-              <div className="absolute top-3 left-3 flex items-center gap-1.5">
-                <span className="inline-flex items-center gap-1 rounded-full bg-emerald-950/80 border border-emerald-400/40 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-emerald-300 backdrop-blur-sm">
-                  <ShieldCheck className="w-3 h-3 text-emerald-400" />
-                  Verified Stay
-                </span>
-              </div>
-
-              <div className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-slate-950/80 border border-stateCyan/30 px-2.5 py-1 text-[11px] font-bold text-sky-300 backdrop-blur-sm">
-                <Star className="w-3.5 h-3.5 fill-stateCyan text-stateCyan" />
-                {hotel.rating}
-              </div>
-
-              <div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between text-xs">
-                <div className="flex items-center gap-1.5 text-slate-200 text-[11px] font-medium bg-slate-950/60 backdrop-blur-sm px-2 py-0.5 rounded-md">
-                  <Clock className="w-3 h-3 text-cyan-400" />
-                  <span>{hotel.distanceToCICC}</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Content Body */}
-            <div className="p-5 flex flex-col flex-1 space-y-3">
-              <div>
-                <div className="flex items-start justify-between gap-2">
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-stateCyan dark:group-hover:text-stateCyan transition-colors line-clamp-1">
-                    {hotel.name}
-                  </h3>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-sky-600 dark:text-stateCyan bg-stateCyan/10 px-2 py-0.5 rounded border border-stateCyan/20 shrink-0">
-                    {hotel.category}
-                  </span>
-                </div>
-
-                <div className="flex items-baseline justify-between mt-2 pt-1 border-t border-slate-100 dark:border-slate-800/80">
-                  <span className="text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold truncate max-w-[150px] sm:max-w-[180px]" title={hotel.roomType}>
-                    {hotel.roomType || "Standard Nightly Rate"}
-                  </span>
-                  <span className="text-base font-extrabold text-sky-600 dark:text-stateCyan font-mono">
-                    {formatPrice(parsePrice(hotel.pricePerNight))}
-                    <span className="text-[10px] text-slate-500 dark:text-slate-400 font-normal"> / night</span>
-                  </span>
-                </div>
-
-                {/* Unique Property Highlights & Description */}
-                <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-2 mt-2">
-                  {hotel.description || hotel.priceNote}
-                </p>
-
-                {/* Unique Amenities Highlights */}
-                {hotel.amenities && hotel.amenities.length > 0 && (
-                  <div className="flex flex-wrap gap-1.5 pt-2">
-                    {hotel.amenities.slice(0, 3).map((amenity, idx) => (
-                      <span
-                        key={idx}
-                        className="px-2 py-0.5 rounded-md text-[10px] font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700/60 truncate max-w-[200px]"
-                      >
-                        {amenity}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Contact Information */}
-              <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/90 dark:border-slate-800/80 space-y-1.5 text-[11px] text-slate-600 dark:text-slate-300">
-                {hotel.contactPerson && (
-                  <div className="flex items-center gap-2">
-                    <User className="w-3.5 h-3.5 text-stateCyan dark:text-stateCyan shrink-0" />
-                    <span className="font-medium text-slate-800 dark:text-slate-200">{hotel.contactPerson}</span>
-                  </div>
-                )}
-                <div className="flex items-center gap-2">
-                  <Phone className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400 shrink-0" />
-                  <a href={`tel:${hotel.phone}`} className="hover:text-stateCyan transition underline-offset-2 hover:underline">
-                    {hotel.phone}
-                  </a>
-                </div>
-                <div className="flex items-center gap-2 truncate">
-                  <Mail className="w-3.5 h-3.5 text-cyan-500 dark:text-cyan-400 shrink-0" />
-                  <a href={`mailto:${hotel.email}`} className="hover:text-stateCyan transition truncate underline-offset-2 hover:underline">
-                    {hotel.email}
-                  </a>
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="mt-auto pt-2">
-                <button
-                  type="button"
-                  onClick={() => setActiveHotelDetails(hotel)}
-                  className="w-full py-2.5 px-4 rounded-xl bg-stateCyan hover:bg-sky-500 text-white font-bold text-xs shadow-md shadow-stateCyan/20 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer flex items-center justify-center gap-1.5"
-                >
-                  <span>View Package</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            </div>
-          </article>
+            hotel={hotel}
+            onBookHotel={() => setActiveHotelDetails(hotel)}
+          />
         ))}
       </div>
 
       {filteredHotels.length === 0 && (
-        <div className="mt-8 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/70 p-12 text-center space-y-3 shadow-sm">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400">
+        <div className="mt-8 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/70 p-12 text-center space-y-3 shadow-sm">
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-400">
             <Search className="w-5 h-5" />
           </div>
-          <h3 className="text-base font-bold text-slate-900 dark:text-white">No Hotels Match Your Filter</h3>
-          <p className="text-xs text-slate-500 dark:text-slate-400">
-            Try adjusting your search criteria or switch back to "All Stays" to view all 8 accredited hotels.
+          <h3 className="text-base font-bold text-slate-900 dark:text-white font-heading">No Accommodations Match Your Search</h3>
+          <p className="text-xs text-slate-500 dark:text-slate-400 font-light">
+            Try adjusting your search query or reset to "All Stays" to view all accredited hotels.
           </p>
         </div>
       )}
 
-      {/* Hotel Quick Details Modal */}
+      {/* Hotel Quick Details / Reservation Modal */}
       {activeHotelDetails && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md animate-fadeIn overflow-y-auto">
-          <div className="relative w-full max-w-lg bg-white dark:bg-[#0f1523] border border-slate-200 dark:border-stateCyan/40 rounded-3xl p-5 sm:p-6 shadow-2xl text-slate-900 dark:text-slate-100 space-y-4 sm:space-y-5 my-auto max-h-[90vh] overflow-y-auto">
-            <div className="relative h-44 rounded-2xl overflow-hidden">
-              <VerifiedImage
-                item={activeHotelDetails}
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn overflow-y-auto">
+          <div className="relative w-full max-w-lg bg-white dark:bg-[#0c1322] border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl text-slate-900 dark:text-slate-100 space-y-5 my-auto max-h-[90vh] overflow-y-auto">
+            
+            {/* Modal Image Header */}
+            <div className="relative h-48 rounded-2xl overflow-hidden bg-slate-950">
+              <img
                 src={activeHotelDetails.imageUrl || activeHotelDetails.image}
                 alt={activeHotelDetails.name}
-                aspectRatio="h-44"
-                rounded="rounded-2xl"
-                showBadge={true}
-                showAttribution={false}
-                allowGallery={false}
+                className="w-full h-full object-cover object-center"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent pointer-events-none" />
+              
               <button
+                type="button"
                 onClick={() => setActiveHotelDetails(null)}
                 aria-label="Close modal"
-                className="absolute top-3 right-3 p-2 rounded-full bg-slate-900/80 text-white hover:bg-slate-800 cursor-pointer"
+                className="absolute top-3 right-3 p-2 rounded-full bg-slate-900/80 text-white hover:bg-slate-800 transition cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
+
               <div className="absolute bottom-3 left-3">
-                <span className="px-2.5 py-1 rounded-md bg-stateCyan text-white font-extrabold text-xs">
+                <span className="px-3 py-1 rounded-full bg-cr-forest text-white font-bold text-xs uppercase tracking-wider shadow">
                   {activeHotelDetails.rating}
                 </span>
               </div>
             </div>
 
+            {/* Title & Proximity */}
             <div>
-              <h3 className="text-xl font-extrabold text-slate-900 dark:text-white font-heading">
+              <h3 className="text-2xl font-extrabold text-slate-900 dark:text-white font-heading tracking-tight">
                 {activeHotelDetails.name}
               </h3>
-              <p className="text-xs text-stateCyan flex items-center gap-1.5 mt-1 font-medium">
+              <p className="text-xs text-cr-forest dark:text-cr-lagoon flex items-center gap-1.5 mt-1 font-semibold">
                 <Clock className="w-3.5 h-3.5" />
                 <span>{activeHotelDetails.distanceToCICC}</span>
               </p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                {activeHotelDetails.address}
+              </p>
             </div>
 
-            <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-2 text-xs">
+            {/* Room Tariff & Manager Credentials */}
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 space-y-2.5 text-xs">
               <div className="flex justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
-                <span className="text-slate-500 dark:text-slate-400">Official Nightly Rate:</span>
-                <span className="text-sky-600 dark:text-stateCyan font-extrabold font-mono">{formatPrice(parsePrice(activeHotelDetails.pricePerNight))}</span>
+                <span className="text-slate-500 dark:text-slate-400">Nightly Executive Rate:</span>
+                <span className="text-cr-forest dark:text-cr-lagoon font-black font-heading text-sm">
+                  {formatPrice(parsePrice(activeHotelDetails.pricePerNight))} / night
+                </span>
               </div>
               {activeHotelDetails.contactPerson && (
                 <div className="flex justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
-                  <span className="text-slate-500 dark:text-slate-400">Accredited Contact:</span>
+                  <span className="text-slate-500 dark:text-slate-400">Front Desk Manager:</span>
                   <span className="text-slate-800 dark:text-slate-200 font-medium">{activeHotelDetails.contactPerson}</span>
                 </div>
               )}
               <div className="flex justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
-                <span className="text-slate-500 dark:text-slate-400">Reservations Phone:</span>
-                <a href={`tel:${activeHotelDetails.phone}`} className="text-emerald-600 dark:text-emerald-400 font-mono hover:underline">
+                <span className="text-slate-500 dark:text-slate-400">Direct Phone:</span>
+                <a href={`tel:${activeHotelDetails.phone}`} className="text-cr-forest dark:text-cr-lagoon font-mono hover:underline">
                   {activeHotelDetails.phone}
                 </a>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-500 dark:text-slate-400">Direct Email:</span>
-                <a href={`mailto:${activeHotelDetails.email}`} className="text-stateCyan truncate max-w-[220px] hover:underline">
+                <a href={`mailto:${activeHotelDetails.email}`} className="text-slate-800 dark:text-slate-200 truncate max-w-[220px] hover:underline">
                   {activeHotelDetails.email}
                 </a>
               </div>
             </div>
 
-            <div className="flex items-center gap-3 pt-2">
+            {/* Amenities Highlights */}
+            {activeHotelDetails.amenities && (
+              <div className="space-y-1.5">
+                <div className="text-[11px] uppercase font-bold text-slate-400 tracking-wider">
+                  Verified Inclusions
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {activeHotelDetails.amenities.map((amenity: string, idx: number) => (
+                    <span
+                      key={idx}
+                      className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-[11px] font-medium text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 flex items-center gap-1"
+                    >
+                      <Check className="w-3 h-3 text-cr-forest dark:text-cr-lagoon shrink-0" />
+                      <span>{amenity}</span>
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Actions */}
+            <div className="flex items-center gap-3 pt-3">
               <button
+                type="button"
                 onClick={() => {
                   const h = activeHotelDetails;
                   setActiveHotelDetails(null);
                   handleBookingClick(h);
                 }}
-                className="flex-1 py-3 px-4 rounded-xl bg-stateCyan hover:bg-sky-500 text-white font-extrabold text-xs shadow-lg shadow-stateCyan/20 cursor-pointer transition flex items-center justify-center gap-2"
+                className="flex-1 py-3.5 px-4 rounded-2xl bg-cr-forest hover:bg-cr-tropical text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-cr-forest/25 cursor-pointer transition flex items-center justify-center gap-2"
               >
                 <Lock className="w-4 h-4" />
                 <span>Book with Escrow Protection</span>
               </button>
               <button
+                type="button"
                 onClick={() => setActiveHotelDetails(null)}
-                className="py-3 px-4 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-300 font-semibold text-xs cursor-pointer transition"
+                className="py-3.5 px-5 rounded-2xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-300 font-semibold text-xs cursor-pointer transition"
               >
                 Close
               </button>

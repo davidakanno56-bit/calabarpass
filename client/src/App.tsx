@@ -4,6 +4,8 @@ import HeroBanner from "./components/HeroBanner.tsx";
 import PackageList from "./components/PackageList.tsx";
 import CalabarDiningMapGuide from "./components/CalabarDiningMapGuide.tsx";
 import VerifiedDestinations from "./components/VerifiedDestinations.tsx";
+import CultureStorytelling from "./components/CultureStorytelling.tsx";
+import FinalCTA from "./components/FinalCTA.tsx";
 import ErrorBoundary from "./components/ErrorBoundary.tsx";
 import TourismVideoSection from "./components/TourismVideoSection.tsx";
 import LiveCRBCBroadcast from "./components/LiveCRBCBroadcast.tsx";
@@ -335,9 +337,41 @@ export default function App() {
               onSelectCategory={handleCategoryChange}
               escrowStats={escrowStats}
             />
+            <ErrorBoundary
+              title="Verified Cross River Destinations"
+              message="Synchronizing destination archive. Please click retry."
+            >
+              <VerifiedDestinations
+                packages={packages}
+                onViewPackage={(item) => setPackageForDetails(item)}
+              />
+            </ErrorBoundary>
+            <CultureStorytelling onSelectCategory={handleCategoryChange} />
+            <PackageList
+              packages={packages}
+              dynamicCards={dynamicVendorCards}
+              activeCategory="all"
+              initialSearchQuery={initialSearchQuery}
+              onSelectCategory={handleCategoryChange}
+              isLoading={loadingPackages && packages.length === 0}
+              onSelectPackage={(pkg) => setSelectedPackage(pkg)}
+              onViewPackage={(pkg) => setPackageForDetails(pkg)}
+              onOpenShield={() => handleTabChange("shield")}
+            />
             <TourismVideoSection onSelectCategory={handleCategoryChange} />
             <LiveCRBCBroadcast onSelectCategory={handleCategoryChange} />
             <CalabarDiningMapGuide />
+            <FinalCTA
+              onExploreClick={() => {
+                const el = document.getElementById("verified-cross-river");
+                if (el) {
+                  el.scrollIntoView({ behavior: "smooth" });
+                } else {
+                  window.scrollTo({ top: 600, behavior: "smooth" });
+                }
+              }}
+              onAccommodationsClick={() => handleCategoryChange("accommodations")}
+            />
           </>
         )}
 

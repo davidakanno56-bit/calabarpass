@@ -50,6 +50,19 @@ export default {
           emeraldDark: "#059669",
           crimson: "#ef4444",
           purple: "#8b5cf6"
+        },
+        // Visit Dubai x Visit Saudi x Cross River State Luxury Palette
+        cr: {
+          forest: '#087F5B',    // Cross River Forest Green
+          tropical: '#075E47',  // Deep Tropical Rainforest
+          lagoon: '#22B8A8',    // Calabar River / Waterfront Turquoise
+          ivory: '#FAF9F5',     // Warm Ivory Canvas
+          navy: '#102A43',      // Deep Royal Navy
+          gold: '#C5A46D',      // Muted Luxury Brass & Gold
+          sand: '#F4EFEA',      // Subtle warm backdrop
+          obsidian: '#070b11',  // Deep midnight obsidian
+          card: 'rgba(255, 255, 255, 0.04)',
+          border: 'rgba(255, 255, 255, 0.08)'
         }
       },
       fontFamily: {

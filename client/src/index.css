@@ -129,6 +129,43 @@ html.light .glass-panel-gold {
   -webkit-text-fill-color: transparent;
 }
 
+/* Visit Dubai x Visit Saudi Luxury Editorial Utilities */
+.luxury-glass {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
+}
+
+.luxury-card-hover {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+}
+
+.luxury-card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.5), 0 0 20px rgba(8, 127, 91, 0.15);
+  border-color: rgba(34, 184, 168, 0.35);
+}
+
+.luxury-img-zoom {
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.group:hover .luxury-img-zoom {
+  transform: scale(1.06);
+}
+
+.cinematic-scrim {
+  background: linear-gradient(180deg, rgba(7, 11, 17, 0.1) 0%, rgba(7, 11, 17, 0.5) 50%, rgba(7, 11, 17, 0.95) 100%);
+}
+
+.editorial-heading {
+  font-family: var(--font-heading);
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+}
+
 .carnival-gradient-text {
   background: linear-gradient(135deg, #00b4d8 0%, #ec4899 50%, #8b5cf6 100%);
   -webkit-background-clip: text;

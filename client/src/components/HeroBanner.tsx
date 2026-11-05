@@ -1,375 +1,274 @@
-// client/src/components/HeroBanner.jsx
-// Official Cross River State Tourism Bureau & Commercial Clearinghouse
-// $1.5M Prestige Civic-Fintech & Editorial Luxury Showcase
-
 import React, { useState } from "react";
-import { 
-  ShieldCheck, 
-  Lock, 
-  ArrowRight, 
-  CheckCircle2, 
-  MapPin, 
-  Search, 
-  Sparkles, 
-  Building2, 
-  Trees, 
-  Utensils, 
-  Briefcase, 
-  Flame, 
-  KeyRound, 
-  Shield, 
-  Award, 
+import {
+  Compass,
+  MapPin,
+  Search,
+  Sparkles,
+  ArrowRight,
+  ShieldCheck,
+  Calendar,
+  Mountain,
+  Waves,
+  Building2,
+  Flame,
   ChevronRight,
-  Compass
+  ChevronDown
 } from "lucide-react";
-import { HOTELS } from "../data/hotels.ts";
 
-const FEATURED_SHOWCASES = [
+export interface HeroBannerProps {
+  setActiveTab?: (tab: string) => void;
+  onSelectCategory?: (category: string, query?: string) => void;
+  escrowStats?: {
+    totalLockedNGN?: number;
+    totalDisbursedNGN?: number;
+  } | null;
+}
+
+const HIGHLIGHT_DESTINATIONS = [
   {
-    id: "obudu",
-    title: "Obudu Mountain Resort",
-    category: "Eco-Sites & Heritage",
-    subtitle: "Highland Plateau & Cable Car Expeditions",
+    id: "dest-obudu",
+    title: "Obudu Mountain Plateau",
+    category: "Highland Sanctuary",
+    categoryGroup: "eco-sites",
     image: "/assets/obudu_mountain.jpg",
-    location: "Obanliku LGA • Sankwala Mountains",
-    tag: "Crown Eco Sanctuary",
-    stat: "1,576m Altitude"
+    elevation: "1,576m Altitude",
+    tagline: "Above the Clouds"
   },
   {
-    id: "marina",
-    title: "Marina Resort & Waterfront",
-    category: "Dining & Nightlife",
-    subtitle: "Calabar River Cruises & Slave History Museum",
+    id: "dest-agbokim",
+    title: "Agbokim Waterfalls",
+    category: "Rainforest Wonder",
+    categoryGroup: "eco-sites",
+    image: "/assets/agbokim_waterfalls.jpg",
+    elevation: "7 Terraced Cascades",
+    tagline: "Iridescent Mist"
+  },
+  {
+    id: "dest-marina",
+    title: "Marina Waterfront Pier",
+    category: "Heritage & Waterway",
+    categoryGroup: "dining-nightlife",
     image: "/assets/marina_resort.jpg",
-    location: "Marina Road, Calabar Waterfront",
-    tag: "Historic Heritage Port",
-    stat: "Calabar Riverfront"
+    elevation: "Calabar Riverfront",
+    tagline: "Sunset Catamaran"
   },
   {
-    id: "executive",
-    title: "AfSNET Executive Hospitality",
-    category: "Accommodations",
-    subtitle: "5-Star Diplomatic Suites Near CICC",
-    image: "/assets/executive_vip.jpg",
-    location: "Summit Hills • Marian Road Corridor",
-    tag: "Diplomatic Tier",
-    stat: "Near CICC"
-  },
-  {
-    id: "carnival",
-    title: "Carnival Calabar Cultural Passes",
-    category: "Carnival & Culture",
-    subtitle: "Africa's Biggest Street Party Official Kits",
+    id: "dest-carnival",
+    title: "Carnival Calabar",
+    category: "Africa's Biggest Street Party",
+    categoryGroup: "carnival-culture",
     image: "/assets/seagull_band.jpg",
-    location: "Mary Slessor • U.J. Esuene Stadium Route",
-    tag: "VIP Festival Clearances",
-    stat: "365 Festival Vault"
+    elevation: "12km Route",
+    tagline: "December Festival"
   }
 ];
 
-export default function HeroBanner({ setActiveTab, onSelectCategory, escrowStats }) {
-  const [activeShowcaseIdx, setActiveShowcaseIdx] = useState(0);
-  const [searchCorridor, setSearchCorridor] = useState("all");
-  const [searchCategory, setSearchCategory] = useState("all");
+export default function HeroBanner({
+  setActiveTab,
+  onSelectCategory,
+  escrowStats
+}: HeroBannerProps) {
+  const [activeHighlightIdx, setActiveHighlightIdx] = useState<number>(0);
+  const [selectedCorridor, setSelectedCorridor] = useState<string>("all");
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
-  const activeShowcase = FEATURED_SHOWCASES[activeShowcaseIdx];
+  const currentHighlight = HIGHLIGHT_DESTINATIONS[activeHighlightIdx];
 
-  const handleSearchSubmit = (e) => {
-    e?.preventDefault();
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     if (onSelectCategory) {
-      onSelectCategory(searchCategory);
+      onSelectCategory(selectedCategory);
     } else {
       setActiveTab?.("packages");
     }
+
     setTimeout(() => {
-      const target = document.getElementById("directory-catalog") || document.getElementById("experience-calabar-tour");
+      const target = document.getElementById("package-listing-section") || document.getElementById("packages-grid");
       if (target) {
         target.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     }, 60);
   };
 
-  const handleCategoryJump = (catId) => {
+  const handleExploreClick = () => {
     if (onSelectCategory) {
-      onSelectCategory(catId);
+      onSelectCategory("all");
     } else {
       setActiveTab?.("packages");
     }
     setTimeout(() => {
-      const targetId = catId === "all" ? "experience-calabar-tour" : "directory-catalog";
-      const el = document.getElementById(targetId) || document.getElementById("directory-catalog");
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      const target = document.getElementById("verified-cross-river") || document.getElementById("package-listing-section");
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     }, 60);
   };
 
   return (
-    <section className="relative overflow-hidden pt-6 pb-16 lg:pt-12 lg:pb-24 border-b border-slate-800/80 bg-[#070b13]">
-      {/* 1. Subtle, Architectural Calabar Aerial Underlay */}
-      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        <img 
-          src="/assets/calabar-cityscape-aerial.jpg" 
-          alt="Calabar Cityscape & Waterways Aerial View" 
-          className="w-full h-full object-cover object-center opacity-25 filter saturate-[1.05] contrast-[1.2]"
+    <section className="relative w-full min-h-[92vh] flex items-center justify-center overflow-hidden bg-slate-950 text-white select-none">
+      {/* 1. Cinematic Background Photography (Obudu Mountain Plateau) */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src={currentHighlight.image}
+          alt={currentHighlight.title}
+          className="w-full h-full object-cover object-center transition-all duration-1000 ease-out transform scale-100"
+          style={{
+            animation: "subtleHeroZoom 20s infinite alternate ease-in-out"
+          }}
         />
-        {/* Deep, refined gradient scrim */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#070b13]/90 via-[#0a1120]/85 to-[#070b13]" />
-        {/* Subtle, understated ambient depth */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,rgba(14,165,233,0.12),transparent)]" />
+
+        {/* Carefully controlled multi-layer gradient scrim for maximum editorial legibility */}
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-slate-950/30" />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-950/30 to-transparent" />
+        <div className="absolute inset-0 bg-radial-gradient from-transparent via-slate-950/20 to-slate-950/80" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-          
-          {/* Left Column: Authoritative Editorial Positioning */}
-          <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-            
-            {/* Diplomatic State Clearinghouse Seal */}
-            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-slate-900/95 border border-slate-700/80 text-slate-200 text-xs backdrop-blur-md shadow-sm max-w-full flex-wrap justify-center lg:justify-start">
-              <img 
-                src="/assets/calabarpass-monogram.svg" 
-                alt="Cross River State Seal" 
-                className="w-4 h-4 object-contain"
-              />
-              <span className="font-semibold text-white tracking-tight">Cross River State Government</span>
-              <span className="text-slate-600">•</span>
-              <span className="text-sky-400 font-medium">Ministry of Tourism & Clearinghouse Bureau</span>
-              <span className="hidden sm:inline text-slate-600">•</span>
-              <span className="hidden sm:inline text-emerald-400 font-semibold">Official 365 Escrow Protocol</span>
-            </div>
+      {/* 2. Main Editorial Content Container */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 flex flex-col justify-between min-h-[90vh]">
+        {/* Top Tag & Trust Indicator */}
+        <div className="pt-4 animate-in fade-in slide-in-from-top-4 duration-700">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.08] backdrop-blur-xl border border-white/[0.15] text-xs font-semibold tracking-tight shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
+            <span className="w-2 h-2 rounded-full bg-emerald-400" />
+            <span className="text-emerald-300 font-bold uppercase tracking-wider text-[10px]">
+              Cross River State
+            </span>
+            <span className="text-slate-400">•</span>
+            <span className="text-slate-200">The People's Paradise</span>
+          </div>
+        </div>
 
-            {/* Prestige Headline */}
-            <h1 className="text-3xl sm:text-5xl lg:text-[3.5rem] font-extrabold font-heading text-white tracking-tight leading-[1.12]">
-              The Official Tourism Clearinghouse for{" "}
-              <span className="bg-gradient-to-r from-sky-400 via-sky-300 to-teal-300 bg-clip-text text-transparent">
-                Cross River State
+        {/* Monumental Editorial Headline & Supporting Copy */}
+        <div className="max-w-3xl space-y-6 my-auto pt-6 pb-8 animate-in fade-in slide-in-from-bottom-6 duration-700">
+          <h1 className="editorial-heading text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white drop-shadow-lg">
+            Discover Cross River.<br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-teal-200 to-emerald-400">
+              Experience Extraordinary.
+            </span>
+          </h1>
+
+          <p className="text-base sm:text-xl text-slate-200 font-light leading-relaxed max-w-2xl drop-shadow-md">
+            Explore the breathtaking highlands, vibrant culture, remarkable destinations, and unforgettable experiences of Cross River State.
+          </p>
+
+          <div className="flex flex-wrap items-center gap-4 pt-2">
+            <button
+              type="button"
+              onClick={handleExploreClick}
+              className="inline-flex items-center gap-2.5 px-7 py-4 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-sm tracking-tight transition-all duration-200 active:scale-[0.97] cursor-pointer shadow-[0_12px_28px_-6px_rgba(16,185,129,0.5)]"
+            >
+              <span>Explore Destinations</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                if (onSelectCategory) onSelectCategory("carnival-culture");
+                setTimeout(() => {
+                  const target = document.getElementById("package-listing-section");
+                  if (target) target.scrollIntoView({ behavior: "smooth" });
+                }, 60);
+              }}
+              className="inline-flex items-center gap-2 px-6 py-4 rounded-full bg-white/[0.08] hover:bg-white/[0.14] backdrop-blur-xl border border-white/[0.15] text-white font-bold text-sm tracking-tight transition-all duration-200 active:scale-[0.97] cursor-pointer shadow-md"
+            >
+              <Flame className="w-4 h-4 text-emerald-400" />
+              <span>Carnival Calabar 2026</span>
+            </button>
+          </div>
+        </div>
+
+        {/* 3. Floating Luxury Concierge Search Bar */}
+        <div className="w-full max-w-4xl mx-auto mb-4 animate-in fade-in slide-in-from-bottom-8 duration-700">
+          <form
+            onSubmit={handleSearchSubmit}
+            className="p-3 sm:p-4 rounded-3xl sm:rounded-full bg-slate-950/80 backdrop-blur-2xl border border-white/[0.12] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8),inset_0_1px_0_0_rgba(255,255,255,0.15)] flex flex-col sm:flex-row items-center gap-3"
+          >
+            {/* Search Field 1: Corridor / Destination */}
+            <div className="flex-1 w-full px-4 py-2 sm:py-1 sm:border-r border-white/[0.08]">
+              <span className="text-[10px] uppercase font-bold tracking-widest text-emerald-400 block mb-0.5">
+                Destination Corridor
               </span>
-            </h1>
-
-            {/* Editorial Subheading */}
-            <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal">
-              Curated 365-day executive hospitality, eco-heritage expeditions, and festival clearances — authenticated by state clearinghouse escrow. Zero extortion, guaranteed benchmark rates, and instant 6-digit verification keys.
-            </p>
-
-            {/* Interactive Luxury Concierge Search & Filter Bar (Airbnb / Stripe Class) */}
-            <div className="pt-2">
-              <form 
-                onSubmit={handleSearchSubmit}
-                className="p-2 sm:p-2.5 rounded-2xl bg-slate-900/90 border border-slate-700/90 shadow-2xl backdrop-blur-xl grid grid-cols-1 sm:grid-cols-12 gap-2 text-left"
-              >
-                {/* Field 1: Corridor / Region */}
-                <div className="sm:col-span-4 px-3 py-2 rounded-xl bg-slate-950/60 border border-slate-800/80 flex flex-col justify-center">
-                  <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1">
-                    <MapPin className="w-3 h-3 text-sky-400" />
-                    <span>Corridor / Region</span>
-                  </label>
-                  <select
-                    value={searchCorridor}
-                    onChange={(e) => setSearchCorridor(e.target.value)}
-                    className="bg-transparent text-white font-semibold text-xs outline-none cursor-pointer mt-0.5"
-                  >
-                    <option value="all" className="bg-slate-900 text-white">All Cross River Corridors</option>
-                    <option value="marian" className="bg-slate-900 text-white">Marian Road / State Housing</option>
-                    <option value="waterfront" className="bg-slate-900 text-white">Marina Waterfront & Port</option>
-                    <option value="cicc" className="bg-slate-900 text-white">Summit Hills / CICC Corridor</option>
-                    <option value="murtala" className="bg-slate-900 text-white">Murtala Mohammed Highway</option>
-                    <option value="obudu" className="bg-slate-900 text-white">Obudu Mountain Plateau</option>
-                  </select>
-                </div>
-
-                {/* Field 2: Experience / Category */}
-                <div className="sm:col-span-4 px-3 py-2 rounded-xl bg-slate-950/60 border border-slate-800/80 flex flex-col justify-center">
-                  <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1">
-                    <Compass className="w-3 h-3 text-emerald-400" />
-                    <span>Experience Category</span>
-                  </label>
-                  <select
-                    value={searchCategory}
-                    onChange={(e) => setSearchCategory(e.target.value)}
-                    className="bg-transparent text-white font-semibold text-xs outline-none cursor-pointer mt-0.5"
-                  >
-                    <option value="all" className="bg-slate-900 text-white">All 365 Collections</option>
-                    <option value="accommodations" className="bg-slate-900 text-white">Accommodations & Suites</option>
-                    <option value="eco-sites" className="bg-slate-900 text-white">Eco-Sites & Rainforests</option>
-                    <option value="dining-nightlife" className="bg-slate-900 text-white">Dining & Waterfront Lounges</option>
-                    <option value="trade-expo" className="bg-slate-900 text-white">Trade & Expo Hub</option>
-                    <option value="carnival-culture" className="bg-slate-900 text-white">Carnival & Cultural Passes</option>
-                  </select>
-                </div>
-
-                {/* Field 3: Explore Button */}
-                <div className="sm:col-span-4 flex items-center">
-                  <button
-                    type="submit"
-                    className="w-full h-full min-h-[46px] px-5 py-2.5 rounded-xl bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-400 hover:to-sky-500 text-white font-bold text-xs sm:text-sm tracking-tight shadow-lg shadow-sky-950/40 flex items-center justify-center gap-2 transition-all cursor-pointer"
-                  >
-                    <Search className="w-4 h-4" />
-                    <span>Search Verified Passes</span>
-                  </button>
-                </div>
-              </form>
-            </div>
-
-            {/* Quick Filter Badges */}
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 pt-1 text-xs text-slate-400">
-              <span className="text-[11px] font-medium text-slate-400">Popular Clearances:</span>
-              <button
-                type="button"
-                onClick={() => handleCategoryJump("accommodations")}
-                className="px-2.5 py-1 rounded-lg bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white transition cursor-pointer"
-              >
-                🏨 Executive Hotels ({HOTELS?.length || 8})
-              </button>
-              <button
-                type="button"
-                onClick={() => handleCategoryJump("eco-sites")}
-                className="px-2.5 py-1 rounded-lg bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white transition cursor-pointer"
-              >
-                🌲 Obudu &amp; Agbokim Falls
-              </button>
-              <button
-                type="button"
-                onClick={() => handleCategoryJump("dining-nightlife")}
-                className="px-2.5 py-1 rounded-lg bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white transition cursor-pointer"
-              >
-                🍽️ Marina Waterfront Dining
-              </button>
-            </div>
-
-          </div>
-
-          {/* Right Column: Editorial Visual Masterpiece Showcase (Replacing the toy 3D plastic card) */}
-          <div className="lg:col-span-5 w-full">
-            <div className="relative rounded-3xl overflow-hidden border border-slate-700/80 bg-slate-900 shadow-2xl group">
-              
-              {/* Featured Visual Image with Smooth Cinematic Ken Burns Hover */}
-              <div className="relative h-80 sm:h-96 w-full overflow-hidden bg-slate-950">
-                <img
-                  src={activeShowcase.image}
-                  alt={activeShowcase.title}
-                  className="w-full h-full object-cover object-center transition-all duration-700 group-hover:scale-105"
-                />
-                
-                {/* Scrim Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-black/30" />
-
-                {/* Top Corner State Verification Seal Badge */}
-                <div className="absolute top-4 left-4 z-20 flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-950/85 border border-emerald-500/40 backdrop-blur-md">
-                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                  <span className="text-[10px] font-extrabold uppercase tracking-widest text-emerald-300">
-                    State Verified 365 Pass
-                  </span>
-                </div>
-
-                <div className="absolute top-4 right-4 z-20 px-3 py-1.5 rounded-full bg-slate-950/85 border border-slate-700/80 backdrop-blur-md text-[10px] font-mono text-slate-300">
-                  {activeShowcase.stat}
-                </div>
-
-                {/* Bottom Overlay Content */}
-                <div className="absolute bottom-0 inset-x-0 p-5 sm:p-6 z-20 space-y-2">
-                  <span className="inline-block px-2.5 py-0.5 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30 text-[10px] font-bold uppercase tracking-wider">
-                    {activeShowcase.category}
-                  </span>
-                  
-                  <h3 className="text-xl sm:text-2xl font-bold font-heading text-white tracking-tight">
-                    {activeShowcase.title}
-                  </h3>
-                  
-                  <p className="text-xs text-slate-300 line-clamp-2">
-                    {activeShowcase.subtitle}
-                  </p>
-
-                  <div className="flex items-center justify-between pt-2 border-t border-slate-800/80 text-xs">
-                    <span className="text-slate-400 flex items-center gap-1.5">
-                      <MapPin className="w-3.5 h-3.5 text-sky-400 shrink-0" />
-                      <span>{activeShowcase.location}</span>
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => handleCategoryJump(activeShowcase.id === "obudu" ? "eco-sites" : activeShowcase.id === "executive" ? "accommodations" : "all")}
-                      className="text-sky-400 hover:text-sky-300 font-bold flex items-center gap-1 transition cursor-pointer"
-                    >
-                      <span>Explore</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                </div>
+              <div className="flex items-center gap-2">
+                <MapPin className="w-4 h-4 text-slate-400 shrink-0" />
+                <select
+                  value={selectedCorridor}
+                  onChange={(e) => setSelectedCorridor(e.target.value)}
+                  className="w-full bg-transparent text-white font-semibold text-xs sm:text-sm outline-none cursor-pointer appearance-none"
+                >
+                  <option value="all" className="bg-slate-900 text-white">All Cross River (Statewide)</option>
+                  <option value="obudu" className="bg-slate-900 text-white">Obudu Mountain Sanctuary & Highlands</option>
+                  <option value="calabar" className="bg-slate-900 text-white">Calabar City, Marina & Stadium Route</option>
+                  <option value="waterfalls" className="bg-slate-900 text-white">Agbokim Waterfalls & Ikom Eco-Corridor</option>
+                  <option value="boki" className="bg-slate-900 text-white">Afi Rainforest & Drill Monkey Sanctuary</option>
+                </select>
+                <ChevronDown className="w-3.5 h-3.5 text-slate-400 pointer-events-none" />
               </div>
-
-              {/* Showcase Navigation Thumbnails (4-way luxury tab) */}
-              <div className="p-3 bg-slate-950/95 border-t border-slate-800 grid grid-cols-4 gap-2">
-                {FEATURED_SHOWCASES.map((item, idx) => (
-                  <button
-                    key={item.id}
-                    type="button"
-                    onClick={() => setActiveShowcaseIdx(idx)}
-                    className={`p-2 rounded-xl text-left transition-all cursor-pointer ${
-                      activeShowcaseIdx === idx
-                        ? "bg-slate-800/90 border border-sky-500/40 text-white shadow-sm"
-                        : "bg-transparent hover:bg-slate-900 border border-transparent text-slate-400 hover:text-slate-200"
-                    }`}
-                  >
-                    <div className="text-[9px] font-bold uppercase tracking-wider truncate text-sky-400">
-                      0{idx + 1}
-                    </div>
-                    <div className="text-[11px] font-bold truncate mt-0.5">
-                      {item.title.split(" ")[0]}
-                    </div>
-                  </button>
-                ))}
-              </div>
-
             </div>
-          </div>
 
+            {/* Search Field 2: Experience Category */}
+            <div className="flex-1 w-full px-4 py-2 sm:py-1 sm:border-r border-white/[0.08]">
+              <span className="text-[10px] uppercase font-bold tracking-widest text-emerald-400 block mb-0.5">
+                Experience Category
+              </span>
+              <div className="flex items-center gap-2">
+                <Compass className="w-4 h-4 text-slate-400 shrink-0" />
+                <select
+                  value={selectedCategory}
+                  onChange={(e) => setSelectedCategory(e.target.value)}
+                  className="w-full bg-transparent text-white font-semibold text-xs sm:text-sm outline-none cursor-pointer appearance-none"
+                >
+                  <option value="all" className="bg-slate-900 text-white">All Categories</option>
+                  <option value="accommodations" className="bg-slate-900 text-white">Where to Stay (Verified Hotels)</option>
+                  <option value="eco-sites" className="bg-slate-900 text-white">Eco-Tourism & Mountain Trails</option>
+                  <option value="dining-nightlife" className="bg-slate-900 text-white">Efik Culinary & River Cruises</option>
+                  <option value="carnival-culture" className="bg-slate-900 text-white">Carnival Calabar Official Passes</option>
+                  <option value="trade-expo" className="bg-slate-900 text-white">Trade, CICC & Expo Delegations</option>
+                </select>
+                <ChevronDown className="w-3.5 h-3.5 text-slate-400 pointer-events-none" />
+              </div>
+            </div>
+
+            {/* Submit Action */}
+            <button
+              type="submit"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs sm:text-sm tracking-tight transition-all duration-200 active:scale-[0.97] cursor-pointer shadow-[0_10px_25px_-5px_rgba(16,185,129,0.5)] shrink-0"
+            >
+              <Search className="w-4 h-4" />
+              <span>Search Curated Passes</span>
+            </button>
+          </form>
         </div>
 
-        {/* Institutional Trust Pillars (Replacing the neon gamer boxes) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto pt-10 sm:pt-14">
-          
-          <div className="p-4 sm:p-5 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-slate-700 transition shadow-sm text-left">
-            <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mb-3">
-              <ShieldCheck className="w-5 h-5" />
-            </div>
-            <div className="text-sm font-bold font-heading text-white">State Escrow Protection</div>
-            <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-              Funds remain secured in state escrow until you arrive and verify service on-site.
-            </p>
+        {/* 4. Real Destination Switcher Pills (Visit Dubai Destination Tabs) */}
+        <div className="pt-2 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-300">
+          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
+            <span className="text-[10px] uppercase font-bold tracking-widest text-slate-400 hidden md:inline">
+              Featured:
+            </span>
+            {HIGHLIGHT_DESTINATIONS.map((dest, idx) => (
+              <button
+                key={dest.id}
+                type="button"
+                onClick={() => setActiveHighlightIdx(idx)}
+                className={`px-3 py-1.5 rounded-full text-xs font-semibold tracking-tight transition-all duration-300 cursor-pointer ${
+                  activeHighlightIdx === idx
+                    ? "bg-white/[0.12] text-white border border-emerald-400/40 shadow-sm"
+                    : "text-slate-400 hover:text-white hover:bg-white/[0.04]"
+                }`}
+              >
+                <span>{dest.title}</span>
+                <span className="text-[10px] text-emerald-400/80 ml-1.5 font-normal">
+                  ({dest.elevation})
+                </span>
+              </button>
+            ))}
           </div>
 
-          <div className="p-4 sm:p-5 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-slate-700 transition shadow-sm text-left">
-            <div className="w-9 h-9 rounded-xl bg-sky-500/10 border border-sky-500/20 text-sky-400 flex items-center justify-center mb-3">
-              <KeyRound className="w-5 h-5" />
-            </div>
-            <div className="text-sm font-bold font-heading text-white">Cryptographic 6-Digit PIN</div>
-            <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-              Merchant cannot access funds without your physical check-in key.
-            </p>
+          <div className="text-[11px] text-slate-400 flex items-center gap-1.5">
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+            <span>Designed to support trusted tourism experiences across Cross River State</span>
           </div>
-
-          <div className="p-4 sm:p-5 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-slate-700 transition shadow-sm text-left">
-            <div className="w-9 h-9 rounded-xl bg-teal-500/10 border border-teal-500/20 text-teal-400 flex items-center justify-center mb-3">
-              <Award className="w-5 h-5" />
-            </div>
-            <div className="text-sm font-bold font-heading text-white">Statutory Fair-Rate Cap</div>
-            <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-              Official price caps protected against black-market and carnival season surge.
-            </p>
-          </div>
-
-          <div className="p-4 sm:p-5 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-slate-700 transition shadow-sm text-left">
-            <div className="w-9 h-9 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center mb-3">
-              <Lock className="w-5 h-5" />
-            </div>
-            <div className="text-sm font-bold font-heading text-white">Direct Settlement Clearances</div>
-            <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-              Settlement powered by Paystack and Central Bank licensed banking rails.
-            </p>
-          </div>
-
         </div>
-
       </div>
     </section>
   );
