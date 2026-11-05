@@ -17,7 +17,9 @@ import {
   User,
   Globe,
   Search,
-  ShieldCheck
+  ShieldCheck,
+  Camera,
+  Activity
 } from "lucide-react";
 import { useTheme } from "../context/ThemeContext.tsx";
 import { useCurrency } from "../context/CurrencyContext.tsx";
@@ -253,6 +255,57 @@ export default function Navbar({
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
               <span className="whitespace-nowrap hidden sm:inline">Fair Price Index</span>
               <span className="whitespace-nowrap sm:hidden">Index</span>
+            </button>
+
+            {/* 5. Gate Scanner */}
+            <button
+              onClick={() => {
+                setIsMegaMenuOpen(false);
+                setActiveTab("scanner");
+              }}
+              className={`hidden sm:flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold tracking-tight transition-all border cursor-pointer hover:scale-[1.02] active:scale-95 ${
+                activeTab === "scanner"
+                  ? "bg-emerald-500 text-slate-950 border-emerald-400 font-bold shadow-md shadow-emerald-500/30"
+                  : "bg-slate-100/90 dark:bg-slate-900 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-800 hover:border-emerald-500/40"
+              }`}
+              title="Mobile Turnstile & Gate QR Scanner"
+            >
+              <Camera className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+              <span className="whitespace-nowrap">Gate Scanner</span>
+            </button>
+
+            {/* 6. Protection Desk */}
+            <button
+              onClick={() => {
+                setIsMegaMenuOpen(false);
+                setActiveTab("support");
+              }}
+              className={`hidden md:flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold tracking-tight transition-all border cursor-pointer hover:scale-[1.02] active:scale-95 ${
+                activeTab === "support"
+                  ? "bg-emerald-500 text-slate-950 border-emerald-400 font-bold shadow-md shadow-emerald-500/30"
+                  : "bg-slate-100/90 dark:bg-slate-900 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-800 hover:border-emerald-500/40"
+              }`}
+              title="Tourist Protection & Rapid Response Desk"
+            >
+              <ShieldAlert className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+              <span className="whitespace-nowrap">Protection Desk</span>
+            </button>
+
+            {/* 7. Live Hub */}
+            <button
+              onClick={() => {
+                setIsMegaMenuOpen(false);
+                setActiveTab("dashboard");
+              }}
+              className={`hidden xl:flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold tracking-tight transition-all border cursor-pointer hover:scale-[1.02] active:scale-95 ${
+                activeTab === "dashboard"
+                  ? "bg-emerald-500 text-slate-950 border-emerald-400 font-bold shadow-md shadow-emerald-500/30"
+                  : "bg-slate-100/90 dark:bg-slate-900 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-800 hover:border-emerald-500/40"
+              }`}
+              title="Organizer Settlement & Gate Telemetry"
+            >
+              <Activity className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+              <span className="whitespace-nowrap">Live Hub</span>
             </button>
 
             {/* 5. Track Booking (for Guests / Tourists) */}

@@ -13,19 +13,22 @@ import { PACKAGES as INITIAL_PACKAGES } from "./data/packages.ts";
 import { ShieldCheck, Lock } from "lucide-react";
 import { handleLocalEscrowFallback, getStoredDynamicCards } from "./utils/api.ts";
 
-const PaystackCheckoutModal = lazy(() => import("./components/PaystackCheckoutModal.jsx"));
-const EscrowVoucherModal = lazy(() => import("./components/EscrowVoucherModal.jsx"));
-const EscrowManager = lazy(() => import("./components/EscrowManager.jsx"));
-const FairPriceTracker = lazy(() => import("./components/FairPriceTracker.jsx"));
-const AccommodationsView = lazy(() => import("./components/AccommodationsView.jsx"));
-const VendorPortal = lazy(() => import("./components/VendorPortal.jsx"));
-const PackageDetailsModal = lazy(() => import("./components/PackageDetailsModal.jsx"));
-const VendorAuthModal = lazy(() => import("./components/VendorAuthModal.jsx"));
-const MerchantOnboardingModal = lazy(() => import("./components/MerchantOnboardingModal.jsx"));
-const AdminVendorQueue = lazy(() => import("./components/AdminVendorQueue.jsx"));
-const BookingLookupModal = lazy(() => import("./components/BookingLookupModal.jsx"));
-const PinDispatchSimulationModal = lazy(() => import("./components/PinDispatchSimulationModal.jsx"));
-const TouristHelplineWidget = lazy(() => import("./components/TouristHelplineWidget.jsx"));
+const PaystackCheckoutModal = lazy(() => import("./components/PaystackCheckoutModal.tsx"));
+const EscrowVoucherModal = lazy(() => import("./components/EscrowVoucherModal.tsx"));
+const EscrowManager = lazy(() => import("./components/EscrowManager.tsx"));
+const FairPriceTracker = lazy(() => import("./components/FairPriceTracker.tsx"));
+const AccommodationsView = lazy(() => import("./components/AccommodationsView.tsx"));
+const VendorPortal = lazy(() => import("./components/VendorPortal.tsx"));
+const PackageDetailsModal = lazy(() => import("./components/PackageDetailsModal.tsx"));
+const VendorAuthModal = lazy(() => import("./components/VendorAuthModal.tsx"));
+const MerchantOnboardingModal = lazy(() => import("./components/MerchantOnboardingModal.tsx"));
+const AdminVendorQueue = lazy(() => import("./components/AdminVendorQueue.tsx"));
+const BookingLookupModal = lazy(() => import("./components/BookingLookupModal.tsx"));
+const PinDispatchSimulationModal = lazy(() => import("./components/PinDispatchSimulationModal.tsx"));
+const TouristHelplineWidget = lazy(() => import("./components/TouristHelplineWidget.tsx"));
+const TouristProtectionDesk = lazy(() => import("./components/TouristProtectionDesk.tsx"));
+const MobileGateScanner = lazy(() => import("./components/MobileGateScanner.tsx"));
+const OrganizerLiveHub = lazy(() => import("./components/OrganizerLiveHub.tsx"));
 
 export default function App() {
   const isSessionVendorAuthenticated = () => {
@@ -40,6 +43,9 @@ export default function App() {
       const path = window.location.pathname.toLowerCase();
       if (path === "/admin" || path === "/moderation") return "admin";
       if (path === "/shield") return "shield";
+      if (path === "/support") return "support";
+      if (path === "/scanner") return "scanner";
+      if (path === "/dashboard" || path === "/hub") return "dashboard";
       if (path === "/vendor") {
         return isSessionVendorAuthenticated() ? "vendor" : "packages";
       }
@@ -469,6 +475,33 @@ export default function App() {
           <Suspense fallback={<div className="p-12 text-center text-slate-400"><EscrowTableSkeleton rows={4} /></div>}>
             <EscrowManager
               onOpenVoucher={(tx) => setActiveVoucher(tx)}
+            />
+          </Suspense>
+        )}
+
+        {activeTab === "support" && (
+          <Suspense fallback={<div className="p-12 text-center text-slate-400">Loading Protection Desk...</div>}>
+            <TouristProtectionDesk
+              onBackToExplore={() => handleTabChange("packages")}
+              onOpenBookingLookup={() => setShowBookingLookupModal(true)}
+            />
+          </Suspense>
+        )}
+
+        {activeTab === "scanner" && (
+          <Suspense fallback={<div className="p-12 text-center text-slate-400">Initializing Mobile Gate Scanner...</div>}>
+            <MobileGateScanner
+              onClose={() => handleTabChange("packages")}
+              onNavigateToDashboard={() => handleTabChange("dashboard")}
+            />
+          </Suspense>
+        )}
+
+        {activeTab === "dashboard" && (
+          <Suspense fallback={<div className="p-12 text-center text-slate-400">Loading Organizer Telemetry Hub...</div>}>
+            <OrganizerLiveHub
+              onOpenGateScanner={() => handleTabChange("scanner")}
+              onOpenProtectionDesk={() => handleTabChange("support")}
             />
           </Suspense>
         )}

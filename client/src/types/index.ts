@@ -34,7 +34,7 @@ export interface Vendor {
   bankAccount: string;
   bankPayoutDetails?: string;
   subaccount_code?: string | null;
-  paystackSubaccount?: any;
+  paystackSubaccount?: Record<string, unknown> | null;
   phone: string;
   email: string;
   logoUrl?: string;
@@ -143,3 +143,80 @@ export interface BankRecord {
   slug?: string;
   nibss_code?: string;
 }
+
+// Apple-Grade Component Interfaces for Protection Desk, Gate Scanner, & Organizer Hub
+export interface EscrowBookingRecord {
+  reference: string;
+  packageName: string;
+  vendor: string;
+  vendorId?: string;
+  customerName: string;
+  email: string;
+  phone: string;
+  amountNGN: number;
+  status: "ESCROW_LOCKED_ACTIVE" | "COMPLETED_DISBURSED" | "ESCROW_FROZEN_DISPUTE";
+  statusLabel: string;
+  checkInPin: string;
+  bookingDate: string;
+  location?: string;
+}
+
+export interface RapidSupportContact {
+  id: string;
+  title: string;
+  badge: string;
+  description: string;
+  sla: string;
+  phone: string;
+  whatsapp: string;
+  whatsappMessage: string;
+  accent: "emerald" | "sky" | "amber";
+  coverage: string[];
+}
+
+export type ScannerStatus = "idle" | "scanning" | "valid" | "duplicate" | "fraud";
+
+export interface ScannedPassPayload {
+  reference: string;
+  attendeeName: string;
+  categoryTier: string;
+  vendorOrEvent: string;
+  gateLocation: string;
+  checkInTimestamp: string;
+  escrowStatus: "RELEASED_TO_MERCHANT" | "HELD_FOR_REVIEW" | "ALREADY_CLAIMED";
+  ticketId: string;
+  seatOrGrandstand?: string;
+  redemptionHistory?: {
+    firstCheckIn: string;
+    gate: string;
+    operator: string;
+  };
+}
+
+export interface SettlementLedgerEntry {
+  reference: string;
+  guestName: string;
+  vendorName: string;
+  vendorId: string;
+  paystackSubaccount: string;
+  category: "accommodations" | "eco-sites" | "dining-nightlife" | "trade-expo" | "carnival-culture";
+  categoryLabel: string;
+  grossAmountNGN: number;
+  baseAmountNGN: number;
+  platformMarkupNGN: number;
+  stateTaxNGN: number;
+  netVendorPayoutNGN: number;
+  status: "DISBURSED_TO_SUBACCOUNT" | "ESCROW_LOCKED" | "PENDING_CHECKIN" | "FROZEN_DISPUTE";
+  checkInTimestamp: string;
+  channel: string;
+}
+
+export interface TelemetryStats {
+  grossProcessedNGN: number;
+  activeEscrowsLockedNGN: number;
+  totalGateChecks: number;
+  stateTaxRemittedNGN: number;
+  totalDisbursedNGN: number;
+  activePassAuthenticityRate: number;
+}
+
