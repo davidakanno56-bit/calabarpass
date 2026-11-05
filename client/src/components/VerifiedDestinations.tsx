@@ -1,5 +1,5 @@
 import React from "react";
-import { useCurrency } from "../context/CurrencyContext.jsx";
+import { useCurrency } from "../context/CurrencyContext.tsx";
 import { 
   ShieldCheck, 
   MapPin, 
@@ -15,7 +15,7 @@ import {
   Navigation, 
   ArrowUpRight 
 } from "lucide-react";
-import VerifiedImage from "./VerifiedImage.jsx";
+import VerifiedImage from "./VerifiedImage.tsx";
 
 export const DESTINATIONS = [
   {
@@ -204,29 +204,41 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
                 index === 4 ? "sm:col-span-2 lg:col-span-1" : ""
               }`}
             >
-              {/* Text-Only Destination Header (Zero Broken Media Frames) */}
-              <div className="relative p-6 border-b border-slate-200 dark:border-slate-800/80 bg-gradient-to-br from-emerald-50 via-white to-emerald-50/40 dark:from-emerald-950/40 dark:via-slate-900/90 dark:to-slate-950 flex flex-col justify-between min-h-[9.5rem]">
+              {/* Authentic High-Res Photography Header */}
+              <div className="relative h-56 w-full overflow-hidden bg-slate-950">
+                <VerifiedImage
+                  item={dest}
+                  src={dest.image || dest.imageUrl || dest.primaryUrl}
+                  alt={dest.name}
+                  aspectRatio="h-56"
+                  rounded="rounded-none"
+                  showBadge={false}
+                  showAttribution={false}
+                  allowGallery={false}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-black/30 pointer-events-none" />
+
                 {/* Top Badges */}
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 border-emerald-300 dark:bg-emerald-950/80 dark:text-emerald-300 dark:border-emerald-500/40 shadow-sm">
-                    <IconComponent className="w-3.5 h-3.5" />
+                <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between gap-2 z-10">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-slate-950/80 backdrop-blur-md text-emerald-300 border border-emerald-400/40 shadow-sm">
+                    <IconComponent className="w-3.5 h-3.5 text-emerald-400" />
                     <span>{dest.category}</span>
                   </span>
 
-                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 border-emerald-300 dark:bg-emerald-950/90 dark:text-emerald-300 dark:border-emerald-500/40 shadow-sm">
-                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-slate-950/80 backdrop-blur-md text-emerald-300 border border-emerald-400/40 shadow-sm">
+                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
                     <span>{dest.badge}</span>
                   </span>
                 </div>
 
-                {/* Destination Name & Physical Location */}
-                <div className="space-y-1.5">
-                  <h3 className="text-2xl font-bold font-heading text-slate-900 dark:text-white tracking-tight group-hover:text-emerald-600 dark:group-hover:text-stateCyan transition-colors">
+                {/* Destination Name & Physical Location over Gradient */}
+                <div className="absolute bottom-3.5 left-4 right-4 z-10 space-y-1">
+                  <h3 className="text-2xl font-bold font-heading text-white tracking-tight group-hover:text-stateCyan transition-colors drop-shadow-sm">
                     {dest.name}
                   </h3>
-                  <div className="flex items-center gap-2 text-sm text-sky-600 dark:text-stateCyan font-semibold tracking-tight">
-                    <MapPin className="w-4 h-4 shrink-0" />
-                    <span className="font-medium text-slate-700 dark:text-slate-200">{dest.location}</span>
+                  <div className="flex items-center gap-1.5 text-xs text-slate-200 font-medium">
+                    <MapPin className="w-3.5 h-3.5 text-stateCyan shrink-0" />
+                    <span className="truncate">{dest.location}</span>
                   </div>
                 </div>
               </div>

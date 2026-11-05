@@ -119,17 +119,17 @@ async function runRealImagesVerification() {
   const fs = await import("fs");
   const path = await import("path");
 
-  const packagesPath = path.resolve("./client/src/data/packages.js");
+  const packagesPath = path.resolve("./client/src/data/packages.ts");
   const packagesContent = fs.readFileSync(packagesPath, "utf-8");
   assert(!packagesContent.includes("images.unsplash.com"), "packages.js contains 0 Unsplash placeholder images");
   assert(packagesContent.includes("wikimedia.org") || packagesContent.includes("/assets/"), "packages.js contains verified Wikimedia and on-site assets");
 
-  const categoriesPath = path.resolve("./client/src/data/expandedCategories.js");
+  const categoriesPath = path.resolve("./client/src/data/expandedCategories.ts");
   const categoriesContent = fs.readFileSync(categoriesPath, "utf-8");
   assert(!categoriesContent.includes("images.unsplash.com"), "expandedCategories.js contains 0 Unsplash placeholder images");
   assert(categoriesContent.includes("placeId:"), "expandedCategories.js contains verified Google place IDs");
 
-  const verifiedDestPath = path.resolve("./client/src/components/VerifiedDestinations.jsx");
+  const verifiedDestPath = path.resolve("./client/src/components/VerifiedDestinations.tsx");
   const verifiedDestContent = fs.readFileSync(verifiedDestPath, "utf-8");
   assert(!verifiedDestContent.includes("images.unsplash.com"), "VerifiedDestinations.jsx contains 0 Unsplash placeholder images");
 

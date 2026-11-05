@@ -12,7 +12,7 @@ import {
   ArrowRight 
 } from "lucide-react";
 
-import { getStoredVendors, isPaystackLiveMode } from "../utils/api.js";
+import { getStoredVendors, isPaystackLiveMode } from "../utils/api.ts";
 
 // Master clearinghouse administrative codes
 const MASTER_OPERATOR_CODES = [

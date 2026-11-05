@@ -2,7 +2,7 @@
 // CalabarPass Client Real-World Image Service
 // Cross River 365-Day Clearinghouse authentic photography resolver & manager.
 
-import { VERIFIED_PLACES_IMAGES, getVerifiedPlaceImage } from "../data/verifiedPlacesImages.js";
+import { VERIFIED_PLACES_IMAGES, getVerifiedPlaceImage } from "../data/verifiedPlacesImages.ts";
 
 /**
  * Standard Neutral Fallback Object for listings without a verified photograph yet.

@@ -2,7 +2,7 @@
 // CalabarPass Eco-Sites & Heritage Data
 // Explicit object-ID based image mapping: zero sequential index matching, zero unrelated fallbacks.
 
-import { PACKAGES as CORE_PACKAGES } from "./packages.js";
+import { PACKAGES as CORE_PACKAGES } from "./packages.ts";
 
 export const ECO_SITES_IMAGE_MAP = {
   // Obudu Mountain Resort

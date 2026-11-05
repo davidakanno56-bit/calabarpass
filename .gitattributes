@@ -1,0 +1,16 @@
+# GitHub Linguist Language Detection Configuration
+# Ensure TypeScript and TSX files in client are prioritized
+*.ts linguist-detectable=true
+*.tsx linguist-detectable=true
+client/src/** linguist-detectable=true
+client/src/**/*.tsx linguist-detectable=true
+client/src/**/*.ts linguist-detectable=true
+
+# Mark test and mock verification scripts as vendored/non-detectable for language bar stats
+test_*.js linguist-detectable=false
+*.test.js linguist-detectable=false
+*.spec.js linguist-detectable=false
+
+# Documentation
+*.md linguist-documentation=true
+

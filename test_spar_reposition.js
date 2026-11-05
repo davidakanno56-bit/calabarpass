@@ -24,13 +24,13 @@ async function verify() {
 
   // 1. Packages Data in client/src/data/packages.js
   console.log("1. Verifying Packages Data (client/src/data/packages.js)...");
-  const packagesFilePath = path.resolve("client/src/data/packages.js");
+  const packagesFilePath = path.resolve("client/src/data/packages.ts");
   const packagesContent = fs.readFileSync(packagesFilePath, "utf8");
 
   assert(!packagesContent.includes("pkg-spar-crafts"), "SPAR crafts package ID removed from packages.js");
   assert(!packagesContent.includes("Spar Calabar Cultural Souvenir"), "SPAR title removed from packages.js");
 
-  const { PACKAGES } = await import("./client/src/data/packages.js");
+  const { PACKAGES } = await import("./client/src/data/packages.ts");
   const agbokim = PACKAGES.find(p => p.id === "pkg-agbokim-waterfalls");
 
   assert(!!agbokim, 'Package with id "pkg-agbokim-waterfalls" exists');
@@ -52,7 +52,7 @@ async function verify() {
 
   // 2. Vendor Portal Terminals (client/src/components/VendorPortal.jsx)
   console.log("2. Verifying Vendor Portal (client/src/components/VendorPortal.jsx)...");
-  const vendorPortalPath = path.resolve("client/src/components/VendorPortal.jsx");
+  const vendorPortalPath = path.resolve("client/src/components/VendorPortal.tsx");
   const vendorPortalContent = fs.readFileSync(vendorPortalPath, "utf8");
 
   assert(!vendorPortalContent.includes("Spar Mall Calabar Crafts & Retail"), "SPAR Mall completely removed from VendorPortal.jsx");
@@ -77,7 +77,7 @@ async function verify() {
 
   // 3. SPAR Verified Retail Benchmark in Scam Shield (client/src/components/FairPriceTracker.jsx)
   console.log("3. Verifying SPAR in Surge & Scam Shield (FairPriceTracker.jsx / SurgeShield.jsx)...");
-  const fairPricePath = path.resolve("client/src/components/FairPriceTracker.jsx");
+  const fairPricePath = path.resolve("client/src/components/FairPriceTracker.tsx");
   const fairPriceContent = fs.readFileSync(fairPricePath, "utf8");
 
   assert(fairPriceContent.includes("Retail & Provisions Benchmark"), 'Section "Retail & Provisions Benchmark" exists');
@@ -93,7 +93,7 @@ async function verify() {
   assert(fairPriceContent.includes("Tourist Directive:"), "Tourist Directive text present");
 
   // Check SurgeShield.jsx exists
-  const surgeShieldPath = path.resolve("client/src/components/SurgeShield.jsx");
+  const surgeShieldPath = path.resolve("client/src/components/SurgeShield.tsx");
   assert(fs.existsSync(surgeShieldPath), "SurgeShield.jsx exists and exports component");
 
   console.log("");

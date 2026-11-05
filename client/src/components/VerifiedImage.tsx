@@ -6,7 +6,7 @@
 
 import React, { useState, useEffect } from "react";
 import { ShieldCheck, CameraOff, ExternalLink, ChevronLeft, ChevronRight, CheckCircle2 } from "lucide-react";
-import { resolvePlaceImage, getNeutralFallback } from "../utils/imageService.js";
+import { resolvePlaceImage, getNeutralFallback } from "../utils/imageService.ts";
 
 export default function VerifiedImage({
   item,

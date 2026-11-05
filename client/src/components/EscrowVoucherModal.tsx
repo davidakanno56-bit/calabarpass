@@ -20,7 +20,7 @@ import {
 } from "lucide-react";
 import confetti from "canvas-confetti";
 import QRCode from "qrcode";
-import { handleLocalEscrowFallback } from "../utils/api.js";
+import { handleLocalEscrowFallback } from "../utils/api.ts";
 
 export default function EscrowVoucherModal({ transaction: initialTx, onClose, onOpenEscrowPortal }) {
   const [transaction, setTransaction] = useState(initialTx);

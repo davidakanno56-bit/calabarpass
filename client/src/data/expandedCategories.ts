@@ -8,13 +8,13 @@
 // 5. Carnival & Culture (Carnival Band Passes, Festival Tickets) -> from ./carnival.js
 // Strictly Real Photographs: Zero AI-generated images, zero synthetic photos, zero unrelated stock images.
 
-import { PACKAGES as CORE_PACKAGES } from "./packages.js";
-import { HOTELS, RAW_ACCOMMODATIONS_CARDS } from "./hotels.js";
-import { RAW_ECO_SITES_CARDS } from "./ecoSites.js";
-import { RAW_DINING_NIGHTLIFE_CARDS } from "./dining.js";
-import { RAW_TRADE_EXPO_CARDS } from "./tradeHub.js";
-import { RAW_CARNIVAL_CULTURE_CARDS } from "./carnival.js";
-import { VERIFIED_PLACES_IMAGES, getVerifiedPlaceImage } from "./verifiedPlacesImages.js";
+import { PACKAGES as CORE_PACKAGES } from "./packages.ts";
+import { HOTELS, RAW_ACCOMMODATIONS_CARDS } from "./hotels.ts";
+import { RAW_ECO_SITES_CARDS } from "./ecoSites.ts";
+import { RAW_DINING_NIGHTLIFE_CARDS } from "./dining.ts";
+import { RAW_TRADE_EXPO_CARDS } from "./tradeHub.ts";
+import { RAW_CARNIVAL_CULTURE_CARDS } from "./carnival.ts";
+import { VERIFIED_PLACES_IMAGES, getVerifiedPlaceImage } from "./verifiedPlacesImages.ts";
 
 // Re-export raw cards for direct access
 export {

@@ -15,11 +15,13 @@ import {
   ChevronDown,
   ChevronUp,
   User,
-  Globe
+  Globe,
+  Search,
+  ShieldCheck
 } from "lucide-react";
-import { useTheme } from "../context/ThemeContext.jsx";
-import { useCurrency } from "../context/CurrencyContext.jsx";
-import CategoryMegaMenu from "./CategoryMegaMenu.jsx";
+import { useTheme } from "../context/ThemeContext.tsx";
+import { useCurrency } from "../context/CurrencyContext.tsx";
+import CategoryMegaMenu from "./CategoryMegaMenu.tsx";
 
 export const NAV_CATEGORIES = [
   {
@@ -75,6 +77,15 @@ export default function Navbar({
   const [megaMenuCategory, setMegaMenuCategory] = useState(null);
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const handleVendorClick = () => {
+    setIsMegaMenuOpen(false);
+    if (onOpenVendorPortal) {
+      onOpenVendorPortal();
+    } else {
+      setActiveTab("vendor");
+    }
+  };
 
   const handleVendorOrLookupClick = () => {
     setIsMegaMenuOpen(false);
@@ -225,7 +236,7 @@ export default function Navbar({
               </button>
             )}
 
-            {/* 4. Scam Shield Vault */}
+            {/* 4. Fair Price Index */}
             <button
               onClick={() => {
                 setIsMegaMenuOpen(false);
@@ -234,41 +245,46 @@ export default function Navbar({
               }}
               className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold tracking-tight transition-all border cursor-pointer hover:scale-[1.02] active:scale-95 ${
                 activeTab === "shield"
-                  ? "bg-stateCyan text-white border-stateCyan shadow-md shadow-stateCyan/25"
-                  : "bg-slate-100/90 dark:bg-slate-900 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-800 hover:border-stateCyan/40 hover:bg-white dark:hover:bg-slate-800"
+                  ? "bg-sky-600 text-white border-sky-600 shadow-md shadow-sky-950/40"
+                  : "bg-slate-100/90 dark:bg-slate-900 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-800 hover:border-sky-500/40 hover:bg-white dark:hover:bg-slate-800"
               }`}
-              title="Cross River Fair-Price Index & Scam Shield Vault"
+              title="Cross River Fair-Price Index & Price Benchmark"
             >
-              <ShieldAlert className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-stateCyan shrink-0" />
-              <span className="whitespace-nowrap hidden sm:inline">Scam Shield Vault</span>
-              <span className="whitespace-nowrap sm:hidden">Shield</span>
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+              <span className="whitespace-nowrap hidden sm:inline">Fair Price Index</span>
+              <span className="whitespace-nowrap sm:hidden">Index</span>
             </button>
 
-            {/* 5. User / Vendor Action Button: "Vendor Portal / Booking Lookup" */}
+            {/* 5. Track Booking (for Guests / Tourists) */}
+            {onOpenBookingLookup && (
+              <button
+                onClick={() => {
+                  setIsMegaMenuOpen(false);
+                  onOpenBookingLookup();
+                }}
+                className="hidden lg:flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold tracking-tight transition-all border border-slate-200 dark:border-slate-800 bg-slate-100/90 dark:bg-slate-900/90 hover:bg-white dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 hover:border-sky-500/40 cursor-pointer shadow-sm hover:scale-[1.02] active:scale-95"
+                title="Lookup your booking voucher with your 6-digit PIN"
+              >
+                <Search className="w-3.5 h-3.5 text-sky-400 shrink-0" />
+                <span className="whitespace-nowrap">Track Booking</span>
+              </button>
+            )}
+
+            {/* 6. Merchant Settlement Portal */}
             <button
-              onClick={handleVendorOrLookupClick}
+              onClick={handleVendorClick}
               className={`flex items-center gap-2 px-3 sm:px-3.5 py-2 rounded-xl text-xs font-bold tracking-tight transition-all border cursor-pointer hover:scale-[1.02] active:scale-95 ${
-                activeTab === "escrow" || activeTab === "vendor"
-                  ? "bg-stateCyan text-white border-stateCyan shadow-md shadow-stateCyan/25"
-                  : "bg-slate-100/90 dark:bg-slate-900 text-slate-800 dark:text-slate-100 border-slate-200 dark:border-slate-800 hover:border-stateCyan/40 hover:bg-white dark:hover:bg-slate-800"
+                activeTab === "vendor" || isVendorAuthenticated
+                  ? "bg-sky-600 text-white border-sky-600 shadow-md shadow-sky-950/40"
+                  : "bg-slate-100/90 dark:bg-slate-900 text-slate-800 dark:text-slate-100 border-slate-200 dark:border-slate-800 hover:border-sky-500/40 hover:bg-white dark:hover:bg-slate-800"
               }`}
-              title="No account required for tourists. Vendors log in here."
+              title="Merchant Settlement Portal for Verified Cross River Operators"
             >
               <div className="relative flex items-center justify-center">
-                <User className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
-                <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                <User className="w-3.5 h-3.5 shrink-0" />
+                <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-emerald-400" />
               </div>
-              <div className="flex flex-col text-left">
-                <span className="whitespace-nowrap hidden sm:inline leading-tight">
-                  Vendor Portal / Booking Lookup
-                </span>
-                <span className="whitespace-nowrap sm:hidden">
-                  Lookup / Vendor
-                </span>
-                <span className="hidden xl:block text-[9px] text-slate-400 dark:text-slate-400 font-normal leading-none mt-0.5">
-                  No account for tourists • Vendors login
-                </span>
-              </div>
+              <span className="whitespace-nowrap">Merchant Portal</span>
             </button>
           </div>
 

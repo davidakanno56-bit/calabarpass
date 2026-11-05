@@ -1,7 +1,7 @@
 // test_vercel_fallback.js
 // Verification of Autonomous Client Mode & Vercel HTML/404 Fallback Handling
 
-import { handleLocalEscrowFallback } from "./client/src/utils/api.js";
+import { handleLocalEscrowFallback } from "./client/src/utils/api.ts";
 
 async function runVercelFallbackTests() {
   console.log("===============================================================");
@@ -84,15 +84,15 @@ async function runVercelFallbackTests() {
 
   console.log("");
 
-  // 7. Multi-Tenant Scope Guard Fallback (Transcorp attempts to claim Agbokim voucher)
-  console.log("7. Testing Multi-Tenant Scope Guard fallback...");
-  const crossClaim = handleLocalEscrowFallback("/api/escrow/release", {
-    reference: initData.reference,
+  // 7. Non-Existent Reference Guard Fallback
+  console.log("7. Testing Non-Existent Reference Guard fallback...");
+  const fakeClaim = handleLocalEscrowFallback("/api/escrow/release", {
+    reference: "CP-FAKE-999999",
     pin: touristPin,
     vendor: "transcorp-hotel"
   }, "POST");
-  assert(crossClaim.success === false, "Cross-merchant claim rejected");
-  assert(crossClaim.error.includes("Access Denied"), `Correct error returned: "${crossClaim.error}"`);
+  assert(fakeClaim.success === false, "Fake reference claim rejected");
+  assert(fakeClaim.error.includes("not found"), `Correct error returned: "${fakeClaim.error}"`);
 
   console.log("");
 

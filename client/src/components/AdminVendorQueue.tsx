@@ -12,8 +12,8 @@ import {
   Sparkles,
   Inbox
 } from "lucide-react";
-import { handleLocalEscrowFallback } from "../utils/api.js";
-import VerifiedImage from "./VerifiedImage.jsx";
+import { handleLocalEscrowFallback } from "../utils/api.ts";
+import VerifiedImage from "./VerifiedImage.tsx";
 
 export default function AdminVendorQueue({ onApprovalSuccess }) {
   const [pendingVendors, setPendingVendors] = useState([]);
@@ -234,6 +234,22 @@ export default function AdminVendorQueue({ onApprovalSuccess }) {
                       📍 {vendor.location}
                     </p>
                   )}
+
+                  {/* Pricing & Payout Breakdown */}
+                  <div className="flex flex-wrap items-center gap-2 pt-1">
+                    <span className="px-2 py-0.5 rounded bg-slate-900 border border-slate-700 text-[11px] text-slate-300 font-mono">
+                      Base: ₦{Number(vendor.basePriceNGN || vendor.priceNGN || 0).toLocaleString()}
+                    </span>
+                    <span className="px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/20 text-[11px] text-amber-300 font-mono">
+                      Markup: +₦{Number(vendor.platformMarkupNGN || 5000).toLocaleString()}
+                    </span>
+                    <span className="px-2 py-0.5 rounded bg-stateCyan/10 border border-stateCyan/20 text-[11px] text-stateCyan font-mono font-bold">
+                      Public: ₦{Number(vendor.priceNGN || vendor.publicPriceNGN || 0).toLocaleString()}
+                    </span>
+                    <span className="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-[11px] text-emerald-300 font-mono font-semibold">
+                      Net Payout: ₦{Number(vendor.vendorPayoutNGN || Math.round((vendor.basePriceNGN || vendor.priceNGN || 0) * 0.98)).toLocaleString()} (2% Tax)
+                    </span>
+                  </div>
                 </div>
               </div>
 

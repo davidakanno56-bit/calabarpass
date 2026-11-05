@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useCurrency } from "../context/CurrencyContext.jsx";
+import { useCurrency } from "../context/CurrencyContext.tsx";
 import {
   Check,
   LockKeyhole,
@@ -8,8 +8,8 @@ import {
   X,
   ExternalLink
 } from "lucide-react";
-import VerifiedImage from "./VerifiedImage.jsx";
-import { resolvePlaceImage } from "../utils/imageService.js";
+import VerifiedImage from "./VerifiedImage.tsx";
+import { resolvePlaceImage } from "../utils/imageService.ts";
 
 const INCLUDED_ITEMS = {
   "pkg-seagull-pass": [

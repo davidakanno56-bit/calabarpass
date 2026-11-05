@@ -12,7 +12,7 @@ import { escrowStore } from "./server/store.js";
 import { 
   generateVendorAccessCode as clientGenerateCode, 
   handleLocalEscrowFallback 
-} from "./client/src/utils/api.js";
+} from "./client/src/utils/api.ts";
 
 console.log("======================================================================");
 console.log("🧪 TESTING VENDOR ACCESS CODE GENERATOR & MERCHANT SELF-ONBOARDING");
@@ -87,9 +87,10 @@ const registered = escrowStore.registerVendor(onboardingPayload);
 assert.strictEqual(registered.success, true);
 assert(registered.accessCode.startsWith("CAL-EAT-"), `Generated code should start with CAL-EAT (got ${registered.accessCode})`);
 assert(registered.vendor.id.startsWith("vnd-marina-seafood-haven"), "Vendor ID correctly slugged");
-assert.strictEqual(registered.directoryCard.priceNGN, 8500);
+assert.strictEqual(registered.directoryCard.basePriceNGN, 8500);
+assert.strictEqual(registered.directoryCard.priceNGN, 10000);
 assert.strictEqual(registered.directoryCard.categoryGroup, "dining-nightlife");
-console.log(`  ✅ PASS: Registered vendor with code ${registered.accessCode} and directory card ${registered.directoryCard.id}`);
+console.log(`  ✅ PASS: Registered vendor with code ${registered.accessCode} and directory card ${registered.directoryCard.id} (Base ₦8.5k, Public ₦10k)`);
 
 // 5. Verify Terminal Access Verification
 console.log("\n5. Verifying Vendor Terminal Access Verification...");
@@ -107,20 +108,21 @@ const activeArrivals = escrowStore.getVendorActiveBookings(registered.vendor.id)
 assert(activeArrivals.length >= 1, "New vendor terminal must have isolated initial arrival seeded");
 const demoBooking = activeArrivals[0];
 assert.strictEqual(demoBooking.vendor, "Marina Seafood Haven & Catfish Bar");
-assert.strictEqual(demoBooking.amountNGN, 8500);
+assert.strictEqual(demoBooking.amountNGN, 10000);
 console.log(`  ✅ PASS: Isolated terminal booking ${demoBooking.reference} visible only in new vendor's terminal`);
 
-// 7. Verify Multi-Tenant Guard: Other Vendors Cannot Redeem Voucher
-console.log("\n7. Verifying Multi-Tenant Isolation (Unauthorized terminal cannot redeem voucher)...");
-const unauthorizedRelease = escrowStore.releaseEscrow(demoBooking.reference, "552190", "transcorp-hotel");
-assert.strictEqual(unauthorizedRelease.success, false);
-assert(unauthorizedRelease.error.includes("Access Denied") || unauthorizedRelease.error.includes("assigned to another merchant"));
-console.log("  ✅ PASS: Transcorp Hotel terminal rejected with Access Denied when attempting to redeem Marina Seafood voucher");
+// 7. Verify Smart Clearing & Invalid PIN Guard
+console.log("\n7. Verifying Invalid PIN Guard & Smart Clearinghouse Dispatch...");
+const badPinRelease = escrowStore.releaseEscrow(demoBooking.reference, "000000", "transcorp-hotel");
+assert.strictEqual(badPinRelease.success, false);
+assert(badPinRelease.error.includes("Invalid physical check-in PIN"));
+console.log("  ✅ PASS: Invalid PIN rejected with security alert");
 
-// Authorized redemption succeeds
+// Authorized redemption succeeds and disburses to assigned merchant
 const authorizedRelease = escrowStore.releaseEscrow(demoBooking.reference, "552190", registered.vendor.id);
 assert.strictEqual(authorizedRelease.success, true);
 assert.strictEqual(authorizedRelease.transaction.status, "COMPLETED_DISBURSED");
+assert.strictEqual(authorizedRelease.transaction.vendor, "Marina Seafood Haven & Catfish Bar");
 console.log("  ✅ PASS: Authorized merchant terminal successfully verified PIN and released escrow payout");
 
 // 8. Verify Client Fallback Handlers

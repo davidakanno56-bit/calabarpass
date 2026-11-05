@@ -9,7 +9,7 @@ import {
   CATEGORIES_CONFIG, 
   ALL_EXPANDED_CARDS, 
   getCategoryCounts 
-} from "./client/src/data/expandedCategories.js";
+} from "./client/src/data/expandedCategories.ts";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -20,8 +20,10 @@ console.log("==================================================================\
 
 // 1. Verify 5 Commercial & Tourism Navigation Categories in Navbar.jsx
 console.log("1. Verifying 5 Commercial & Tourism Navigation Categories in Navbar.jsx...");
-const navbarPath = path.join(__dirname, "client", "src", "components", "Navbar.jsx");
-assert(fs.existsSync(navbarPath), "Navbar.jsx file must exist");
+const navbarPath = fs.existsSync(path.join(__dirname, "client", "src", "components", "Navbar.tsx"))
+  ? path.join(__dirname, "client", "src", "components", "Navbar.tsx")
+  : path.join(__dirname, "client", "src", "components", "Navbar.jsx");
+assert(fs.existsSync(navbarPath), "Navbar component file must exist");
 const navbarSource = fs.readFileSync(navbarPath, "utf-8");
 
 const expectedCategories = [
@@ -54,8 +56,10 @@ expectedCategories.forEach(exp => {
 
 // 3. Verify VendorAuthModal Component & Valid Access Codes
 console.log("\n3. Verifying VendorAuthModal Component & Access Codes...");
-const modalPath = path.join(__dirname, "client", "src", "components", "VendorAuthModal.jsx");
-assert(fs.existsSync(modalPath), "VendorAuthModal.jsx file must exist");
+const modalPath = fs.existsSync(path.join(__dirname, "client", "src", "components", "VendorAuthModal.tsx"))
+  ? path.join(__dirname, "client", "src", "components", "VendorAuthModal.tsx")
+  : path.join(__dirname, "client", "src", "components", "VendorAuthModal.jsx");
+assert(fs.existsSync(modalPath), "VendorAuthModal component file must exist");
 const modalSource = fs.readFileSync(modalPath, "utf-8");
 
 assert(modalSource.includes("CALABAR2026"), "VendorAuthModal supports CALABAR2026 master access code");
@@ -72,23 +76,27 @@ assert(navbarSource.includes("handleVendorClick"), "Navbar uses handleVendorClic
 assert(navbarSource.includes("isVendorAuthenticated"), "Navbar checks isVendorAuthenticated");
 console.log("  ✅ PASS: Navbar properly intercepts clicks and guards Vendor Portal behind authentication.");
 
-// 5. Verify App.jsx Protected Routing & Modal Wiring
-console.log("\n5. Verifying App.jsx Protected Routing & Modal Wiring...");
-const appPath = path.join(__dirname, "client", "src", "App.jsx");
+// 5. Verify App.tsx Protected Routing & Modal Wiring
+console.log("\n5. Verifying App.tsx Protected Routing & Modal Wiring...");
+const appPath = fs.existsSync(path.join(__dirname, "client", "src", "App.tsx"))
+  ? path.join(__dirname, "client", "src", "App.tsx")
+  : path.join(__dirname, "client", "src", "App.jsx");
 const appSource = fs.readFileSync(appPath, "utf-8");
 
-assert(appSource.includes("VendorAuthModal"), "App.jsx imports VendorAuthModal");
-assert(appSource.includes("isVendorAuthenticated"), "App.jsx manages isVendorAuthenticated state");
-assert(appSource.includes("showVendorAuthModal"), "App.jsx manages showVendorAuthModal state");
-assert(appSource.includes("handleOpenVendorPortal"), "App.jsx implements handleOpenVendorPortal");
-assert(appSource.includes("handleVendorAuthSuccess"), "App.jsx implements handleVendorAuthSuccess");
-assert(appSource.includes("handleLockTerminal"), "App.jsx implements handleLockTerminal");
-assert(appSource.includes("Merchant Settlement Terminal Locked"), "App.jsx provides locked terminal screen fallback");
-console.log("  ✅ PASS: App.jsx safeguards /vendor and renders modal on unauthenticated requests.");
+assert(appSource.includes("VendorAuthModal"), "App imports VendorAuthModal");
+assert(appSource.includes("isVendorAuthenticated"), "App manages isVendorAuthenticated state");
+assert(appSource.includes("showVendorAuthModal"), "App manages showVendorAuthModal state");
+assert(appSource.includes("handleOpenVendorPortal"), "App implements handleOpenVendorPortal");
+assert(appSource.includes("handleVendorAuthSuccess"), "App implements handleVendorAuthSuccess");
+assert(appSource.includes("handleLockTerminal"), "App implements handleLockTerminal");
+assert(appSource.includes("Merchant Settlement Terminal Locked"), "App provides locked terminal screen fallback");
+console.log("  ✅ PASS: App safeguards /vendor and renders modal on unauthenticated requests.");
 
 // 6. Verify VendorPortal Terminal Lock Mechanism
 console.log("\n6. Verifying VendorPortal Terminal Lock Mechanism...");
-const vendorPortalPath = path.join(__dirname, "client", "src", "components", "VendorPortal.jsx");
+const vendorPortalPath = fs.existsSync(path.join(__dirname, "client", "src", "components", "VendorPortal.tsx"))
+  ? path.join(__dirname, "client", "src", "components", "VendorPortal.tsx")
+  : path.join(__dirname, "client", "src", "components", "VendorPortal.jsx");
 const vendorPortalSource = fs.readFileSync(vendorPortalPath, "utf-8");
 
 assert(vendorPortalSource.includes("onLockTerminal"), "VendorPortal accepts onLockTerminal prop");

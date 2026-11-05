@@ -2,9 +2,9 @@
 // Verification suite for inventory strict separation and curated tourism packages
 
 import assert from "assert";
-import { PACKAGES } from "./client/src/data/packages.js";
-import { HOTELS } from "./client/src/data/hotels.js";
-import { handleLocalEscrowFallback } from "./client/src/utils/api.js";
+import { PACKAGES } from "./client/src/data/packages.ts";
+import { HOTELS } from "./client/src/data/hotels.ts";
+import { handleLocalEscrowFallback } from "./client/src/utils/api.ts";
 
 console.log("===============================================================");
 console.log("🧪 TESTING INVENTORY STRICT SEPARATION & TOUR PACKAGES");

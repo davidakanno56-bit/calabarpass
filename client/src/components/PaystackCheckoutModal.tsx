@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useCurrency } from "../context/CurrencyContext.jsx";
+import { useCurrency } from "../context/CurrencyContext.tsx";
 import { X, Lock, ShieldCheck, CreditCard, AlertCircle, ArrowRight, CheckCircle2, Loader2, Sparkles, Copy, Check, Calendar } from "lucide-react";
-import { CalendarPicker } from "./CalendarPicker.jsx";
-import { loadPaystackScript } from "../utils/paystackLoader.js";
-import { getHotelBaseRate } from "../data/hotels.js";
-import { handleLocalEscrowFallback } from "../utils/api.js";
-import VerifiedImage from "./VerifiedImage.jsx";
+import { CalendarPicker } from "./CalendarPicker.tsx";
+import { loadPaystackScript } from "../utils/paystackLoader.ts";
+import { getHotelBaseRate } from "../data/hotels.ts";
+import { handleLocalEscrowFallback } from "../utils/api.ts";
+import VerifiedImage from "./VerifiedImage.tsx";
 
 export default function PaystackCheckoutModal({
 

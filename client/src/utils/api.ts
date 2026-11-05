@@ -1,10 +1,11 @@
 // client/src/utils/api.js
 // Autonomous Client API & Local Escrow Fallback Engine for Vercel Deployments
 
-import { PACKAGES } from "../data/packages.js";
-import { POPULAR_BANKS, ALL_NIGERIAN_BANKS, searchBanks, getBankByCode } from "./banks.js";
+import { PACKAGES } from "../data/packages.ts";
+import { POPULAR_BANKS, ALL_NIGERIAN_BANKS, searchBanks, getBankByCode } from "./banks.ts";
+import { calculatePricingBreakdown, formatNaira } from "./pricing.ts";
 
-export { POPULAR_BANKS, ALL_NIGERIAN_BANKS, searchBanks, getBankByCode };
+export { POPULAR_BANKS, ALL_NIGERIAN_BANKS, searchBanks, getBankByCode, calculatePricingBreakdown, formatNaira };
 
 // Initial seed transactions for multi-tenant vendor terminals and escrow ledger
 const SEED_TRANSACTIONS = [
@@ -1045,15 +1046,19 @@ export function handleLocalEscrowFallback(endpoint, payload = null, method = "GE
     }
 
     // Release funds
+    const payoutAmount = targetTx.vendorPayoutNGN || Math.max(0, (targetTx.amountNGN || 0) - Math.round((targetTx.amountNGN || 0) * 0.02));
+    const taxDeducted = targetTx.taxNGN || Math.round((targetTx.basePriceNGN || targetTx.amountNGN || 0) * 0.02);
     targetTx.status = "COMPLETED_DISBURSED";
     targetTx.statusLabel = "Completed & Disbursed to Vendor";
     targetTx.disbursedAt = new Date().toISOString();
+    targetTx.disbursedVendorPayout = payoutAmount;
+    targetTx.remittedGovtTax = taxDeducted;
 
     saveStoredTransactions(txs);
 
     return {
       success: true,
-      message: `Escrow Released! ₦${(targetTx.amountNGN || 0).toLocaleString()} successfully disbursed to ${targetTx.vendor}.`,
+      message: `Escrow Released! ₦${payoutAmount.toLocaleString()} (net after 2% state tax of ₦${taxDeducted.toLocaleString()}) successfully disbursed to ${targetTx.vendor}.`,
       transaction: targetTx
     };
   }
@@ -1118,7 +1123,8 @@ export function handleLocalEscrowFallback(endpoint, payload = null, method = "GE
       corridor, 
       description, 
       price, 
-      priceNGN 
+      priceNGN,
+      basePriceNGN
     } = payload || {};
 
     const title = (businessName || business_name || name || "").trim();
@@ -1147,7 +1153,9 @@ export function handleLocalEscrowFallback(endpoint, payload = null, method = "GE
     const mail = (email || contactEmail || `${slug}@merchant.calabarpass.ng`).trim();
     const img = logoUrl || image || "/assets/executive_vip.jpg";
     const loc = location || corridor || "Calabar Municipality, Cross River State";
-    const rate = Number(priceNGN || price || 35000);
+    const rawRate = Number(basePriceNGN || priceNGN || price || 35000);
+    const pricing = calculatePricingBreakdown(rawRate);
+    const rate = pricing.publicListingPrice;
 
     const vendorRecord = {
       id: vendorId,
@@ -1166,6 +1174,13 @@ export function handleLocalEscrowFallback(endpoint, payload = null, method = "GE
       image: img,
       location: loc,
       description: description || `Verified Cross River 365-day commercial operator in ${normalizedCategory}.`,
+      basePriceNGN: pricing.basePrice,
+      platformMarkupNGN: pricing.platformMarkup,
+      taxNGN: pricing.taxAmount,
+      taxRatePercent: 2,
+      vendorPayoutNGN: pricing.vendorPayout,
+      priceNGN: pricing.publicListingPrice,
+      publicPriceNGN: pricing.publicListingPrice,
       accessCode,
       registeredAt: new Date().toISOString(),
       createdAt: new Date().toISOString(),
@@ -1195,6 +1210,10 @@ export function handleLocalEscrowFallback(endpoint, payload = null, method = "GE
       subaccount_code: vendorRecord.subaccount_code,
       paystackSubaccount: vendorRecord.paystackSubaccount,
       location: loc,
+      basePriceNGN: pricing.basePrice,
+      platformMarkupNGN: pricing.platformMarkup,
+      taxNGN: pricing.taxAmount,
+      vendorPayoutNGN: pricing.vendorPayout,
       priceNGN: rate,
       status: "pending",
       createdAt: new Date().toISOString()
@@ -1217,6 +1236,10 @@ export function handleLocalEscrowFallback(endpoint, payload = null, method = "GE
       vendorId: vendorId,
       location: loc,
       corridor: loc,
+      basePriceNGN: pricing.basePrice,
+      platformMarkupNGN: pricing.platformMarkup,
+      taxNGN: pricing.taxAmount,
+      vendorPayoutNGN: pricing.vendorPayout,
       priceNGN: rate,
       price: rate,
       priceRange: `₦${rate.toLocaleString()}`,
@@ -1252,6 +1275,10 @@ export function handleLocalEscrowFallback(endpoint, payload = null, method = "GE
       phone: tel,
       amountNGN: rate,
       amountKobo: rate * 100,
+      basePriceNGN: pricing.basePrice,
+      platformMarkupNGN: pricing.platformMarkup,
+      taxNGN: pricing.taxAmount,
+      vendorPayoutNGN: pricing.vendorPayout,
       bookingDate: new Date(Date.now() + 86400000).toISOString().split("T")[0],
       status: "ESCROW_LOCKED_ACTIVE",
       statusLabel: "Escrow Secured - Awaiting On-Site Verification",

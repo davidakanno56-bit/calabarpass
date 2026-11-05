@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Lock, Unlock, ShieldCheck, CheckCircle2, AlertCircle, RefreshCw, Key, ArrowRight, Calendar, UserCheck, Clock, ShieldAlert } from "lucide-react";
 import confetti from "canvas-confetti";
-import { EscrowTableSkeleton } from "./SkeletonLoader.jsx";
-import { handleLocalEscrowFallback } from "../utils/api.js";
+import { EscrowTableSkeleton } from "./SkeletonLoader.tsx";
+import { handleLocalEscrowFallback } from "../utils/api.ts";
 
 export default function EscrowManager({ onOpenVoucher }) {
   const [transactions, setTransactions] = useState([]);

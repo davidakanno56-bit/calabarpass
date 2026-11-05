@@ -5,12 +5,12 @@ import assert from "assert";
 import { escrowStore } from "./server/store.js";
 import { getDispatchedEmails, clearDispatchedEmails } from "./server/mail.js";
 import { officialAfSnetHotels } from "./server/hotels.js";
-import { officialAfSnetHotels as clientHotels } from "./client/src/data/hotels.js";
+import { officialAfSnetHotels as clientHotels } from "./client/src/data/hotels.ts";
 import { 
   handleLocalEscrowFallback,
   getStoredPendingVendors,
   saveStoredPendingVendors
-} from "./client/src/utils/api.js";
+} from "./client/src/utils/api.ts";
 
 console.log("======================================================================");
 console.log("🧪 TESTING ADMIN MODERATION QUEUE, EMAIL DISPATCH & AFSNET DATASET");

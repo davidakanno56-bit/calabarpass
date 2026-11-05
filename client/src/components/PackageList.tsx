@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
-import PackageCard from "./PackageCard.jsx";
-import { PackageGridSkeleton } from "./SkeletonLoader.jsx";
+import PackageCard from "./PackageCard.tsx";
+import { PackageGridSkeleton } from "./SkeletonLoader.tsx";
 import { 
   ShieldCheck, 
   Compass, 
@@ -22,7 +22,7 @@ import {
   CATEGORIES_CONFIG, 
   ALL_EXPANDED_CARDS, 
   getCategoryCounts 
-} from "../data/expandedCategories.js";
+} from "../data/expandedCategories.ts";
 
 export default function PackageList({ 
   packages = [], 
@@ -214,53 +214,53 @@ export default function PackageList({
 
       {/* Explanatory Informative Callout Banners for each Category */}
       {currentCategory === "accommodations" && (
-        <div className="mb-8 p-4 sm:p-5 rounded-2xl bg-blue-50/80 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-500/30 flex flex-col md:flex-row md:items-center justify-between gap-4 transition-colors">
+        <div className="mb-8 p-4 sm:p-5 rounded-2xl bg-slate-900/90 border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4 transition-colors">
           <div className="flex items-start sm:items-center gap-3.5">
-            <div className="w-11 h-11 rounded-xl bg-blue-500/15 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold shrink-0">
+            <div className="w-11 h-11 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center font-bold shrink-0">
               <BedDouble className="w-6 h-6" />
             </div>
-            <div className="text-xs sm:text-sm text-slate-700 dark:text-slate-300">
-              <strong className="text-blue-600 dark:text-blue-300 font-bold block sm:inline">1. Accommodations (Hotels, Resorts, Suites): </strong>
-              Verified executive hotels across Highway, State Housing, MCC, and Tinapa corridors. All payments remain securely locked in the <span className="text-sky-600 dark:text-stateCyan font-semibold">CalabarPass Anti-Fraud Escrow Vault</span> until physical check-in.
+            <div className="text-xs sm:text-sm text-slate-300">
+              <strong className="text-white font-bold block sm:inline">Executive Accommodations &amp; Suites: </strong>
+              Verified executive hotels across Highway, State Housing, MCC, and Tinapa corridors. All reservations remain secured in the <span className="text-sky-400 font-semibold">CalabarPass State Escrow Protocol</span> until on-site check-in.
             </div>
           </div>
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-500/30 whitespace-nowrap self-start md:self-auto">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-sky-500/10 text-sky-300 border border-sky-500/20 whitespace-nowrap self-start md:self-auto">
             <Lock className="w-3.5 h-3.5" />
-            100% Escrow Room Protection
+            100% Escrow Protection
           </span>
         </div>
       )}
 
       {currentCategory === "eco-sites" && (
-        <div className="mb-8 p-4 sm:p-5 rounded-2xl bg-emerald-50/80 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-500/30 flex flex-col md:flex-row md:items-center justify-between gap-4 transition-colors">
+        <div className="mb-8 p-4 sm:p-5 rounded-2xl bg-slate-900/90 border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4 transition-colors">
           <div className="flex items-start sm:items-center gap-3.5">
-            <div className="w-11 h-11 rounded-xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold shrink-0">
+            <div className="w-11 h-11 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold shrink-0">
               <Trees className="w-6 h-6" />
             </div>
-            <div className="text-xs sm:text-sm text-slate-700 dark:text-slate-300">
-              <strong className="text-emerald-700 dark:text-emerald-300 font-bold block sm:inline">2. Eco-Sites & Heritage: </strong>
-              365-day nature expeditions including Marina Resort Calabar River catamaran cruises, Agbokim Waterfalls canopy treks, Afi Drill Monkey Sanctuary walks, Kwa Falls canyon tours, and Obudu Mountain Resort expeditions.
+            <div className="text-xs sm:text-sm text-slate-300">
+              <strong className="text-white font-bold block sm:inline">Eco-Sanctuaries &amp; Rainforest Expeditions: </strong>
+              Year-round nature expeditions including Marina Resort Calabar River catamaran cruises, Agbokim Waterfalls canopy walks, Afi Drill Ranch safaris, Kwa Falls canyon tours, and Obudu Mountain Resort retreats.
             </div>
           </div>
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 whitespace-nowrap self-start md:self-auto">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 whitespace-nowrap self-start md:self-auto">
             <ShieldCheck className="w-3.5 h-3.5" />
-            Certified Eco-Ranger Escorts
+            Certified Eco-Ranger Guides
           </span>
         </div>
       )}
 
       {currentCategory === "dining-nightlife" && (
-        <div className="mb-8 p-4 sm:p-5 rounded-2xl bg-sky-50/80 dark:bg-sky-950/40 border border-sky-200 dark:border-stateCyan/30 flex flex-col md:flex-row md:items-center justify-between gap-4 transition-colors">
+        <div className="mb-8 p-4 sm:p-5 rounded-2xl bg-slate-900/90 border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4 transition-colors">
           <div className="flex items-start sm:items-center gap-3.5">
-            <div className="w-11 h-11 rounded-xl bg-stateCyan/15 text-sky-600 dark:text-stateCyan flex items-center justify-center font-bold shrink-0">
+            <div className="w-11 h-11 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center font-bold shrink-0">
               <Utensils className="w-6 h-6" />
             </div>
-            <div className="text-xs sm:text-sm text-slate-700 dark:text-slate-300">
-              <strong className="text-sky-700 dark:text-sky-300 font-bold block sm:inline">3. Dining & Nightlife (Eateries, Seafood Hubs, Lounges): </strong>
-              Explore Crunchies fast-food combos, authentic Efik Fisherman soup at Supreme Viking, Marina Resort river catfish, and VIP nightlife lounges along Marian Road with GPS navigation and escrow vouchers.
+            <div className="text-xs sm:text-sm text-slate-300">
+              <strong className="text-white font-bold block sm:inline">Gastronomy &amp; Waterfront Lounges: </strong>
+              Authentic Efik culinary experiences, freshly grilled river catfish at Marina Resort, traditional Fisherman soup, and executive lounges along Marian Road with GPS verified navigation.
             </div>
           </div>
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-stateCyan/15 text-sky-700 dark:text-sky-300 border border-stateCyan/30 whitespace-nowrap self-start md:self-auto">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-500/10 text-amber-300 border border-amber-500/20 whitespace-nowrap self-start md:self-auto">
             <Utensils className="w-3.5 h-3.5" />
             Verified Culinary Guide
           </span>
@@ -268,17 +268,17 @@ export default function PackageList({
       )}
 
       {currentCategory === "trade-expo" && (
-        <div className="mb-8 p-4 sm:p-5 rounded-2xl bg-cyan-50/80 dark:bg-cyan-950/40 border border-cyan-200 dark:border-cyan-500/30 flex flex-col md:flex-row md:items-center justify-between gap-4 transition-colors">
+        <div className="mb-8 p-4 sm:p-5 rounded-2xl bg-slate-900/90 border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4 transition-colors">
           <div className="flex items-start sm:items-center gap-3.5">
-            <div className="w-11 h-11 rounded-xl bg-cyan-500/15 text-stateCyan flex items-center justify-center font-bold shrink-0">
+            <div className="w-11 h-11 rounded-xl bg-teal-500/10 text-teal-400 flex items-center justify-center font-bold shrink-0">
               <Briefcase className="w-6 h-6" />
             </div>
-            <div className="text-xs sm:text-sm text-slate-700 dark:text-slate-300">
-              <strong className="text-sky-700 dark:text-cyan-300 font-bold block sm:inline">4. Trade & Expo Hub (Ministry of Commerce): </strong>
-              Cross River State commercial architecture backing verified B2B commercial buyer passes, Calabar International Convention Centre (CICC) trade fair exhibitor booths, and Free Trade Zone industrial delegation passes.
+            <div className="text-xs sm:text-sm text-slate-300">
+              <strong className="text-white font-bold block sm:inline">Ministry of Commerce Trade &amp; Industrial Hub: </strong>
+              Cross River State commercial architecture supporting official B2B trade delegations, Calabar International Convention Centre (CICC) exhibitor booths, and Calabar Free Trade Zone industrial passes.
             </div>
           </div>
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-cyan-500/15 text-sky-700 dark:text-cyan-300 border border-cyan-500/30 whitespace-nowrap self-start md:self-auto">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-teal-500/10 text-teal-300 border border-teal-500/20 whitespace-nowrap self-start md:self-auto">
             <Building2 className="w-3.5 h-3.5" />
             Ministry Accredited
           </span>
@@ -286,19 +286,19 @@ export default function PackageList({
       )}
 
       {currentCategory === "carnival-culture" && (
-        <div className="mb-8 p-4 sm:p-5 rounded-2xl bg-rose-50/80 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-500/30 flex flex-col md:flex-row md:items-center justify-between gap-4 transition-colors">
+        <div className="mb-8 p-4 sm:p-5 rounded-2xl bg-slate-900/90 border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4 transition-colors">
           <div className="flex items-start sm:items-center gap-3.5">
-            <div className="w-11 h-11 rounded-xl bg-rose-500/15 text-rose-600 dark:text-rose-400 flex items-center justify-center font-bold shrink-0">
+            <div className="w-11 h-11 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center font-bold shrink-0">
               <Flame className="w-6 h-6" />
             </div>
-            <div className="text-xs sm:text-sm text-slate-700 dark:text-slate-300">
-              <strong className="text-rose-700 dark:text-rose-300 font-bold block sm:inline">5. Carnival & Culture: </strong>
-              Direct band secretariat wristband kits for Seagull, Passion 4, Masta Blasta, plus VIP U.J. Esuene stadium box tickets and Leboku New Yam Festival passes with zero scalper counterfeit risk.
+            <div className="text-xs sm:text-sm text-slate-300">
+              <strong className="text-white font-bold block sm:inline">Carnival Calabar &amp; Heritage Passports: </strong>
+              Official band secretariat wristband kits for Seagull, Passion 4, Masta Blasta, Bayside, and Freedom Band, plus VIP grandstand clearances and Leboku New Yam Festival passes.
             </div>
           </div>
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 whitespace-nowrap self-start md:self-auto">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-rose-500/10 text-rose-300 border border-rose-500/20 whitespace-nowrap self-start md:self-auto">
             <ShieldCheck className="w-3.5 h-3.5" />
-            Zero Counterfeits Guarantee
+            Official Band Kits
           </span>
         </div>
       )}

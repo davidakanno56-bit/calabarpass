@@ -15,7 +15,7 @@ import {
   Copy,
   Check
 } from "lucide-react";
-import { handleLocalEscrowFallback } from "../utils/api.js";
+import { handleLocalEscrowFallback } from "../utils/api.ts";
 
 const VALID_VENDOR_CODES = [
   "CALABAR2026",

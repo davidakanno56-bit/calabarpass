@@ -322,7 +322,8 @@ const handleVendorRegistration = async (req, res) => {
       corridor, 
       description, 
       price, 
-      priceNGN 
+      priceNGN,
+      basePriceNGN
     } = req.body || {};
 
     const title = businessName || business_name || name;
@@ -366,7 +367,8 @@ const handleVendorRegistration = async (req, res) => {
       logoUrl: logoUrl || image,
       location: location || corridor,
       description,
-      priceNGN: priceNGN || price
+      priceNGN: priceNGN || price,
+      basePriceNGN
     });
 
     res.status(201).json({

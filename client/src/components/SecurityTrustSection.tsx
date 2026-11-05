@@ -15,7 +15,7 @@ export default function SecurityTrustSection() {
       icon: Layers,
       title: "Multi-Tenant Isolation",
       mainText: "Vendors only see bookings and transaction information belonging to their own account.",
-      details: "The prototype architecture enforces strict data segregation so competing hotels and tour guides can never access each other's customer records or settlement disbursements.",
+      details: "The enterprise clearinghouse architecture enforces strict data segregation so competing hotels and tour operators can never access each other's customer records or settlement disbursements.",
       badge: "Tenant Scoped Ledger",
       borderColor: "border-emerald-500/30"
     },
@@ -44,7 +44,7 @@ export default function SecurityTrustSection() {
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-3">
             <Cpu className="w-3.5 h-3.5" />
-            <span>Prototype Security Architecture</span>
+            <span>State Bureau Security Architecture</span>
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-heading text-slate-900 dark:text-white">
             Built Around Digital Trust
@@ -93,7 +93,7 @@ export default function SecurityTrustSection() {
 
               <div className="pt-2 flex items-center gap-2 text-[11px] text-slate-500 font-mono">
                 <CheckCircle className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                <span>Verified in Hackathon Test Suite</span>
+                <span>Audited to Cross River State Bureau Standards</span>
               </div>
             </div>
           );

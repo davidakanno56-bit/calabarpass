@@ -3,7 +3,7 @@
 // Displays verified hotels with real-world photography and direct escrow booking.
 
 import React, { useState } from "react";
-import { useCurrency } from "../context/CurrencyContext.jsx";
+import { useCurrency } from "../context/CurrencyContext.tsx";
 import { 
   Building2, 
   MapPin, 
@@ -19,7 +19,7 @@ import {
   BedDouble,
   X
 } from "lucide-react";
-import VerifiedImage from "./VerifiedImage.jsx";
+import VerifiedImage from "./VerifiedImage.tsx";
 
 export const officialAfSnetHotels = [
   {

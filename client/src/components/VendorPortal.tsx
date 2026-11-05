@@ -18,7 +18,7 @@ import {
   Lock,
   Filter,
 } from "lucide-react";
-import { EscrowTableSkeleton } from "./SkeletonLoader.jsx";
+import { EscrowTableSkeleton } from "./SkeletonLoader.tsx";
 import {
   handleLocalEscrowFallback,
   getStoredVendors,
@@ -29,8 +29,8 @@ import {
   removeStoredDynamicVendor,
   clearStoredDynamicData,
   isPaystackLiveMode,
-} from "../utils/api.js";
-import AdminVendorQueue from "./AdminVendorQueue.jsx";
+} from "../utils/api.ts";
+import AdminVendorQueue from "./AdminVendorQueue.tsx";
 
 const MERCHANTS = [
   // 1. ACCOMMODATIONS (Hotels, Resorts, Suites)
@@ -555,7 +555,8 @@ const VENDOR_API_ROUTES = {
   release: "/api/escrow/release",
 };
 
-const PAYOUT_RATE = 0.95;
+const STATUTORY_TAX_RATE = 0.02; // 2% Cross River State Tourism / Consumption Tax
+const PAYOUT_RATE = 0.98; // Vendor keeps 98% (only 2% statutory government tax is deducted; zero platform commission taken from vendor)
 
 const DEMO_PAYOUTS = Object.fromEntries(
   MERCHANTS.map((merchant, index) => {
@@ -654,10 +655,17 @@ const vendorMatches = (record, merchant) => {
   );
 };
 
-const withNetPayout = (transaction) => ({
-  ...transaction,
-  payoutNGN: Math.round((Number(transaction.amountNGN) || 0) * PAYOUT_RATE),
-});
+const withNetPayout = (transaction) => {
+  const payout = transaction.vendorPayoutNGN 
+    ? Number(transaction.vendorPayoutNGN)
+    : (transaction.basePriceNGN 
+        ? Math.round(Number(transaction.basePriceNGN) * (1 - STATUTORY_TAX_RATE))
+        : Math.round((Number(transaction.amountNGN) || 0) * PAYOUT_RATE));
+  return {
+    ...transaction,
+    payoutNGN: payout,
+  };
+};
 
 export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicCardsChange }) {
   const [registeredVendors, setRegisteredVendors] = useState(() => getStoredVendors());
@@ -1213,7 +1221,9 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
       customerName: b.customerName || "Guest",
       item: b.packageName || activeMerchant.terms.itemExample,
       grossAmount: Number(b.amountNGN) || 0,
-      netAmount: Math.round((Number(b.amountNGN) || 0) * PAYOUT_RATE),
+      netAmount: b.vendorPayoutNGN
+        ? Number(b.vendorPayoutNGN)
+        : (b.basePriceNGN ? Math.round(Number(b.basePriceNGN) * (1 - STATUTORY_TAX_RATE)) : Math.round((Number(b.amountNGN) || 0) * PAYOUT_RATE)),
       date: b.bookingDate || b.createdAt || "Active Hold",
       status: "Awaiting Check-in PIN",
       isDemo: Boolean(b.isDemo),
@@ -1588,7 +1598,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
           </p>
           <div className="mt-1 flex items-center justify-between text-xs text-slate-400">
             <span>{activeBookings.length} booking(s) awaiting PIN</span>
-            <span className="text-[10px] bg-stateCyan/20 text-stateCyan px-2 py-0.5 rounded font-semibold border border-stateCyan/30">95% net</span>
+            <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded font-semibold border border-emerald-500/30">98% net payout</span>
           </div>
         </article>
 
@@ -1603,7 +1613,7 @@ export default function VendorPortal({ onOpenVoucher, onLockTerminal, onDynamicC
             {formatNaira(totalDisbursed)}
           </p>
           <p className="mt-1 text-xs text-slate-400">
-            95% net settlement after 5% fee
+            98% net settlement (2% state tax remitted; 0% platform cut)
           </p>
         </article>
 

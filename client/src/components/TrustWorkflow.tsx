@@ -116,24 +116,24 @@ export default function TrustWorkflow() {
         })}
       </div>
 
-      {/* End-to-End Pipeline Summary Bar (Judges Visual) */}
+      {/* End-to-End Operational Settlement Protocol */}
       <div className="mt-8 p-4 rounded-2xl bg-white dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800/80 shadow-md dark:shadow-none overflow-x-auto scrollbar-none no-scrollbar touch-pan-x -mx-2 px-4 sm:mx-0 sm:px-4">
         <div className="flex items-center justify-between min-w-[760px] text-xs font-mono font-bold text-slate-400">
-          <span className="text-stateCyan">TOURIST</span>
+          <span className="text-stateCyan">TOURIST DEPOSIT</span>
           <span className="text-slate-600">→</span>
-          <span className="text-slate-900 dark:text-white">VERIFIED DESTINATION</span>
+          <span className="text-slate-900 dark:text-white">CLEARINGHOUSE AUDIT</span>
           <span className="text-slate-600">→</span>
-          <span className="text-emerald-400">FAIR PRICE</span>
+          <span className="text-emerald-400">FAIR PRICE INDEX</span>
           <span className="text-slate-600">→</span>
-          <span className="text-sky-400">SECURE PAYMENT</span>
+          <span className="text-sky-400">SETTLEMENT ESCROW</span>
           <span className="text-slate-600">→</span>
-          <span className="text-sky-300">DIGITAL VOUCHER</span>
+          <span className="text-sky-300">CRYPTOGRAPHIC VOUCHER</span>
           <span className="text-slate-600">→</span>
-          <span className="text-stateCyan">6-DIGIT VERIFICATION</span>
+          <span className="text-stateCyan">ON-SITE 6-DIGIT PIN</span>
           <span className="text-slate-600">→</span>
-          <span className="text-slate-900 dark:text-white">AUTHORIZED VENDOR</span>
+          <span className="text-slate-900 dark:text-white">NET VENDOR DISBURSEMENT</span>
           <span className="text-slate-600">→</span>
-          <span className="text-emerald-400 font-extrabold">SUCCESSFUL CHECK-IN</span>
+          <span className="text-emerald-400 font-extrabold">2% STATE TAX REMITTED</span>
         </div>
       </div>
     </section>

@@ -353,6 +353,35 @@ export function isVendorMatch(txVendor, query) {
   return false;
 }
 
+export function calculatePricingBreakdown(basePriceInput) {
+  const base = Math.max(0, Math.round(Number(basePriceInput) || 0));
+
+  let platformMarkup = 5000;
+  if (base >= 75000) {
+    platformMarkup = 10000;
+  } else if (base >= 20000) {
+    platformMarkup = 5000;
+  } else if (base > 0) {
+    platformMarkup = base >= 10000 ? 2500 : 1500;
+  } else {
+    platformMarkup = 0;
+  }
+
+  const taxRatePercent = 2;
+  const taxAmount = Math.round(base * 0.02);
+  const vendorPayout = Math.max(0, base - taxAmount);
+  const publicListingPrice = base + platformMarkup;
+
+  return {
+    basePrice: base,
+    platformMarkup,
+    taxAmount,
+    taxRatePercent,
+    vendorPayout,
+    publicListingPrice
+  };
+}
+
 class EscrowStore {
   constructor() {
     this.transactions = new Map();
@@ -833,12 +862,17 @@ class EscrowStore {
       return { success: false, error: "Invalid physical check-in PIN. Vendor verification failed." };
     }
 
+    const vendorPayout = transaction.vendorPayoutNGN || Math.max(0, (transaction.amountNGN || 0) - Math.round((transaction.amountNGN || 0) * 0.02));
+    const taxAmount = transaction.taxNGN || Math.round((transaction.basePriceNGN || transaction.amountNGN || 0) * 0.02);
+
     const updated = {
       ...transaction,
       status: "COMPLETED_DISBURSED",
       statusLabel: "Completed & Disbursed to Vendor",
       disbursedAt: new Date().toISOString(),
-      vendorDisbursementNote: `Disbursed to ${transaction.vendor} on-site via physical PIN redemption.`
+      disbursedVendorPayout: vendorPayout,
+      remittedGovtTax: taxAmount,
+      vendorDisbursementNote: `Disbursed net ₦${vendorPayout.toLocaleString()} to ${transaction.vendor} on-site via physical PIN redemption (₦${taxAmount.toLocaleString()} 2% State Tax remitted).`
     };
 
     this.transactions.set(reference, updated);
@@ -983,7 +1017,8 @@ class EscrowStore {
     corridor,
     description,
     price,
-    priceNGN
+    priceNGN,
+    basePriceNGN
   }) {
     const title = (businessName || business_name || name || "").trim();
     if (!title) {
@@ -1010,7 +1045,15 @@ class EscrowStore {
     const mail = (email || contactEmail || `${slug}@merchant.calabarpass.ng`).trim();
     const img = logoUrl || image || imageUrl || "/assets/executive_vip.jpg";
     const loc = location || corridor || "Calabar Municipality, Cross River State";
-    const rate = Number(priceNGN || price || 35000);
+    
+    // Pricing engine: calculate markup, 2% state tax, and net vendor payout
+    let pricing;
+    if (basePriceNGN) {
+      pricing = calculatePricingBreakdown(basePriceNGN);
+    } else {
+      pricing = calculatePricingBreakdown(priceNGN || price || 35000);
+    }
+    const rate = priceNGN && Number(priceNGN) > pricing.basePrice ? Number(priceNGN) : pricing.publicListingPrice;
 
     const vendorRecord = {
       id: vendorId,
@@ -1029,6 +1072,13 @@ class EscrowStore {
       image: img,
       location: loc,
       description: description || `Verified Cross River 365-day commercial operator in ${normalizedCategory}.`,
+      basePriceNGN: pricing.basePrice,
+      platformMarkupNGN: pricing.platformMarkup,
+      taxNGN: pricing.taxAmount,
+      taxRatePercent: 2,
+      vendorPayoutNGN: pricing.vendorPayout,
+      priceNGN: rate,
+      publicPriceNGN: rate,
       accessCode,
       registeredAt: new Date().toISOString(),
       createdAt: new Date().toISOString(),
@@ -1063,6 +1113,10 @@ class EscrowStore {
       vendorId: vendorId,
       location: loc,
       corridor: loc,
+      basePriceNGN: pricing.basePrice,
+      platformMarkupNGN: pricing.platformMarkup,
+      taxNGN: pricing.taxAmount,
+      vendorPayoutNGN: pricing.vendorPayout,
       priceNGN: rate,
       price: rate,
       priceRange: `₦${rate.toLocaleString()}`,
@@ -1096,6 +1150,10 @@ class EscrowStore {
       phone: tel,
       amountNGN: rate,
       amountKobo: rate * 100,
+      basePriceNGN: pricing.basePrice,
+      platformMarkupNGN: pricing.platformMarkup,
+      taxNGN: pricing.taxAmount,
+      vendorPayoutNGN: pricing.vendorPayout,
       bookingDate: new Date(Date.now() + 86400000).toISOString().split("T")[0],
       status: "ESCROW_LOCKED_ACTIVE",
       statusLabel: "Escrow Secured - Awaiting On-Site Verification",
@@ -1145,6 +1203,11 @@ class EscrowStore {
           subaccount_code: v.subaccount_code || null,
           paystackSubaccount: v.paystackSubaccount || null,
           location: v.location,
+          basePriceNGN: v.basePriceNGN || v.priceNGN,
+          platformMarkupNGN: v.platformMarkupNGN || 5000,
+          taxNGN: v.taxNGN,
+          taxRatePercent: 2,
+          vendorPayoutNGN: v.vendorPayoutNGN,
           priceNGN: v.priceNGN,
           imageUrl: v.imageUrl || v.image,
           image: v.image || v.imageUrl,

@@ -4,8 +4,8 @@ import {
   POPULAR_BANKS, 
   searchBanks, 
   getBankByCode 
-} from "./client/src/utils/banks.js";
-import { resolveBankAccountClient, resolveBankAndAccount } from "./client/src/utils/api.js";
+} from "./client/src/utils/banks.ts";
+import { resolveBankAccountClient, resolveBankAndAccount } from "./client/src/utils/api.ts";
 
 async function run() {
   console.log("=====================================================================");

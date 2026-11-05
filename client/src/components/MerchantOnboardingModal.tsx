@@ -30,7 +30,8 @@ import {
   ALL_NIGERIAN_BANKS, 
   isPaystackLiveMode, 
   resolveBankAccountClient 
-} from "../utils/api.js";
+} from "../utils/api.ts";
+import { calculatePricingBreakdown, formatNaira } from "../utils/pricing.ts";
 
 const CATEGORIES = [
   {
@@ -114,6 +115,11 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
       b => b.name.toLowerCase().includes(q) || b.code.includes(q)
     );
   }, [bankSearchTerm]);
+
+  // Real-time automated platform markup, 2% state tax, and net vendor payout
+  const pricing = useMemo(() => {
+    return calculatePricingBreakdown(formData.priceNGN);
+  }, [formData.priceNGN]);
 
   // Debounced live bank account verification via Paystack / NIBSS
   useEffect(() => {
@@ -257,6 +263,13 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
     try {
       const res = await registerMerchantOnboarding({
         ...formData,
+        basePriceNGN: pricing.basePrice,
+        platformMarkupNGN: pricing.platformMarkup,
+        taxNGN: pricing.taxAmount,
+        taxRatePercent: 2,
+        vendorPayoutNGN: pricing.vendorPayout,
+        priceNGN: pricing.publicListingPrice, // Marked-up public guest price
+        publicPriceNGN: pricing.publicListingPrice,
         accountNumber: cleanAcc,
         accountName: resolvedAccountName || formData.businessName,
         bankPayoutDetails: resolvedAccountName
@@ -568,16 +581,82 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
                 </div>
 
                 <div>
-                  <label className="block font-bold uppercase tracking-wider text-slate-300 mb-1.5">
-                    Base Price / Entry Benchmark (₦)
+                  <label className="block font-bold uppercase tracking-wider text-slate-300 mb-1.5 flex items-center justify-between">
+                    <span>Your Asking Base Rate (₦)</span>
+                    <span className="text-[10px] text-emerald-400 font-semibold normal-case">What you want to earn</span>
                   </label>
                   <input
                     type="number"
                     value={formData.priceNGN}
                     onChange={(e) => handleInputChange("priceNGN", e.target.value)}
-                    placeholder="35000"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-700 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-sky-400 transition"
+                    placeholder="45000"
+                    min="0"
+                    step="500"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-700 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-sky-400 transition font-mono font-bold"
                   />
+                </div>
+              </div>
+
+              {/* Real-time Automated Markup, 2% Tax & Net Vendor Payout Breakdown */}
+              <div className="p-4 rounded-2xl bg-gradient-to-br from-slate-900/95 via-slate-950 to-slate-900 border border-slate-800 shadow-xl space-y-2.5">
+                <div className="flex items-center justify-between pb-2 border-b border-slate-800/80 text-xs">
+                  <span className="text-slate-300 font-semibold flex items-center gap-1.5">
+                    <Building2 className="w-3.5 h-3.5 text-sky-400" />
+                    <span>Your Base Asking Rate:</span>
+                  </span>
+                  <span className="font-mono font-bold text-white text-sm">
+                    {formatNaira(pricing.basePrice)}
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between text-xs text-rose-300/90">
+                  <span className="flex items-center gap-1.5">
+                    <Landmark className="w-3.5 h-3.5 text-rose-400" />
+                    <span>State Tourism / Govt Tax (2%):</span>
+                  </span>
+                  <span className="font-mono font-semibold">
+                    -{formatNaira(pricing.taxAmount)}
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-xs">
+                  <span className="text-emerald-300 font-bold flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                    <span>Your Guaranteed Net Payout:</span>
+                  </span>
+                  <span className="font-mono font-black text-sm text-emerald-200">
+                    {formatNaira(pricing.vendorPayout)}
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between text-xs text-amber-300/90 pt-1">
+                  <span className="flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                    <span>CalabarPass Added Service Fee:</span>
+                  </span>
+                  <span className="font-mono font-semibold">
+                    +{formatNaira(pricing.platformMarkup)}
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between pt-2 border-t border-slate-800/80 text-xs">
+                  <div>
+                    <span className="text-slate-200 font-bold flex items-center gap-1.5">
+                      <CreditCard className="w-3.5 h-3.5 text-stateCyan" />
+                      <span>Guest Public Listing Price:</span>
+                    </span>
+                    <span className="text-[10px] text-slate-400 block">Official price displayed on CalabarPass catalog</span>
+                  </div>
+                  <span className="font-mono font-black text-base text-stateCyan">
+                    {formatNaira(pricing.publicListingPrice)}
+                  </span>
+                </div>
+
+                <div className="mt-1 pt-1.5 border-t border-slate-800/60 flex items-start gap-1.5 text-[10px] text-slate-400 leading-relaxed">
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                  <span>
+                    <strong>100% Zero-Commission Guarantee:</strong> CalabarPass adds our platform fee on top so we never touch your asking price. You receive 100% of your money (minus the 2% statutory government tax) upon on-site 6-digit PIN check-in.
+                  </span>
                 </div>
               </div>
 
@@ -760,7 +839,17 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
                 <span className="text-slate-400">Settlement Account:</span>
                 <span className="font-mono text-slate-200">{createdVendor.vendor?.bankAccount}</span>
               </div>
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between pt-1 border-t border-slate-800 text-emerald-300 font-semibold">
+                <span className="text-slate-400 font-normal">Your Net Bank Payout:</span>
+                <span className="font-mono font-black text-sm text-emerald-400">
+                  {formatNaira(createdVendor.vendor?.vendorPayoutNGN || pricing.vendorPayout)}
+                </span>
+              </div>
+              <div className="flex items-center justify-between text-[11px] text-slate-400">
+                <span>(Base: {formatNaira(createdVendor.vendor?.basePriceNGN || pricing.basePrice)} • 2% State Tax: -{formatNaira(createdVendor.vendor?.taxNGN || pricing.taxAmount)})</span>
+                <span className="text-sky-300 font-medium">Guest: {formatNaira(createdVendor.vendor?.priceNGN || pricing.publicListingPrice)}</span>
+              </div>
+              <div className="flex items-center justify-between pt-1 border-t border-slate-800">
                 <span className="text-slate-400">Private Terminal:</span>
                 <span className="font-bold text-stateCyan">Isolated & Locked Under Key</span>
               </div>

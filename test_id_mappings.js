@@ -1,10 +1,10 @@
 // test_id_mappings.js
-import { HOTEL_IMAGE_MAP, getHotelImageById } from "./client/src/data/hotels.js";
-import { ECO_SITES_IMAGE_MAP, getEcoSiteImageById } from "./client/src/data/ecoSites.js";
-import { DINING_IMAGE_MAP, getDiningImageById } from "./client/src/data/dining.js";
-import { TRADE_HUB_IMAGE_MAP, getTradeHubImageById } from "./client/src/data/tradeHub.js";
-import { CARNIVAL_IMAGE_MAP, getCarnivalImageById } from "./client/src/data/carnival.js";
-import { getVerifiedPlaceImage } from "./client/src/data/verifiedPlacesImages.js";
+import { HOTEL_IMAGE_MAP, getHotelImageById } from "./client/src/data/hotels.ts";
+import { ECO_SITES_IMAGE_MAP, getEcoSiteImageById } from "./client/src/data/ecoSites.ts";
+import { DINING_IMAGE_MAP, getDiningImageById } from "./client/src/data/dining.ts";
+import { TRADE_HUB_IMAGE_MAP, getTradeHubImageById } from "./client/src/data/tradeHub.ts";
+import { CARNIVAL_IMAGE_MAP, getCarnivalImageById } from "./client/src/data/carnival.ts";
+import { getVerifiedPlaceImage } from "./client/src/data/verifiedPlacesImages.ts";
 import {
   ALL_EXPANDED_CARDS,
   ACCOMMODATIONS_CARDS,
@@ -12,7 +12,7 @@ import {
   DINING_NIGHTLIFE_CARDS,
   TRADE_EXPO_CARDS,
   CARNIVAL_CULTURE_CARDS
-} from "./client/src/data/expandedCategories.js";
+} from "./client/src/data/expandedCategories.ts";
 
 console.log("====================================================================");
 console.log("🔍 TESTING EXPLICIT OBJECT-ID IMAGE MAPPING ACROSS ALL DATA FILES");

@@ -2,7 +2,7 @@
 // CalabarPass Verified Carnival & Culture Architecture Data
 // Explicit object-ID based image mapping: zero sequential index matching, zero unrelated fallbacks.
 
-import { PACKAGES as CORE_PACKAGES } from "./packages.js";
+import { PACKAGES as CORE_PACKAGES } from "./packages.ts";
 
 export const CARNIVAL_IMAGE_MAP = {
   // Seagull Band VIP Route Pass

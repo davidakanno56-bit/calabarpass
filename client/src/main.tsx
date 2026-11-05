@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
-import { ThemeProvider } from "./context/ThemeContext.jsx";
-import { CurrencyProvider } from "./context/CurrencyContext.jsx";
-import ErrorBoundary from "./components/ErrorBoundary.jsx";
+import App from "./App.tsx";
+import { ThemeProvider } from "./context/ThemeContext.tsx";
+import { CurrencyProvider } from "./context/CurrencyContext.tsx";
+import ErrorBoundary from "./components/ErrorBoundary.tsx";
 import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(

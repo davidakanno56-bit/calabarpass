@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ShieldCheck, TrendingUp, AlertTriangle, Search, Filter, ShieldAlert } from "lucide-react";
-import { handleLocalEscrowFallback } from "../utils/api.js";
+import { handleLocalEscrowFallback } from "../utils/api.ts";
 
 export default function FairPriceTracker() {
   const [fairPrices, setFairPrices] = useState([]);

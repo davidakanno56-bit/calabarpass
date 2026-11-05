@@ -3,7 +3,7 @@
 
 import { createPaystackSubaccount, listPaystackSubaccounts, resolveBankAndAccount } from "./server/paystack.js";
 import { escrowStore } from "./server/store.js";
-import { registerMerchantOnboarding, createPaystackSubaccountClient } from "./client/src/utils/api.js";
+import { registerMerchantOnboarding, createPaystackSubaccountClient } from "./client/src/utils/api.ts";
 
 async function runTests() {
   console.log("=====================================================================");
