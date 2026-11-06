@@ -128,8 +128,8 @@ export default function HeroBanner({
         {/* Top Tag & Trust Indicator */}
         <div className="pt-4 animate-in fade-in slide-in-from-top-4 duration-700">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.08] backdrop-blur-xl border border-white/[0.15] text-xs font-semibold tracking-tight shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
-            <span className="w-2 h-2 rounded-full bg-emerald-400" />
-            <span className="text-emerald-300 font-bold uppercase tracking-wider text-[10px]">
+            <span className="w-2 h-2 rounded-full bg-stateCyan" />
+            <span className="text-stateCyan font-bold uppercase tracking-wider text-[10px]">
               Cross River State
             </span>
             <span className="text-slate-400">•</span>
@@ -141,7 +141,7 @@ export default function HeroBanner({
         <div className="max-w-3xl space-y-6 my-auto pt-6 pb-8 animate-in fade-in slide-in-from-bottom-6 duration-700">
           <h1 className="editorial-heading text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white drop-shadow-lg">
             Discover Cross River.<br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-teal-200 to-emerald-400">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-cyan-200 to-stateCyan-light">
               Experience Extraordinary.
             </span>
           </h1>
@@ -154,7 +154,7 @@ export default function HeroBanner({
             <button
               type="button"
               onClick={handleExploreClick}
-              className="inline-flex items-center gap-2.5 px-7 py-4 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-sm tracking-tight transition-all duration-200 active:scale-[0.97] cursor-pointer shadow-[0_12px_28px_-6px_rgba(16,185,129,0.5)]"
+              className="inline-flex items-center gap-2.5 px-7 py-4 rounded-full bg-stateCyan hover:bg-sky-500 text-white font-bold text-sm tracking-tight transition-all duration-200 active:scale-[0.97] cursor-pointer shadow-[0_12px_28px_-6px_rgba(2,132,199,0.5)]"
             >
               <span>Explore Destinations</span>
               <ArrowRight className="w-4 h-4" />
@@ -171,7 +171,7 @@ export default function HeroBanner({
               }}
               className="inline-flex items-center gap-2 px-6 py-4 rounded-full bg-white/[0.08] hover:bg-white/[0.14] backdrop-blur-xl border border-white/[0.15] text-white font-bold text-sm tracking-tight transition-all duration-200 active:scale-[0.97] cursor-pointer shadow-md"
             >
-              <Flame className="w-4 h-4 text-emerald-400" />
+              <Flame className="w-4 h-4 text-stateGold" />
               <span>Carnival Calabar 2026</span>
             </button>
           </div>
@@ -185,7 +185,7 @@ export default function HeroBanner({
           >
             {/* Search Field 1: Corridor / Destination */}
             <div className="flex-1 w-full px-4 py-2 sm:py-1 sm:border-r border-white/[0.08]">
-              <span className="text-[10px] uppercase font-bold tracking-widest text-emerald-400 block mb-0.5">
+              <span className="text-[10px] uppercase font-bold tracking-widest text-stateCyan block mb-0.5">
                 Destination Corridor
               </span>
               <div className="flex items-center gap-2">
@@ -207,7 +207,7 @@ export default function HeroBanner({
 
             {/* Search Field 2: Experience Category */}
             <div className="flex-1 w-full px-4 py-2 sm:py-1 sm:border-r border-white/[0.08]">
-              <span className="text-[10px] uppercase font-bold tracking-widest text-emerald-400 block mb-0.5">
+              <span className="text-[10px] uppercase font-bold tracking-widest text-stateCyan block mb-0.5">
                 Experience Category
               </span>
               <div className="flex items-center gap-2">
@@ -231,7 +231,7 @@ export default function HeroBanner({
             {/* Submit Action */}
             <button
               type="submit"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs sm:text-sm tracking-tight transition-all duration-200 active:scale-[0.97] cursor-pointer shadow-[0_10px_25px_-5px_rgba(16,185,129,0.5)] shrink-0"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-stateCyan hover:bg-sky-500 text-white font-bold text-xs sm:text-sm tracking-tight transition-all duration-200 active:scale-[0.97] cursor-pointer shadow-[0_10px_25px_-5px_rgba(2,132,199,0.5)] shrink-0"
             >
               <Search className="w-4 h-4" />
               <span>Search Curated Passes</span>
@@ -252,12 +252,12 @@ export default function HeroBanner({
                 onClick={() => setActiveHighlightIdx(idx)}
                 className={`px-3 py-1.5 rounded-full text-xs font-semibold tracking-tight transition-all duration-300 cursor-pointer ${
                   activeHighlightIdx === idx
-                    ? "bg-white/[0.12] text-white border border-emerald-400/40 shadow-sm"
+                    ? "bg-white/[0.12] text-white border border-stateCyan/40 shadow-sm"
                     : "text-slate-400 hover:text-white hover:bg-white/[0.04]"
                 }`}
               >
                 <span>{dest.title}</span>
-                <span className="text-[10px] text-emerald-400/80 ml-1.5 font-normal">
+                <span className="text-[10px] text-stateCyan-light ml-1.5 font-normal">
                   ({dest.elevation})
                 </span>
               </button>
@@ -265,7 +265,7 @@ export default function HeroBanner({
           </div>
 
           <div className="text-[11px] text-slate-400 flex items-center gap-1.5">
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+            <ShieldCheck className="w-3.5 h-3.5 text-stateCyan" />
             <span>Designed to support trusted tourism experiences across Cross River State</span>
           </div>
         </div>

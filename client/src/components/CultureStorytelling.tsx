@@ -152,8 +152,8 @@ export default function CultureStorytelling({ onSelectCategory }: CultureStoryte
     <section id="culture-storytelling" className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-slate-200/60 dark:border-slate-800/80">
       {/* Editorial Header */}
       <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cr-forest/10 dark:bg-cr-forest/20 border border-cr-forest/30 text-cr-forest dark:text-cr-lagoon text-xs font-bold uppercase tracking-wider">
-          <Sparkles className="w-3.5 h-3.5 text-cr-forest dark:text-cr-lagoon" />
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-stateCyan/10 border border-stateCyan/30 text-stateCyan text-xs font-bold uppercase tracking-wider">
+          <Sparkles className="w-3.5 h-3.5 text-stateCyan" />
           <span>Culture, Heritage & Nature</span>
         </div>
 
@@ -179,7 +179,7 @@ export default function CultureStorytelling({ onSelectCategory }: CultureStoryte
                 onClick={() => setActiveTab(chap.id)}
                 className={`px-4 sm:px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold tracking-tight transition-all duration-300 cursor-pointer flex items-center gap-2 ${
                   isActive
-                    ? "bg-cr-forest text-white shadow-lg shadow-cr-forest/25 scale-[1.02]"
+                    ? "bg-stateCyan text-white shadow-lg shadow-stateCyan/25 scale-[1.02]"
                     : "bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800"
                 }`}
               >
@@ -232,7 +232,7 @@ export default function CultureStorytelling({ onSelectCategory }: CultureStoryte
           <div className="lg:col-span-5 p-6 sm:p-10 lg:p-12 flex flex-col justify-between space-y-8">
             <div className="space-y-6">
               <div className="space-y-2">
-                <span className="text-xs font-bold uppercase tracking-wider text-cr-forest dark:text-cr-lagoon block">
+                <span className="text-xs font-bold uppercase tracking-wider text-stateCyan block">
                   {currentChapter.subtitle}
                 </span>
                 <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold font-heading text-slate-900 dark:text-white tracking-tight">
@@ -251,7 +251,7 @@ export default function CultureStorytelling({ onSelectCategory }: CultureStoryte
                 </div>
                 {currentChapter.highlights.map((h, i) => (
                   <div key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
-                    <CheckCircle2 className="w-4 h-4 text-cr-forest dark:text-cr-lagoon shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-4 h-4 text-stateCyan shrink-0 mt-0.5" />
                     <span>{h}</span>
                   </div>
                 ))}
@@ -277,7 +277,7 @@ export default function CultureStorytelling({ onSelectCategory }: CultureStoryte
               <button
                 type="button"
                 onClick={() => handleAction(currentChapter.actionCategory)}
-                className="w-full py-3.5 px-6 rounded-2xl bg-cr-forest hover:bg-cr-tropical text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-cr-forest/25 hover:scale-[1.01] active:scale-[0.98] transition-all cursor-pointer flex items-center justify-center gap-2"
+                className="w-full py-3.5 px-6 rounded-2xl bg-stateCyan hover:bg-sky-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-stateCyan/25 hover:scale-[1.01] active:scale-[0.98] transition-all cursor-pointer flex items-center justify-center gap-2"
               >
                 <span>{currentChapter.actionLabel}</span>
                 <ArrowRight className="w-4 h-4" />

@@ -168,14 +168,14 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
       {/* Editorial Section Header */}
       <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-14">
         <div className="space-y-4 max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cr-forest/10 dark:bg-cr-forest/20 border border-cr-forest/30 text-cr-forest dark:text-cr-lagoon text-xs font-bold uppercase tracking-wider">
-            <Compass className="w-3.5 h-3.5 text-cr-forest dark:text-cr-lagoon" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-stateCyan/10 border border-stateCyan/30 text-stateCyan text-xs font-bold uppercase tracking-wider">
+            <Compass className="w-3.5 h-3.5 text-stateCyan" />
             <span>Iconic Destinations of Cross River State</span>
           </div>
           
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight font-heading text-slate-900 dark:text-white leading-[1.15]">
             Where Wonder Awaits. <br className="hidden sm:inline" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cr-forest via-cr-lagoon to-emerald-400">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-stateCyan via-sky-400 to-stateCyan-light">
               Legendary Landscapes & Living Heritage.
             </span>
           </h2>
@@ -187,8 +187,8 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
 
         {/* Verification Counter Badge */}
         <div className="flex items-center gap-3 self-start lg:self-auto bg-white dark:bg-slate-900/90 p-2 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
-          <div className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-cr-forest/10 dark:bg-cr-forest/20 text-cr-forest dark:text-cr-lagoon text-xs font-bold">
-            <ShieldCheck className="w-4 h-4 text-cr-forest dark:text-cr-lagoon" />
+          <div className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-stateCyan/10 text-stateCyan text-xs font-bold">
+            <ShieldCheck className="w-4 h-4 text-stateCyan" />
             <span>5 Verified Destinations</span>
           </div>
           <span className="text-[11px] text-slate-500 dark:text-slate-400 pr-2 font-medium hidden sm:inline">
@@ -224,13 +224,13 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
 
             {/* Top Badges */}
             <div className="relative z-10 p-6 sm:p-8 flex items-center justify-between gap-3 pointer-events-none">
-              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-slate-950/80 backdrop-blur-md text-cr-lagoon border border-cr-lagoon/30 shadow-lg">
-                <Mountain className="w-3.5 h-3.5 text-cr-lagoon" />
+              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-slate-950/80 backdrop-blur-md text-stateCyan border border-stateCyan/30 shadow-lg">
+                <Mountain className="w-3.5 h-3.5 text-stateCyan" />
                 <span>{safeDestinations[0].category}</span>
               </span>
 
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-cr-forest/90 backdrop-blur-md text-white border border-cr-forest/40 shadow-lg">
-                <ShieldCheck className="w-3.5 h-3.5 text-cr-lagoon" />
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-stateCyan/90 backdrop-blur-md text-white border border-stateCyan/40 shadow-lg">
+                <ShieldCheck className="w-3.5 h-3.5 text-white" />
                 <span>Verified Sanctuary</span>
               </span>
             </div>
@@ -238,11 +238,11 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
             {/* Bottom Content Area */}
             <div className="relative z-10 p-6 sm:p-8 space-y-4">
               <div className="space-y-2">
-                <div className="flex items-center gap-2 text-xs font-semibold text-cr-lagoon">
-                  <MapPin className="w-4 h-4 text-cr-lagoon shrink-0" />
+                <div className="flex items-center gap-2 text-xs font-semibold text-stateCyan">
+                  <MapPin className="w-4 h-4 text-stateCyan shrink-0" />
                   <span>{safeDestinations[0].location}</span>
                 </div>
-                <h3 className="text-3xl sm:text-4xl font-extrabold font-heading text-white tracking-tight group-hover:text-cr-lagoon transition-colors duration-300">
+                <h3 className="text-3xl sm:text-4xl font-extrabold font-heading text-white tracking-tight group-hover:text-stateCyan transition-colors duration-300">
                   {safeDestinations[0].name}
                 </h3>
                 <p className="text-sm sm:text-base text-slate-200 line-clamp-2 max-w-xl font-light leading-relaxed">
@@ -286,7 +286,7 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
                   <button
                     type="button"
                     onClick={() => handleDestinationClick(safeDestinations[0])}
-                    className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-cr-forest hover:bg-cr-tropical text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-cr-forest/30 transition-all cursor-pointer group-hover:bg-cr-lagoon group-hover:text-slate-950"
+                    className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-stateCyan hover:bg-sky-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-stateCyan/30 transition-all cursor-pointer group-hover:bg-sky-400"
                   >
                     <span>Explore Destination</span>
                     <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -319,24 +319,24 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
             </div>
 
             <div className="relative z-10 p-6 sm:p-8 flex items-center justify-between gap-3 pointer-events-none">
-              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-slate-950/80 backdrop-blur-md text-emerald-300 border border-emerald-400/30 shadow-lg">
-                <Waves className="w-3.5 h-3.5 text-emerald-400" />
+              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-slate-950/80 backdrop-blur-md text-stateCyan border border-stateCyan/30 shadow-lg">
+                <Waves className="w-3.5 h-3.5 text-stateCyan" />
                 <span>{safeDestinations[1].category}</span>
               </span>
 
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-cr-forest/90 backdrop-blur-md text-white border border-cr-forest/40 shadow-lg">
-                <ShieldCheck className="w-3.5 h-3.5 text-cr-lagoon" />
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-stateCyan/90 backdrop-blur-md text-white border border-stateCyan/40 shadow-lg">
+                <ShieldCheck className="w-3.5 h-3.5 text-white" />
                 <span>Nature Wonder</span>
               </span>
             </div>
 
             <div className="relative z-10 p-6 sm:p-8 space-y-4">
               <div className="space-y-2">
-                <div className="flex items-center gap-2 text-xs font-semibold text-emerald-300">
-                  <MapPin className="w-4 h-4 text-emerald-400 shrink-0" />
+                <div className="flex items-center gap-2 text-xs font-semibold text-stateCyan">
+                  <MapPin className="w-4 h-4 text-stateCyan shrink-0" />
                   <span>{safeDestinations[1].location}</span>
                 </div>
-                <h3 className="text-2xl sm:text-3xl font-extrabold font-heading text-white tracking-tight group-hover:text-emerald-300 transition-colors duration-300">
+                <h3 className="text-2xl sm:text-3xl font-extrabold font-heading text-white tracking-tight group-hover:text-stateCyan transition-colors duration-300">
                   {safeDestinations[1].name}
                 </h3>
                 <p className="text-sm text-slate-200 line-clamp-2 font-light leading-relaxed">
@@ -366,7 +366,7 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
                 <button
                   type="button"
                   onClick={() => handleDestinationClick(safeDestinations[1])}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-cr-forest hover:bg-cr-tropical text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-cr-forest/30 transition-all cursor-pointer group-hover:bg-emerald-400 group-hover:text-slate-950"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-stateCyan hover:bg-sky-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-stateCyan/30 transition-all cursor-pointer group-hover:bg-sky-400"
                 >
                   <span>Explore</span>
                   <ArrowRight className="w-4 h-4" />
@@ -402,23 +402,23 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
 
               <div className="relative z-10 p-5 sm:p-6 flex items-center justify-between gap-2 pointer-events-none">
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-slate-950/80 backdrop-blur-md text-white border border-white/20 shadow-md">
-                  <IconComp className="w-3.5 h-3.5 text-cr-lagoon" />
+                  <IconComp className="w-3.5 h-3.5 text-stateCyan" />
                   <span>{dest.category}</span>
                 </span>
 
-                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-cr-forest/90 backdrop-blur-md text-white border border-cr-forest/40 shadow-md">
-                  <ShieldCheck className="w-3.5 h-3.5 text-cr-lagoon" />
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-stateCyan/90 backdrop-blur-md text-white border border-stateCyan/40 shadow-md">
+                  <ShieldCheck className="w-3.5 h-3.5 text-white" />
                   <span>Verified</span>
                 </span>
               </div>
 
               <div className="relative z-10 p-5 sm:p-6 space-y-3">
                 <div className="space-y-1">
-                  <div className="flex items-center gap-1.5 text-xs font-semibold text-cr-lagoon">
-                    <MapPin className="w-3.5 h-3.5 text-cr-lagoon shrink-0" />
+                  <div className="flex items-center gap-1.5 text-xs font-semibold text-stateCyan">
+                    <MapPin className="w-3.5 h-3.5 text-stateCyan shrink-0" />
                     <span className="truncate">{dest.location}</span>
                   </div>
-                  <h3 className="text-xl sm:text-2xl font-extrabold font-heading text-white tracking-tight group-hover:text-cr-lagoon transition-colors duration-300">
+                  <h3 className="text-xl sm:text-2xl font-extrabold font-heading text-white tracking-tight group-hover:text-stateCyan transition-colors duration-300">
                     {dest.name}
                   </h3>
                   <p className="text-xs sm:text-sm text-slate-200 line-clamp-2 font-light leading-relaxed">
@@ -437,7 +437,7 @@ export default function VerifiedDestinations({ packages = [], onViewPackage }) {
                   <button
                     type="button"
                     onClick={() => handleDestinationClick(dest)}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-cr-forest hover:bg-cr-tropical text-white font-bold text-xs uppercase tracking-wider shadow-md transition-all cursor-pointer group-hover:bg-cr-lagoon group-hover:text-slate-950"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-stateCyan hover:bg-sky-500 text-white font-bold text-xs uppercase tracking-wider shadow-md shadow-stateCyan/25 transition-all cursor-pointer group-hover:bg-sky-400"
                   >
                     <span>Explore</span>
                     <ArrowRight className="w-3.5 h-3.5" />

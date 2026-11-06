@@ -5,6 +5,7 @@ import PackageList from "./components/PackageList.tsx";
 import CalabarDiningMapGuide from "./components/CalabarDiningMapGuide.tsx";
 import VerifiedDestinations from "./components/VerifiedDestinations.tsx";
 import CultureStorytelling from "./components/CultureStorytelling.tsx";
+import CinematicIntroOverlay from "./components/CinematicIntroOverlay.tsx";
 import FinalCTA from "./components/FinalCTA.tsx";
 import ErrorBoundary from "./components/ErrorBoundary.tsx";
 import TourismVideoSection from "./components/TourismVideoSection.tsx";
@@ -309,6 +310,19 @@ export default function App() {
 
   return (
     <div className="min-h-screen w-full max-w-[100vw] overflow-x-hidden flex flex-col bg-slate-50 text-slate-900 dark:bg-[#090d16] dark:text-slate-100 selection:bg-stateCyan selection:text-white transition-colors duration-200 relative">
+      {/* Cinematic Welcome Overlay (Fades out smoothly on Explore) */}
+      <CinematicIntroOverlay
+        onExplore={() => {
+          const el = document.getElementById("verified-cross-river");
+          if (el) {
+            el.scrollIntoView({ behavior: "smooth" });
+          } else {
+            window.scrollTo({ top: 500, behavior: "smooth" });
+          }
+        }}
+        onWhereToStay={() => handleCategoryChange("accommodations")}
+      />
+
       <div className="bg-gradient-to-r from-stateBlue via-stateCyan to-stateGreen py-1.5 px-3 sm:px-4 text-center text-white font-extrabold text-[11px] sm:text-xs tracking-wide no-print flex items-center justify-center gap-1.5 sm:gap-2 shadow-sm">
         <ShieldCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white shrink-0" />
         <span className="hidden sm:inline">OFFICIAL CROSS RIVER STATE 365-DAY TOURISM CLEARINGHOUSE & ANTI-FRAUD ESCROW SYSTEM • 100% BUYER PROTECTION</span>
@@ -347,17 +361,6 @@ export default function App() {
               />
             </ErrorBoundary>
             <CultureStorytelling onSelectCategory={handleCategoryChange} />
-            <PackageList
-              packages={packages}
-              dynamicCards={dynamicVendorCards}
-              activeCategory="all"
-              initialSearchQuery={initialSearchQuery}
-              onSelectCategory={handleCategoryChange}
-              isLoading={loadingPackages && packages.length === 0}
-              onSelectPackage={(pkg) => setSelectedPackage(pkg)}
-              onViewPackage={(pkg) => setPackageForDetails(pkg)}
-              onOpenShield={() => handleTabChange("shield")}
-            />
             <TourismVideoSection onSelectCategory={handleCategoryChange} />
             <LiveCRBCBroadcast onSelectCategory={handleCategoryChange} />
             <CalabarDiningMapGuide />

@@ -24,19 +24,19 @@ export default function TouristHelplineWidget() {
       {/* Expanded Rapid Response Card */}
       {isOpen && (
         <div 
-          className="mb-3 w-[calc(100vw-2.5rem)] sm:w-96 rounded-3xl bg-[#0a101d]/95 backdrop-blur-xl border border-emerald-500/40 p-5 shadow-2xl shadow-emerald-950/50 text-slate-100 animate-slideUp text-xs"
+          className="mb-3 w-[calc(100vw-2.5rem)] sm:w-96 rounded-3xl bg-[#0a101d]/95 backdrop-blur-xl border border-stateCyan/40 p-5 shadow-2xl shadow-sky-950/50 text-slate-100 animate-slideUp text-xs"
           role="dialog"
           aria-labelledby="helpline-title"
         >
           {/* Header */}
           <div className="flex items-start justify-between pb-3 border-b border-slate-800">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+              <div className="w-9 h-9 rounded-2xl bg-stateCyan/15 border border-stateCyan/30 flex items-center justify-center text-stateCyan">
                 <ShieldCheck className="w-5 h-5" />
               </div>
               <div>
-                <div className="flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-widest text-emerald-400">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <div className="flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-widest text-stateCyan">
+                  <span className="w-2 h-2 rounded-full bg-stateCyan animate-pulse" />
                   <span>24/7 Rapid Response Desk</span>
                 </div>
                 <h3 id="helpline-title" className="text-sm font-bold text-white font-heading">
@@ -119,7 +119,7 @@ export default function TouristHelplineWidget() {
                 <Car className="w-3 h-3 text-slate-500" />
                 <span>Patrol Units: Airport &bull; CICC &bull; Marian</span>
               </span>
-              <span className="text-emerald-400 font-semibold flex items-center gap-1">
+              <span className="text-stateCyan font-semibold flex items-center gap-1">
                 <CheckCircle2 className="w-3 h-3" />
                 <span>24/7 Active</span>
               </span>
@@ -134,24 +134,24 @@ export default function TouristHelplineWidget() {
         aria-expanded={isOpen}
         className={`flex items-center gap-2.5 px-3.5 py-2.5 rounded-full shadow-2xl transition cursor-pointer select-none border ${
           isOpen
-            ? "bg-slate-900 border-emerald-500 text-white shadow-emerald-500/20"
-            : "bg-slate-950/90 hover:bg-slate-900 border-emerald-500/50 hover:border-emerald-400 text-slate-100 shadow-emerald-950/60 hover:scale-105"
+            ? "bg-slate-900 border-stateCyan text-white shadow-stateCyan/20"
+            : "bg-slate-950/90 hover:bg-slate-900 border-stateCyan/50 hover:border-stateCyan text-slate-100 shadow-sky-950/60 hover:scale-105"
         }`}
       >
         <span className="relative flex h-2.5 w-2.5 shrink-0">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-stateCyan opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-stateCyan"></span>
         </span>
         
         <div className="flex items-center gap-1.5 text-xs font-bold font-heading tracking-tight">
-          <PhoneCall className="w-3.5 h-3.5 text-emerald-400" />
+          <PhoneCall className="w-3.5 h-3.5 text-stateCyan" />
           <span>Tourist 24/7 Helpline</span>
         </div>
 
         {isOpen ? (
           <X className="w-3.5 h-3.5 text-slate-400" />
         ) : (
-          <ChevronUp className="w-3.5 h-3.5 text-emerald-400" />
+          <ChevronUp className="w-3.5 h-3.5 text-stateCyan" />
         )}
       </button>
     </div>
