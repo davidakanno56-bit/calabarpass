@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import VerifiedImage from "./VerifiedImage.tsx";
 import HotelCard from "./HotelCard.tsx";
+import { HOTEL_IMAGE_MAP } from "../data/hotels.ts";
 
 export const officialAfSnetHotels = [
   {
@@ -47,12 +48,11 @@ export const officialAfSnetHotels = [
       "Olympic Swimming Pool & Tennis Court",
       "Free Bureau Breakfast Buffet"
     ],
-    imageUrl: "/images/transcorp.jpg",
-    image: "/images/transcorp.jpg",
+    imageUrl: HOTEL_IMAGE_MAP["hotel-transcorp-calabar"],
+    image: HOTEL_IMAGE_MAP["hotel-transcorp-calabar"],
     images: [
-      "/images/transcorp.jpg",
-      "/assets/executive_vip.jpg",
-      "/assets/calabar-cityscape-aerial.jpg"
+      HOTEL_IMAGE_MAP["hotel-transcorp-calabar"],
+      HOTEL_IMAGE_MAP["metropolitan-hotel"]
     ],
     verified: true,
     verificationStatus: "verified_real_world"
@@ -79,11 +79,10 @@ export const officialAfSnetHotels = [
       "Executive Fitness Center & Lounge",
       "Complimentary Efik Cuisine Breakfast"
     ],
-    imageUrl: "/images/channel_view.jpg",
-    image: "/images/channel_view.jpg",
+    imageUrl: HOTEL_IMAGE_MAP["hotel-channel-view"],
+    image: HOTEL_IMAGE_MAP["hotel-channel-view"],
     images: [
-      "/images/channel_view.jpg",
-      "/assets/executive_vip.jpg"
+      HOTEL_IMAGE_MAP["hotel-channel-view"]
     ],
     verified: true,
     verificationStatus: "verified_real_world"
@@ -110,11 +109,10 @@ export const officialAfSnetHotels = [
       "Duty-Free Shopping Emporium Access",
       "High-Security Escort Transit"
     ],
-    imageUrl: "/images/tinapa_lakeside.jpg",
-    image: "/images/tinapa_lakeside.jpg",
+    imageUrl: HOTEL_IMAGE_MAP["hotel-tinapa-lakeside"],
+    image: HOTEL_IMAGE_MAP["hotel-tinapa-lakeside"],
     images: [
-      "/images/tinapa_lakeside.jpg",
-      "/assets/marina_resort.jpg"
+      HOTEL_IMAGE_MAP["hotel-tinapa-lakeside"]
     ],
     verified: true,
     verificationStatus: "verified_real_world"
@@ -141,11 +139,10 @@ export const officialAfSnetHotels = [
       "Fine Dining Restaurant & Cocktail Bar",
       "24/7 Monitored CCTV & Escort"
     ],
-    imageUrl: "/images/danamic.jpg",
-    image: "/images/danamic.jpg",
+    imageUrl: HOTEL_IMAGE_MAP["hotel-hogis-suites"],
+    image: HOTEL_IMAGE_MAP["hotel-hogis-suites"],
     images: [
-      "/images/danamic.jpg",
-      "/assets/executive_vip.jpg"
+      HOTEL_IMAGE_MAP["hotel-hogis-suites"]
     ],
     verified: true,
     verificationStatus: "verified_real_world"
@@ -172,11 +169,10 @@ export const officialAfSnetHotels = [
       "Business Center & Printing Desk",
       "Reliable Standby Power Plant"
     ],
-    imageUrl: "/images/marian_hotel.jpg",
-    image: "/images/marian_hotel.jpg",
+    imageUrl: HOTEL_IMAGE_MAP["hotel-pyramid-suites"],
+    image: HOTEL_IMAGE_MAP["hotel-pyramid-suites"],
     images: [
-      "/images/marian_hotel.jpg",
-      "/assets/executive_vip.jpg"
+      HOTEL_IMAGE_MAP["hotel-pyramid-suites"]
     ],
     verified: true,
     verificationStatus: "verified_real_world"
@@ -203,11 +199,10 @@ export const officialAfSnetHotels = [
       "On-Demand Airport & CICC Taxi Booking",
       "100% Escrow Protected Reservation"
     ],
-    imageUrl: "/images/montana.jpg",
-    image: "/images/montana.jpg",
+    imageUrl: HOTEL_IMAGE_MAP["hotel-gemba"],
+    image: HOTEL_IMAGE_MAP["hotel-gemba"],
     images: [
-      "/images/montana.jpg",
-      "/assets/executive_vip.jpg"
+      HOTEL_IMAGE_MAP["hotel-gemba"]
     ],
     verified: true,
     verificationStatus: "verified_real_world"
@@ -234,11 +229,10 @@ export const officialAfSnetHotels = [
       "Executive VIP Cocktail Bar",
       "Solar & Diesel Continuous Power"
     ],
-    imageUrl: "/images/pyramid_hotel.jpg",
-    image: "/images/pyramid_hotel.jpg",
+    imageUrl: HOTEL_IMAGE_MAP["hotel-pyramid-suites"],
+    image: HOTEL_IMAGE_MAP["hotel-pyramid-suites"],
     images: [
-      "/images/pyramid_hotel.jpg",
-      "/assets/executive_vip.jpg"
+      HOTEL_IMAGE_MAP["hotel-pyramid-suites"]
     ],
     verified: true,
     verificationStatus: "verified_real_world"
@@ -265,11 +259,10 @@ export const officialAfSnetHotels = [
       "Private Butler Service on Request",
       "High-Speed Encrypted Conference WiFi"
     ],
-    imageUrl: "/images/pearl_suites.jpg",
-    image: "/images/pearl_suites.jpg",
+    imageUrl: HOTEL_IMAGE_MAP["pearl-suites"],
+    image: HOTEL_IMAGE_MAP["pearl-suites"],
     images: [
-      "/images/pearl_suites.jpg",
-      "/assets/executive_vip.jpg"
+      HOTEL_IMAGE_MAP["pearl-suites"]
     ],
     verified: true,
     verificationStatus: "verified_real_world"

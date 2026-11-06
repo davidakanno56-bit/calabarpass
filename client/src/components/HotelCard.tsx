@@ -16,32 +16,32 @@ import {
   Lock 
 } from "lucide-react";
 
-const IMAGE_LABELS = [
-  "Main Building Exterior / Entrance",
-  "Executive Bedroom / Master Suite",
-  "Swimming Pool / Outdoor Courtyard",
-  "Fine Dining Restaurant / Lounge"
-];
-
-const SHORT_LABELS = ["1. Exterior", "2. Suite", "3. Pool & Court", "4. Lounge"];
-
 export default function HotelCard({ hotel, onBookHotel }) {
   const { formatPrice } = useCurrency();
   const [currentImgIdx, setCurrentImgIdx] = useState(0);
   const [failedImages, setFailedImages] = useState({});
 
-  const images = (Array.isArray(hotel?.images) && hotel.images.length > 0)
+  // Filter out any unwanted / accidental VIP carnival images and invalid paths
+  const rawImages = (Array.isArray(hotel?.images) && hotel.images.length > 0)
     ? hotel.images
     : [hotel?.imageUrl || hotel?.image].filter(Boolean);
 
+  const images = rawImages.filter(img => 
+    typeof img === "string" && 
+    !img.includes("executive_vip.jpg") &&
+    img.trim() !== ""
+  );
+
+  const safeImages = images.length > 0 ? images : [hotel?.imageUrl || hotel?.image || "/assets/calabar-cityscape-aerial.jpg"];
+
   const handlePrevImg = (e) => {
     e.stopPropagation();
-    setCurrentImgIdx((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+    setCurrentImgIdx((prev) => (prev === 0 ? safeImages.length - 1 : prev - 1));
   };
 
   const handleNextImg = (e) => {
     e.stopPropagation();
-    setCurrentImgIdx((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+    setCurrentImgIdx((prev) => (prev === safeImages.length - 1 ? 0 : prev + 1));
   };
 
   const handleImgError = (idx) => {
@@ -59,7 +59,7 @@ export default function HotelCard({ hotel, onBookHotel }) {
       onClick={() => onBookHotel?.(hotel)}
       className="group rounded-3xl overflow-hidden flex flex-col bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 hover:border-cr-forest/50 dark:hover:border-cr-lagoon/50 shadow-sm hover:shadow-2xl transition-all duration-300 cursor-pointer text-left relative"
     >
-      {/* 4-Photo Carousel Area */}
+      {/* Photo Area */}
       <div className="relative h-64 sm:h-72 w-full overflow-hidden bg-slate-950">
         {isCurrentImgFailed ? (
           <div className="w-full h-full bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 flex flex-col items-center justify-center p-6 text-center">
@@ -67,15 +67,15 @@ export default function HotelCard({ hotel, onBookHotel }) {
               <Building2 className="w-6 h-6" />
             </div>
             <span className="text-xs font-bold text-slate-200">{hotel?.name}</span>
-            <span className="text-[11px] text-cr-lagoon mt-0.5">{IMAGE_LABELS[currentImgIdx] || "Verified Stay"}</span>
+            <span className="text-[11px] text-cr-lagoon mt-0.5">Verified Hospitality</span>
             <span className="text-[10px] text-cr-forest dark:text-cr-lagoon mt-1 bg-cr-forest/10 px-2.5 py-0.5 rounded-full border border-cr-forest/20 font-medium">
               Verified Partner Property
             </span>
           </div>
         ) : (
           <img
-            src={images[currentImgIdx] || hotel?.imageUrl || hotel?.image}
-            alt={`${hotel?.name} - ${IMAGE_LABELS[currentImgIdx] || 'Angle'}`}
+            src={safeImages[currentImgIdx] || hotel?.imageUrl || hotel?.image}
+            alt={`${hotel?.name} - View ${currentImgIdx + 1}`}
             onError={() => handleImgError(currentImgIdx)}
             className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
             loading="lazy"
@@ -97,13 +97,13 @@ export default function HotelCard({ hotel, onBookHotel }) {
           </span>
         </div>
 
-        {/* Carousel Next / Previous Nav Buttons */}
-        {images.length > 1 && (
+        {/* Carousel Next / Previous Nav Buttons (Only when multiple photos exist) */}
+        {safeImages.length > 1 && (
           <>
             <button
               type="button"
               onClick={handlePrevImg}
-              aria-label="Previous photo angle"
+              aria-label="Previous photo"
               className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 hover:bg-black/90 text-white flex items-center justify-center backdrop-blur-md border border-white/20 z-20 transition-all opacity-0 group-hover:opacity-100 cursor-pointer"
             >
               <ChevronLeft className="w-4 h-4" />
@@ -111,7 +111,7 @@ export default function HotelCard({ hotel, onBookHotel }) {
             <button
               type="button"
               onClick={handleNextImg}
-              aria-label="Next photo angle"
+              aria-label="Next photo"
               className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 hover:bg-black/90 text-white flex items-center justify-center backdrop-blur-md border border-white/20 z-20 transition-all opacity-0 group-hover:opacity-100 cursor-pointer"
             >
               <ChevronRight className="w-4 h-4" />
@@ -119,39 +119,36 @@ export default function HotelCard({ hotel, onBookHotel }) {
           </>
         )}
 
-        {/* Current Photo Label & Counter */}
-        <div className="absolute bottom-11 left-3.5 right-3.5 flex items-center justify-between text-[11px] font-semibold text-slate-300 pointer-events-none z-20">
-          <span className="px-2.5 py-0.5 rounded-md bg-black/75 backdrop-blur-md border border-white/10 text-cr-lagoon truncate max-w-[200px]">
-            {IMAGE_LABELS[currentImgIdx] || `View ${currentImgIdx + 1}`}
-          </span>
-          <span className="px-2 py-0.5 rounded-md bg-black/75 backdrop-blur-md border border-white/10 text-slate-300">
-            {currentImgIdx + 1} / {images.length || 1}
-          </span>
-        </div>
+        {/* Current Photo Counter (Only when multiple photos exist) */}
+        {safeImages.length > 1 && (
+          <div className="absolute bottom-2.5 right-3.5 flex items-center gap-1 z-20 pointer-events-none">
+            <span className="px-2 py-0.5 rounded-md bg-black/75 backdrop-blur-md border border-white/10 text-[10px] font-semibold text-slate-300">
+              {currentImgIdx + 1} / {safeImages.length}
+            </span>
+          </div>
+        )}
 
-        {/* Interactive Photo Thumbnail Switcher Strip */}
-        <div className="absolute bottom-2.5 left-3.5 right-3.5 flex items-center gap-1.5 z-20">
-          {images.map((_, idx) => {
-            const isSelected = idx === currentImgIdx;
-            return (
+        {/* Multiple Photo Switcher Dots (Only when multiple photos exist) */}
+        {safeImages.length > 1 && (
+          <div className="absolute bottom-3 left-3.5 flex items-center gap-1.5 z-20">
+            {safeImages.map((_, idx) => (
               <button
-                key={`thumb-${hotel?.id}-${idx}`}
+                key={`dot-${hotel?.id}-${idx}`}
                 type="button"
                 onClick={(e) => {
                   e.stopPropagation();
                   setCurrentImgIdx(idx);
                 }}
-                className={`flex-1 py-1 px-1 rounded-md text-[10px] font-semibold transition-all backdrop-blur-md flex items-center justify-center truncate cursor-pointer ${
-                  isSelected
-                    ? "bg-cr-forest text-white font-bold shadow-sm border border-cr-lagoon"
-                    : "bg-black/60 text-slate-300 hover:bg-black/80 hover:text-white border border-white/10"
+                className={`h-1.5 rounded-full transition-all cursor-pointer ${
+                  idx === currentImgIdx
+                    ? "w-5 bg-cr-lagoon shadow-sm"
+                    : "w-1.5 bg-white/50 hover:bg-white/80"
                 }`}
-              >
-                <span className="truncate">{SHORT_LABELS[idx] || `Angle ${idx + 1}`}</span>
-              </button>
-            );
-          })}
-        </div>
+                title={`View Photo ${idx + 1}`}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Card Content Area */}

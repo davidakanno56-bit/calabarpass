@@ -57,7 +57,7 @@ export default function PackageCard({ pkg, onSelectPackage, onViewPackage }) {
     isEco ? "/assets/obudu_mountain.jpg" :
     isDining ? "/assets/marina_resort.jpg" :
     isCarnival ? "/assets/seagull_band.jpg" :
-    isAccommodations ? "/assets/executive_vip.jpg" :
+    isAccommodations ? "/assets/calabar-cityscape-aerial.jpg" :
     "/assets/calabar-cityscape-aerial.jpg"
   );
 

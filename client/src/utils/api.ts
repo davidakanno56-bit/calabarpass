@@ -1151,7 +1151,7 @@ export function handleLocalEscrowFallback(endpoint, payload = null, method = "GE
     const bank = bankPayoutDetails || bankAccount || (bankCode && accountNumber ? `${bankCode} - ${accountNumber}` : "Access Bank ****4102");
     const tel = phone || phoneNumber || "+234 800 000 0000";
     const mail = (email || contactEmail || `${slug}@merchant.calabarpass.ng`).trim();
-    const img = logoUrl || image || "/assets/executive_vip.jpg";
+    const img = logoUrl || image || "/assets/calabar-cityscape-aerial.jpg";
     const loc = location || corridor || "Calabar Municipality, Cross River State";
     const rawRate = Number(basePriceNGN || priceNGN || price || 35000);
     const pricing = calculatePricingBreakdown(rawRate);

@@ -289,3 +289,4 @@ export default function CultureStorytelling({ onSelectCategory }: CultureStoryte
     </section>
   );
 }
+

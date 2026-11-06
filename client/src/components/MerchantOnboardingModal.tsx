@@ -40,7 +40,7 @@ const CATEGORIES = [
     subLabel: "Hotels, Resorts, Suites",
     codePrefix: "CAL-HTL-XXXX",
     icon: BedDouble,
-    defaultImage: "/assets/executive_vip.jpg"
+    defaultImage: "/assets/calabar-cityscape-aerial.jpg"
   },
   {
     id: "eco-sites",
@@ -228,7 +228,7 @@ export default function MerchantOnboardingModal({ isOpen, onClose, onOnboardSucc
       phone: "+234 803 772 1904",
       email: "reservations@royalefiksuites.com",
       location: "Marian Road / State Housing Estate, Calabar",
-      logoUrl: "/assets/executive_vip.jpg",
+      logoUrl: "/assets/calabar-cityscape-aerial.jpg",
       priceNGN: 65000,
       description: "Premier executive boutique suites with 24/7 security, private balcony views, and authentic Efik breakfast."
     });

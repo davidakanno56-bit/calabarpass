@@ -92,7 +92,7 @@ export const HOTELS = [
     },
     "images": [
       HOTEL_IMAGE_MAP["hotel-transcorp-calabar"],
-      "/assets/executive_vip.jpg",
+      HOTEL_IMAGE_MAP["hotel-pyramid-suites"],
       HOTEL_IMAGE_MAP["hotel-pyramid-suites"],
       HOTEL_IMAGE_MAP["hotel-ug-wis"]
     ]
@@ -119,7 +119,7 @@ export const HOTELS = [
     },
     "images": [
       HOTEL_IMAGE_MAP["hotel-hogis-suites"],
-      "/assets/executive_vip.jpg",
+      HOTEL_IMAGE_MAP["hotel-pyramid-suites"],
       HOTEL_IMAGE_MAP["hotel-de-grand"],
       HOTEL_IMAGE_MAP["hotel-channel-view"]
     ]
@@ -146,7 +146,7 @@ export const HOTELS = [
     },
     "images": [
       HOTEL_IMAGE_MAP["hotel-monty-suites"],
-      "/assets/executive_vip.jpg",
+      HOTEL_IMAGE_MAP["hotel-pyramid-suites"],
       HOTEL_IMAGE_MAP["pearl-suites"],
       HOTEL_IMAGE_MAP["hotel-gemba"]
     ]
@@ -173,7 +173,7 @@ export const HOTELS = [
     },
     "images": [
       HOTEL_IMAGE_MAP["hotel-gemba"],
-      "/assets/executive_vip.jpg",
+      HOTEL_IMAGE_MAP["hotel-pyramid-suites"],
       HOTEL_IMAGE_MAP["hotel-channel-view"],
       HOTEL_IMAGE_MAP["hotel-de-grand"]
     ]
@@ -200,7 +200,7 @@ export const HOTELS = [
     },
     "images": [
       HOTEL_IMAGE_MAP["pearl-suites"],
-      "/assets/executive_vip.jpg",
+      HOTEL_IMAGE_MAP["hotel-pyramid-suites"],
       HOTEL_IMAGE_MAP["hotel-pyramid-suites"],
       HOTEL_IMAGE_MAP["hotel-ug-wis"]
     ]
@@ -411,7 +411,7 @@ export const RAW_ACCOMMODATIONS_CARDS = [
     primaryUrl: HOTEL_IMAGE_MAP["hotel-transcorp-calabar"],
     gallery: [
       HOTEL_IMAGE_MAP["hotel-transcorp-calabar"],
-      "/assets/executive_vip.jpg",
+      HOTEL_IMAGE_MAP["hotel-pyramid-suites"],
       HOTEL_IMAGE_MAP["hotel-pyramid-suites"],
       HOTEL_IMAGE_MAP["hotel-ug-wis"]
     ],
@@ -469,7 +469,7 @@ export const RAW_ACCOMMODATIONS_CARDS = [
     primaryUrl: HOTEL_IMAGE_MAP["hotel-monty-suites"],
     gallery: [
       HOTEL_IMAGE_MAP["hotel-monty-suites"],
-      "/assets/executive_vip.jpg",
+      HOTEL_IMAGE_MAP["hotel-pyramid-suites"],
       HOTEL_IMAGE_MAP["pearl-suites"],
       HOTEL_IMAGE_MAP["hotel-gemba"]
     ],
@@ -527,7 +527,7 @@ export const RAW_ACCOMMODATIONS_CARDS = [
     primaryUrl: HOTEL_IMAGE_MAP["hotel-hogis-suites"],
     gallery: [
       HOTEL_IMAGE_MAP["hotel-hogis-suites"],
-      "/assets/executive_vip.jpg",
+      HOTEL_IMAGE_MAP["hotel-pyramid-suites"],
       HOTEL_IMAGE_MAP["hotel-de-grand"],
       HOTEL_IMAGE_MAP["hotel-channel-view"]
     ],
@@ -585,7 +585,7 @@ export const RAW_ACCOMMODATIONS_CARDS = [
     primaryUrl: HOTEL_IMAGE_MAP["hotel-channel-view"],
     gallery: [
       HOTEL_IMAGE_MAP["hotel-channel-view"],
-      "/assets/executive_vip.jpg",
+      HOTEL_IMAGE_MAP["hotel-pyramid-suites"],
       HOTEL_IMAGE_MAP["hotel-gemba"],
       HOTEL_IMAGE_MAP["hotel-de-grand"]
     ],
@@ -643,7 +643,7 @@ export const RAW_ACCOMMODATIONS_CARDS = [
     primaryUrl: HOTEL_IMAGE_MAP["hotel-tinapa-lakeside"],
     gallery: [
       HOTEL_IMAGE_MAP["hotel-tinapa-lakeside"],
-      "/assets/executive_vip.jpg",
+      HOTEL_IMAGE_MAP["hotel-pyramid-suites"],
       HOTEL_IMAGE_MAP["hotel-transcorp-calabar"],
       HOTEL_IMAGE_MAP["hotel-monty-suites"]
     ],
@@ -701,7 +701,7 @@ export const RAW_ACCOMMODATIONS_CARDS = [
     primaryUrl: HOTEL_IMAGE_MAP["hotel-pyramid-suites"],
     gallery: [
       HOTEL_IMAGE_MAP["hotel-pyramid-suites"],
-      "/assets/executive_vip.jpg",
+      HOTEL_IMAGE_MAP["hotel-pyramid-suites"],
       HOTEL_IMAGE_MAP["pearl-suites"],
       HOTEL_IMAGE_MAP["ug-wis"]
     ],

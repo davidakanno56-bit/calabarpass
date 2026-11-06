@@ -16,7 +16,7 @@ export const VERIFIED_PLACES_IMAGES = {
     primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAwVnsSkmTO1ClW-M2DnmDyHltxWiiEFFdOp3Z4RnnWA&s=10",
     gallery: [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAwVnsSkmTO1ClW-M2DnmDyHltxWiiEFFdOp3Z4RnnWA&s=10",
-      "/assets/executive_vip.jpg",
+      "/assets/calabar-cityscape-aerial.jpg",
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzL1i7_k8Q2_u6hR_40wR9mQ7xL_89yK5&s=10",
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR07-F1f44X2-v4bVfE2w-9iR83_h22yX6Ztw&s=10"
     ],
@@ -40,7 +40,7 @@ export const VERIFIED_PLACES_IMAGES = {
     primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAwVnsSkmTO1ClW-M2DnmDyHltxWiiEFFdOp3Z4RnnWA&s=10",
     gallery: [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAwVnsSkmTO1ClW-M2DnmDyHltxWiiEFFdOp3Z4RnnWA&s=10",
-      "/assets/executive_vip.jpg",
+      "/assets/calabar-cityscape-aerial.jpg",
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzL1i7_k8Q2_u6hR_40wR9mQ7xL_89yK5&s=10",
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR07-F1f44X2-v4bVfE2w-9iR83_h22yX6Ztw&s=10"
     ],
@@ -64,7 +64,7 @@ export const VERIFIED_PLACES_IMAGES = {
     primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAwVnsSkmTO1ClW-M2DnmDyHltxWiiEFFdOp3Z4RnnWA&s=10",
     gallery: [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAwVnsSkmTO1ClW-M2DnmDyHltxWiiEFFdOp3Z4RnnWA&s=10",
-      "/assets/executive_vip.jpg"
+      "/assets/calabar-cityscape-aerial.jpg"
     ],
     altText: "Metropolitan Hotel (Transcorp Hotels Calabar) main exterior and grounds, Murtala Muhammed Highway.",
     attribution: "Metropolitan Calabar Bureau Verification",
@@ -86,7 +86,7 @@ export const VERIFIED_PLACES_IMAGES = {
     primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDmDjojoRR0BHuBC4KMzoGLJx5t-IEoVRo4N0KIK6gRQ&s=10",
     gallery: [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDmDjojoRR0BHuBC4KMzoGLJx5t-IEoVRo4N0KIK6gRQ&s=10",
-      "/assets/executive_vip.jpg",
+      "/assets/calabar-cityscape-aerial.jpg",
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq_m2L8xW0p_88zR_40wR9mQ7xL_89yK5&s=10",
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSefv3ycS9OWSUG_UX9KLoMtmW2OItm8y8SIPrZOFWZFw&s=10"
     ],
@@ -110,7 +110,7 @@ export const VERIFIED_PLACES_IMAGES = {
     primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDmDjojoRR0BHuBC4KMzoGLJx5t-IEoVRo4N0KIK6gRQ&s=10",
     gallery: [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDmDjojoRR0BHuBC4KMzoGLJx5t-IEoVRo4N0KIK6gRQ&s=10",
-      "/assets/executive_vip.jpg",
+      "/assets/calabar-cityscape-aerial.jpg",
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq_m2L8xW0p_88zR_40wR9mQ7xL_89yK5&s=10",
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSefv3ycS9OWSUG_UX9KLoMtmW2OItm8y8SIPrZOFWZFw&s=10"
     ],
@@ -134,7 +134,7 @@ export const VERIFIED_PLACES_IMAGES = {
     primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDmDjojoRR0BHuBC4KMzoGLJx5t-IEoVRo4N0KIK6gRQ&s=10",
     gallery: [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDmDjojoRR0BHuBC4KMzoGLJx5t-IEoVRo4N0KIK6gRQ&s=10",
-      "/assets/executive_vip.jpg"
+      "/assets/calabar-cityscape-aerial.jpg"
     ],
     altText: "Monty Suites Calabar executive lodging and reception, Asari Eso Layout.",
     attribution: "AfSNET Verified Hospitality Inspection",
@@ -156,7 +156,7 @@ export const VERIFIED_PLACES_IMAGES = {
     primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSIxcGYu2svKaf10OUqbth0s5q5ao0K1VtjdF3qUveiQ&s=10",
     gallery: [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSIxcGYu2svKaf10OUqbth0s5q5ao0K1VtjdF3qUveiQ&s=10",
-      "/assets/executive_vip.jpg",
+      "/assets/calabar-cityscape-aerial.jpg",
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9_a3k1f4e9z88v4k2_29x-3012_89&s=10",
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhY5Z2vX3wP8k_e92j84u51v0e88k&s=10"
     ],
@@ -180,7 +180,7 @@ export const VERIFIED_PLACES_IMAGES = {
     primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSIxcGYu2svKaf10OUqbth0s5q5ao0K1VtjdF3qUveiQ&s=10",
     gallery: [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSIxcGYu2svKaf10OUqbth0s5q5ao0K1VtjdF3qUveiQ&s=10",
-      "/assets/executive_vip.jpg",
+      "/assets/calabar-cityscape-aerial.jpg",
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9_a3k1f4e9z88v4k2_29x-3012_89&s=10",
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhY5Z2vX3wP8k_e92j84u51v0e88k&s=10"
     ],
@@ -204,7 +204,7 @@ export const VERIFIED_PLACES_IMAGES = {
     primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPKs5WY0H_iHF_tSBLN-oPL5_Gg6whfmMkx5dAnnvaJA&s=10",
     gallery: [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPKs5WY0H_iHF_tSBLN-oPL5_Gg6whfmMkx5dAnnvaJA&s=10",
-      "/assets/executive_vip.jpg"
+      "/assets/calabar-cityscape-aerial.jpg"
     ],
     altText: "Hogis Royale Apartments executive serviced apartments in State Housing, Calabar.",
     attribution: "Hogis Hospitality Group",
@@ -226,7 +226,7 @@ export const VERIFIED_PLACES_IMAGES = {
     primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbZDbxLimOVAUUuaqu1xa39Ooipf6Q3EkGtcfk1Q_8vw&s=10",
     gallery: [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbZDbxLimOVAUUuaqu1xa39Ooipf6Q3EkGtcfk1Q_8vw&s=10",
-      "/assets/executive_vip.jpg"
+      "/assets/calabar-cityscape-aerial.jpg"
     ],
     altText: "Channel View Hotel landmark property on MCC Road overlooking the official Calabar Carnival procession route.",
     attribution: "Channel View Hotels Management / Calabar Tourism Bureau",
@@ -248,7 +248,7 @@ export const VERIFIED_PLACES_IMAGES = {
     primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbZDbxLimOVAUUuaqu1xa39Ooipf6Q3EkGtcfk1Q_8vw&s=10",
     gallery: [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbZDbxLimOVAUUuaqu1xa39Ooipf6Q3EkGtcfk1Q_8vw&s=10",
-      "/assets/executive_vip.jpg"
+      "/assets/calabar-cityscape-aerial.jpg"
     ],
     altText: "Channel View Hotel facade and carnival route viewing terraces on MCC Road, Calabar.",
     attribution: "Channel View Hotels Management",
@@ -292,7 +292,7 @@ export const VERIFIED_PLACES_IMAGES = {
     primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSefv3ycS9OWSUG_UX9KLoMtmW2OItm8y8SIPrZOFWZFw&s=10",
     gallery: [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSefv3ycS9OWSUG_UX9KLoMtmW2OItm8y8SIPrZOFWZFw&s=10",
-      "/assets/executive_vip.jpg"
+      "/assets/calabar-cityscape-aerial.jpg"
     ],
     altText: "Pyramid Hotel & Suites building facade on Murtala Muhammed Highway, Calabar.",
     attribution: "Pyramid Hotel Front Office / Calabar Tourism Bureau",
@@ -314,7 +314,7 @@ export const VERIFIED_PLACES_IMAGES = {
     primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqu1RrJFlGV4JNi27w61TlICZ53QFD9kZ2faptfUT_Gw&s=10",
     gallery: [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqu1RrJFlGV4JNi27w61TlICZ53QFD9kZ2faptfUT_Gw&s=10",
-      "/assets/executive_vip.jpg"
+      "/assets/calabar-cityscape-aerial.jpg"
     ],
     altText: "Authentic chalet entrance, outdoor pool, and serene grounds at Gemba Resorts & Suites in Parliamentary District, Calabar.",
     attribution: "Gemba Hotel & Resort Desk / AfSNET Inspection",
@@ -336,7 +336,7 @@ export const VERIFIED_PLACES_IMAGES = {
     primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqu1RrJFlGV4JNi27w61TlICZ53QFD9kZ2faptfUT_Gw&s=10",
     gallery: [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqu1RrJFlGV4JNi27w61TlICZ53QFD9kZ2faptfUT_Gw&s=10",
-      "/assets/executive_vip.jpg"
+      "/assets/calabar-cityscape-aerial.jpg"
     ],
     altText: "Gemba Hotel & Resort grounds and chalets, Parliamentary District, Calabar.",
     attribution: "Gemba Hotel & Resort Desk",
@@ -357,7 +357,7 @@ export const VERIFIED_PLACES_IMAGES = {
     primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPKs5WY0H_iHF_tSBLN-oPL5_Gg6whfmMkx5dAnnvaJA&s=10",
     gallery: [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPKs5WY0H_iHF_tSBLN-oPL5_Gg6whfmMkx5dAnnvaJA&s=10",
-      "/assets/executive_vip.jpg"
+      "/assets/calabar-cityscape-aerial.jpg"
     ],
     altText: "The Summit Executive Serviced Apartments exterior, chef kitchens, and private executive residences in Federal Housing, Calabar.",
     attribution: "The Summit Hospitality Management",
@@ -378,7 +378,7 @@ export const VERIFIED_PLACES_IMAGES = {
     primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFrlVdeMYISQYCoZ6ng7laiIphKFYGsxhNwYqyhzo-KA&s=10",
     gallery: [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFrlVdeMYISQYCoZ6ng7laiIphKFYGsxhNwYqyhzo-KA&s=10",
-      "/assets/executive_vip.jpg"
+      "/assets/calabar-cityscape-aerial.jpg"
     ],
     altText: "Pearl Suites executive rooms and private grounds in Parliamentary Extension, Calabar.",
     attribution: "Pearl Suites Front Desk / AfSNET Inspection",
@@ -399,7 +399,7 @@ export const VERIFIED_PLACES_IMAGES = {
     primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrCoU1I6RSJq24Bu1cUdIMTJdityQLP5R5fqH4nZn1lQ&s=10",
     gallery: [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrCoU1I6RSJq24Bu1cUdIMTJdityQLP5R5fqH4nZn1lQ&s=10",
-      "/assets/executive_vip.jpg"
+      "/assets/calabar-cityscape-aerial.jpg"
     ],
     altText: "UG WIS Hotels & Suites building facade and guest reception along the Marian axis, Calabar.",
     attribution: "UG WIS Hotels Front Desk",
@@ -420,7 +420,7 @@ export const VERIFIED_PLACES_IMAGES = {
     primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbZDbxLimOVAUUuaqu1xa39Ooipf6Q3EkGtcfk1Q_8vw&s=10",
     gallery: [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbZDbxLimOVAUUuaqu1xa39Ooipf6Q3EkGtcfk1Q_8vw&s=10",
-      "/assets/executive_vip.jpg"
+      "/assets/calabar-cityscape-aerial.jpg"
     ],
     altText: "De Grand Hotel & Rooftop building exterior and rooftop lounge view in Calabar.",
     attribution: "De Grand Bay Hotel Desk",
@@ -587,7 +587,7 @@ export const VERIFIED_PLACES_IMAGES = {
     primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbZDbxLimOVAUUuaqu1xa39Ooipf6Q3EkGtcfk1Q_8vw&s=10",
     gallery: [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbZDbxLimOVAUUuaqu1xa39Ooipf6Q3EkGtcfk1Q_8vw&s=10",
-      "/assets/executive_vip.jpg"
+      "/assets/calabar-cityscape-aerial.jpg"
     ],
     altText: "Crunchies Fast Food restaurant facade, golden fried chicken, and pastries counter on Marian Road, Calabar.",
     attribution: "Crunchies Fast Food Calabar / Google Places Verified",
@@ -626,7 +626,7 @@ export const VERIFIED_PLACES_IMAGES = {
     primaryUrl: "/assets/marina_resort.jpg",
     gallery: [
       "/assets/marina_resort.jpg",
-      "/assets/executive_vip.jpg"
+      "/assets/calabar-cityscape-aerial.jpg"
     ],
     altText: "Authentic Calabar Fisherman Soup in traditional clay pot with fresh river prawns and periwinkles at Supreme Viking Restaurant.",
     attribution: "Supreme Viking Native Kitchen / Calabar Hospitality Registry",
@@ -691,7 +691,7 @@ export const VERIFIED_PLACES_IMAGES = {
     primaryUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrCoU1I6RSJq24Bu1cUdIMTJdityQLP5R5fqH4nZn1lQ&s=10",
     gallery: [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrCoU1I6RSJq24Bu1cUdIMTJdityQLP5R5fqH4nZn1lQ&s=10",
-      "/assets/executive_vip.jpg"
+      "/assets/calabar-cityscape-aerial.jpg"
     ],
     altText: "The Arena Lounge outdoor courtyard dining, BBQ grills, and evening lounge on Marian Road.",
     attribution: "The Arena Lounge Desk / Google Places Verified",
@@ -713,7 +713,7 @@ export const VERIFIED_PLACES_IMAGES = {
     primaryUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Calabar_carnival_1.jpg/1280px-Calabar_carnival_1.jpg",
     gallery: [
       "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Calabar_carnival_1.jpg/1280px-Calabar_carnival_1.jpg",
-      "/assets/executive_vip.jpg"
+      "/assets/calabar-cityscape-aerial.jpg"
     ],
     altText: "Mayfair VIP Lounge illuminated club entrance and nightlife corridor on Marian Road, Calabar.",
     attribution: "Mayfair VIP Entertainment / Wikimedia Commons",
@@ -731,9 +731,9 @@ export const VERIFIED_PLACES_IMAGES = {
     name: "SPAR Calabar Mall",
     location: "Cultural Centre Complex / Murtala Mohammed Highway, Calabar",
     placeId: "ChIJ3yB6uP6hWRAR_gYqW_j6P6k",
-    primaryUrl: "/assets/executive_vip.jpg",
+    primaryUrl: "/assets/calabar-cityscape-aerial.jpg",
     gallery: [
-      "/assets/executive_vip.jpg",
+      "/assets/calabar-cityscape-aerial.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Old_Residency%2C_National_Museum%2C_Calabar_02.jpg/1280px-Old_Residency%2C_National_Museum%2C_Calabar_02.jpg"
     ],
     altText: "SPAR Calabar Mall entrance and shopping plaza within the Cultural Centre Complex, Calabar.",
@@ -895,7 +895,7 @@ export const VERIFIED_PLACES_IMAGES = {
     primaryUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Obudu_Cattle_Ranch%2C_Hilltop_Lodges%2C_Obudu%2C_Cross_river_state.jpg/1280px-Obudu_Cattle_Ranch%2C_Hilltop_Lodges%2C_Obudu%2C_Cross_river_state.jpg",
     gallery: [
       "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Obudu_Cattle_Ranch%2C_Hilltop_Lodges%2C_Obudu%2C_Cross_river_state.jpg/1280px-Obudu_Cattle_Ranch%2C_Hilltop_Lodges%2C_Obudu%2C_Cross_river_state.jpg",
-      "/assets/executive_vip.jpg"
+      "/assets/calabar-cityscape-aerial.jpg"
     ],
     altText: "Authentic view of the Calabar International Convention Centre (CICC) conference complex on Summit Hills, Calabar.",
     attribution: "Cross River State Ministry of Commerce & Trade Bureau",
@@ -914,9 +914,9 @@ export const VERIFIED_PLACES_IMAGES = {
     name: "CICC SME & Industrial Exhibition Booths",
     location: "Summit Hills, CICC Main Exhibition Hall, Calabar",
     placeId: "ChIJ7V3sP76hWRAR4L12M8v0_11",
-    primaryUrl: "/assets/executive_vip.jpg",
+    primaryUrl: "/assets/calabar-cityscape-aerial.jpg",
     gallery: [
-      "/assets/executive_vip.jpg",
+      "/assets/calabar-cityscape-aerial.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Obudu_Cattle_Ranch%2C_Hilltop_Lodges%2C_Obudu%2C_Cross_river_state.jpg/1280px-Obudu_Cattle_Ranch%2C_Hilltop_Lodges%2C_Obudu%2C_Cross_river_state.jpg"
     ],
     altText: "Authentic interior view of the CICC Main Exhibition Hall arranged for commercial trade pavilions.",
@@ -936,9 +936,9 @@ export const VERIFIED_PLACES_IMAGES = {
     name: "Calabar International Convention Centre (CICC)",
     location: "Summit Hills, Calabar, Cross River State",
     placeId: "ChIJ7V3sP76hWRAR4L12M8v0_11",
-    primaryUrl: "/assets/executive_vip.jpg",
+    primaryUrl: "/assets/calabar-cityscape-aerial.jpg",
     gallery: [
-      "/assets/executive_vip.jpg",
+      "/assets/calabar-cityscape-aerial.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Obudu_Cattle_Ranch%2C_Hilltop_Lodges%2C_Obudu%2C_Cross_river_state.jpg/1280px-Obudu_Cattle_Ranch%2C_Hilltop_Lodges%2C_Obudu%2C_Cross_river_state.jpg"
     ],
     altText: "Authentic photograph of Calabar International Convention Centre complex on Summit Hills.",
@@ -1000,9 +1000,9 @@ export const VERIFIED_PLACES_IMAGES = {
     name: "Cross River Agro-Allied & Cocoa Export Summit",
     location: "Cultural Centre Complex / Transcorp Hall, Calabar",
     placeId: "ChIJ9V3sP76hWRAR7L12M8v0_33",
-    primaryUrl: "/assets/executive_vip.jpg",
+    primaryUrl: "/assets/calabar-cityscape-aerial.jpg",
     gallery: [
-      "/assets/executive_vip.jpg",
+      "/assets/calabar-cityscape-aerial.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Old_Residency%2C_National_Museum%2C_Calabar_02.jpg/1280px-Old_Residency%2C_National_Museum%2C_Calabar_02.jpg"
     ],
     altText: "Authentic photograph of the Cultural Centre Complex convention hall on Murtala Muhammed Highway, Calabar.",

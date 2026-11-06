@@ -22,10 +22,10 @@ export const TRADE_HUB_IMAGE_MAP = {
   "calabar-port": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Nigeria_Calabar_Port_11.81.jpg/1280px-Nigeria_Calabar_Port_11.81.jpg",
 
   // Cross River Agro-Allied & Cocoa Export Summit Delegate Pass
-  "trade-agro-summit": "/assets/executive_vip.jpg",
-  "agro-allied-summit": "/assets/executive_vip.jpg",
-  "cocoa-export-summit": "/assets/executive_vip.jpg",
-  "trade-agro": "/assets/executive_vip.jpg"
+  "trade-agro-summit": "/assets/calabar-cityscape-aerial.jpg",
+  "agro-allied-summit": "/assets/calabar-cityscape-aerial.jpg",
+  "cocoa-export-summit": "/assets/calabar-cityscape-aerial.jpg",
+  "trade-agro": "/assets/calabar-cityscape-aerial.jpg"
 };
 
 /**
@@ -64,7 +64,7 @@ export const RAW_TRADE_EXPO_CARDS = [
     primaryUrl: TRADE_HUB_IMAGE_MAP["trade-fair-pass"],
     gallery: [
       TRADE_HUB_IMAGE_MAP["trade-fair-pass"],
-      "/assets/executive_vip.jpg"
+      "/assets/calabar-cityscape-aerial.jpg"
     ],
     altText: "Authentic photograph of the Calabar International Convention Centre (CICC) architecture on Summit Hills.",
     attribution: "Calabar International Convention Centre (CICC) / Wikimedia Commons",
@@ -119,7 +119,7 @@ export const RAW_TRADE_EXPO_CARDS = [
     primaryUrl: TRADE_HUB_IMAGE_MAP["trade-cicc-booth"],
     gallery: [
       TRADE_HUB_IMAGE_MAP["trade-cicc-booth"],
-      "/assets/executive_vip.jpg"
+      "/assets/calabar-cityscape-aerial.jpg"
     ],
     altText: "Authentic photograph of the main exhibition hall and conference facility inside CICC Calabar.",
     attribution: "CICC Main Exhibition Hall Registry",
