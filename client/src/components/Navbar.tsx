@@ -1,97 +1,65 @@
 import React, { useState } from "react";
-import {
+import { 
   Menu,
   X,
-  Compass,
-  MapPin,
-  BedDouble,
-  Sparkles,
-  Flame,
-  Briefcase,
-  Search,
-  User,
-  Globe,
-  ChevronDown,
+  BedDouble, 
+  Trees, 
+  Utensils, 
+  Briefcase, 
+  Flame, 
+  Building2, 
+  ShieldAlert, 
+  Lock,
   Sun,
   Moon,
-  Building2,
-  Calendar,
-  ShieldCheck,
-  ArrowRight
+  ChevronDown,
+  ChevronUp,
+  User,
+  Globe,
+  Search,
+  ShieldCheck
 } from "lucide-react";
 import { useTheme } from "../context/ThemeContext.tsx";
 import { useCurrency } from "../context/CurrencyContext.tsx";
 import CategoryMegaMenu from "./CategoryMegaMenu.tsx";
-
-export interface NavItem {
-  id: string;
-  label: string;
-  category?: string;
-  action?: "category" | "lookup" | "vendor" | "home" | "modal";
-  badge?: string;
-}
-
-export const LUXURY_NAV_ITEMS: NavItem[] = [
-  { id: "discover", label: "Discover", action: "home" },
-  { id: "destinations", label: "Destinations", category: "eco-sites", action: "category" },
-  { id: "accommodations", label: "Where to Stay", category: "accommodations", action: "category" },
-  { id: "experiences", label: "Experiences", category: "dining-nightlife", action: "category" },
-  { id: "culture", label: "Culture & Events", category: "carnival-culture", action: "category", badge: "Carnival 2026" },
-  { id: "trade", label: "Trade & Expo", category: "trade-expo", action: "category" }
-];
 
 export const NAV_CATEGORIES = [
   {
     id: "accommodations",
     label: "Accommodations",
     shortLabel: "Accommodations",
-    subLabel: "Hotels, Luxury Suites & Lodges",
+    subLabel: "Hotels, Resorts, Suites",
     icon: BedDouble
   },
   {
     id: "eco-sites",
     label: "Eco-Sites & Heritage",
-    shortLabel: "Destinations",
-    subLabel: "Obudu, Agbokim, Drill Ranch",
-    icon: MapPin
+    shortLabel: "Eco-Sites",
+    subLabel: "Marina, Agbokim, Drill, Kwa",
+    icon: Trees
   },
   {
     id: "dining-nightlife",
     label: "Dining & Nightlife",
-    shortLabel: "Experiences",
-    subLabel: "Efik Culinary Arts & Marina Cruises",
-    icon: Sparkles
+    shortLabel: "Dining & Nightlife",
+    subLabel: "Eateries, Seafood, Lounges",
+    icon: Utensils
   },
   {
     id: "trade-expo",
     label: "Trade & Expo Hub",
     shortLabel: "Trade & Expo",
-    subLabel: "Commerce & Free Zone Clearances",
+    subLabel: "Ministry of Commerce Passes",
     icon: Briefcase
   },
   {
     id: "carnival-culture",
     label: "Carnival & Culture",
-    shortLabel: "Culture & Events",
-    subLabel: "Carnival Passes & Heritage Wristbands",
+    shortLabel: "Carnival & Culture",
+    subLabel: "Band Passes & Festival Tickets",
     icon: Flame
   }
 ];
-
-export interface NavbarProps {
-  activeTab?: string;
-  setActiveTab: (tab: string) => void;
-  activeCategory?: string;
-  onSelectCategory?: (category: string, query?: string) => void;
-  onOpenVendorPortal?: () => void;
-  onOpenOnboarding?: () => void;
-  onOpenBookingLookup?: () => void;
-  isVendorAuthenticated?: boolean;
-  escrowStats?: {
-    totalLockedNGN?: number;
-    totalDisbursedNGN?: number;
-  } | null;
-}
 
 export default function Navbar({
   activeTab = "packages",
@@ -103,16 +71,15 @@ export default function Navbar({
   onOpenBookingLookup,
   isVendorAuthenticated = false,
   escrowStats
-}: NavbarProps) {
+}) {
   const { isDark = true, toggleTheme = () => {} } = useTheme() || {};
   const { currency = "NGN", setCurrency = () => {}, availableCurrencies = [] } = useCurrency() || {};
-  const [megaMenuCategory, setMegaMenuCategory] = useState<string | null>(null);
-  const [isMegaMenuOpen, setIsMegaMenuOpen] = useState<boolean>(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
+  const [megaMenuCategory, setMegaMenuCategory] = useState(null);
+  const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleVendorClick = () => {
     setIsMegaMenuOpen(false);
-    setIsMobileMenuOpen(false);
     if (onOpenVendorPortal) {
       onOpenVendorPortal();
     } else {
@@ -122,7 +89,6 @@ export default function Navbar({
 
   const handleVendorOrLookupClick = () => {
     setIsMegaMenuOpen(false);
-    setIsMobileMenuOpen(false);
     if (onOpenBookingLookup) {
       onOpenBookingLookup();
     } else if (onOpenVendorPortal) {
@@ -132,7 +98,7 @@ export default function Navbar({
     }
   };
 
-  const handleCategoryClick = (catId: string) => {
+  const handleCategoryClick = (catId) => {
     setIsMobileMenuOpen(false);
     if (isMegaMenuOpen && megaMenuCategory === catId) {
       setIsMegaMenuOpen(false);
@@ -149,9 +115,8 @@ export default function Navbar({
     }
   };
 
-  const handleCorridorSelect = (catId: string, query?: string) => {
+  const handleCorridorSelect = (catId, query) => {
     setIsMegaMenuOpen(false);
-    setIsMobileMenuOpen(false);
     if (onSelectCategory) {
       onSelectCategory(catId, query);
     }
@@ -176,269 +141,350 @@ export default function Navbar({
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleNavItemClick = (item: NavItem) => {
-    setIsMobileMenuOpen(false);
-    setIsMegaMenuOpen(false);
-
-    if (item.action === "home") {
-      if (onSelectCategory) onSelectCategory("all");
-      setActiveTab("packages");
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    } else if (item.action === "category" && item.category) {
-      if (onSelectCategory) onSelectCategory(item.category);
-      setActiveTab("packages");
-      setTimeout(() => {
-        const target = document.getElementById("package-listing-section") || document.getElementById("packages-grid");
-        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 100);
-    }
-  };
-
   return (
-    <header className="sticky top-0 z-40 w-full bg-slate-950/85 dark:bg-[#070b11]/90 backdrop-blur-2xl border-b border-white/[0.08] transition-colors duration-300">
+    <header className="sticky top-0 z-40 w-full border-b border-slate-200/90 dark:border-slate-800/80 bg-white/95 dark:bg-[#0b0f17]/95 backdrop-blur-md transition-colors duration-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Top Editorial Navigation Row */}
-        <div className="flex items-center justify-between h-20 gap-4">
-          {/* 1. Cross River State Official Emblem & CalabarPass Wordmark */}
-          <div
-            onClick={handleLogoClick}
-            className="flex items-center gap-3.5 cursor-pointer group shrink-0"
-            title="CalabarPass — Cross River State Official Tourism Clearinghouse"
+        {/* Row 1: Top Navigation Bar (Logo on Left, Clean Utility Actions on Right) */}
+        <div className="flex items-center justify-between h-16 sm:h-18 gap-2 sm:gap-4 border-b border-slate-100 dark:border-slate-800/60">
+          {/* Left side: Clean CalabarPass logo and brand mark */}
+          <div 
+            onClick={handleLogoClick} 
+            className="flex items-center gap-3 cursor-pointer group shrink-0"
+            title="CalabarPass Home"
           >
-            <div className="relative flex items-center justify-center">
-              <img
-                src="/assets/calabarpass-monogram.svg"
-                alt="Cross River State Tourism Crest"
-                className="w-10 h-10 object-contain transition-transform duration-500 group-hover:scale-105 drop-shadow-[0_4px_16px_rgba(8,127,91,0.35)]"
+            <div className="relative flex items-center justify-center shrink-0">
+              <img 
+                src="/assets/calabarpass-monogram.svg" 
+                alt="CalabarPass Monogram" 
+                className="w-9 h-9 sm:w-10 sm:h-10 object-contain transition-transform duration-300 group-hover:scale-105 drop-shadow-md"
               />
             </div>
             <div className="flex flex-col justify-center">
               <div className="flex items-center gap-2">
-                <span className="text-xl sm:text-2xl font-bold tracking-tight font-heading text-white">
-                  Calabar<span className="text-emerald-400 font-extrabold">Pass</span>
+                <span className="text-xl sm:text-2xl font-bold tracking-tight font-sans text-slate-900 dark:text-white">
+                  Calabar<span className="text-stateCyan font-extrabold">Pass</span>
                 </span>
-                <span className="text-[9px] font-mono uppercase font-bold tracking-widest px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 hidden sm:inline-block">
-                  Cross River State
+                <span className="text-[9px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-stateCyan/10 text-stateCyan border border-stateCyan/30 whitespace-nowrap hidden sm:inline-block">
+                  365 DAYS
                 </span>
               </div>
-              <p className="text-[10px] font-sans font-medium text-slate-400 tracking-tight hidden lg:block">
-                Visit Cross River • Tourism & Experience Clearinghouse
+              <p className="text-[10px] font-sans font-medium text-stateCyan tracking-tight hidden lg:block">
+                Cross River State Tourism & Commercial Clearinghouse
               </p>
             </div>
           </div>
 
-          {/* 2. Luxury Editorial Navigation Links (Visit Dubai / Visit Saudi Style) */}
-          <nav
-            aria-label="Primary Destination Navigation"
-            className="hidden lg:flex items-center gap-1 xl:gap-2"
+          {/* Right side: Clean utility actions arranged neatly in a single row without any duplication */}
+          {/* Desktop utility row: visible only on md+ viewports */}
+          <div className="hidden md:flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+            {/* 1. Multi-Currency Diaspora Selector */}
+            <div className="relative flex items-center">
+              <div className="relative flex items-center rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100/90 dark:bg-slate-900/90 hover:bg-white dark:hover:bg-slate-800 shadow-sm transition">
+                <span className="pl-2 pr-1 text-slate-500 dark:text-slate-400 pointer-events-none hidden sm:inline">
+                  <Globe className="w-3.5 h-3.5" />
+                </span>
+                <select
+                  value={currency}
+                  onChange={(e) => setCurrency(e.target.value)}
+                  aria-label="Select Currency for Diaspora conversion"
+                  className="py-1.5 pl-2 sm:pl-1 pr-6 rounded-xl text-xs font-bold bg-transparent text-slate-800 dark:text-slate-200 cursor-pointer outline-none appearance-none"
+                  title="Diaspora Currency Converter (NGN ₦, USD $, GBP £, EUR €)"
+                >
+                  {(availableCurrencies || []).map((c) => (
+                    <option key={c.code} value={c.code} className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white font-bold">
+                      {c.code} ({c.symbol})
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="w-3 h-3 text-slate-400 absolute right-2 pointer-events-none" />
+              </div>
+            </div>
+
+            {/* 2. Theme Toggle Switch */}
+            <button
+              onClick={toggleTheme}
+              type="button"
+              className="p-2 sm:px-2.5 sm:py-2 rounded-xl text-xs font-semibold transition-all border border-slate-200 dark:border-slate-800 bg-slate-100/80 dark:bg-slate-900/80 hover:bg-white dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 shadow-sm flex items-center gap-1.5 cursor-pointer hover:scale-[1.03] active:scale-95"
+              title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
+              aria-label="Toggle Light / Dark theme"
+            >
+              {isDark ? (
+                <>
+                  <Sun className="w-4 h-4 text-stateCyan shrink-0" />
+                  <span className="hidden xl:inline text-[11px] font-bold text-stateCyan">Light</span>
+                </>
+              ) : (
+                <>
+                  <Moon className="w-4 h-4 text-slate-700 shrink-0" />
+                  <span className="hidden xl:inline text-[11px] font-bold text-slate-700">Dark</span>
+                </>
+              )}
+            </button>
+
+            {/* 3. List Property (Host / Operator Onboarding) */}
+            {onOpenOnboarding && (
+              <button
+                onClick={() => {
+                  setIsMegaMenuOpen(false);
+                  onOpenOnboarding();
+                }}
+                className="hidden md:flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold tracking-tight transition-all border border-slate-200 dark:border-slate-800 bg-slate-100/90 dark:bg-slate-900/90 hover:bg-white dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 hover:border-stateCyan/40 cursor-pointer shadow-sm hover:scale-[1.02] active:scale-95"
+                title="Register Hotel, Tour Sanctuary, Restaurant or Band Terminal"
+              >
+                <Building2 className="w-3.5 h-3.5 text-stateCyan shrink-0" />
+                <span className="whitespace-nowrap">List Property</span>
+              </button>
+            )}
+
+            {/* 4. Fair Price Index */}
+            <button
+              onClick={() => {
+                setIsMegaMenuOpen(false);
+                setActiveTab("shield");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-semibold tracking-tight transition-all border cursor-pointer hover:scale-[1.02] active:scale-95 ${
+                activeTab === "shield"
+                  ? "bg-sky-600 text-white border-sky-600 shadow-md shadow-sky-950/40"
+                  : "bg-slate-100/90 dark:bg-slate-900 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-800 hover:border-sky-500/40 hover:bg-white dark:hover:bg-slate-800"
+              }`}
+              title="Cross River Fair-Price Index & Price Benchmark"
+            >
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+              <span className="whitespace-nowrap hidden sm:inline">Fair Price Index</span>
+              <span className="whitespace-nowrap sm:hidden">Index</span>
+            </button>
+
+            {/* 5. Track Booking (for Guests / Tourists) */}
+            {onOpenBookingLookup && (
+              <button
+                onClick={() => {
+                  setIsMegaMenuOpen(false);
+                  onOpenBookingLookup();
+                }}
+                className="hidden lg:flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold tracking-tight transition-all border border-slate-200 dark:border-slate-800 bg-slate-100/90 dark:bg-slate-900/90 hover:bg-white dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 hover:border-sky-500/40 cursor-pointer shadow-sm hover:scale-[1.02] active:scale-95"
+                title="Lookup your booking voucher with your 6-digit PIN"
+              >
+                <Search className="w-3.5 h-3.5 text-sky-400 shrink-0" />
+                <span className="whitespace-nowrap">Track Booking</span>
+              </button>
+            )}
+
+            {/* 6. Merchant Settlement Portal */}
+            <button
+              onClick={handleVendorClick}
+              className={`flex items-center gap-2 px-3 sm:px-3.5 py-2 rounded-xl text-xs font-bold tracking-tight transition-all border cursor-pointer hover:scale-[1.02] active:scale-95 ${
+                activeTab === "vendor" || isVendorAuthenticated
+                  ? "bg-sky-600 text-white border-sky-600 shadow-md shadow-sky-950/40"
+                  : "bg-slate-100/90 dark:bg-slate-900 text-slate-800 dark:text-slate-100 border-slate-200 dark:border-slate-800 hover:border-sky-500/40 hover:bg-white dark:hover:bg-slate-800"
+              }`}
+              title="Merchant Settlement Portal for Verified Cross River Operators"
+            >
+              <div className="relative flex items-center justify-center">
+                <User className="w-3.5 h-3.5 shrink-0" />
+                <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-emerald-400" />
+              </div>
+              <span className="whitespace-nowrap">Merchant Portal</span>
+            </button>
+          </div>
+
+          {/* Mobile Hamburger Trigger: visible only on mobile viewports (< md) */}
+          <div className="flex md:hidden items-center gap-2 shrink-0">
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              type="button"
+              className="p-2 sm:p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100/90 dark:bg-slate-900/90 text-slate-700 dark:text-slate-200 hover:text-stateCyan hover:border-stateCyan/40 transition-all cursor-pointer shadow-sm active:scale-95"
+              aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={isMobileMenuOpen}
+            >
+              {isMobileMenuOpen ? (
+                <X className="w-5 h-5 text-stateCyan" />
+              ) : (
+                <Menu className="w-5 h-5" />
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Slide-Out / Collapsible Menu Drawer (md:hidden) */}
+        {isMobileMenuOpen && (
+          <div 
+            className="md:hidden border-b border-slate-200 dark:border-slate-800 bg-white/98 dark:bg-[#0c121e]/98 backdrop-blur-xl px-4 py-4 space-y-3 shadow-2xl transition-all animate-fadeIn"
+            role="region"
+            aria-label="Mobile Navigation Utility Menu"
           >
-            {LUXURY_NAV_ITEMS.map((item) => {
-              const isSelected =
-                (item.action === "home" && activeTab === "packages" && activeCategory === "all") ||
-                (item.action === "category" && activeCategory === item.category);
+            {/* Row 1 in Mobile Menu: Currency Selector & Theme Mode Switch */}
+            <div className="grid grid-cols-2 gap-2.5">
+              {/* Diaspora Currency Selector */}
+              <div className="relative flex items-center rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100/90 dark:bg-slate-900/90 p-2 shadow-sm">
+                <Globe className="w-4 h-4 text-stateCyan ml-1 shrink-0" />
+                <select
+                  value={currency}
+                  onChange={(e) => {
+                    setCurrency(e.target.value);
+                  }}
+                  aria-label="Select Currency for Diaspora conversion"
+                  className="w-full py-0.5 pl-2 pr-6 rounded-lg text-xs font-bold bg-transparent text-slate-800 dark:text-slate-100 cursor-pointer outline-none appearance-none"
+                >
+                  {(availableCurrencies || []).map((c) => (
+                    <option key={c.code} value={c.code} className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white font-bold">
+                      {c.code} ({c.symbol})
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2.5 pointer-events-none" />
+              </div>
+
+              {/* Theme Toggle Button */}
+              <button
+                onClick={toggleTheme}
+                type="button"
+                className="flex items-center justify-center gap-2 p-2 rounded-xl text-xs font-bold border border-slate-200 dark:border-slate-800 bg-slate-100/90 dark:bg-slate-900/90 text-slate-700 dark:text-slate-200 hover:border-stateCyan/40 shadow-sm transition active:scale-95 cursor-pointer"
+                aria-label="Toggle Light / Dark theme"
+              >
+                {isDark ? (
+                  <>
+                    <Sun className="w-4 h-4 text-stateCyan shrink-0" />
+                    <span className="text-xs font-bold text-stateCyan">Light Mode</span>
+                  </>
+                ) : (
+                  <>
+                    <Moon className="w-4 h-4 text-slate-700 shrink-0" />
+                    <span className="text-xs font-bold text-slate-700">Dark Mode</span>
+                  </>
+                )}
+              </button>
+            </div>
+
+            {/* Scam Shield Vault Button */}
+            <button
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                setIsMegaMenuOpen(false);
+                setActiveTab("shield");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              className={`w-full flex items-center justify-between p-3 rounded-xl text-xs font-bold transition-all border cursor-pointer active:scale-95 ${
+                activeTab === "shield"
+                  ? "bg-stateCyan text-white border-stateCyan shadow-md shadow-stateCyan/25"
+                  : "bg-slate-100/90 dark:bg-slate-900 text-slate-800 dark:text-slate-100 border-slate-200 dark:border-slate-800 hover:border-stateCyan/40"
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-lg bg-stateCyan/10 border border-stateCyan/20 flex items-center justify-center text-stateCyan shrink-0">
+                  <ShieldAlert className="w-4 h-4" />
+                </div>
+                <div className="text-left">
+                  <div className="font-bold text-slate-900 dark:text-white">Scam Shield Vault</div>
+                  <div className="text-[10px] text-slate-500 dark:text-slate-400 font-normal">Cross River Fair-Price Index &amp; Rate Assurance</div>
+                </div>
+              </div>
+              <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md bg-stateCyan/15 text-stateCyan border border-stateCyan/30">
+                Zero Fraud
+              </span>
+            </button>
+
+            {/* Vendor Portal / Booking & PIN Lookup Button */}
+            <button
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                handleVendorOrLookupClick();
+              }}
+              className={`w-full flex items-center justify-between p-3 rounded-xl text-xs font-bold transition-all border cursor-pointer active:scale-95 ${
+                activeTab === "escrow" || activeTab === "vendor"
+                  ? "bg-stateCyan text-white border-stateCyan shadow-md shadow-stateCyan/25"
+                  : "bg-slate-100/90 dark:bg-slate-900 text-slate-800 dark:text-slate-100 border-slate-200 dark:border-slate-800 hover:border-stateCyan/40"
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
+                  <User className="w-4 h-4" />
+                </div>
+                <div className="text-left">
+                  <div className="font-bold text-slate-900 dark:text-white">Vendor Portal / Booking Lookup</div>
+                  <div className="text-[10px] text-slate-500 dark:text-slate-400 font-normal">Look up 6-digit PIN or merchant payout ledger</div>
+                </div>
+              </div>
+              <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded-md bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                Lookup
+              </span>
+            </button>
+
+            {/* List Property / Host & Vendor Onboarding Button */}
+            {onOpenOnboarding && (
+              <button
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  setIsMegaMenuOpen(false);
+                  onOpenOnboarding();
+                }}
+                className="w-full flex items-center justify-between p-3 rounded-xl text-xs font-bold transition-all border border-slate-200 dark:border-slate-800 bg-slate-100/90 dark:bg-slate-900 text-slate-800 dark:text-slate-100 hover:border-stateCyan/40 cursor-pointer active:scale-95"
+              >
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-lg bg-stateCyan/10 border border-stateCyan/20 flex items-center justify-center text-stateCyan shrink-0">
+                    <Building2 className="w-4 h-4" />
+                  </div>
+                  <div className="text-left">
+                    <div className="font-bold text-slate-900 dark:text-white">List Property / Partner Portal</div>
+                    <div className="text-[10px] text-slate-500 dark:text-slate-400 font-normal">Onboard Hotel, Sanctuary, Dining or Band Pass</div>
+                  </div>
+                </div>
+                <span className="text-[10px] font-bold text-stateCyan">
+                  + Onboard
+                </span>
+              </button>
+            )}
+          </div>
+        )}
+
+        {/* Row 2: Unified Booking.com-Style Horizontal Category Bar */}
+        <div className="py-2.5 overflow-x-auto scrollbar-none no-scrollbar touch-pan-x -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+          <nav 
+            aria-label="Cross River State Tourism & Commerce Sectors"
+            className="flex items-center gap-2 min-w-max"
+          >
+            {NAV_CATEGORIES.map((cat) => {
+              const Icon = cat.icon;
+              const isSelected = (activeTab === "packages" || activeTab === "home") && activeCategory === cat.id;
+              const isDrawerActive = isMegaMenuOpen && megaMenuCategory === cat.id;
 
               return (
                 <button
-                  key={item.id}
-                  onClick={() => handleNavItemClick(item)}
-                  className={`relative px-3.5 py-2 rounded-full text-xs font-semibold tracking-tight transition-all duration-200 cursor-pointer ${
+                  key={cat.id}
+                  data-mega-trigger={cat.id}
+                  onClick={() => handleCategoryClick(cat.id)}
+                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold tracking-tight transition-all cursor-pointer whitespace-nowrap border ${
                     isSelected
-                      ? "text-emerald-400 bg-white/[0.06] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.12)]"
-                      : "text-slate-300 hover:text-white hover:bg-white/[0.04]"
+                      ? "bg-stateCyan text-white border-stateCyan shadow-sm shadow-stateCyan/25"
+                      : "bg-slate-100/80 dark:bg-slate-900/80 text-slate-700 dark:text-slate-300 border-slate-200/90 dark:border-slate-800/90 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800"
                   }`}
+                  title={`${cat.label} - Click to filter directory & view corridors`}
                 >
-                  <span>{item.label}</span>
-                  {item.badge && (
-                    <span className="ml-1.5 px-1.5 py-0.2 rounded-full text-[9px] font-black uppercase tracking-wider bg-rose-500/20 text-rose-300 border border-rose-500/30">
-                      {item.badge}
-                    </span>
-                  )}
-                  {isSelected && (
-                    <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-4 h-0.5 rounded-full bg-emerald-400" />
+                  <Icon className={`w-4 h-4 shrink-0 ${isSelected ? "text-white" : "text-stateCyan"}`} />
+                  <span>{cat.label}</span>
+                  {isDrawerActive ? (
+                    <ChevronUp className="w-3 h-3 opacity-80 shrink-0" />
+                  ) : (
+                    <ChevronDown className="w-3 h-3 opacity-50 shrink-0" />
                   )}
                 </button>
               );
             })}
           </nav>
-
-          {/* 3. Luxury Actions: Currency, My Bookings, & Merchant Portal */}
-          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-            {/* Currency Selector (Diaspora & International Visitors) */}
-            <div className="relative hidden sm:flex items-center">
-              <div className="relative flex items-center rounded-full bg-white/[0.04] border border-white/[0.08] hover:border-white/[0.15] px-2.5 py-1.5 text-xs text-slate-300 transition-colors">
-                <Globe className="w-3.5 h-3.5 text-emerald-400 mr-1.5" />
-                <select
-                  value={currency}
-                  onChange={(e) => setCurrency(e.target.value)}
-                  aria-label="Select Currency"
-                  className="bg-transparent text-white font-bold outline-none cursor-pointer pr-4 appearance-none text-xs"
-                >
-                  {(availableCurrencies || []).map((c) => (
-                    <option key={c.code} value={c.code} className="bg-slate-900 text-white font-bold">
-                      {c.code} ({c.symbol})
-                    </option>
-                  ))}
-                </select>
-                <ChevronDown className="w-3 h-3 text-slate-400 pointer-events-none -ml-3" />
-              </div>
-            </div>
-
-            {/* My Bookings (PIN Voucher Lookup) */}
-            {onOpenBookingLookup && (
-              <button
-                type="button"
-                onClick={() => {
-                  setIsMegaMenuOpen(false);
-                  onOpenBookingLookup();
-                }}
-                className="hidden md:inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-xs font-semibold text-slate-200 transition-all duration-200 active:scale-[0.97] cursor-pointer shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]"
-                title="Lookup your digital voucher with your 6-digit PIN"
-              >
-                <Search className="w-3.5 h-3.5 text-emerald-400" />
-                <span>My Bookings</span>
-              </button>
-            )}
-
-            {/* Merchant Portal */}
-            <button
-              type="button"
-              onClick={handleVendorClick}
-              className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold tracking-tight transition-all duration-200 cursor-pointer active:scale-[0.97] ${
-                activeTab === "vendor" || isVendorAuthenticated
-                  ? "bg-emerald-500 text-slate-950 font-black shadow-[0_10px_25px_-5px_rgba(16,185,129,0.4)]"
-                  : "bg-white/[0.06] hover:bg-white/[0.1] text-white border border-white/[0.1] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08)]"
-              }`}
-              title="Merchant Clearinghouse Portal"
-            >
-              <div className="relative flex items-center justify-center">
-                <User className="w-3.5 h-3.5" />
-                <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-emerald-400" />
-              </div>
-              <span className="hidden sm:inline">Merchant Portal</span>
-              <span className="sm:hidden">Portal</span>
-            </button>
-
-            {/* Mobile Hamburger Menu Toggle */}
-            <button
-              type="button"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2 rounded-full bg-white/[0.04] border border-white/[0.08] text-slate-300 hover:text-white transition-colors"
-              aria-label="Toggle Navigation Menu"
-            >
-              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
-          </div>
-        </div>
-
-        {/* Category Corridor Sub-Bar (Subtle, High-Craft Destination Filters) */}
-        <div className="py-2.5 overflow-x-auto scrollbar-none no-scrollbar border-t border-white/[0.05]">
-          <div className="flex items-center gap-2 min-w-max">
-            <button
-              type="button"
-              onClick={() => {
-                if (onSelectCategory) onSelectCategory("all");
-                if (activeTab !== "packages") setActiveTab("packages");
-              }}
-              className={`px-3 py-1 rounded-full text-xs font-semibold transition-all duration-200 cursor-pointer ${
-                activeCategory === "all" && activeTab === "packages"
-                  ? "bg-emerald-500 text-slate-950 font-bold"
-                  : "text-slate-400 hover:text-white hover:bg-white/[0.04]"
-              }`}
-            >
-              All Destinations & Passes
-            </button>
-
-            {NAV_CATEGORIES.map((cat) => {
-              const Icon = cat.icon;
-              const isSelected = activeCategory === cat.id && activeTab === "packages";
-
-              return (
-                <button
-                  key={cat.id}
-                  type="button"
-                  onClick={() => handleCategoryClick(cat.id)}
-                  className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold transition-all duration-200 cursor-pointer ${
-                    isSelected
-                      ? "bg-emerald-500 text-slate-950 font-bold"
-                      : "text-slate-300 hover:text-white hover:bg-white/[0.04]"
-                  }`}
-                >
-                  <Icon className="w-3.5 h-3.5 opacity-80" />
-                  <span>{cat.label}</span>
-                </button>
-              );
-            })}
-          </div>
         </div>
       </div>
 
-      {/* Category Mega Menu Dropdown */}
-      {isMegaMenuOpen && megaMenuCategory && (
-        <CategoryMegaMenu
-          category={megaMenuCategory}
-          onSelectCorridor={handleCorridorSelect}
-          onClose={() => setIsMegaMenuOpen(false)}
-        />
-      )}
-
-      {/* Mobile Slide-Out Drawer (Visit Dubai / Visit Saudi Mobile UX) */}
-      {isMobileMenuOpen && (
-        <div className="lg:hidden border-t border-white/[0.08] bg-slate-950/98 backdrop-blur-2xl px-5 py-6 space-y-5 animate-in fade-in duration-200">
-          <div className="space-y-1">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 block px-3">
-              Explore Cross River
-            </span>
-            {LUXURY_NAV_ITEMS.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => handleNavItemClick(item)}
-                className="w-full flex items-center justify-between p-3 rounded-2xl text-left text-sm font-semibold text-slate-200 hover:bg-white/[0.06] hover:text-white transition-colors"
-              >
-                <span>{item.label}</span>
-                {item.badge ? (
-                  <span className="px-2 py-0.5 rounded-full text-[9px] font-bold bg-rose-500/20 text-rose-300">
-                    {item.badge}
-                  </span>
-                ) : (
-                  <ArrowRight className="w-4 h-4 text-slate-400" />
-                )}
-              </button>
-            ))}
-          </div>
-
-          <div className="pt-4 border-t border-white/[0.08] space-y-2.5">
-            {onOpenBookingLookup && (
-              <button
-                type="button"
-                onClick={() => {
-                  setIsMobileMenuOpen(false);
-                  onOpenBookingLookup();
-                }}
-                className="w-full flex items-center justify-between p-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.08] text-xs font-bold text-slate-200"
-              >
-                <div className="flex items-center gap-2.5">
-                  <Search className="w-4 h-4 text-emerald-400" />
-                  <span>Lookup Booking Voucher (6-Digit PIN)</span>
-                </div>
-                <ArrowRight className="w-4 h-4 text-slate-400" />
-              </button>
-            )}
-
-            <button
-              type="button"
-              onClick={handleVendorClick}
-              className="w-full flex items-center justify-between p-3.5 rounded-2xl bg-emerald-500 text-slate-950 text-xs font-black"
-            >
-              <div className="flex items-center gap-2.5">
-                <User className="w-4 h-4" />
-                <span>Merchant Settlement Terminal</span>
-              </div>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-      )}
+      {/* Structured Category Mega-Menu & Filter Drawer (Booking.com style) */}
+      <CategoryMegaMenu
+        activeCategory={megaMenuCategory}
+        isOpen={isMegaMenuOpen}
+        onClose={() => setIsMegaMenuOpen(false)}
+        onSelectCategory={(catId) => {
+          if (onSelectCategory) onSelectCategory(catId);
+          if (activeTab !== "packages" && activeTab !== "home") setActiveTab("packages");
+        }}
+        onSelectCorridor={handleCorridorSelect}
+      />
     </header>
   );
 }
